@@ -644,5 +644,389 @@
                 "MAE": 0
             }
         ]
+    },
+    {
+        "slice_info":{
+            "slice_number": 9,
+            "train length": 1200,
+            "test length": 120,
+            "skip length": 129,
+            "remaining data": 108
+        },
+        "sub slice":[
+            {
+                "slice_num": 0,
+                "Mean": 75.39825757575753,
+                "STD": 61.99463528107393,
+                "train_begin": "181801",
+                "train_end": "191712",
+                "test_begin": "191801",
+                "test_end": "192712",
+                "MAE": 0
+            },
+            {
+                "slice_num": 1,
+                "Mean": 79.86325757575744,
+                "STD": 63.372637121261775,
+                "train_begin": "182810",
+                "train_end": "192809",
+                "test_begin": "192810",
+                "test_end": "193809",
+                "MAE": 0
+            },
+            {
+                "slice_num": 2,
+                "Mean": 80.01234848484836,
+                "STD": 63.19232895499583,
+                "train_begin": "183907",
+                "train_end": "193906",
+                "test_begin": "193907",
+                "test_end": "194906",
+                "MAE": 0
+            },
+            {
+                "slice_num": 3,
+                "Mean": 83.08401515151508,
+                "STD": 68.27965502927745,
+                "train_begin": "185004",
+                "train_end": "195003",
+                "test_begin": "195004",
+                "test_end": "196003",
+                "MAE": 0
+            },
+            {
+                "slice_num": 4,
+                "Mean": 83.23810606060606,
+                "STD": 67.84433132434108,
+                "train_begin": "186101",
+                "train_end": "196012",
+                "test_begin": "196101",
+                "test_end": "197012",
+                "MAE": 0
+            },
+            {
+                "slice_num": 5,
+                "Mean": 83.20727272727271,
+                "STD": 68.6739949445129,
+                "train_begin": "187110",
+                "train_end": "197109",
+                "test_begin": "197110",
+                "test_end": "198109",
+                "MAE": 0
+            },
+            {
+                "slice_num": 6,
+                "Mean": 88.32,
+                "STD": 71.10091756897988,
+                "train_begin": "188207",
+                "train_end": "198206",
+                "test_begin": "198207",
+                "test_end": "199206",
+                "MAE": 0
+            },
+            {
+                "slice_num": 7,
+                "Mean": 91.49492424242422,
+                "STD": 71.80049330268061,
+                "train_begin": "189304",
+                "train_end": "199303",
+                "test_begin": "199304",
+                "test_end": "200303",
+                "MAE": 0
+            },
+            {
+                "slice_num": 8,
+                "Mean": 90.74704545454541,
+                "STD": 71.53569602845431,
+                "train_begin": "190401",
+                "train_end": "200312",
+                "test_begin": "200401",
+                "test_end": "201312",
+                "MAE": 0
+            }
+        ]
+    },
+    {
+        "slice_info":{
+            "slice_number": 11,
+            "train length": 960,
+            "test length": 120,
+            "skip length": 130,
+            "remaining data": 80
+        },
+        "sub slice":[
+            {
+                "slice_num": 0,
+                "Mean": 78.0463888888889,
+                "STD": 63.593990817797206,
+                "train_begin": "181801",
+                "train_end": "189712",
+                "test_begin": "189801",
+                "test_end": "190712",
+                "MAE": 0
+            },
+            {
+                "slice_num": 1,
+                "Mean": 81.00990740740731,
+                "STD": 64.28722463405852,
+                "train_begin": "182811",
+                "train_end": "190810",
+                "test_begin": "190811",
+                "test_end": "191810",
+                "MAE": 0
+            },
+            {
+                "slice_num": 2,
+                "Mean": 76.44277777777769,
+                "STD": 59.77682113039085,
+                "train_begin": "183909",
+                "train_end": "191908",
+                "test_begin": "191909",
+                "test_end": "192908",
+                "MAE": 0
+            },
+            {
+                "slice_num": 3,
+                "Mean": 74.79101851851848,
+                "STD": 59.188419411859364,
+                "train_begin": "185007",
+                "train_end": "193006",
+                "test_begin": "193007",
+                "test_end": "194006",
+                "MAE": 0
+            },
+            {
+                "slice_num": 4,
+                "Mean": 77.13083333333333,
+                "STD": 61.64873575549,
+                "train_begin": "186105",
+                "train_end": "194104",
+                "test_begin": "194105",
+                "test_end": "195104",
+                "MAE": 0
+            },
+            {
+                "slice_num": 5,
+                "Mean": 80.26620370370371,
+                "STD": 68.1871425566571,
+                "train_begin": "187203",
+                "train_end": "195202",
+                "test_begin": "195203",
+                "test_end": "196202",
+                "MAE": 0
+            },
+            {
+                "slice_num": 6,
+                "Mean": 83.65287037037044,
+                "STD": 67.89647595276438,
+                "train_begin": "188301",
+                "train_end": "196212",
+                "test_begin": "196301",
+                "test_end": "197212",
+                "MAE": 0
+            },
+            {
+                "slice_num": 7,
+                "Mean": 89.24249999999998,
+                "STD": 71.27363526327431,
+                "train_begin": "189311",
+                "train_end": "197310",
+                "test_begin": "197311",
+                "test_end": "198310",
+                "MAE": 0
+            },
+            {
+                "slice_num": 8,
+                "Mean": 95.39148148148138,
+                "STD": 73.31601082701043,
+                "train_begin": "190409",
+                "train_end": "198408",
+                "test_begin": "198409",
+                "test_end": "199408",
+                "MAE": 0
+            },
+            {
+                "slice_num": 9,
+                "Mean": 100.09175925925918,
+                "STD": 73.32719996391589,
+                "train_begin": "191507",
+                "train_end": "199506",
+                "test_begin": "199507",
+                "test_end": "200506",
+                "MAE": 0
+            },
+            {
+                "slice_num": 10,
+                "Mean": 97.02287037037031,
+                "STD": 73.66531952263853,
+                "train_begin": "192605",
+                "train_end": "200604",
+                "test_begin": "200605",
+                "test_end": "201604",
+                "MAE": 0
+            }
+        ]
+    },
+    {
+        "slice_info":{
+            "slice_number": 7,
+            "train length": 720,
+            "test length": 120,
+            "skip length": 260,
+            "remaining data": 60
+        },
+        "sub slice":[
+            {
+                "slice_num": 0,
+                "Mean": 83.06916666666669,
+                "STD": 66.3589566077551,
+                "train_begin": "181801",
+                "train_end": "187712",
+                "test_begin": "187801",
+                "test_end": "188712",
+                "MAE": 0
+            },
+            {
+                "slice_num": 1,
+                "Mean": 79.08988095238092,
+                "STD": 60.93986390776284,
+                "train_begin": "183909",
+                "train_end": "189908",
+                "test_begin": "189909",
+                "test_end": "190908",
+                "MAE": 0
+            },
+            {
+                "slice_num": 2,
+                "Mean": 70.30428571428571,
+                "STD": 55.48122345106899,
+                "train_begin": "186105",
+                "train_end": "192104",
+                "test_begin": "192105",
+                "test_end": "193104",
+                "MAE": 0
+            },
+            {
+                "slice_num": 3,
+                "Mean": 75.53583333333337,
+                "STD": 60.184139483022264,
+                "train_begin": "188301",
+                "train_end": "194212",
+                "test_begin": "194301",
+                "test_end": "195212",
+                "MAE": 0
+            },
+            {
+                "slice_num": 4,
+                "Mean": 90.96988095238096,
+                "STD": 70.59708037050262,
+                "train_begin": "190409",
+                "train_end": "190409",
+                "test_begin": "190409",
+                "test_end": "197408",
+                "MAE": 0
+            },
+            {
+                "slice_num": 5,
+                "Mean": 103.17952380952369,
+                "STD": 76.53770536826124,
+                "train_begin": "192605",
+                "train_end": "198604",
+                "test_begin": "198605",
+                "test_end": "199604",
+                "MAE": 0
+            },
+            {
+                "slice_num": 6,
+                "Mean": 96.98833333333334,
+                "STD": 75.68930096711125,
+                "train_begin": "194801",
+                "train_end": "200712",
+                "test_begin": "200801",
+                "test_end": "201712",
+                "MAE": 0
+            }
+        ]
+    },
+    {
+        "slice_info":{
+            "slice_number": 7,
+            "train length": 600,
+            "test length": 120,
+            "skip length": 260,
+            "remaining data": 180
+        },
+        "sub slice":[
+            {
+                "slice_num": 0,
+                "Mean": 86.54583333333335,
+                "STD": 68.74879639861845,
+                "train_begin": "181801",
+                "train_end": "186712",
+                "test_begin": "186801",
+                "test_end": "187712",
+                "MAE": 0
+            },
+            {
+                "slice_num": 1,
+                "Mean": 82.78513888888887,
+                "STD": 62.560615957368775,
+                "train_begin": "183909",
+                "train_end": "188908",
+                "test_begin": "188909",
+                "test_end": "189908",
+                "MAE": 0
+            },
+            {
+                "slice_num": 2,
+                "Mean": 70.39541666666662,
+                "STD": 56.78325007777376,
+                "train_begin": "186105",
+                "train_end": "191104",
+                "test_begin": "191105",
+                "test_end": "192104",
+                "MAE": 0
+            },
+            {
+                "slice_num": 3,
+                "Mean": 69.56916666666672,
+                "STD": 54.857948249016694,
+                "train_begin": "188301",
+                "train_end": "193212",
+                "test_begin": "193301",
+                "test_end": "194212",
+                "MAE": 0
+            },
+            {
+                "slice_num": 4,
+                "Mean": 90.25430555555553,
+                "STD": 73.45323970879267,
+                "train_begin": "190409",
+                "train_end": "195408",
+                "test_begin": "195409",
+                "test_end": "196408",
+                "MAE": 0
+            },
+            {
+                "slice_num": 5,
+                "Mean": 102.79680555555545,
+                "STD": 76.18986242156822,
+                "train_begin": "192605",
+                "train_end": "197604",
+                "test_begin": "197605",
+                "test_end": "198604",
+                "MAE": 0
+            },
+            {
+                "slice_num": 6,
+                "Mean": 104.1915277777778,
+                "STD": 77.7453412001661,
+                "train_begin": "194801",
+                "train_end": "199712",
+                "test_begin": "199801",
+                "test_end": "200712",
+                "MAE": 0
+            }
+        ]
     }
 ]
