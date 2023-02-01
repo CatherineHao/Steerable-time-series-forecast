@@ -21,11 +21,11 @@
             "remaining data": 63
         },
         {
-            "slice_number": 11, 
+            "slice_number": 12, 
             "train length": 840,
             "test length": 120,
             "skip length": 130,
-            "remaining data": 80 
+            "remaining data": 70 
         },
         {
             "slice_number": 5, 
