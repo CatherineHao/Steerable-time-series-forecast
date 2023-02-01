@@ -37,7 +37,7 @@
             ]
 },
 {
-    "dataset_name": "raw_smooth_sunspot",
+    "dataset_name": "raw_sunspot",
     "length": 2460,
     "skewness": 0.876710390692265,
     "kuriosis": 0.17836206107957198,
