@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-01-10 23:08:34
+ * @LastEditTime: 2023-01-12 04:13:40
 -->
 <template>
     <div class="frameworkTitle">
@@ -14,20 +14,20 @@
             <svg id="modelExplainer" height="100%" width="100%">
                 
                 <g>
-                    <text font-weight="bold" x="15" y="15">Correlation</text>
-                    <text font-weight="bold" :x="elWidth - 60" :y="elHeight - 35">RMSE</text>
+                    <text font-weight="bold" x="15" y="15" font-size="20">Correlation</text>
+                    <text font-weight="bold" :x="elWidth - 75" :y="elHeight - 35"  font-size="20">RMSE</text>
                     <g v-for="(item, i) in xAxis">
                         <path :d="'M ' + item.x + ' ' + item.y + ' L ' + + item.x + ' ' + (item.y - 5)" stroke="black">
                         </path>
                         <path :d="'M ' + item.x + ' ' + item.y + ' L ' + + item.x + ' ' + (20)"
-                            stroke="rgba(0, 0, 0, 0.5)" stroke-dasharray="5"></path>
+                            stroke="rgba(229, 229, 229)" stroke-dasharray="0"></path>
                         <text :x="item.x" :y="elHeight - 10" dx="-0.3em">{{ item.t }}</text>
                     </g>
                     <g v-for="(item, i) in yAxis">
                         <path :d="'M ' + (item.x + 25) + ' ' + item.y + ' L ' + + (item.x + 30) + ' ' + (item.y)"
                             stroke="black"></path>
                         <path :d="'M ' + (elWidth - 20) + ' ' + item.y + ' L ' + + (item.x + 30) + ' ' + (item.y)"
-                            stroke="rgba(0, 0, 0, 0.5)" stroke-dasharray="5"></path>
+                            stroke="rgba(229, 229, 229)" stroke-dasharray="0"></path>
                         <text :x="0" :y="item.y" dy="0.3em">{{ item.t }}</text>
                     </g>
                 </g>
@@ -98,9 +98,9 @@ export default {
         this.elHeight = this.$refs.modelExplainer.offsetHeight;
         this.elWidth = this.$refs.modelExplainer.offsetWidth;
         this.nodeData = this.calcNode(1);
-        console.log(this.nodeData);
+        // console.log(this.nodeData);
         [this.xAxis, this.yAxis] = this.calcAxis();
-        console.log(this.xAxis, this.yAxis)
+        // console.log(this.xAxis, this.yAxis)
     },
 }
 </script>

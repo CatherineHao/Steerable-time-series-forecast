@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2022-11-20 23:25:35
- * @LastEditTime: 2023-01-10 21:31:59
+ * @LastEditTime: 2023-01-12 04:14:16
 -->
 <template>
     <div id="navBar">DataTransAnalyzer</div>
@@ -14,7 +14,7 @@
         </div>
         <div class="framework" id="DataTransformation"
             style="position: absolute; left: calc(10px + 50vw - 17.5px + 15px); top: calc(10px); height: calc(94vh - 20px); width: calc(50vw - 17.5px);">
-            <DataTransformation/>
+            <DataTransformation :timeData="timeData"/>
         </div>
         <div class="framework" id="ModelExplainer"
             style="position: absolute; left: calc(10px); top: calc(54vh - 30px + 20px + 10px); height: calc(40vh - 10px); width: calc(50vw - 17.5px);">
@@ -33,6 +33,7 @@
 <script>
 import { dataService } from '@/service'
 
+
 import CorrelationView from './CorrelationView.vue';
 import ModelExplainer from './ModelExplainer.vue';
 import DataTransformation from './DataTransformation.vue';
@@ -40,7 +41,7 @@ import ControlPanel from './ControlPanel.vue';
 import UnitView from './UnitView.vue';
 export default {
     name: "APP",
-    props: ["msgH"],
+    props: ["msgH", 'timeData'],
     data() {
         return {
             msg1: "Hello, main!"
