@@ -2,12 +2,12 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2022-09-17 23:36:36
- * @LastEditTime: 2023-01-08 16:19:31
+ * @LastEditTime: 2023-01-12 04:11:35
 -->
 <template>
   <div class="common-layout" style="width: 100%; height: 100vh;" v-loading="initSign" :element-loading-text="loadingText"
         element-loading-background="rgba(0, 0, 0, 0.8)">
-    <Main :msgH="msgH"/>
+    <Main :msgH="msgH" :timeData="timeData"/>
   </div>
 </template>
 
@@ -15,16 +15,20 @@
 import Main from '../components/Main.vue';
 import { useDataStore } from "../stores/counter";
 
+import timeData from '../assets/sn_d_tot.json'
 export default {
   name: "home_view",
   data() {
     return {
-      msgH: null
+      msgH: null,
+      timeData: null
     };
   },
   computed: {
     initSign() {
-      return this.msgH == null;
+      this.timeData = timeData;
+      // return this.msgH == null;
+      return this.timeData == null;
     },
     loadingText() {
       return "Loading"
@@ -36,6 +40,7 @@ export default {
     // const dataStore = useDataStore();
     // dataStore.fetchHello();
     // this.msgH = dataStore.msg;
+      this.timeData = timeData;
     this.msgH = 1;
   },
   methods: {
