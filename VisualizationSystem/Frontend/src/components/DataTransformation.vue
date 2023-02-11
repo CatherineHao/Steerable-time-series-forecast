@@ -13,7 +13,8 @@
         <div ref="DataTransformation" style="height: calc(55%); width: 100%; ">
             <svg id="DataTransformation" height="100%" width="100%">
                 <!-- Transformation Tree -->
-                <g>
+
+                <!-- <g>
                     <g>
                         <rect :x="elWidth / 2 - 75" :y="0" :width="150" :height="75" fill="#D9D9D9"></rect>
                         <text :x="elWidth / 2" :y="30" text-anchor="middle" font-size="24">Time</text>
@@ -117,7 +118,7 @@
 
                         </g>
                     </g>
-                </g>
+                </g> -->
                 <g v-for="(item, i) in barData" :key="'bar_g' + i"
                     :transform="translate(0, i * elHeight / barData.length, 0)">
                     <text x="0" y="1em">{{ item.slice }}</text>
@@ -149,7 +150,7 @@ import { useDataStore } from "../stores/counter";
 export default {
     name: 'DataTransformationView',
     props: ['timeData', 'sliceData'],
-    data() {
+    data () {
         return {
             elHeight: 0,
             elWidth: 0,
@@ -166,10 +167,10 @@ export default {
         }
     },
     methods: {
-        translate(x, y, deg) {
+        translate (x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
         },
-        calcCurve() {
+        calcCurve () {
             let p1 = [[this.elWidth / 2, 75], [this.elWidth / 2 - this.elWidth / 3, 75 + (this.elHeight - 75 * 3) / 2]];
             let p2 = [[this.elWidth / 2, 75], [this.elWidth / 2 + this.elWidth / 3, 75 + (this.elHeight - 75 * 3) / 2]];
             let p3 = [[this.elWidth / 2 - this.elWidth / 3, -((this.elHeight - 75 * 3) / 2)], [(this.elWidth - 40) / 18, 0]];
@@ -178,7 +179,7 @@ export default {
             let d = [cline(p1), cline(p2), cline(p3), cline(p4)];
             return d;
         },
-        clacTime(data) {
+        clacTime (data) {
             let margin = ({ top: 20, right: 20, bottom: 30, left: 40 });
             let height = 440;
             let focusHeight = 100;
@@ -209,13 +210,13 @@ export default {
                 .y1(d => y(d.value))
 
         },
-        calcMonth(startTime, endTime) {
+        calcMonth (startTime, endTime) {
             let year = parseInt(endTime / 100) - parseInt(startTime / 100);
             let month = endTime % 100 - startTime % 100 + 1;
             let sumMonth = year * 12 + month;
             return sumMonth;
         },
-        calcTimeScale(data) {
+        calcTimeScale (data) {
             let startTime = 9999999;
             let endTime = 0;
             let maeMax = 0;
@@ -229,7 +230,7 @@ export default {
             let month = this.calcMonth(startTime, endTime);
             return [startTime, scaleLinear([0, month], [0, this.elWidth]), scaleLinear([0, maeMax], [1, 0])];
         },
-        calcTimeData(data) {
+        calcTimeData (data) {
             let r_data = new Array();
             let t_data = new Object();
             for (const d of data['sub slice']) {
@@ -255,9 +256,9 @@ export default {
             return t_data;
         }
     },
-    created() {
+    created () {
     },
-    mounted() {
+    mounted () {
         this.elHeight = this.$refs.DataTransformation.offsetHeight;
         this.elWidth = this.$refs.DataTransformation.offsetWidth;
         this.tlHeight = this.$refs.timeline.offsetHeight;
@@ -266,15 +267,17 @@ export default {
         // // console.log(this.timeData)
         // console.log(this.sliceData);
         const dataStore = useDataStore();
-        dataStore.$subscribe((mutation, state) => {
-            [this.startTime, this.timeScale, this.maeScale] = this.calcTimeScale(this.sliceData);
-            let barData = new Array();
-            for (const d of this.sliceData) {
-                barData.push(this.calcTimeData(d));
-            }
-            // console.log(barData);
-            this.barData = barData;
-        })
+        // dataStore.$subscribe((mutation, state) => {
+        [this.startTime, this.timeScale, this.maeScale] = this.calcTimeScale(this.sliceData);
+        let barData = new Array();
+        for (const d of this.sliceData) {
+            barData.push(this.calcTimeData(d));
+        }
+        // console.log(barData);
+        this.barData = barData;
+        // })
+
+
         // [this.startTime, this.timeScale, this.maeScale] = this.calcTimeScale(this.sliceData);
         // let barData = new Array();
         // for (const d of this.sliceData) {
