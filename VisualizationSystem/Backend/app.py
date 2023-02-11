@@ -20,3 +20,5 @@ def hello_resp():
     # msg = int(params['msg'])
     # print(msg)
     return "hello VUE"
+
+# @app.route('/api/test/hello/', methods=['GET'])

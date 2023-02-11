@@ -10,11 +10,58 @@
         <p class="titleTriangle"></p>
     </div>
     <div class="frameworkBody">
-        <div ref="DataTransformation" style="height: calc(55%); width: 100%; ">
-            <svg id="DataTransformation" height="100%" width="100%">
-                <!-- Transformation Tree -->
+        <div ref="DataTransformation" style="height: calc(55%); width: 100%; overflow-y: auto;">
+            <el-table :data="tableData" style="width: 100%" height="100%"
+                :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
+                :cell-style="{ 'text-align': 'center', 'backgro und-color': 'rgba(250, 250, 250, 1)', 'font-size': '16px' }">
+                <el-table-column type="expand">
+                    <template #default="props">
+                        <div m="4">
+                            <el-table :data="props.row['bar_data']" stripe style="width: 100%; float: right;"
+                                :table-layout="'auto'" :header-cell-style="{ 'text-align': 'center' }"
+                                :cell-style="{ 'text-align': 'center' }">
+                                <!-- <el-table-column label="ID" prop="slice_num" />
+                                <el-table-column label="MAE" prop="MAE" />
+                                <el-table-column label="STD" prop="STD" />
+                                <el-table-column label="MEAN" prop="Mean" /> -->
+                                <el-table-column label="ID" prop="id" width="50" />
+                                <el-table-column label="BEGIN" prop="startTime" width="120" />
+                                <el-table-column label="END" prop="endTime" width="110" />
+                                <el-table-column label="TIME SLICE">
+                                    <template #default="d">
+                                        <svg height="30" width="100%">
+                                            <!-- <g></g> -->
+                                            <rect :x="d.row.train.x" :y="5" :height="20" :width="d.row.train.w"
+                                                :fill="d.row.train.fill" :opacity="0.3">
+                                            </rect>
+                                            <path
+                                                :d="'M ' + d.row.test.x1 + ' 5 L ' + d.row.test.x1 + ' 25 L ' + d.row.test.x2 + ' 20 L ' + d.row.test.x2 + ' 10 Z'"
+                                                :fill="d.row.test.fill" :stroke="'black'"></path>
+                                        </svg>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column label="Slice number" prop="slice" width="120" />
+                <el-table-column label="Smooth" prop="smooth" width="110" />
+                <el-table-column label="Heatmap" prop="heat_data">
+                    <template #default="scope">
+                        <svg height="30" width="100%">
+                            <rect v-for="(item, item_i) in scope.row.heat_data" :key="'heat_' + item_i"
+                                :x="(elWidth - 250) / 20 * item_i" :y="8" :width="(elWidth - 250) / 20" :height="20"
+                                :fill="item.fill"></rect>
+                        </svg>
+                    </template>
+                </el-table-column>
+            </el-table>
 
-                <!-- <g>
+
+            <!-- <svg id="DataTransformation" height="100%" width="100%">
+                <!~~ Transformation Tree ~~>
+
+                <!~~ <g>
                     <g>
                         <rect :x="elWidth / 2 - 75" :y="0" :width="150" :height="75" fill="#D9D9D9"></rect>
                         <text :x="elWidth / 2" :y="30" text-anchor="middle" font-size="24">Time</text>
@@ -118,7 +165,7 @@
 
                         </g>
                     </g>
-                </g> -->
+                </g> ~~>
                 <g v-for="(item, i) in barData" :key="'bar_g' + i"
                     :transform="translate(0, i * elHeight / barData.length, 0)">
                     <text x="0" y="1em">{{ item.slice }}</text>
@@ -131,7 +178,7 @@
                             :fill="d.test.fill" :stroke="'black'"></path>
                     </g>
                 </g>
-            </svg>
+            </svg> -->
         </div>
         <div ref="timeline" style="height: calc(45% - 15px); width: 100%; margin-top: 15px;">
             <svg id="timeline" height="100%" width="100%">
@@ -147,6 +194,9 @@ import { axisLeft, axisBottom } from 'd3-axis';
 import { parse } from '@babel/parser';
 import { interpolateRdBu } from 'd3-scale-chromatic';
 import { useDataStore } from "../stores/counter";
+import SN_row_data from "../assets/SN_m_tot_V2.0.csv";
+import { select } from 'd3-selection';
+import { extent, max } from 'd3-array';
 export default {
     name: 'DataTransformationView',
     props: ['timeData', 'sliceData'],
@@ -163,7 +213,8 @@ export default {
             timeScale: null,
             maeScale: null,
             tiemSliceData: [],
-            barData: []
+            barData: [],
+            tableData: []
         }
     },
     methods: {
@@ -179,13 +230,27 @@ export default {
             let d = [cline(p1), cline(p2), cline(p3), cline(p4)];
             return d;
         },
-        clacTime (data) {
+        calcTimeLine (data) {
             let margin = ({ top: 20, right: 20, bottom: 30, left: 40 });
             let height = 440;
-            let focusHeight = 100;
+            let width = 1000;
+            let focusHeight = 300;
+
+            let y = scaleLinear()
+                .domain([0, max(data, d => d.value)])
+                .range([height - margin.bottom, margin.top])
+            let x = scaleUtc()
+                .domain(extent(data, d => d.timestamp))
+                .range([margin.left, width - margin.right])
+            // let area = (x, y) => d3.area()
+            //     .defined(d => !isNaN(d.value))
+            //     .x(d => x(d.date))
+            //     .y0(y(0))
+            //     .y1(d => y(d.value))
+
             let yAxis = (g, y, title) => g
                 .attr("transform", `translate(${margin.left},0)`)
-                .call(d3.axisLeft(y))
+                .call(axisLeft(y))
                 .call(g => g.select(".domain").remove())
                 .call(g => g.selectAll(".title").data([title]).join("text")
                     .attr("class", "title")
@@ -196,18 +261,10 @@ export default {
                     .text(title));
             let xAxis = (g, x, height) => g
                 .attr("transform", `translate(0,${height - margin.bottom})`)
-                .call(d3.axisBottom(x).ticks(width / 80).tickSizeOuter(0));
-            let y = d3.scaleLinear()
-                .domain([0, d3.max(data, d => d.value)])
-                .range([height - margin.bottom, margin.top])
-            let x = d3.scaleUtc()
-                .domain(d3.extent(data, d => d.date))
-                .range([margin.left, width - margin.right])
-            let area = (x, y) => d3.area()
-                .defined(d => !isNaN(d.value))
-                .x(d => x(d.date))
-                .y0(y(0))
-                .y1(d => y(d.value))
+                .call(axisBottom(x).ticks(width / 80).tickSizeOuter(0));
+            select('#timeline').append('g').call(xAxis, x, focusHeight);
+            select('#timeline').append('g').call(yAxis, y, 'value');
+
 
         },
         calcMonth (startTime, endTime) {
@@ -228,13 +285,18 @@ export default {
                 }
             }
             let month = this.calcMonth(startTime, endTime);
-            return [startTime, scaleLinear([0, month], [0, this.elWidth]), scaleLinear([0, maeMax], [1, 0])];
+            return [startTime, scaleLinear([0, month], [0, this.elWidth - 300]), scaleLinear([0, maeMax], [1, 0])];
         },
         calcTimeData (data) {
             let r_data = new Array();
             let t_data = new Object();
+            let cnt = 0;
+
             for (const d of data['sub slice']) {
                 r_data.push({
+                    id: cnt++,
+                    startTime: d['train_begin'],
+                    endTime: d['test_end'],
                     train: {
                         x: this.timeScale(this.calcMonth(this.startTime, d['train_begin'])),
                         w: this.timeScale(this.calcMonth(d['train_begin'], d['train_end'])),
@@ -248,10 +310,19 @@ export default {
                     }
                 })
             }
+
+            let h_data = new Array();
+            for (let i = 0; i < 20; ++i) {
+                h_data.push({
+                    fill: interpolateRdBu(Math.random())
+                })
+            }
             t_data = {
                 slice: data['slice_info']['slice_number'] + '-slice',
                 smooth: '13-Average',
-                bar_data: r_data.reverse()
+                heat_data: h_data,
+                // bar_data: r_data.reverse(),
+                bar_data: r_data
             }
             return t_data;
         }
@@ -273,8 +344,10 @@ export default {
         for (const d of this.sliceData) {
             barData.push(this.calcTimeData(d));
         }
-        // console.log(barData);
-        this.barData = barData;
+
+        this.tableData = barData;
+
+        this.calcTimeLine(SN_row_data);
         // })
 
 
