@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2022-09-17 23:36:36
- * @LastEditTime: 2022-11-21 00:44:38
+ * @LastEditTime: 2023-02-02 15:02:39
  */
 import { fetchHello } from "../service/module/dataService";
 import { ref, computed } from "vue";
@@ -21,7 +21,8 @@ import { defineStore } from "pinia";
 export const useDataStore = defineStore("dataStore", {
   state: () => {
     return {
-      msg: 'Hello, Vue SQ'
+      msg: 'Hello, Vue SQ',
+      model: null
     }
   },
   actions: {

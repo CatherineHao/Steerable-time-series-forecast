@@ -1,0 +1,77 @@
+{
+    "13_average_smooth_sunspot" : {
+        "dataset_name": "13_average_smooth_sunspot",
+        "length": 2460,
+        "skewness": 0.7287891635327381,
+        "kuriosis": -0.29162182868550035,
+        "stationary": {
+            "bool": true,
+            "p-value_r": "1.9779425096558893e-15",
+            "p-value": "1.97e-15"
+        },
+        "periodicity": {
+            "recommend_lag": 129,
+            "fft acf": 0.7135538057889512
+        },
+        "slice": [
+            {
+                "slice_number": 14,
+                "train length": 600,
+                "test length": 120,
+                "skip length": 129,
+                "remaining data": 63
+            },
+            {
+                "slice_number": 12,
+                "train length": 840,
+                "test length": 120,
+                "skip length": 130,
+                "remaining data": 70
+            },
+            {
+                "slice_number": 5,
+                "train length": 1200,
+                "test length": 120,
+                "skip length": 260,
+                "remaining data": 100
+            }
+        ]
+    },
+    "raw_sunspot": {
+        "dataset_name": "raw_sunspot",
+        "length": 2460,
+        "skewness": 0.876710390692265,
+        "kuriosis": 0.17836206107957198,
+        "stationary": {
+            "bool": true,
+            "p-value": "9.755921836073308e-17"
+        },
+        "periodicity": {
+            "recommend_lag": 129,
+            "fft acf": 0.6446483515128574
+        },
+        "slice": [
+            {
+                "slice_number": 13,
+                "train length": 720,
+                "test length": 120,
+                "skip length": 129,
+                "remaining data": 72
+            },
+            {
+                "slice_number": 11,
+                "train length": 960,
+                "test length": 120,
+                "skip length": 130,
+                "remaining data": 80
+            },
+            {
+                "slice_number": 3,
+                "train length": 1200,
+                "test length": 120,
+                "skip length": 390,
+                "remaining data": 360
+            }
+        ]
+    }
+}

@@ -2,12 +2,12 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2022-09-17 23:36:36
- * @LastEditTime: 2023-01-12 04:11:35
+ * @LastEditTime: 2023-02-02 14:09:03
 -->
 <template>
-  <div class="common-layout" style="width: 100%; height: 100vh;" v-loading="initSign" :element-loading-text="loadingText"
+  <div class="common-layout" style="width: 100%; height: 100vh;" v-loading="!initSign" :element-loading-text="loadingText"
         element-loading-background="rgba(0, 0, 0, 0.8)">
-    <Main :msgH="msgH" :timeData="timeData"/>
+    <Main :msgH="msgH" :timeData="timeData" :sliceData="sliceData" :basicData="basicData"/>
   </div>
 </template>
 
@@ -16,19 +16,25 @@ import Main from '../components/Main.vue';
 import { useDataStore } from "../stores/counter";
 
 import timeData from '../assets/sn_d_tot.json'
+import basicData from '../assets/data_view.json';
+import sliceData from '../assets/slice_info.json';
 export default {
   name: "home_view",
   data() {
     return {
       msgH: null,
-      timeData: null
+      timeData: null,
+      sliceData: null,
+      basicData: null
     };
   },
   computed: {
     initSign() {
       this.timeData = timeData;
+      this.sliceData = sliceData;
+      this.basicData = basicData;
       // return this.msgH == null;
-      return this.timeData == null;
+      return this.timeData && this.sliceData && this.basicData;
     },
     loadingText() {
       return "Loading"
