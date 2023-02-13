@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-02-02 15:18:51
+ * @LastEditTime: 2023-02-13 09:26:36
 -->
 <template>
     <div class="frameworkTitle">
@@ -10,7 +10,7 @@
         <p class="titleTriangle"></p>
     </div>
     <div class="frameworkBody">
-        <div ref="DataTransformation" style="height: calc(46%); width: 100%; overflow-y: auto;">
+        <div ref="DataTransformation" style="height: calc(30%); width: 100%; overflow-y: auto;">
             <el-table :data="tableData" style="width: 100%" height="100%"
                 :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
                 :cell-style="{ 'text-align': 'center', 'backgro und-color': 'rgba(250, 250, 250, 1)', 'font-size': '16px' }">
@@ -180,38 +180,50 @@
                 </g>
             </svg> -->
         </div>
-        <div ref="timeline" style="height: calc(54% - 15px); width: 100%; margin-top: 15px;">
+        <div ref="timeline" style="height: calc(70% - 15px); width: 100%; margin-top: 15px;">
             <svg id="timeline" height="100%" width="100%">
                 <g>
-                    <g v-for="(item, i) in sparkboxData" :key="'box' + i">
-                        <rect :x="item.rect1.x" :y="item.rect1.y" :width="item.rect1.w" :height="item.rect1.h"  fill="#f2f5fa"></rect>
-                        <rect :x="item.rect2.x" :y="item.rect2.y" :width="item.rect2.w" :height="item.rect2.h"  fill="#dce3f3"></rect>
-                        <path :d="'M ' + item.line.x1 + ' ' + item.line.y + ' L ' + item.line.x2 + ' ' + item.line.y" :fill="'none'" :stroke="'#6d70b6'"></path>
+                    <g v-for="(item, i) in heatRectData" :key="'r_g' + i" :transform="translate(0, 50 * i, 0)">
+                        <rect v-for="(r_item, r_i) in item" :key="'h_r' + r_i" :x="r_item.x" :y="3" :height="30" :width="r_item.w" :fill="r_item.color" @click="timeCompare(i)"></rect>
                     </g>
-                    <path :d="timeLineData[0]" stroke="#909196" :fill="'none'"></path>
-                    <g :transform="translate(0, tlHeight - 130, 0)">
-                        <path :d="'M ' + 30 + ' 0 ' + 'L ' + (tlWidth - 20) + ' 0'" :fill="'none'" stroke="black">
-                        </path>
-                        <g v-for="(item, i) in timeAxis" :key="'xa' + i">
-                            <path :d="'M ' + item.x + ' 0 ' + 'L ' + item.x + ' 5'" :fill="'none'" stroke="black">
+                </g>
+                <g :transform="translate(0, heatHeight, 0)" id="timeline_g">
+                    <g>
+                        <g v-for="(item, i) in sparkboxData" :key="'box' + i">
+                            <rect :x="item.rect1.x" :y="item.rect1.y" :width="item.rect1.w" :height="item.rect1.h"
+                                fill="#f2f5fa"></rect>
+                            <!-- <rect :x="item.rect2.x" :y="item.rect2.y" :width="item.rect2.w" :height="item.rect2.h"  fill="#dce3f3"></rect> -->
+                            <path
+                                :d="'M ' + item.line.x1 + ' ' + item.line.y + ' L ' + item.line.x2 + ' ' + item.line.y"
+                                :fill="'none'" :stroke="'#6d70b6'" stroke-width="3"></path>
+                        </g>
+                        <path :d="rawTimeLineData" stroke="#909196" :fill="'none'"></path>
+                        <path :d="smoothTimeLineData" stroke="red" :fill="'none'"></path>
+                        <g :transform="translate(0, tlHeight - 130, 0)">
+                            <path :d="'M ' + 30 + ' 0 ' + 'L ' + (tlWidth - 20) + ' 0'" :fill="'none'" stroke="black">
                             </path>
-                            <text :x="item.x" y="20" font-size="12" text-anchor="middle">{{ item.text }}</text>
+                            <g v-for="(item, i) in timeAxis" :key="'xa' + i">
+                                <path :d="'M ' + item.x + ' 0 ' + 'L ' + item.x + ' 5'" :fill="'none'" stroke="black">
+                                </path>
+                                <text :x="item.x" y="20" font-size="12" text-anchor="middle">{{ item.text }}</text>
+                            </g>
+                        </g>
+                    </g>
+                    <g id="brush_g" :transform="translate(0, tlHeight - 125, 0)"></g>
+                    <g :transform="translate(0, tlHeight - 125, 0)">
+                        <path :d="brushTimeLineData" stroke="steelblue" :fill="'none'"></path>
+                        <g :transform="translate(0, 100, 0)">
+                            <path :d="'M ' + 30 + ' 0 ' + 'L ' + (tlWidth - 20) + ' 0'" :fill="'none'" stroke="black">
+                            </path>
+                            <g v-for="(item, i) in timeAxis" :key="'xa' + i">
+                                <path :d="'M ' + item.x + ' 0 ' + 'L ' + item.x + ' 5'" :fill="'none'" stroke="black">
+                                </path>
+                                <text :x="item.x" y="20" font-size="12" text-anchor="middle">{{ item.text }}</text>
+                            </g>
                         </g>
                     </g>
                 </g>
-                <g id="brush_g" :transform="translate(0, tlHeight - 125, 0)"></g>
-                <g :transform="translate(0, tlHeight - 125, 0)">
-                    <path :d="timeLineData[1]" stroke="steelblue" :fill="'none'"></path>
-                    <g :transform="translate(0, 100, 0)">
-                        <path :d="'M ' + 30 + ' 0 ' + 'L ' + (tlWidth - 20) + ' 0'" :fill="'none'" stroke="black">
-                        </path>
-                        <g v-for="(item, i) in timeAxis" :key="'xa' + i">
-                            <path :d="'M ' + item.x + ' 0 ' + 'L ' + item.x + ' 5'" :fill="'none'" stroke="black">
-                            </path>
-                            <text :x="item.x" y="20" font-size="12" text-anchor="middle">{{ item.text }}</text>
-                        </g>
-                    </g>
-                </g>
+
             </svg>
         </div>
     </div>
@@ -220,11 +232,13 @@
 import { curveBumpY, line } from 'd3-shape';
 import { scaleUtc, scaleLinear } from 'd3-scale';
 import { axisLeft, axisBottom } from 'd3-axis';
-import { interpolateRdBu } from 'd3-scale-chromatic';
+import { interpolateRdBu, interpolateYlOrRd, schemeYlOrRd } from 'd3-scale-chromatic';
 import { useDataStore } from "../stores/counter";
 import SN_row_data from "../assets/SN_m_tot_V2.0.csv";
+import SN_rolling_6_data from "../assets/SN_rolling6_tot.csv";
+import SN_rolling_13_data from "../assets/SN_weighted_moving_average13_tot.csv";
 import { select } from 'd3-selection';
-import { extent, max } from 'd3-array';
+import { extent, max, min, sum } from 'd3-array';
 import { brushX } from 'd3-brush';
 export default {
     name: 'DataTransformationView',
@@ -235,6 +249,7 @@ export default {
             elWidth: 0,
             tlHeight: 0,
             tlWidth: 0,
+            heatHeight: 0,
             sample: ['10-slice', '7-slice', '3-slice'],
             smooth: ['Raw Sequence', 'N-Average', 'EMA/Holt'],
             d: [],
@@ -244,9 +259,12 @@ export default {
             tiemSliceData: [],
             barData: [],
             tableData: [],
-            timeLineData: ['M 0 0', 'M 0 0'],
+            rawTimeLineData: 'M 0 0',
+            brushTimeLineData: 'M 0 0',
+            smoothTimeLineData: 'M 0 0',
             timeAxis: [],
-            sparkboxData: []
+            sparkboxData: [],
+            heatRectData: []
         }
     },
     methods: {
@@ -278,30 +296,37 @@ export default {
                 .domain([0, max(data, d => parseInt(d.id))])
                 .range([margin.left, width - margin.right])
             let sparkboxData = [];
-            for (let i = 0; i < data.length; i += 120) {
-                let tempValue = Array.from(new Set(data.slice(i, i + 120).map(d => parseFloat(d.value)).sort((a, b) => a - b)));
+            for (let i = 0; i < data.length; i += 130) {
+                // let tempValue = Array.from(new Set(data.slice(i, i + 130).map(d => parseFloat(d.value)).sort((a, b) => a - b)));
+                let tempValue = data.slice(i, i + 130).map(d => parseFloat(d.value)).sort((a, b) => a - b)
+                let sumData = sum(tempValue);
+
+                // console.log(sumData)
+
                 // console.log(tempValue[tempValue.length /2 - 1], tempValue.length /2 - 1);
                 sparkboxData.push({
                     rect1: {
                         x: x(parseInt(data[i].id)),
                         y: y(tempValue[tempValue.length - 1]),
-                        w: Math.abs(x(parseInt(data[i + ((i + 120 < data.length) ? 120 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
+                        w: Math.abs(x(parseInt(data[i + ((i + 130 < data.length) ? 130 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
                         h: Math.abs(y(tempValue[0]) - y(tempValue[tempValue.length - 1]))
                     },
                     rect2: {
                         x: x(parseInt(data[i].id)),
                         y: y(tempValue[parseInt(tempValue.length * 3 / 4) - 1]),
-                        w: Math.abs(x(parseInt(data[i + ((i + 120 < data.length) ? 120 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
+                        w: Math.abs(x(parseInt(data[i + ((i + 130 < data.length) ? 130 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
                         h: Math.abs(y(tempValue[parseInt(tempValue.length * 3 / 4) - 1]) - y(tempValue[parseInt(tempValue.length / 4) - 1]))
                     },
                     line: {
                         x1: x(parseInt(data[i].id)),
-                        y: y(tempValue[parseInt(tempValue.length /2) - 1]),
-                        x2: Math.abs(x(parseInt(data[i + ((i + 120 < data.length) ? 120 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))) + x(parseInt(data[i].id))
+                        // y: y(tempValue[parseInt(tempValue.length /2) - 1]),
+                        // y: y((tempValue[0] + tempValue[parseInt(tempValue.length - 1)]) / 2),
+                        y: y(sumData / tempValue.length),
+                        x2: Math.abs(x(parseInt(data[i + ((i + 130 < data.length) ? 130 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))) + x(parseInt(data[i].id))
                     }
                 })
             }
-            console.log(sparkboxData)
+            // console.log(sparkboxData)
             return sparkboxData;
         },
         calcTimeLine (data, height, width) {
@@ -346,7 +371,7 @@ export default {
 
 
             let yAxis = (g, y, title) => g
-                .attr("transform", `translate(${margin.left},0)`)
+                .attr("transform", `translate(${margin.left},${0})`)
                 .call(axisLeft(y))
                 // .call(g => g.select(".domain").remove())
                 .call(g => g.selectAll(".title").data([title]).join("text")
@@ -369,7 +394,7 @@ export default {
             this.timeAxis = timeAxis;
 
             // select('#timeline').append('g').call(xAxis, x, focusHeight);
-            select('#timeline').append('g').call(yAxis, y, 'value');
+            select('#timeline_g').append('g').attr('id', 'yAxis_g').call(yAxis, y, 'value');
             select('#brush_g').call(timeBrush).call(timeBrush.move, [margin.left, width - margin.right]);
 
 
@@ -377,11 +402,139 @@ export default {
             return [lineGenerate(data), lineGenerate2(data)];
 
         },
+        calcTimeLineCompare (data, smooth_data, height, width) {
+            let margin = ({ top: 20, right: 20, bottom: 30, left: 30 });
+            // let height = 440;
+            // let width = 1000;
+            // let focusHeight = 100;
+
+            let y = scaleLinear()
+                .domain([0, Math.max(max(data, d => parseFloat(d.value)), max(smooth_data, d => parseFloat(d.value)))])
+                .range([height - 100 - margin.bottom, margin.top])
+            // let y2 = scaleLinear()
+            //     .domain([0, max(data, d => parseFloat(d.value))])
+            //     .range([focusHeight, margin.top])
+            let x = scaleLinear()
+                .domain([0, max(data, d => parseInt(d.id))])
+                .range([margin.left, width - margin.right])
+
+            // const timeBrush = brushX()
+            //     .extent([[margin.left, margin.top], [width - margin.right, focusHeight]])
+            //     .on('brush', brushed)
+            //     .on('end', brushed);
+
+            function brushed ({ selection }) {
+                // console.log(selection);
+
+            }
+
+            // console.log(y.domain(), x.domain(), data);
+
+            // let area = (x, y) => d3.area()
+            //     .defined(d => !isNaN(d.value))
+            //     .x(d => x(d.date))
+            //     .y0(y(0))
+            //     .y1(d => y(d.value))
+            let lineGenerate = line()
+                .x(d => x(d.id))
+                .y(d => y(d.value));
+            // let lineGenerate2 = line()
+            //     .x(d => x(d.id))
+            //     .y(d => y2(d.value));
+
+
+            let yAxis = (g, y, title) => g
+                .attr("transform", `translate(${margin.left},${0})`)
+                .call(axisLeft(y))
+                // .call(g => g.select(".domain").remove())
+                .call(g => g.selectAll(".title").data([title]).join("text")
+                    .attr("class", "title")
+                    .attr("x", -margin.left)
+                    .attr("y", 10)
+                    .attr("fill", "currentColor")
+                    .attr("text-anchor", "start")
+                    .text(title));
+            // let xAxis = (g, x, height) => g
+            //     .attr("transform", `translate(0,${height - margin.bottom})`)
+            //     .call(axisBottom(x).ticks(width / 80).tickSizeOuter(0));
+            // let timeAxis = []
+            // for (let i = 0; i < data.length; i += 240) {
+            //     timeAxis.push({
+            //         x: x(i),
+            //         text: parseInt(parseInt(data[i].timestamp) / 100) + '.' + parseInt(parseInt(data[i].timestamp) % 100)
+            //     })
+            // }
+            // this.timeAxis = timeAxis;
+
+            // select('#timeline').append('g').call(xAxis, x, focusHeight);
+            select('#timeline_g').append('g').attr('id', 'yAxis_g').call(yAxis, y, 'value');
+            // select('#brush_g').call(timeBrush).call(timeBrush.move, [margin.left, width - margin.right]);
+
+
+
+            return [lineGenerate(data), lineGenerate(smooth_data)];
+
+        },
+        timeCompare (select_num) {
+            console.log(select_num);
+            if (select_num == 0) {
+                [this.rawTimeLineData, this.smoothTimeLineData] = this.calcTimeLineCompare(SN_row_data, SN_rolling_6_data, this.tlHeight, this.tlWidth);
+                console.log(this.rawTimeLineData);
+                
+            }
+            
+            if (select_num == 1) {
+                [this.rawTimeLineData, this.smoothTimeLineData] = this.calcTimeLineCompare(SN_row_data, SN_rolling_13_data, this.tlHeight, this.tlWidth);
+            }
+        },
         calcMonth (startTime, endTime) {
             let year = parseInt(endTime / 100) - parseInt(startTime / 100);
             let month = endTime % 100 - startTime % 100 + 1;
             let sumMonth = year * 12 + month;
             return sumMonth;
+        },
+        calcHeat (raw_data, smooth_data, height, width) {
+            let margin = ({ top: 20, right: 20, bottom: 30, left: 30 });
+            let x = scaleLinear()
+                .domain([0, max(raw_data, d => parseInt(d.id))])
+                .range([margin.left, width - margin.right])
+            let heat_data = [];
+            for (let i = 0; i < raw_data.length; i += 130) {
+                // let tempValue = Array.from(new Set(data.slice(i, i + 130).map(d => parseFloat(d.value)).sort((a, b) => a - b)));
+                let rawTempValue = raw_data.slice(i, i + 130).map(d => parseFloat(d.value)).sort((a, b) => a - b)
+                let rawSum = sum(rawTempValue);
+                let smoothTempValue = smooth_data.slice(i, i + 130).map(d => parseFloat(d.value)).sort((a, b) => a - b)
+                let smoothSum = sum(smoothTempValue);
+                heat_data.push({
+                    rawData: smoothSum / smoothTempValue.length,
+                    errorRange: rawSum / rawTempValue.length - smoothSum / smoothTempValue.length,
+                    x: x(parseInt(raw_data[i].id)),
+                    w: Math.abs(x(parseInt(raw_data[i + ((i + 130 < raw_data.length) ? 130 : (raw_data.length - 1 - i))].id)) - x(parseInt(raw_data[i].id))),
+                });
+            }
+            let rawRange = [min(heat_data, d => d.rawData), max(heat_data, d => d.rawData)];
+            let errorRange = [min(heat_data, d => d.errorRange), max(heat_data, d => d.errorRange)];
+            // console.log(rawRange, errorRange)
+            let heatRectData = [];
+            let heatColor = interpolateYlOrRd;
+            let heatScale = scaleLinear([0, 14], [0, 1]);
+            let colorStep = [1, 2, 4, 8];
+            for (let i in heat_data) {
+                let hd = heat_data[i];
+                let errorScale = parseFloat((hd.errorRange - errorRange[0]) / (errorRange[1] - errorRange[0]));
+                let errorStep = ((errorScale * 4 == parseInt(errorScale * 4)) && errorScale != 0) ? parseInt(errorScale * 4) - 1 : parseInt(errorScale * 4);
+                let rawScale = parseFloat((hd.rawData - rawRange[0]) / (rawRange[1] - rawRange[0]));
+                // console.log(parseInt(rawScale * 4))
+                let colorScale = sum(colorStep.slice(0, errorStep)) + parseInt(rawScale * colorStep[errorStep]);
+                // console.log(colorScale,colorStep[errorStep], errorStep, sum(colorStep.slice(0, parseInt(errorScale * 4))))
+                heatRectData.push({
+                    x: hd.x,
+                    w: hd.w,
+                    color: heatColor(heatScale((colorScale != 0 ? colorScale - 1 : 0)))
+                });
+                // console.log(heatColor(heatScale((colorScale != 0 ? colorScale - 1 : 0))), colorScale, heatScale((colorScale == 0 ? colorScale - 1 : 0)))
+            }
+            return heatRectData;
         },
         calcTimeScale (data) {
             let startTime = 9999999;
@@ -442,7 +595,8 @@ export default {
     mounted () {
         this.elHeight = this.$refs.DataTransformation.offsetHeight;
         this.elWidth = this.$refs.DataTransformation.offsetWidth;
-        this.tlHeight = this.$refs.timeline.offsetHeight;
+        this.tlHeight = this.$refs.timeline.offsetHeight * 0.7;
+        this.heatHeight = this.$refs.timeline.offsetHeight * 0.3;
         this.tlWidth = this.$refs.timeline.offsetWidth;
         // this.d = this.calcCurve();
         // // console.log(this.timeData)
@@ -458,9 +612,12 @@ export default {
         this.tableData = barData;
         this.sparkboxData = this.calcSparkBox(SN_row_data, this.tlHeight, this.tlWidth);
 
-        this.timeLineData = this.calcTimeLine(SN_row_data, this.tlHeight, this.tlWidth);
+        [this.rawTimeLineData, this.brushTimeLineData] = this.calcTimeLine(SN_row_data, this.tlHeight, this.tlWidth);
         // console.log(this.timeLineData);
-
+        let smoothData = [SN_rolling_6_data, SN_rolling_13_data]
+        this.heatRectData.push(this.calcHeat(SN_row_data, SN_rolling_6_data, this.heatHeight, this.tlWidth))
+        this.heatRectData.push(this.calcHeat(SN_row_data, SN_rolling_13_data, this.heatHeight, this.tlWidth))
+        console.log(this.heatRectData);
 
         // })
 
