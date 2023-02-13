@@ -49,9 +49,10 @@
                 <el-table-column label="Heatmap" prop="heat_data">
                     <template #default="scope">
                         <svg height="30" width="100%">
-                            <rect v-for="(item, item_i) in scope.row.heat_data" :key="'heat_' + item_i"
-                                :x="(elWidth - 250) / 20 * item_i" :y="8" :width="(elWidth - 250) / 20" :height="20"
-                                :fill="item.fill"></rect>
+                            <rect v-for="(item, item_i) in scope.row.bar_data" :key="'heat_' + item_i"
+                                :x="(elWidth - 250) / scope.row.slice_num * item_i" :y="8"
+                                :width="(elWidth - 250) / scope.row.slice_num" :height="20" :fill="item.test.fill">
+                            </rect>
                         </svg>
                     </template>
                 </el-table-column>
@@ -183,8 +184,10 @@
         <div ref="timeline" style="height: calc(70% - 15px); width: 100%; margin-top: 15px;">
             <svg id="timeline" height="100%" width="100%">
                 <g>
-                    <g v-for="(item, i) in heatRectData" :key="'r_g' + i" :transform="translate(0, 50 * i, 0)">
-                        <rect v-for="(r_item, r_i) in item" :key="'h_r' + r_i" :x="r_item.x" :y="3" :height="30" :width="r_item.w" :fill="r_item.color" @click="timeCompare(i)"></rect>
+                    <g v-for="(item, i) in heatRectData" :key="'r_g' + i" :transform="translate(0, 40 * i, 0)">
+                        <rect v-for="(r_item, r_i) in item" :key="'h_r' + r_i" :x="r_item.x" :y="3" :height="30"
+                            :width="r_item.w" :fill="r_item.color" @click="timeCompare(parseInt(i / 3))"></rect>
+                        <text x="0" y="20">{{ item[0].t }}</text>
                     </g>
                 </g>
                 <g :transform="translate(0, heatHeight, 0)" id="timeline_g">
@@ -198,7 +201,6 @@
                                 :fill="'none'" :stroke="'#6d70b6'" stroke-width="3"></path>
                         </g>
                         <path :d="rawTimeLineData" stroke="#909196" :fill="'none'"></path>
-                        <path :d="smoothTimeLineData" stroke="red" :fill="'none'"></path>
                         <g :transform="translate(0, tlHeight - 130, 0)">
                             <path :d="'M ' + 30 + ' 0 ' + 'L ' + (tlWidth - 20) + ' 0'" :fill="'none'" stroke="black">
                             </path>
@@ -207,6 +209,12 @@
                                 </path>
                                 <text :x="item.x" y="20" font-size="12" text-anchor="middle">{{ item.text }}</text>
                             </g>
+                        </g>
+                        <g>
+                            <path :d="smoothTimeLineData" stroke="red" :fill="'none'"></path>
+                            <path v-for="(item, i) in selectAverageLine" :key="'xb' + i"
+                                :d="'M ' + item.x1 + ' ' + item.y + ' L ' + item.x2 + ' ' + item.y" :fill="'none'"
+                                :stroke="'orange'" stroke-width="3"></path>
                         </g>
                     </g>
                     <g id="brush_g" :transform="translate(0, tlHeight - 125, 0)"></g>
@@ -264,7 +272,8 @@ export default {
             smoothTimeLineData: 'M 0 0',
             timeAxis: [],
             sparkboxData: [],
-            heatRectData: []
+            heatRectData: [],
+            selectAverageLine: []
         }
     },
     methods: {
@@ -409,7 +418,7 @@ export default {
             // let focusHeight = 100;
 
             let y = scaleLinear()
-                .domain([0, Math.max(max(data, d => parseFloat(d.value)), max(smooth_data, d => parseFloat(d.value)))])
+                .domain([0, max(data, d => parseFloat(d.value))])
                 .range([height - 100 - margin.bottom, margin.top])
             // let y2 = scaleLinear()
             //     .domain([0, max(data, d => parseFloat(d.value))])
@@ -443,17 +452,17 @@ export default {
             //     .y(d => y2(d.value));
 
 
-            let yAxis = (g, y, title) => g
-                .attr("transform", `translate(${margin.left},${0})`)
-                .call(axisLeft(y))
-                // .call(g => g.select(".domain").remove())
-                .call(g => g.selectAll(".title").data([title]).join("text")
-                    .attr("class", "title")
-                    .attr("x", -margin.left)
-                    .attr("y", 10)
-                    .attr("fill", "currentColor")
-                    .attr("text-anchor", "start")
-                    .text(title));
+            // let yAxis = (g, y, title) => g
+            //     .attr("transform", `translate(${margin.left},${0})`)
+            //     .call(axisLeft(y))
+            //     // .call(g => g.select(".domain").remove())
+            //     .call(g => g.selectAll(".title").data([title]).join("text")
+            //         .attr("class", "title")
+            //         .attr("x", -margin.left)
+            //         .attr("y", 10)
+            //         .attr("fill", "currentColor")
+            //         .attr("text-anchor", "start")
+            //         .text(title));
             // let xAxis = (g, x, height) => g
             //     .attr("transform", `translate(0,${height - margin.bottom})`)
             //     .call(axisBottom(x).ticks(width / 80).tickSizeOuter(0));
@@ -467,24 +476,63 @@ export default {
             // this.timeAxis = timeAxis;
 
             // select('#timeline').append('g').call(xAxis, x, focusHeight);
-            select('#timeline_g').append('g').attr('id', 'yAxis_g').call(yAxis, y, 'value');
+            // select('#timeline_g').append('g').attr('id', 'yAxis_g').call(yAxis, y, 'value');
             // select('#brush_g').call(timeBrush).call(timeBrush.move, [margin.left, width - margin.right]);
 
+            let average_line = [];
+
+            for (let i = 0; i < smooth_data.length; i += 130) {
+                // let tempValue = Array.from(new Set(data.slice(i, i + 130).map(d => parseFloat(d.value)).sort((a, b) => a - b)));
+                let tempValue = smooth_data.slice(i, i + 130).map(d => parseFloat(d.value)).sort((a, b) => a - b)
+                let sumData = sum(tempValue);
+
+                average_line.push({
+                    x1: x(parseInt(smooth_data[i].id)),
+                    y: y(sumData / tempValue.length),
+                    x2: Math.abs(x(parseInt(smooth_data[i + ((i + 130 < smooth_data.length) ? 130 : (smooth_data.length - 1 - i))].id)) - x(parseInt(smooth_data[i].id))) + x(parseInt(smooth_data[i].id))
+                })
+
+                // console.log(sumData)
+
+                // console.log(tempValue[tempValue.length /2 - 1], tempValue.length /2 - 1);
+                // sparkboxData.push({
+                //     rect1: {
+                //         x: x(parseInt(data[i].id)),
+                //         y: y(tempValue[tempValue.length - 1]),
+                //         w: Math.abs(x(parseInt(data[i + ((i + 130 < data.length) ? 130 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
+                //         h: Math.abs(y(tempValue[0]) - y(tempValue[tempValue.length - 1]))
+                //     },
+                //     rect2: {
+                //         x: x(parseInt(data[i].id)),
+                //         y: y(tempValue[parseInt(tempValue.length * 3 / 4) - 1]),
+                //         w: Math.abs(x(parseInt(data[i + ((i + 130 < data.length) ? 130 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
+                //         h: Math.abs(y(tempValue[parseInt(tempValue.length * 3 / 4) - 1]) - y(tempValue[parseInt(tempValue.length / 4) - 1]))
+                //     },
+                //     line: {
+                //         x1: x(parseInt(data[i].id)),
+                //         // y: y(tempValue[parseInt(tempValue.length /2) - 1]),
+                //         // y: y((tempValue[0] + tempValue[parseInt(tempValue.length - 1)]) / 2),
+                //         y: y(sumData / tempValue.length),
+                //         x2: Math.abs(x(parseInt(data[i + ((i + 130 < data.length) ? 130 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))) + x(parseInt(data[i].id))
+                //     }
+                // })
+            }
 
 
-            return [lineGenerate(data), lineGenerate(smooth_data)];
+
+            return [lineGenerate(data), lineGenerate(smooth_data), average_line];
 
         },
         timeCompare (select_num) {
             console.log(select_num);
             if (select_num == 0) {
-                [this.rawTimeLineData, this.smoothTimeLineData] = this.calcTimeLineCompare(SN_row_data, SN_rolling_6_data, this.tlHeight, this.tlWidth);
-                console.log(this.rawTimeLineData);
-                
+                [this.rawTimeLineData, this.smoothTimeLineData, this.selectAverageLine] = this.calcTimeLineCompare(SN_row_data, SN_rolling_6_data, this.tlHeight, this.tlWidth);
+                // console.log(this.rawTimeLineData);
+
             }
-            
+
             if (select_num == 1) {
-                [this.rawTimeLineData, this.smoothTimeLineData] = this.calcTimeLineCompare(SN_row_data, SN_rolling_13_data, this.tlHeight, this.tlWidth);
+                [this.rawTimeLineData, this.smoothTimeLineData, this.selectAverageLine] = this.calcTimeLineCompare(SN_row_data, SN_rolling_13_data, this.tlHeight, this.tlWidth);
             }
         },
         calcMonth (startTime, endTime) {
@@ -493,7 +541,7 @@ export default {
             let sumMonth = year * 12 + month;
             return sumMonth;
         },
-        calcHeat (raw_data, smooth_data, height, width) {
+        calcHeat (raw_data, smooth_data, height, width, tag) {
             let margin = ({ top: 20, right: 20, bottom: 30, left: 30 });
             let x = scaleLinear()
                 .domain([0, max(raw_data, d => parseInt(d.id))])
@@ -507,7 +555,7 @@ export default {
                 let smoothSum = sum(smoothTempValue);
                 heat_data.push({
                     rawData: smoothSum / smoothTempValue.length,
-                    errorRange: rawSum / rawTempValue.length - smoothSum / smoothTempValue.length,
+                    errorRange: (rawSum / rawTempValue.length - smoothSum / smoothTempValue.length),
                     x: x(parseInt(raw_data[i].id)),
                     w: Math.abs(x(parseInt(raw_data[i + ((i + 130 < raw_data.length) ? 130 : (raw_data.length - 1 - i))].id)) - x(parseInt(raw_data[i].id))),
                 });
@@ -516,7 +564,12 @@ export default {
             let errorRange = [min(heat_data, d => d.errorRange), max(heat_data, d => d.errorRange)];
             // console.log(rawRange, errorRange)
             let heatRectData = [];
-            let heatColor = interpolateYlOrRd;
+            let rawRectData = [];
+            let errorRectData = [];
+            // let heatColor = interpolateYlOrRd;
+            let heatColor = interpolateRdBu;
+            let rawDataScale = scaleLinear(rawRange, [0, 1]);
+            let errorDataScale = scaleLinear(errorRange, [0, 1]);
             let heatScale = scaleLinear([0, 14], [0, 1]);
             let colorStep = [1, 2, 4, 8];
             for (let i in heat_data) {
@@ -528,13 +581,27 @@ export default {
                 let colorScale = sum(colorStep.slice(0, errorStep)) + parseInt(rawScale * colorStep[errorStep]);
                 // console.log(colorScale,colorStep[errorStep], errorStep, sum(colorStep.slice(0, parseInt(errorScale * 4))))
                 heatRectData.push({
+                    t: 'vsup' + tag,
                     x: hd.x,
                     w: hd.w,
                     color: heatColor(heatScale((colorScale != 0 ? colorScale - 1 : 0)))
+                }); 
+                rawRectData.push({
+                    t: 'raw' + tag,
+                    x: hd.x,
+                    w: hd.w,
+                    color: heatColor(rawDataScale(hd.rawData))
+                    
+                });
+                errorRectData.push({
+                    t: 'error' + tag,
+                    x: hd.x,
+                    w: hd.w,
+                    color: heatColor(errorDataScale(hd.errorRange))
                 });
                 // console.log(heatColor(heatScale((colorScale != 0 ? colorScale - 1 : 0))), colorScale, heatScale((colorScale == 0 ? colorScale - 1 : 0)))
             }
-            return heatRectData;
+            return [heatRectData, rawRectData, errorRectData];
         },
         calcTimeScale (data) {
             let startTime = 9999999;
@@ -554,6 +621,10 @@ export default {
             let r_data = new Array();
             let t_data = new Object();
             let cnt = 0;
+            console.log(data['sub slice']);
+            let maeRange = [min(data['sub slice'], d => d['MAE']), max(data['sub slice'], d => d['MAE'])];
+            let maeScale = scaleLinear(maeRange, [0, 1]);
+
 
             for (const d of data['sub slice']) {
                 r_data.push({
@@ -569,7 +640,7 @@ export default {
                         x1: this.timeScale(this.calcMonth(this.startTime, d['test_begin'])),
                         x2: this.timeScale(this.calcMonth(this.startTime, d['test_end'])),
                         w: this.timeScale(this.calcMonth(d['test_begin'], d['test_end'])),
-                        fill: interpolateRdBu(Math.random())
+                        fill: interpolateRdBu(maeScale(d['MAE']))
                     }
                 })
             }
@@ -583,6 +654,7 @@ export default {
             t_data = {
                 slice: data['slice_info']['slice_number'] + '-slice',
                 smooth: '13-Average',
+                slice_num: parseInt(data['slice_info']['slice_number']),
                 heat_data: h_data,
                 // bar_data: r_data.reverse(),
                 bar_data: r_data
@@ -615,9 +687,15 @@ export default {
         [this.rawTimeLineData, this.brushTimeLineData] = this.calcTimeLine(SN_row_data, this.tlHeight, this.tlWidth);
         // console.log(this.timeLineData);
         let smoothData = [SN_rolling_6_data, SN_rolling_13_data]
-        this.heatRectData.push(this.calcHeat(SN_row_data, SN_rolling_6_data, this.heatHeight, this.tlWidth))
-        this.heatRectData.push(this.calcHeat(SN_row_data, SN_rolling_13_data, this.heatHeight, this.tlWidth))
-        console.log(this.heatRectData);
+        // this.heatRectData.push(this.calcHeat(SN_row_data, SN_rolling_6_data, this.heatHeight, this.tlWidth))
+        // this.heatRectData.push(this.calcHeat(SN_row_data, SN_rolling_13_data, this.heatHeight, this.tlWidth))
+
+
+        this.heatRectData = this.heatRectData.concat(this.calcHeat(SN_row_data, SN_rolling_6_data, this.heatHeight, this.tlWidth, 6));
+
+        this.heatRectData = this.heatRectData.concat(this.calcHeat(SN_row_data, SN_rolling_13_data, this.heatHeight, this.tlWidth, 13))
+        
+        // console.log(this.heatRectData);
 
         // })
 

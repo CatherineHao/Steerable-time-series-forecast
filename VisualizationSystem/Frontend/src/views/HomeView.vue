@@ -17,7 +17,9 @@ import { useDataStore } from "../stores/counter";
 
 import timeData from '../assets/sn_d_tot.json'
 import basicData from '../assets/data_view.json';
-import sliceData from '../assets/slice_info.json';
+// import sliceData from '../assets/slice_info.json';
+import sliceData from '../assets/raw_data_slice_info.json';
+
 export default {
   name: "home_view",
   data() {

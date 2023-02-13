@@ -46,13 +46,14 @@
 
                 <g>
                     <text v-if="runTag" font-weight="bold" x="15" y="15" font-size="20">Correlation</text>
-                    <text v-if="runTag" font-weight="bold" :x="elWidth - 75" :y="elHeight - 35" font-size="20">RMSE</text>
+                    <text v-if="runTag" font-weight="bold" :x="elWidth - 75" :y="elHeight - 35"
+                        font-size="20">RMSE</text>
                     <g v-for="(item, i) in xAxis">
                         <path :d="'M ' + item.x + ' ' + item.y + ' L ' + + item.x + ' ' + (item.y - 5)" stroke="black">
                         </path>
                         <path :d="'M ' + item.x + ' ' + item.y + ' L ' + + item.x + ' ' + (20)"
                             stroke="rgba(229, 229, 229)" stroke-dasharray="0"></path>
-                        <text :x="item.x" :y="elHeight - 10" dx="-0.3em">{{ item.t }}</text>
+                        <text :x="item.x" :y="elHeight - 10" dx="-0em" text-anchor="middle">{{ item.t }}</text>
                     </g>
                     <g v-for="(item, i) in yAxis">
                         <path :d="'M ' + (item.x + 25) + ' ' + item.y + ' L ' + + (item.x + 30) + ' ' + (item.y)"
@@ -63,7 +64,7 @@
                     </g>
                 </g>
                 <g>
-                    <circle v-for="(item, i) in nodeData" :cx="item.x" :cy="item.y" :r="3" fill="steelblue"></circle>
+                    <circle v-for="(item, i) in nodeData" :cx="item.x" :cy="item.y" :r="3" :fill="item.color"></circle>
                 </g>
             </svg>
         </div>
@@ -72,10 +73,12 @@
 <script>
 import { scaleLinear } from 'd3-scale';
 import { useDataStore } from "../stores/counter";
+import average6Data from "../assets/average6_slice_info.json";
+import { max, min } from 'd3-array';
 export default {
     name: 'modelExplainerView',
     props: ['sliceData'],
-    data() {
+    data () {
         return {
             runTag: false,
             elHeight: 0,
@@ -87,10 +90,10 @@ export default {
         }
     },
     methods: {
-        translate(x, y, deg) {
+        translate (x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
         },
-        formatNum(num) {
+        formatNum (num) {
             //1. 可能是字符串，转换为浮点数
             //2. 乘以100 小数点向右移动两位
             //3. Math.round 进行四舍五入
@@ -111,42 +114,46 @@ export default {
             }
 
         },
-        calcAxis() {
-            const xScale = scaleLinear([0, 1], [30, this.elWidth - 20]);
-            const yScale = scaleLinear([0, 1], [this.elHeight - 30, 20]);
+        calcAxis (data) {
+            let xRange = scaleLinear([0, 1], [min(data, d => d.mae), max(data, d => d.mae)]);
+            let yRange = scaleLinear([0, 1], [min(data, d => d.acf), max(data, d => d.acf)]);
+            const xScale = scaleLinear([min(data, d => d.mae), max(data, d => d.mae)], [30, this.elWidth - 20]);
+            const yScale = scaleLinear([min(data, d => d.acf), max(data, d => d.acf)], [this.elHeight - 30, 20]);
             let xAxis = [];
             let yAxis = [];
             for (let i = 0; i <= 10; ++i) {
                 xAxis.push({
-                    t: i / 10,
-                    x: xScale(i / 10),
+                    t: xRange(i / 10).toFixed(2),
+                    x: xScale(xRange(i / 10)),
                     y: this.elHeight - 25,
                     // d: 
                 });
                 yAxis.push({
-                    t: i / 10,
-                    y: yScale(i / 10),
+                    t: (yRange(i / 10)).toFixed(2),
+                    y: yScale(yRange(i / 10)),
                     x: 0
                 });
             }
             return [xAxis, yAxis];
         },
-        calcNode(data) {
+        calcNode (data) {
+
             let nodeData = [];
-            const xScale = scaleLinear([0, 1], [30, this.elWidth - 20]);
-            const yScale = scaleLinear([0, 1], [this.elHeight - 30, 20]);
-            for (let i = 0; i < 76; ++i) {
-                let rx = Math.random();
-                let ry = Math.random();
+            const xScale = scaleLinear([min(data, d => d.mae), max(data, d => d.mae)], [30, this.elWidth - 20]);
+            const yScale = scaleLinear([min(data, d => d.acf), max(data, d => d.acf)], [this.elHeight - 30, 20]);
+            for (let i = 0; i < data.length; ++i) {
+                let rx = data[i].mae;
+                let ry = data[i].acf;
                 nodeData.push({
                     x: xScale(rx),
                     y: yScale(ry),
-                    r: [rx, ry]
+                    r: [rx, ry],
+                    color: data[i].color,
                 });
             }
             return nodeData;
         },
-        calcTableData(data) {
+        calcTableData (data) {
             let tData = new Array();
             for (const d of data) {
                 let td = [];
@@ -171,19 +178,37 @@ export default {
             return tData;
         }
     },
-    created() {
+    created () {
     },
-    mounted() {
+    mounted () {
         this.elHeight = this.$refs.modelExplainer.offsetHeight;
         this.elWidth = this.$refs.modelExplainer.offsetWidth;
         const dataStore = useDataStore();
-        dataStore.$subscribe((mutation, state) => {
-            this.runTag = true;
-            this.nodeData = this.calcNode(1);
-            // console.log(this.nodeData);
-            [this.xAxis, this.yAxis] = this.calcAxis();
-            this.tableData = this.calcTableData(this.sliceData);
-        })
+        // dataStore.$subscribe((mutation, state) => {
+        let nodeData = []
+        for (let d of this.sliceData[0]['sub slice']) {
+            nodeData.push({
+                color: 'red',
+                mae: d['MAE'],
+                acf: d['acf'],
+                pacf: d['pacf']
+            })
+        }
+        for (let d of average6Data[0]['sub slice']) {
+            nodeData.push({
+                color: 'blue',
+                mae: d['MAE'],
+                acf: d['acf'],
+                pacf: d['pacf']
+            })
+        }
+        this.runTag = true;
+        this.nodeData = this.calcNode(nodeData);
+        // console.log(this.nodeData);
+        [this.xAxis, this.yAxis] = this.calcAxis(nodeData);
+        this.tableData = this.calcTableData(this.sliceData);
+        // })
+
         // this.nodeData = this.calcNode(1);
         // // console.log(this.nodeData);
         // [this.xAxis, this.yAxis] = this.calcAxis();
