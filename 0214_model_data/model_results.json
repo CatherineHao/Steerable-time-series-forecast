@@ -1,0 +1,108 @@
+[
+    {
+        "dataset_name": "rolling6",
+        "epochs": 200,
+        "test_period": 120,
+        "ratio": 0.8,
+        "predic_info":[
+            {
+                "train_period": 360,
+                "input_shape": "(1980,360,1)",
+                "output_shape": "(1980,120)",
+                "result numbers": 1980,
+                "loss=mean_squared_error": 0.0122,
+                "val_loss=val_mse": 0.0183,
+                "file_name": "rolling6_train360_0.8.csv"
+            },
+            {
+                "train_period": 600,
+                "input_shape": "(1740,600,1)",
+                "output_shape": "(1740,120)",
+                "result numbers": 1740,
+                "loss=mean_squared_error": 0.0090,
+                "val_loss=val_mse": 0.0273,
+                "file_name": "rolling6_train600_0.8.csv"
+            },
+            {
+                "train_period": 720,
+                "input_shape": "(1620,720,1)",
+                "output_shape": "(1620,120)",
+                "result numbers": 1620,
+                "loss=mean_squared_error": 0.0064,
+                "val_loss=val_mse": 0.0273,
+                "file_name": "rolling6_train720_0.8.csv"
+            },
+            {
+                "train_period": 960,
+                "input_shape": "(1380, 960, 1)",
+                "output_shape": "(1380, 120)",
+                "result numbers": 1380,
+                "loss=mean_squared_error": 0.0070,
+                "val_loss=val_mse": 0.0371,
+                "file_name": "rolling6_train960_0.8.csv"
+            },
+            {
+                "train_period": 1200,
+                "input_shape": "(1140,1200,1)",
+                "output_shape": "(1140,120)",
+                "result numbers": 1140,
+                "loss=mean_squared_error": 0.0079,
+                "val_loss=val_mse": 0.0508,
+                "file_name": "rolling6_train1200_0.8.csv"
+            }
+        ]
+    },
+    {
+        "dataset_name": "raw_data",
+        "epochs": 200,
+        "test_period": 120,
+        "ratio": 0.8,
+        "predic_info":[
+            {
+                "train_period": 360,
+                "input_shape": "(1980,360,1)",
+                "output_shape": "(1980,120)",
+                "result numbers": 1980,
+                "loss=mean_squared_error": 0.0112,
+                "val_loss=val_mse": 0.0199,
+                "file_name": "rawdata_train360_0.8.csv"
+            },
+            {
+                "train_period": 600,
+                "input_shape": "(1740,600,1)",
+                "output_shape": "(1740,120)",
+                "result numbers": 1740,
+                "loss=mean_squared_error": 0.0096,
+                "val_loss=val_mse": 0.0264,
+                "file_name": "rawdata_train600_0.8.csv"
+            },
+            {
+                "train_period": 720,
+                "input_shape": "(1620,720,1)",
+                "output_shape": "(1620,120)",
+                "result numbers": 1620,
+                "loss=mean_squared_error": 0.0159,
+                "val_loss=val_mse":  0.0166,
+                "file_name": "rawdata_train720_0.8.csv"
+            },
+            {
+                "train_period": 960,
+                "input_shape": "(1380,960,1)",
+                "output_shape": "(1380,120)",
+                "result numbers": 1380,
+                "loss=mean_squared_error": 0.0056,
+                "val_loss=val_mse": 0.0259,
+                "file_name": "rawdata_train960_0.8.csv"
+            },
+            {
+                "train_period": 1200,
+                "input_shape": "(1140,1200,1)",
+                "output_shape": "(1140,120)",
+                "result numbers": 1140,
+                "loss=mean_squared_error": 0.0054,
+                "val_loss=val_mse": 0.0368,
+                "file_name": "rawdata_train1200_0.8.csv"
+            }
+        ]
+    }
+]
