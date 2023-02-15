@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-02-13 09:26:36
+ * @LastEditTime: 2023-02-13 13:29:46
 -->
 <template>
     <div class="frameworkTitle">
@@ -201,7 +201,7 @@
                                 :fill="'none'" :stroke="'#6d70b6'" stroke-width="3"></path>
                         </g>
                         <path :d="rawTimeLineData" stroke="#909196" :fill="'none'"></path>
-                        <g :transform="translate(0, tlHeight - 130, 0)">
+                        <g :transform="translate(0, tlHeight - 10, 0)">
                             <path :d="'M ' + 30 + ' 0 ' + 'L ' + (tlWidth - 20) + ' 0'" :fill="'none'" stroke="black">
                             </path>
                             <g v-for="(item, i) in timeAxis" :key="'xa' + i">
@@ -305,9 +305,9 @@ export default {
                 .domain([0, max(data, d => parseInt(d.id))])
                 .range([margin.left, width - margin.right])
             let sparkboxData = [];
-            for (let i = 0; i < data.length; i += 130) {
-                // let tempValue = Array.from(new Set(data.slice(i, i + 130).map(d => parseFloat(d.value)).sort((a, b) => a - b)));
-                let tempValue = data.slice(i, i + 130).map(d => parseFloat(d.value)).sort((a, b) => a - b)
+            for (let i = 0; i < data.length; i += 10) {
+                // let tempValue = Array.from(new Set(data.slice(i, i + 10).map(d => parseFloat(d.value)).sort((a, b) => a - b)));
+                let tempValue = data.slice(i, i + 10).map(d => parseFloat(d.value)).sort((a, b) => a - b)
                 let sumData = sum(tempValue);
 
                 // console.log(sumData)
@@ -317,13 +317,13 @@ export default {
                     rect1: {
                         x: x(parseInt(data[i].id)),
                         y: y(tempValue[tempValue.length - 1]),
-                        w: Math.abs(x(parseInt(data[i + ((i + 130 < data.length) ? 130 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
+                        w: Math.abs(x(parseInt(data[i + ((i + 10 < data.length) ? 10 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
                         h: Math.abs(y(tempValue[0]) - y(tempValue[tempValue.length - 1]))
                     },
                     rect2: {
                         x: x(parseInt(data[i].id)),
                         y: y(tempValue[parseInt(tempValue.length * 3 / 4) - 1]),
-                        w: Math.abs(x(parseInt(data[i + ((i + 130 < data.length) ? 130 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
+                        w: Math.abs(x(parseInt(data[i + ((i + 10 < data.length) ? 10 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
                         h: Math.abs(y(tempValue[parseInt(tempValue.length * 3 / 4) - 1]) - y(tempValue[parseInt(tempValue.length / 4) - 1]))
                     },
                     line: {
@@ -331,7 +331,7 @@ export default {
                         // y: y(tempValue[parseInt(tempValue.length /2) - 1]),
                         // y: y((tempValue[0] + tempValue[parseInt(tempValue.length - 1)]) / 2),
                         y: y(sumData / tempValue.length),
-                        x2: Math.abs(x(parseInt(data[i + ((i + 130 < data.length) ? 130 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))) + x(parseInt(data[i].id))
+                        x2: Math.abs(x(parseInt(data[i + ((i + 10 < data.length) ? 10 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))) + x(parseInt(data[i].id))
                     }
                 })
             }
@@ -481,15 +481,15 @@ export default {
 
             let average_line = [];
 
-            for (let i = 0; i < smooth_data.length; i += 130) {
-                // let tempValue = Array.from(new Set(data.slice(i, i + 130).map(d => parseFloat(d.value)).sort((a, b) => a - b)));
-                let tempValue = smooth_data.slice(i, i + 130).map(d => parseFloat(d.value)).sort((a, b) => a - b)
+            for (let i = 0; i < smooth_data.length; i += 10) {
+                // let tempValue = Array.from(new Set(data.slice(i, i + 10).map(d => parseFloat(d.value)).sort((a, b) => a - b)));
+                let tempValue = smooth_data.slice(i, i + 10).map(d => parseFloat(d.value)).sort((a, b) => a - b)
                 let sumData = sum(tempValue);
 
                 average_line.push({
                     x1: x(parseInt(smooth_data[i].id)),
                     y: y(sumData / tempValue.length),
-                    x2: Math.abs(x(parseInt(smooth_data[i + ((i + 130 < smooth_data.length) ? 130 : (smooth_data.length - 1 - i))].id)) - x(parseInt(smooth_data[i].id))) + x(parseInt(smooth_data[i].id))
+                    x2: Math.abs(x(parseInt(smooth_data[i + ((i + 10 < smooth_data.length) ? 10 : (smooth_data.length - 1 - i))].id)) - x(parseInt(smooth_data[i].id))) + x(parseInt(smooth_data[i].id))
                 })
 
                 // console.log(sumData)
@@ -499,13 +499,13 @@ export default {
                 //     rect1: {
                 //         x: x(parseInt(data[i].id)),
                 //         y: y(tempValue[tempValue.length - 1]),
-                //         w: Math.abs(x(parseInt(data[i + ((i + 130 < data.length) ? 130 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
+                //         w: Math.abs(x(parseInt(data[i + ((i + 10 < data.length) ? 10 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
                 //         h: Math.abs(y(tempValue[0]) - y(tempValue[tempValue.length - 1]))
                 //     },
                 //     rect2: {
                 //         x: x(parseInt(data[i].id)),
                 //         y: y(tempValue[parseInt(tempValue.length * 3 / 4) - 1]),
-                //         w: Math.abs(x(parseInt(data[i + ((i + 130 < data.length) ? 130 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
+                //         w: Math.abs(x(parseInt(data[i + ((i + 10 < data.length) ? 10 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
                 //         h: Math.abs(y(tempValue[parseInt(tempValue.length * 3 / 4) - 1]) - y(tempValue[parseInt(tempValue.length / 4) - 1]))
                 //     },
                 //     line: {
@@ -513,7 +513,7 @@ export default {
                 //         // y: y(tempValue[parseInt(tempValue.length /2) - 1]),
                 //         // y: y((tempValue[0] + tempValue[parseInt(tempValue.length - 1)]) / 2),
                 //         y: y(sumData / tempValue.length),
-                //         x2: Math.abs(x(parseInt(data[i + ((i + 130 < data.length) ? 130 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))) + x(parseInt(data[i].id))
+                //         x2: Math.abs(x(parseInt(data[i + ((i + 10 < data.length) ? 10 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))) + x(parseInt(data[i].id))
                 //     }
                 // })
             }
@@ -547,17 +547,17 @@ export default {
                 .domain([0, max(raw_data, d => parseInt(d.id))])
                 .range([margin.left, width - margin.right])
             let heat_data = [];
-            for (let i = 0; i < raw_data.length; i += 130) {
-                // let tempValue = Array.from(new Set(data.slice(i, i + 130).map(d => parseFloat(d.value)).sort((a, b) => a - b)));
-                let rawTempValue = raw_data.slice(i, i + 130).map(d => parseFloat(d.value)).sort((a, b) => a - b)
+            for (let i = 0; i < raw_data.length; i += 10) {
+                // let tempValue = Array.from(new Set(data.slice(i, i + 10).map(d => parseFloat(d.value)).sort((a, b) => a - b)));
+                let rawTempValue = raw_data.slice(i, i + 10).map(d => parseFloat(d.value)).sort((a, b) => a - b)
                 let rawSum = sum(rawTempValue);
-                let smoothTempValue = smooth_data.slice(i, i + 130).map(d => parseFloat(d.value)).sort((a, b) => a - b)
+                let smoothTempValue = smooth_data.slice(i, i + 10).map(d => parseFloat(d.value)).sort((a, b) => a - b)
                 let smoothSum = sum(smoothTempValue);
                 heat_data.push({
                     rawData: smoothSum / smoothTempValue.length,
-                    errorRange: (rawSum / rawTempValue.length - smoothSum / smoothTempValue.length),
+                    errorRange: Math.abs(rawSum / rawTempValue.length - smoothSum / smoothTempValue.length),
                     x: x(parseInt(raw_data[i].id)),
-                    w: Math.abs(x(parseInt(raw_data[i + ((i + 130 < raw_data.length) ? 130 : (raw_data.length - 1 - i))].id)) - x(parseInt(raw_data[i].id))),
+                    w: Math.abs(x(parseInt(raw_data[i + ((i + 10 < raw_data.length) ? 10 : (raw_data.length - 1 - i))].id)) - x(parseInt(raw_data[i].id))),
                 });
             }
             let rawRange = [min(heat_data, d => d.rawData), max(heat_data, d => d.rawData)];
@@ -566,8 +566,8 @@ export default {
             let heatRectData = [];
             let rawRectData = [];
             let errorRectData = [];
-            // let heatColor = interpolateYlOrRd;
-            let heatColor = interpolateRdBu;
+            let heatColor = interpolateYlOrRd;
+            // let heatColor = interpolateRdBu;
             let rawDataScale = scaleLinear(rawRange, [0, 1]);
             let errorDataScale = scaleLinear(errorRange, [0, 1]);
             let heatScale = scaleLinear([0, 14], [0, 1]);
