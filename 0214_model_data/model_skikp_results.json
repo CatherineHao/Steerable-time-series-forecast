@@ -124,5 +124,131 @@
                 "file_name": "rolling6_skip1_0.8.csv"
             }
         ]
+    },
+    {
+        "dataset_name": "rolling3",
+        "epochs": 200,
+        "train_period":720,
+        "test_period": 120,
+        "ratio": 0.8,
+        "predic_info":[
+            {
+                "input_shape": "(270,720,1)",
+                "output_shape": "(270,120)",
+                "skip": 6,
+                "result numbers": 270,
+                "loss=mean_squared_error": 0.0056,
+                "val_loss=val_mse": 0.0168,
+                "file_name": "rolling3_skip6_0.8.csv"
+            },
+            {
+                "input_shape": "(324,720,1)",
+                "output_shape": "(324,120)",
+                "skip": 5,
+                "result numbers": 324,
+                "loss=mean_squared_error": 0.0074,
+                "val_loss=val_mse": 0.0180,
+                "file_name": "rolling3_skip5_0.8.csv"
+            },
+            {
+                "input_shape": "(405,720,1)",
+                "output_shape": "(405,120)",
+                "skip": 4,
+                "result numbers": 405,
+                "loss=mean_squared_error": 0.0076,
+                "val_loss=val_mse": 0.0190,
+                "file_name": "rolling3_skip4_0.8.csv"
+            },
+            {
+                "input_shape": "(540,720,1)",
+                "output_shape": "(540,120)",
+                "skip": 3,
+                "result numbers": 540,
+                "loss=mean_squared_error": 0.0059,
+                "val_loss=val_mse": 0.0246,
+                "file_name": "rolling3_skip3_0.8.csv"
+            },
+            {
+                "input_shape": "(810,720,1)",
+                "output_shape": "(810,120)",
+                "skip": 2,
+                "result numbers": 810,
+                "loss=mean_squared_error": 0.0044,
+                "val_loss=val_mse": 0.0252,
+                "file_name": "rolling3_skip2_0.8.csv"
+            },
+            {
+                "input_shape": "(1620,720,1)",
+                "output_shape": "(1620,120)",
+                "skip": 1,
+                "result numbers": 1620,
+                "loss=mean_squared_error": 0.0040,
+                "val_loss=val_mse": 0.0427,
+                "file_name": "rolling3_skip1_0.8.csv"
+            }
+        ]
+    },
+    {
+        "dataset_name": "weighted3",
+        "epochs": 200,
+        "train_period":720,
+        "test_period": 120,
+        "ratio": 0.8,
+        "predic_info":[
+            {
+                "input_shape": "(270,720,1)",
+                "output_shape": "(270,120)",
+                "skip": 6,
+                "result numbers": 270,
+                "loss=mean_squared_error": 0.0067,
+                "val_loss=val_mse": 0.0410,
+                "file_name": "weighted3_skip6_0.8.csv"
+            },
+            {
+                "input_shape": "(324,720,1)",
+                "output_shape": "(324,120)",
+                "skip": 5,
+                "result numbers": 324,
+                "loss=mean_squared_error": 0.0070,
+                "val_loss=val_mse": 0.0246,
+                "file_name": "weighted3_skip5_0.8.csv"
+            },
+            {
+                "input_shape": "(405,720,1)",
+                "output_shape": "(405,120)",
+                "skip": 4,
+                "result numbers": 405,
+                "loss=mean_squared_error": 0.0052,
+                "val_loss=val_mse": 0.0370,
+                "file_name": "weighted3_skip4_0.8.csv"
+            },
+            {
+                "input_shape": "(540,720,1)",
+                "output_shape": "(540,120)",
+                "skip": 3,
+                "result numbers": 540,
+                "loss=mean_squared_error": 0.0059,
+                "val_loss=val_mse": 0.0212,
+                "file_name": "weighted3_skip3_0.8.csv"
+            },
+            {
+                "input_shape": "(810,720,1)",
+                "output_shape": "(810,120)",
+                "skip": 2,
+                "result numbers": 810,
+                "loss=mean_squared_error": 0.0193,
+                "val_loss=val_mse": 0.0209,
+                "file_name": "weighted3_skip2_0.8.csv"
+            },
+            {
+                "input_shape": "(1620,720,1)",
+                "output_shape": "(1620,120)",
+                "skip": 1,
+                "result numbers": 1620,
+                "loss=mean_squared_error": 0.0069,
+                "val_loss=val_mse": 0.0249,
+                "file_name": "weighted3_skip1_0.8.csv"
+            }
+        ]
     }
 ]
