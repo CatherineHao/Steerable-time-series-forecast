@@ -45,9 +45,9 @@
             <svg id="modelExplainer" height="100%" width="100%">
 
                 <g>
-                    <text v-if="runTag" font-weight="bold" x="15" y="15" font-size="20">Correlation</text>
-                    <text v-if="runTag" font-weight="bold" :x="elWidth - 75" :y="elHeight - 35"
-                        font-size="20">RMSE</text>
+                    <text v-if="runTag" font-weight="bold" x="15" y="15" font-size="20">Validation Loss</text>
+                    <text v-if="runTag" font-weight="bold" :x="elWidth - 125" :y="elHeight - 35"
+                        font-size="20">Train Loss</text>
                     <g v-for="(item, i) in xAxis">
                         <path :d="'M ' + item.x + ' ' + item.y + ' L ' + + item.x + ' ' + (item.y - 5)" stroke="black">
                         </path>
@@ -64,7 +64,7 @@
                     </g>
                 </g>
                 <g>
-                    <circle v-for="(item, i) in nodeData" :cx="item.x" :cy="item.y" :r="3" :fill="item.color"></circle>
+                    <circle v-for="(item, i) in nodeData" :cx="item.x" :cy="item.y" :r="3" :fill="item.color" stroke="black"></circle>
                 </g>
             </svg>
         </div>
@@ -75,6 +75,7 @@ import { scaleLinear } from 'd3-scale';
 import { useDataStore } from "../stores/counter";
 import average6Data from "../assets/average6_slice_info.json";
 import { max, min } from 'd3-array';
+import res_data from '../assets/data/model_skip_results.json'
 export default {
     name: 'modelExplainerView',
     props: ['sliceData'],
@@ -86,7 +87,8 @@ export default {
             nodeData: [],
             xAxis: [],
             yAxis: [],
-            tableData: []
+            tableData: [],
+            colormap: ['red', 'steelblue', 'orange', 'yellow']
         }
     },
     methods: {
@@ -115,10 +117,10 @@ export default {
 
         },
         calcAxis (data) {
-            let xRange = scaleLinear([0, 1], [min(data, d => d.mae), max(data, d => d.mae)]);
-            let yRange = scaleLinear([0, 1], [min(data, d => d.acf), max(data, d => d.acf)]);
-            const xScale = scaleLinear([min(data, d => d.mae), max(data, d => d.mae)], [30, this.elWidth - 20]);
-            const yScale = scaleLinear([min(data, d => d.acf), max(data, d => d.acf)], [this.elHeight - 30, 20]);
+            let xRange = scaleLinear([0, 1], [min(data, d => d.x), max(data, d => d.x)]);
+            let yRange = scaleLinear([0, 1], [min(data, d => d.y), max(data, d => d.y)]);
+            const xScale = scaleLinear([min(data, d => d.x), max(data, d => d.x)], [30, this.elWidth - 20]);
+            const yScale = scaleLinear([min(data, d => d.y), max(data, d => d.y)], [this.elHeight - 30, 20]);
             let xAxis = [];
             let yAxis = [];
             for (let i = 0; i <= 10; ++i) {
@@ -139,11 +141,11 @@ export default {
         calcNode (data) {
 
             let nodeData = [];
-            const xScale = scaleLinear([min(data, d => d.mae), max(data, d => d.mae)], [30, this.elWidth - 20]);
-            const yScale = scaleLinear([min(data, d => d.acf), max(data, d => d.acf)], [this.elHeight - 30, 20]);
+            const xScale = scaleLinear([min(data, d => d.x), max(data, d => d.x)], [30, this.elWidth - 20]);
+            const yScale = scaleLinear([min(data, d => d.y), max(data, d => d.y)], [this.elHeight - 30, 20]);
             for (let i = 0; i < data.length; ++i) {
-                let rx = data[i].mae;
-                let ry = data[i].acf;
+                let rx = data[i].x;
+                let ry = data[i].y;
                 nodeData.push({
                     x: xScale(rx),
                     y: yScale(ry),
@@ -186,21 +188,34 @@ export default {
         const dataStore = useDataStore();
         // dataStore.$subscribe((mutation, state) => {
         let nodeData = []
-        for (let d of this.sliceData[0]['sub slice']) {
-            nodeData.push({
-                color: 'red',
-                mae: d['MAE'],
-                acf: d['acf'],
-                pacf: d['pacf']
-            })
-        }
-        for (let d of average6Data[0]['sub slice']) {
-            nodeData.push({
-                color: 'blue',
-                mae: d['MAE'],
-                acf: d['acf'],
-                pacf: d['pacf']
-            })
+        console.log(res_data);
+        // for (let d of this.sliceData[0]['sub slice']) {
+        //     nodeData.push({
+        //         color: 'red',
+        //         mae: d['MAE'],
+        //         acf: d['acf'],
+        //         pacf: d['pacf']
+        //     })
+        // }
+        // for (let d of average6Data[0]['sub slice']) {
+        //     nodeData.push({
+        //         color: 'blue',
+        //         mae: d['MAE'],
+        //         acf: d['acf'],
+        //         pacf: d['pacf']
+        //     })
+        // }
+        let cnt = 0;
+        for (let d of res_data) {
+            for (let t of d['predic_info']) {
+                nodeData.push({
+                    x: t['loss=mean_squared_error'],
+                    y: t['val_loss=val_mse'],
+                    color: this.colormap[cnt]
+                });
+            }
+            cnt++
+            console.log(cnt)
         }
         this.runTag = true;
         this.nodeData = this.calcNode(nodeData);
