@@ -17,14 +17,14 @@
             <DataTransformation :timeData="timeData" :sliceData="sliceData"/>
         </div>
         <div class="framework" id="ModelExplainer"
-            style="position: absolute; left: calc(10px); top: calc(27vh + 5px); height: calc(67vh - 15px); width: calc(40vw - 17.5px);">
+            style="position: absolute; left: calc(10px); top: calc(54vh + 5px); height: calc(40vh - 15px); width: calc(40vw - 17.5px);">
             <ModelExplainer :sliceData="sliceData"/>
         </div>
-        <!-- <div class="framework" id="CorrelationView"
+        <div class="framework" id="CorrelationView"
             style="position: absolute; left: calc(10px);  top: calc(27vh + 5px); height: calc(27vh - 20px); width: calc(3vw + (50vw - 17.5px) / 2 - 7.5px);">
             <CorrelationView />
         </div>
-        <div class="framework" id="UnitView"
+        <!-- <div class="framework" id="UnitView"
             style="position: absolute; left: calc(10px + 3vw + (50vw - 17.5px) / 2 + 7.5px);  top: calc(27vh + 5px); height: calc(27vh - 20px); width: calc((50vw - 17.5px) / 2 - 3vw - 7.5px);">
         <UnitView/>
         </div> -->
