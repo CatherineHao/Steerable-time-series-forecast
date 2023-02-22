@@ -687,7 +687,7 @@ export default {
                     t: tag,
                     x: hd.x,
                     w: hd.w,
-                    h: this.elHeight / 22 - 10,
+                    h: this.elHeight / 22 - 3,
                     // color: (heatScale(hd.rawData, hd.errorData))
                     raw: hd.rawData,
                     error: hd.errorData
@@ -696,7 +696,7 @@ export default {
                     t: tag,
                     x: hd.x,
                     w: hd.w,
-                    h: this.elHeight / 22 - 10,
+                    h: this.elHeight / 22 - 3,
                     // color: heatColor(rawDataScale(hd.rawData))
                     raw: hd.rawData,
                     error: hd.errorData
@@ -706,7 +706,7 @@ export default {
                     t: tag,
                     x: hd.x,
                     w: hd.w,
-                    h: this.elHeight / 22 - 10,
+                    h: this.elHeight / 22 - 3,
                     // color: heatColor(errorDataScale(hd.errorData))
                     raw: hd.rawData,
                     error: hd.errorData
