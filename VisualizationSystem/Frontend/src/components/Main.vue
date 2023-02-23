@@ -2,32 +2,32 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2022-11-20 23:25:35
- * @LastEditTime: 2023-02-02 13:12:07
+ * @LastEditTime: 2023-02-18 20:11:49
 -->
 <template>
     <div id="navBar">DataTransAnalyzer</div>
     <div style="height: calc(94vh - 0px); width: calc(100% - 0px);">
         <div class="framework" id="controlPanel"
-            style="position: absolute; left: calc(10px); top: calc(10px); height: calc(27vh - 20px); width: calc(50vw - 17.5px);">
+            style="position: absolute; left: calc(10px); top: calc(10px); height: calc(27vh - 20px); width: calc(40vw - 17.5px);">
             <!-- <ReasoningView /> -->
             <ControlPanel :basicData="basicData"/>
         </div>
         <div class="framework" id="DataTransformation"
-            style="position: absolute; left: calc(10px + 50vw - 17.5px + 15px); top: calc(10px); height: calc(94vh - 20px); width: calc(50vw - 17.5px);">
+            style="position: absolute; left: calc(10px + 40vw - 17.5px + 15px); top: calc(10px); height: calc(94vh - 20px); width: calc(60vw - 17.5px);">
             <DataTransformation :timeData="timeData" :sliceData="sliceData"/>
         </div>
         <div class="framework" id="ModelExplainer"
-            style="position: absolute; left: calc(10px); top: calc(54vh - 30px + 20px + 10px); height: calc(40vh - 10px); width: calc(50vw - 17.5px);">
+            style="position: absolute; left: calc(10px); top: calc(54vh + 5px); height: calc(40vh - 15px); width: calc(40vw - 17.5px);">
             <ModelExplainer :sliceData="sliceData"/>
         </div>
         <div class="framework" id="CorrelationView"
             style="position: absolute; left: calc(10px);  top: calc(27vh + 5px); height: calc(27vh - 20px); width: calc(3vw + (50vw - 17.5px) / 2 - 7.5px);">
             <CorrelationView />
         </div>
-        <div class="framework" id="UnitView"
+        <!-- <div class="framework" id="UnitView"
             style="position: absolute; left: calc(10px + 3vw + (50vw - 17.5px) / 2 + 7.5px);  top: calc(27vh + 5px); height: calc(27vh - 20px); width: calc((50vw - 17.5px) / 2 - 3vw - 7.5px);">
         <UnitView/>
-        </div>
+        </div> -->
     </div>
 </template>
 <script>

@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-02-02 15:10:22
+ * @LastEditTime: 2023-02-18 20:36:39
 -->
 <template>
     <div class="frameworkTitle">
@@ -10,62 +10,36 @@
         <p class="titleTriangle"></p>
     </div>
     <div class="frameworkBody">
-        <div ref="modelTable"
-            style="height: 100%; width: calc(50% - 7.5px + 30px); float: left; overflow:auto; font-size: 18px;">
-            <el-table :data="tableData" style="width: 100%" height="100%"
-                :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
-                :cell-style="{ 'text-align': 'center', 'background-color': 'rgba(250, 250, 250, 1)', 'font-size': '16px' }">
-                <el-table-column type="expand">
-                    <template #default="props">
-                        <div m="4">
-                            <!-- <p m="t-0 b-2">State: {{ props.row.state }}</p>
-                            <p m="t-0 b-2">City: {{ props.row.city }}</p>
-                            <p m="t-0 b-2">Address: {{ props.row.address }}</p>
-                            <p m="t-0 b-2">Zip: {{ props.row.zip }}</p>
-                            <h3>Family</h3> -->
-                            <el-table :data="props.row['sub_slice']" stripe style="width: 100%; float: right;"
-                                height="200" :table-layout="'auto'" :header-cell-style="{ 'text-align': 'center' }"
-                                :cell-style="{ 'text-align': 'center' }">
-                                <el-table-column label="ID" prop="slice_num" />
-                                <el-table-column label="MAE" prop="MAE" />
-                                <el-table-column label="STD" prop="STD" />
-                                <el-table-column label="MEAN" prop="Mean" />
-                                <el-table-column label="BEGIN" prop="train_begin" />
-                                <el-table-column label="END" prop="test_end" />
+        <!-- <div ref="modelTable"
+                                                            style="height: 100%; width: calc(50% - 7.5px + 30px); float: left; overflow:auto; font-size: 18px;">
+                                                            <el-table :data="tableData" style="width: 100%" height="100%"
+                                                                :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
+                                                                :cell-style="{ 'text-align': 'center', 'background-color': 'rgba(250, 250, 250, 1)', 'font-size': '16px' }">
+                                                                <el-table-column type="expand">
+                                                                    <template #default="props">
+                                                                        <div m="4">
+                                                                            <el-table :data="props.row['sub_slice']" stripe style="width: 100%; float: right;"
+                                                                                height="200" :table-layout="'auto'" :header-cell-style="{ 'text-align': 'center' }"
+                                                                                :cell-style="{ 'text-align': 'center' }">
+                                                                                <el-table-column label="ID" prop="slice_num" />
+                                                                                <el-table-column label="MAE" prop="MAE" />
+                                                                                <el-table-column label="STD" prop="STD" />
+                                                                                <el-table-column label="MEAN" prop="Mean" />
+                                                                                <el-table-column label="BEGIN" prop="train_begin" />
+                                                                                <el-table-column label="END" prop="test_end" />
 
-                            </el-table>
-                        </div>
-                    </template>
-                </el-table-column>
-                <el-table-column label="Slice number" prop="slice_number" />
-                <el-table-column label="Smooth" prop="smooth" />
-            </el-table>
-        </div>
-        <div ref="modelExplainer" style="height: 100%; width: calc(50% - 7.5px - 30px); float: right;">
+                                                                            </el-table>
+                                                                        </div>
+                                                                    </template>
+                                                                </el-table-column>
+                                                                <el-table-column label="Slice number" prop="slice_number" />
+                                                                <el-table-column label="Smooth" prop="smooth" />
+                                                            </el-table>
+                                                        </div> -->
+        <div ref="modelExplainer" style="height: 100%; width: calc(100%); float: left;">
             <svg id="modelExplainer" height="100%" width="100%">
 
-                <g>
-                    <text v-if="runTag" font-weight="bold" x="15" y="15" font-size="20">Validation Loss</text>
-                    <text v-if="runTag" font-weight="bold" :x="elWidth - 125" :y="elHeight - 35"
-                        font-size="20">Train Loss</text>
-                    <g v-for="(item, i) in xAxis">
-                        <path :d="'M ' + item.x + ' ' + item.y + ' L ' + + item.x + ' ' + (item.y - 5)" stroke="black">
-                        </path>
-                        <path :d="'M ' + item.x + ' ' + item.y + ' L ' + + item.x + ' ' + (20)"
-                            stroke="rgba(229, 229, 229)" stroke-dasharray="0"></path>
-                        <text :x="item.x" :y="elHeight - 10" dx="-0em" text-anchor="middle">{{ item.t }}</text>
-                    </g>
-                    <g v-for="(item, i) in yAxis">
-                        <path :d="'M ' + (item.x + 25) + ' ' + item.y + ' L ' + + (item.x + 30) + ' ' + (item.y)"
-                            stroke="black"></path>
-                        <path :d="'M ' + (elWidth - 20) + ' ' + item.y + ' L ' + + (item.x + 30) + ' ' + (item.y)"
-                            stroke="rgba(229, 229, 229)" stroke-dasharray="0"></path>
-                        <text :x="0" :y="item.y" dy="0.3em">{{ item.t }}</text>
-                    </g>
-                </g>
-                <g>
-                    <circle v-for="(item, i) in nodeData" :cx="item.x" :cy="item.y" :r="3" :fill="item.color" stroke="black"></circle>
-                </g>
+                
             </svg>
         </div>
     </div>
@@ -81,14 +55,8 @@ export default {
     props: ['sliceData'],
     data () {
         return {
-            runTag: false,
             elHeight: 0,
             elWidth: 0,
-            nodeData: [],
-            xAxis: [],
-            yAxis: [],
-            tableData: [],
-            colormap: ['red', 'steelblue', 'orange', 'yellow']
         }
     },
     methods: {
@@ -115,69 +83,6 @@ export default {
                 return v;
             }
 
-        },
-        calcAxis (data) {
-            let xRange = scaleLinear([0, 1], [min(data, d => d.x), max(data, d => d.x)]);
-            let yRange = scaleLinear([0, 1], [min(data, d => d.y), max(data, d => d.y)]);
-            const xScale = scaleLinear([min(data, d => d.x), max(data, d => d.x)], [30, this.elWidth - 20]);
-            const yScale = scaleLinear([min(data, d => d.y), max(data, d => d.y)], [this.elHeight - 30, 20]);
-            let xAxis = [];
-            let yAxis = [];
-            for (let i = 0; i <= 10; ++i) {
-                xAxis.push({
-                    t: xRange(i / 10).toFixed(2),
-                    x: xScale(xRange(i / 10)),
-                    y: this.elHeight - 25,
-                    // d: 
-                });
-                yAxis.push({
-                    t: (yRange(i / 10)).toFixed(2),
-                    y: yScale(yRange(i / 10)),
-                    x: 0
-                });
-            }
-            return [xAxis, yAxis];
-        },
-        calcNode (data) {
-
-            let nodeData = [];
-            const xScale = scaleLinear([min(data, d => d.x), max(data, d => d.x)], [30, this.elWidth - 20]);
-            const yScale = scaleLinear([min(data, d => d.y), max(data, d => d.y)], [this.elHeight - 30, 20]);
-            for (let i = 0; i < data.length; ++i) {
-                let rx = data[i].x;
-                let ry = data[i].y;
-                nodeData.push({
-                    x: xScale(rx),
-                    y: yScale(ry),
-                    r: [rx, ry],
-                    color: data[i].color,
-                });
-            }
-            return nodeData;
-        },
-        calcTableData (data) {
-            let tData = new Array();
-            for (const d of data) {
-                let td = [];
-                for (let i in d['sub slice']) {
-                    let tmpD = {}
-                    for (let k in d['sub slice'][i]) {
-                        let tmp = d['sub slice'][i][k]
-                        if (k == "Mean" || k == "STD" || k == 'MAE') {
-                            tmp = this.formatNum(tmp);
-                        }
-                        tmpD[k] = tmp;
-                    }
-                    td.push(tmpD);
-                }
-                let tdata = {
-                    slice_number: d['slice_info']['slice_number'] + '-slice',
-                    smooth: '13-Average',
-                    sub_slice: td
-                }
-                tData.push(tdata);
-            }
-            return tData;
         }
     },
     created () {
@@ -185,53 +90,11 @@ export default {
     mounted () {
         this.elHeight = this.$refs.modelExplainer.offsetHeight;
         this.elWidth = this.$refs.modelExplainer.offsetWidth;
-        const dataStore = useDataStore();
-        // dataStore.$subscribe((mutation, state) => {
-        let nodeData = []
-        console.log(res_data);
-        // for (let d of this.sliceData[0]['sub slice']) {
-        //     nodeData.push({
-        //         color: 'red',
-        //         mae: d['MAE'],
-        //         acf: d['acf'],
-        //         pacf: d['pacf']
-        //     })
-        // }
-        // for (let d of average6Data[0]['sub slice']) {
-        //     nodeData.push({
-        //         color: 'blue',
-        //         mae: d['MAE'],
-        //         acf: d['acf'],
-        //         pacf: d['pacf']
-        //     })
-        // }
-        let cnt = 0;
-        for (let d of res_data) {
-            for (let t of d['predic_info']) {
-                nodeData.push({
-                    x: t['loss=mean_squared_error'],
-                    y: t['val_loss=val_mse'],
-                    color: this.colormap[cnt]
-                });
-            }
-            cnt++
-            console.log(cnt)
-        }
-        this.runTag = true;
-        this.nodeData = this.calcNode(nodeData);
-        // console.log(this.nodeData);
-        [this.xAxis, this.yAxis] = this.calcAxis(nodeData);
-        this.tableData = this.calcTableData(this.sliceData);
-        // })
-
-        // this.nodeData = this.calcNode(1);
-        // // console.log(this.nodeData);
-        // [this.xAxis, this.yAxis] = this.calcAxis();
-        // this.tableData = this.calcTableData(this.sliceData);
-
-        // console.log(this.tableData);
-        // console.log(this.xAxis, this.yAxis)
+        
     },
+    watch: {
+        
+    }
 }
 </script>
 <style>
