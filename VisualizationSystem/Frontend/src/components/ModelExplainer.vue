@@ -11,35 +11,41 @@
     </div>
     <div class="frameworkBody">
         <!-- <div ref="modelTable"
-                                                            style="height: 100%; width: calc(50% - 7.5px + 30px); float: left; overflow:auto; font-size: 18px;">
-                                                            <el-table :data="tableData" style="width: 100%" height="100%"
-                                                                :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
-                                                                :cell-style="{ 'text-align': 'center', 'background-color': 'rgba(250, 250, 250, 1)', 'font-size': '16px' }">
-                                                                <el-table-column type="expand">
-                                                                    <template #default="props">
-                                                                        <div m="4">
-                                                                            <el-table :data="props.row['sub_slice']" stripe style="width: 100%; float: right;"
-                                                                                height="200" :table-layout="'auto'" :header-cell-style="{ 'text-align': 'center' }"
-                                                                                :cell-style="{ 'text-align': 'center' }">
-                                                                                <el-table-column label="ID" prop="slice_num" />
-                                                                                <el-table-column label="MAE" prop="MAE" />
-                                                                                <el-table-column label="STD" prop="STD" />
-                                                                                <el-table-column label="MEAN" prop="Mean" />
-                                                                                <el-table-column label="BEGIN" prop="train_begin" />
-                                                                                <el-table-column label="END" prop="test_end" />
+                                                                            style="height: 100%; width: calc(50% - 7.5px + 30px); float: left; overflow:auto; font-size: 18px;">
+                                                                            <el-table :data="tableData" style="width: 100%" height="100%"
+                                                                                :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
+                                                                                :cell-style="{ 'text-align': 'center', 'background-color': 'rgba(250, 250, 250, 1)', 'font-size': '16px' }">
+                                                                                <el-table-column type="expand">
+                                                                                    <template #default="props">
+                                                                                        <div m="4">
+                                                                                            <el-table :data="props.row['sub_slice']" stripe style="width: 100%; float: right;"
+                                                                                                height="200" :table-layout="'auto'" :header-cell-style="{ 'text-align': 'center' }"
+                                                                                                :cell-style="{ 'text-align': 'center' }">
+                                                                                                <el-table-column label="ID" prop="slice_num" />
+                                                                                                <el-table-column label="MAE" prop="MAE" />
+                                                                                                <el-table-column label="STD" prop="STD" />
+                                                                                                <el-table-column label="MEAN" prop="Mean" />
+                                                                                                <el-table-column label="BEGIN" prop="train_begin" />
+                                                                                                <el-table-column label="END" prop="test_end" />
 
+                                                                                            </el-table>
+                                                                                        </div>
+                                                                                    </template>
+                                                                                </el-table-column>
+                                                                                <el-table-column label="Slice number" prop="slice_number" />
+                                                                                <el-table-column label="Smooth" prop="smooth" />
                                                                             </el-table>
-                                                                        </div>
-                                                                    </template>
-                                                                </el-table-column>
-                                                                <el-table-column label="Slice number" prop="slice_number" />
-                                                                <el-table-column label="Smooth" prop="smooth" />
-                                                            </el-table>
-                                                        </div> -->
+                                                                        </div> -->
         <div ref="modelExplainer" style="height: 100%; width: calc(100%); float: left;">
             <svg id="modelExplainer" height="100%" width="100%">
-
-                
+                <g id="axis_g">
+                    <g id="x_axis_g" :transform="translate(0, elHeight - 18, 0)"></g>
+                    <g id="y_axis_g" :transform="translate(30, 0, 0)"></g>
+                </g>
+                <g id="scatter">
+                    <!-- <circle v-for="(o, i) in dot_data" :key="'cir' + i" :id="'cir' + i" :cx="o.x" :cy="o.y" :r="1"
+                            fill="orange"></circle> -->
+                </g>
             </svg>
         </div>
     </div>
@@ -50,6 +56,49 @@ import { useDataStore } from "../stores/counter";
 import average6Data from "../assets/average6_slice_info.json";
 import { max, min } from 'd3-array';
 import res_data from '../assets/data/model_skip_results.json'
+
+// data import
+import d0 from '../assets/explaindata/rawdata_skip13_0.8.csv';
+import d1 from '../assets/explaindata/rawdata_skip1_0.8.csv';
+import d2 from '../assets/explaindata/rawdata_skip3_0.8.csv';
+import d3 from '../assets/explaindata/rawdata_skip6_0.8.csv';
+import d4 from '../assets/explaindata/rolling13_skip13_0.8.csv';
+import d5 from '../assets/explaindata/rolling13_skip1_0.8.csv';
+import d6 from '../assets/explaindata/rolling13_skip3_0.8.csv';
+import d7 from '../assets/explaindata/rolling13_skip6_0.8.csv';
+import d8 from '../assets/explaindata/rolling3_skip13_0.8.csv';
+import d9 from '../assets/explaindata/rolling3_skip1_0.8.csv';
+import d10 from '../assets/explaindata/rolling3_skip3_0.8.csv';
+import d11 from '../assets/explaindata/rolling3_skip6_0.8.csv';
+import d12 from '../assets/explaindata/rolling6_skip13_0.8.csv';
+import d13 from '../assets/explaindata/rolling6_skip1_0.8.csv';
+import d14 from '../assets/explaindata/rolling6_skip3_0.8.csv';
+import d15 from '../assets/explaindata/rolling6_skip6_0.8.csv';
+import d16 from '../assets/explaindata/rolling9_skip13_0.8.csv';
+import d17 from '../assets/explaindata/rolling9_skip1_0.8.csv';
+import d18 from '../assets/explaindata/rolling9_skip3_0.8.csv';
+import d19 from '../assets/explaindata/rolling9_skip6_0.8.csv';
+import d20 from '../assets/explaindata/weighted13_skip13_0.8.csv';
+import d21 from '../assets/explaindata/weighted13_skip1_0.8.csv';
+import d22 from '../assets/explaindata/weighted13_skip3_0.8.csv';
+import d23 from '../assets/explaindata/weighted13_skip6_0.8.csv';
+import d24 from '../assets/explaindata/weighted3_skip13_0.8.csv';
+import d25 from '../assets/explaindata/weighted3_skip1_0.8.csv';
+import d26 from '../assets/explaindata/weighted3_skip3_0.8.csv';
+import d27 from '../assets/explaindata/weighted3_skip6_0.8.csv';
+import d28 from '../assets/explaindata/weighted6_skip13_0.8.csv';
+import d29 from '../assets/explaindata/weighted6_skip1_0.8.csv';
+import d30 from '../assets/explaindata/weighted6_skip3_0.8.csv';
+import d31 from '../assets/explaindata/weighted6_skip6_0.8.csv';
+import d32 from '../assets/explaindata/weighted9_skip13_0.8.csv';
+import d33 from '../assets/explaindata/weighted9_skip1_0.8.csv';
+import d34 from '../assets/explaindata/weighted9_skip3_0.8.csv';
+import d35 from '../assets/explaindata/weighted9_skip6_0.8.csv';
+import { axisBottom, axisLeft } from 'd3-axis';
+// import time from 'd3-scale/src/time';
+import { select, selectAll } from 'd3-selection';
+import { line } from 'd3-shape';
+
 export default {
     name: 'modelExplainerView',
     props: ['sliceData'],
@@ -57,6 +106,8 @@ export default {
         return {
             elHeight: 0,
             elWidth: 0,
+            skip_length: [13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6],
+            dot_data: []
         }
     },
     methods: {
@@ -82,7 +133,89 @@ export default {
                 }
                 return v;
             }
+        },
+        calcScatter (data) {
+            let sdata = [];
+            let maxRmse = -999999;
+            let minRmse = 999999;
+            let maxTime = -999999;
+            let lineData = [];
+            for (let i in data) {
+                let startPos = 840;
+                let tp = [];
+                for (let j in data[i]) {
+                    sdata.push({
+                        id: i,
+                        time: j * this.skip_length[i] + startPos,
+                        rmse: parseFloat(data[i][j]['rmse'])
+                    });
+                    tp.push({
+                        id: i,
+                        time: j * this.skip_length[i] + startPos,
+                        rmse: parseFloat(data[i][j]['rmse'])
+                    });
+                    maxTime = Math.max(maxTime, j * this.skip_length[i] + startPos);
+                    maxRmse = Math.max(maxRmse, parseFloat(data[i][j]['rmse']));
+                    minRmse = Math.min(minRmse, parseFloat(data[i][j]['rmse']));
+                }
+                lineData.push(tp);
+            }
+            let rmseScale = scaleLinear([minRmse, maxRmse], [this.elHeight - 18, 10]);
+            let timeScale = scaleLinear([840, maxTime], [30, this.elWidth - 20]);
+            let xAxis = axisBottom(timeScale).ticks(10);
+            let yAxis = axisLeft(rmseScale).ticks(10);
+            select("#x_axis_g").call(xAxis);
+            select("#y_axis_g").call(yAxis);
+            for (let i in sdata) {
+                sdata[i].x = timeScale(sdata[i].time);
+                sdata[i].y = rmseScale(sdata[i].rmse);
+            }
+            let lineGenerate = line().x(d => timeScale(d.time)).y(d => rmseScale(d.rmse));
 
+            let lres = [];
+            for (let i in lineData) {
+                lres.push({
+                    d: lineGenerate(lineData[i]),
+                    id: i
+                });
+            }
+
+            select('#scatter').append('g')
+                .selectAll('#res_p')
+                .attr('id', 'res_p')
+                .data(lres)
+                .enter()
+                .append('path')
+                .attr('class', 'p_x')
+                .attr('d', d => d.d)
+                .attr('fill', 'none')
+                .attr('stroke', (d, i) => {
+                    // if (i == 10)
+                    return 'black'
+                    return 'none'
+                })
+                .on('mouseover', (e, d, i) => {
+                    // console.log(d, i);
+                    // console.log(d);
+
+                    select('#rst' + d.id).attr('stroke-width', 3);
+
+                    selectAll('.p_x').attr('opacity', (td, ti) => {
+                        // console.log(td);
+                        if (d.id == td.id) {
+                            return 1;
+                        }
+                        return 0;
+                    })
+                })
+                .on('mouseout', (e, d, i) => {
+                    selectAll('.p_x').attr('opacity', 1)
+                    select('#rst' + d.id).attr('stroke-width', 0);
+
+                })
+
+
+            return sdata;
         }
     },
     created () {
@@ -90,10 +223,13 @@ export default {
     mounted () {
         this.elHeight = this.$refs.modelExplainer.offsetHeight;
         this.elWidth = this.$refs.modelExplainer.offsetWidth;
-        
+        // console.log(dataX);
+        let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35];
+        this.dot_data = this.calcScatter(dataSet);
+
     },
     watch: {
-        
+
     }
 }
 </script>
