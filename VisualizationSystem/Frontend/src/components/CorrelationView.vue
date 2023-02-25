@@ -32,7 +32,7 @@
 
             <svg id="CorrelationView" height="100%" width="100%">
                 <text v-for="(item, i) in smooth" :key="'sm' + i" x="0" y="0"
-                    :transform="translate(70 + i * (elWidth - 40) / 9, 20, -10)" text-anchor="middle">{{ item }}</text>
+                    :transform="translate(55 + i * (elWidth - 60) / 9 + (elWidth - 60) / 18, 20, -10)" text-anchor="middle">{{ item }}</text>
                 <text v-for="(item, i) in sample" :key="'sa' + i" x="0"
                     :y="i * (elHeight - 30) / 4 + 30 + (elHeight - 30) / 8" font-size="16">{{ item }}</text>
                 <g :transform="translate(55, 30, 0)">
@@ -54,9 +54,9 @@ export default {
     props: [],
     data () {
         return {
-            elHeight: 0,
-            elWidth: 0,
-            sample: ['skip-1', 'skip-3', 'skip-6', 'skip-13'],
+            elHeight: 100,
+            elWidth: 100,
+            sample: ['skip-13', 'skip-6', 'skip-3', 'skip-1'],
             smooth: ['raw', 'rolling3', 'rolling6', 'rolling9', 'rolling13', 'weighted3', 'weighted6', 'weighted9', 'weighted13'],
             legendRect: [],
             mData: [],
@@ -106,6 +106,7 @@ export default {
                     let tmp = new Object();
                     tmp['dataset_name'] = data[i].dataset_name;
                     tmp['skip'] = d.skip;
+                    // console.log(d.skip);
                     tmp['train'] = d['loss=mean_squared_error'];
                     tmp['test'] = d['val_loss=val_mse'];
                     max_loss = Math.max(max_loss, tmp['train']);
