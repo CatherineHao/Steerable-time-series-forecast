@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-02-20 10:12:00
+ * @LastEditTime: 2023-02-24 22:29:08
 -->
 <template>
     <div class="frameworkTitle" style="padding-right: 10px;">
@@ -12,12 +12,12 @@
             <span>Metric: </span>
             <el-select v-model="heatTag" class="m-2" placeholder="Select" style="width: 150px;">
                 <el-option v-for="item in heatOptions" :key="item" :label="item" :value="item" />
-            </el-select>
-        </div>
+        </el-select>
     </div>
-    <div class="frameworkBody">
-        <div ref="DataTransformation" style="height: calc(50%); width: 100%;">
-            <!-- <el-table :data="tableData" style="width: 100%" height="100%"
+</div>
+<div class="frameworkBody">
+    <div ref="DataTransformation" style="height: calc(50%); width: 100%;">
+        <!-- <el-table :data="tableData" style="width: 100%" height="100%"
                                                                                                             :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
                                                                                                             :cell-style="{ 'text-align': 'center', 'backgro und-color': 'rgba(250, 250, 250, 1)', 'font-size': '16px' }">
                                                                                                             <el-table-column type="expand">
@@ -52,44 +52,45 @@
                                                                                                                     <svg height="30" width="100%">
                                                                                                                         <rect v-for="(item, item_i) in scope.row.bar_data" :key="'heat_' + item_i"
                                                                                                                             :x="(elWidth - 250) / scope.row.slice_num * item_i" :y="8"
-                                                                                                                            :width="(elWidth - 250) / scope.row.slice_num" :height="20" :fill="item.test.fill">
-                                                                                                                        </rect>
+                                                                                                                                        :width="(elWidth - 250) / scope.row.slice_num" :height="20" :fill="item.test.fill">
+                                                                                                                                    </rect>
                                                                                                                     </svg>
                                                                                                                 </template>
                                                                                                             </el-table-column>
                                                                                                         </el-table> -->
 
-            <!-- <el-table :data="heatRectData" style="width: 100%" border height="100%"
+        <!-- <el-table :data="heatRectData" style="width: 100%" border height="100%"
                                                                                                         :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
                                                                                                         :cell-style="{ 'text-align': 'center', 'background-color': 'rgba(250, 250, 250, 1)', 'font-size': '16px' }">
                                                                                                         <el-table-column label="Heatmap" prop="heat_data">
                                                                                                             <template #default="scope">
                                                                                                                 <svg height="30" width="100%">
                                                                                                                     <rect v-for="(item, item_i) in scope.row['heat']" :key="'heat_' + item_i" :x="item.x" :y="0"
-                                                                                                                        :width="item.w" :height="50" :fill="item.color">
-                                                                                                                    </rect>
-                                                                                                                </svg>
-                                                                                                            </template>
+                                                                                                                                    :width="item.w" :height="50" :fill="item.color">
+                                                                                                                                </rect>
+                                                                                                                            </svg>
+                                                                                                                        </template>
                                                                                                         </el-table-column>
                                                                                                     </el-table> -->
 
 
-            <svg height="100%" width="100%">
+        <svg height="100%" width="100%">
                 <!-- <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)">
-                                                <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
-                                                    :width="item_h.w" :height="item_h.h" :fill="colorScale(item_h.raw, item_h.error, heatTag)"
+                                                            <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
+                                                                :width="item_h.w" :height="item_h.h" :fill="colorScale(item_h.raw, item_h.error, heatTag)"
                                                     @click="timeCompare(item.tag)">
-                                                </rect>
-                                            </g> -->
+                                                            </rect>
+                                                        </g> -->
                 <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)"
                     @mouseenter="selectFile(i)" @mouseout="cancelFile(i)">
                     <!-- <rect :id="'rst' + i" :x="item['heat'][0].x" :y="0" :width="elWidth - 0 - item['heat'][0].x"
-                            :height="item['heat'][0].h" fill="none" stroke="orange" stroke-width="0"></rect> -->
-                    <text font-size="12" text-anchor="end" dx="40em" dy="1em">{{ filename[i] }}</text>
+                                        :height="item['heat'][0].h" fill="none" stroke="orange" stroke-width="0"></rect> -->
+                    <!-- <text font-size="12" text-anchor="end" dx="40em" dy="1em">{{ filename[i] }}</text> -->
                     <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
-                        :width="item_h.w" :height="item_h.h" :fill="item_h.fill">
+                        :width="item_h.w" :height="item_h.h" :fill="item_h.vsupColor">
                     </rect>
                 </g>
+                <g id="legend_g"></g>
                 <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)">
                     <rect :id="'rst' + i" :x="item['heat'][0].x" :y="0" :width="elWidth - 0 - item['heat'][0].x"
                         :height="item['heat'][0].h" fill="none" stroke="orange" stroke-width="0"></rect>
@@ -97,12 +98,12 @@
                 <g v-for="(item, i) in groupPath" :key="'group_g' + i" :transform="translate(0, 0, 0)">
                     <path :d="'M ' + item.x1 + ' ' + item.y1 + ' L ' + item.x2 + ' ' + item.y2" fill="none" stroke="black">
                     </path>
-                </g>
+            </g>
 
-            </svg>
+        </svg>
 
 
-            <!-- <svg id="DataTransformation" height="100%" width="100%">
+        <!-- <svg id="DataTransformation" height="100%" width="100%">
                                                                                                             <!~~ Transformation Tree ~~>
 
                                                                                                             <!~~ <g>
@@ -217,31 +218,31 @@
                                                                                                                 <g v-for="(d, j) in item.bar_data" :key="'single_bar' + j" :transform="translate(0, 20, 0)">
                                                                                                                     <rect :x="d.train.x" :y="5" :height="20" :width="d.train.w" :fill="d.train.fill" :opacity="0.1">
                                                                                                                     </rect>
-                                                                                                                    <path
-                                                                                                                        :d="'M ' + d.test.x1 + ' 5 L ' + d.test.x1 + ' 25 L ' + d.test.x2 + ' 20 L ' + d.test.x2 + ' 10 Z'"
-                                                                                                                        :fill="d.test.fill" :stroke="'black'"></path>
-                                                                                                                </g>
+                                                                                                                                <path
+                                                                                                                                    :d="'M ' + d.test.x1 + ' 5 L ' + d.test.x1 + ' 25 L ' + d.test.x2 + ' 20 L ' + d.test.x2 + ' 10 Z'"
+                                                                                                                                    :fill="d.test.fill" :stroke="'black'"></path>
+                                                                                                                            </g>
                                                                                                             </g>
                                                                                                         </svg> -->
-        </div>
-        <div ref="timeline" style="height: calc(50% - 15px); width: 100%; margin-top: 15px;">
-            <svg id="timeline" height="100%" width="100%">
-                <!-- <g>
-                                                                                                                <g v-for="(item, i) in heatRectData" :key="'r_g' + i" :transform="translate(0, 40 * i, 0)">
-                                                                                                                    <rect v-for="(r_item, r_i) in item" :key="'h_r' + r_i" :x="r_item.x" :y="3" :height="30"
-                                                                                                                        :width="r_item.w" :fill="r_item.color" @click="timeCompare(parseInt(i / 3))"></rect>
-                                                                                                                    <text x="0" y="20">{{ item[0].t }}</text>
+    </div>
+    <div ref="timeline" style="height: calc(50% - 15px); width: 100%; margin-top: 15px;">
+        <svg id="timeline" height="100%" width="100%">
+            <!-- <g>
+                                                                                                                            <g v-for="(item, i) in heatRectData" :key="'r_g' + i" :transform="translate(0, 40 * i, 0)">
+                                                                                                                                <rect v-for="(r_item, r_i) in item" :key="'h_r' + r_i" :x="r_item.x" :y="3" :height="30"
+                                                                                                                                    :width="r_item.w" :fill="r_item.color" @click="timeCompare(parseInt(i / 3))"></rect>
+                                                                                                                                <text x="0" y="20">{{ item[0].t }}</text>
                                                                                                                 </g>
-                                                                                                            </g> -->
+                                                                                                                        </g> -->
                 <g :transform="translate(0, 0, 0)" id="timeline_g">
-                    <g id="raw_line_g" :transform="translate(0, 110, 0)">
-                        <!-- <g v-for="(item, i) in sparkboxData" :key="'box' + i"> -->
+                <g id="raw_line_g" :transform="translate(0, 110, 0)">
+                    <!-- <g v-for="(item, i) in sparkboxData" :key="'box' + i"> -->
                         <!-- <rect :x="item.rect1.x" :y="item.rect1.y" :width="item.rect1.w" :height="item.rect1.h"
-                                                                                                                            fill="#f2f5fa"></rect> -->
+                                                                                                                                        fill="#f2f5fa"></rect> -->
                         <!-- <rect :x="item.rect2.x" :y="item.rect2.y" :width="item.rect2.w" :height="item.rect2.h"  fill="#dce3f3"></rect> -->
                         <!-- <path
-                                                                                                                            :d="'M ' + item.line.x1 + ' ' + item.line.y + ' L ' + item.line.x2 + ' ' + item.line.y"
-                                                                                                                            :fill="'none'" :stroke="'#6d70b6'" stroke-width="3"></path> -->
+                                                                                                                                        :d="'M ' + item.line.x1 + ' ' + item.line.y + ' L ' + item.line.x2 + ' ' + item.line.y"
+                                                                                                                                        :fill="'none'" :stroke="'#6d70b6'" stroke-width="3"></path> -->
                         <!-- </g> -->
                         <defs>
                             <clipPath id="clipPath">
@@ -257,23 +258,23 @@
                             <g v-for="(item, i) in timeAxis" :key="'xa' + i">
                                 <path :d="'M ' + item.x + ' 0 ' + 'L ' + item.x + ' 5'" :fill="'none'" stroke="black">
                                 </path>
-                                <text :x="item.x" y="20" font-size="12" text-anchor="middle">{{ item.text }}</text>
-                            </g>
+                            <text :x="item.x" y="20" font-size="12" text-anchor="middle">{{ item.text }}</text>
+                        </g>
                         </g>
                         <g>
                             <path :d="smoothTimeLineData" stroke="red" :fill="'none'"></path>
                             <!-- <path v-for="(item, i) in selectAverageLine" :key="'xb' + i"
-                                                                                                                            :d="'M ' + item.x1 + ' ' + item.y + ' L ' + item.x2 + ' ' + item.y" :fill="'none'"
-                                                                                                                            :stroke="'orange'" stroke-width="3"></path> -->
+                                                                                                                                        :d="'M ' + item.x1 + ' ' + item.y + ' L ' + item.x2 + ' ' + item.y" :fill="'none'"
+                                                                                                                                        :stroke="'orange'" stroke-width="3"></path> -->
                         </g>
                     </g>
-                    <g id="brush_g" :transform="translate(0, -15, 0)"></g>
+                <g id="brush_g" :transform="translate(0, -15, 0)"></g>
                     <g :transform="translate(0, -15, 0)">
                         <path :d="brushTimeLineData" stroke="steelblue" :fill="'none'"></path>
                         <g id="brush_path_line"></g>
                         <g id="" :transform="translate(0, 100, 0)">
                             <!-- <path :d="'M ' + 50 + ' 0 ' + 'L ' + (tlWidth - 0) + ' 0'" :fill="'none'" stroke="black">
-                                                                        </path> -->
+                                                                                    </path> -->
                             <g v-for="(item, i) in brushTimeAxis" :key="'xa' + i">
                                 <path :d="'M ' + item.x + ' 0 ' + 'L ' + item.x + ' 5'" :fill="'none'" stroke="black">
                                 </path>
@@ -354,7 +355,7 @@ import * as vsup from 'vsup';
 export default {
     name: 'DataTransformationView',
     props: ['timeData', 'sliceData'],
-    data () {
+    data() {
         return {
             elHeight: 1000,
             elWidth: 1000,
@@ -435,14 +436,14 @@ export default {
         }
     },
     methods: {
-        selectFile (num) {
+        selectFile(num) {
 
             select('#rst' + num).attr('stroke-width', 3);
             selectAll('.p_x').attr('opacity', (d, i) => {
                 return d.id == num ? 1 : 0;
             })
         },
-        cancelFile (num) {
+        cancelFile(num) {
             select('#rst' + num).attr('stroke-width', 0);
             selectAll('.p_x').attr('opacity', 1)
         },
@@ -467,10 +468,10 @@ export default {
                 return heatColor(errorDataScale(raw_value, error_value));
             }
         },
-        translate (x, y, deg) {
+        translate(x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
         },
-        calcCurve () {
+        calcCurve() {
             let p1 = [[this.elWidth / 2, 75], [this.elWidth / 2 - this.elWidth / 3, 75 + (this.elHeight - 75 * 3) / 2]];
             let p2 = [[this.elWidth / 2, 75], [this.elWidth / 2 + this.elWidth / 3, 75 + (this.elHeight - 75 * 3) / 2]];
             let p3 = [[this.elWidth / 2 - this.elWidth / 3, -((this.elHeight - 75 * 3) / 2)], [(this.elWidth - 40) / 18, 0]];
@@ -479,7 +480,7 @@ export default {
             let d = [cline(p1), cline(p2), cline(p3), cline(p4)];
             return d;
         },
-        calcSparkBox (data, height, width) {
+        calcSparkBox(data, height, width) {
             let margin = ({ top: 20, right: 0, bottom: 30, left: 30 });
             // let height = 440;
             // let width = 1000;
@@ -543,7 +544,7 @@ export default {
 
             let _this = this;
 
-            function brushed ({ selection }) {
+            function brushed({ selection }) {
                 // console.log(selection);
                 let timeStep = [parseInt(_this.rxScale(selection[0])), parseInt(_this.rxScale(selection[1]))];
                 // let maxY = max(data, (d, i) => {
@@ -593,7 +594,7 @@ export default {
             select('#brush_g').call(timeBrush)
                 .call(timeBrush.move, [x(988), x(1760)]);
         },
-        calcTimeLine (data, height, width) {
+        calcTimeLine(data, height, width) {
             let margin = ({ top: 20, right: 0, bottom: 30, left: 50 });
             // let height = 440;
             // let width = 1000;
@@ -699,7 +700,7 @@ export default {
 
             // return [lineGenerate(data), lineGenerate2(data)];
         },
-        calcTimeLineCompare (tsmooth_data) {
+        calcTimeLineCompare(tsmooth_data) {
             this.smoothTag = 1;
             this.smoothLineData = tsmooth_data;
 
@@ -722,7 +723,7 @@ export default {
                 .attr('fill', 'none')
             // return [lineGenerate(data), lineGenerate(smooth_data), average_line];
         },
-        timeCompare (select_num) {
+        timeCompare(select_num) {
             // console.log(select_num, this.smoothData);
             this.select_smooth_data = this.smoothData[select_num]
             this.calcTimeLineCompare(this.smoothData[select_num]);
@@ -731,13 +732,13 @@ export default {
             // this.smoothTimeLineData = d[1];
             // console.log(d[1], this.smoothTimeLineData);
         },
-        calcMonth (startTime, endTime) {
+        calcMonth(startTime, endTime) {
             let year = parseInt(endTime / 100) - parseInt(startTime / 100);
             let month = endTime % 100 - startTime % 100 + 1;
             let sumMonth = year * 12 + month;
             return sumMonth;
         },
-        calcHeat (raw_data, smooth_data, skipLength, width, tag) {
+        calcHeat(raw_data, smooth_data, skipLength, width, tag) {
             let margin = ({ top: 20, right: 0, bottom: 30, left: 50 });
             let x = scaleLinear()
                 .domain([0, max(raw_data, d => parseInt(d.id))])
@@ -824,7 +825,7 @@ export default {
                 h: this.elHeight / 22
             };
         },
-        calcTimeScale (data) {
+        calcTimeScale(data) {
             let startTime = 9999999;
             let endTime = 0;
             let maeMax = 0;
@@ -838,7 +839,7 @@ export default {
             let month = this.calcMonth(startTime, endTime);
             return [startTime, scaleLinear([0, month], [0, this.elWidth - 300]), scaleLinear([0, maeMax], [1, 0])];
         },
-        calcTimeData (data) {
+        calcTimeData(data) {
             let r_data = new Array();
             let t_data = new Object();
             let cnt = 0;
@@ -948,7 +949,7 @@ export default {
             let group = groupRow.concat(groupColum);
             return group;
         },
-        calcRMSEHeat (data, smooth_dataSet, raw_data, width, height) {
+        calcRMSEHeat(data, smooth_dataSet, raw_data, width, height) {
             let margin = ({ top: 20, right: 0, bottom: 30, left: 50 });
             // let sdata = [];
             let maxRmse = -999999;
@@ -961,17 +962,30 @@ export default {
             for (let kk in smooth_dataSet) {
                 let heat_data = [];
                 let heatBefore_data = [];
-                
-
                 let smooth_data = smooth_dataSet[kk];
                 let skipLength = this.skip_length[parseInt(kk) + 4];
                 // console.log(smooth_data, skipLength);
-                for (let i = 0; i < 840; i += (i == 0 && 840 % skipLength != 0 ? 840 %  skipLength : skipLength)) {
-
-                    
+                for (let i = 0; i < 840; i += (i == 0 && 840 % skipLength != 0 ? 840 % skipLength : skipLength)) {
+                    let skp = (i == 0 && 840 % skipLength != 0 ? 840 % skipLength : skipLength);
+                    let rawTempValue = raw_data.slice(i, i + skp).map(d => parseFloat(d.value)).sort((a, b) => a - b)
+                    let rawSum = sum(rawTempValue);
+                    let smoothTempValue = smooth_data.slice(i, i + skp).map(d => parseFloat(d.value)).sort((a, b) => a - b)
+                    let smoothSum = sum(smoothTempValue);
+                    heatBefore_data.push({
+                        rawData: smoothSum / smoothTempValue.length,
+                        errorData: Math.abs(rawSum / rawTempValue.length - smoothSum / smoothTempValue.length),
+                        time: i,
+                        rmse: 0,
+                        skip: skp,
+                        id: parseInt(kk) + 4
+                        // x: x(parseInt(raw_data[i].id)),
+                        // w: Math.abs(x(parseInt(raw_data[i + ((i + skipLength < raw_data.length) ? skipLength : (raw_data.length - 1 - i))].id)) - x(parseInt(raw_data[i].id))),
+                    });
+                    maxError = Math.max(maxError, Math.abs(rawSum / rawTempValue.length - smoothSum / smoothTempValue.length));
+                    minError = Math.min(minError, Math.abs(rawSum / rawTempValue.length - smoothSum / smoothTempValue.length));
                 }
+                heatBeforeDataSet.push(heatBefore_data);
                 for (let i = 840; i < raw_data.length; i += skipLength) {
-                    // let tempValue = Array.from(new Set(data.slice(i, i + 10).map(d => parseFloat(d.value)).sort((a, b) => a - b)));
                     let rawTempValue = raw_data.slice(i, i + skipLength).map(d => parseFloat(d.value)).sort((a, b) => a - b)
                     let rawSum = sum(rawTempValue);
                     let smoothTempValue = smooth_data.slice(i, i + skipLength).map(d => parseFloat(d.value)).sort((a, b) => a - b)
@@ -980,7 +994,9 @@ export default {
                         rawData: smoothSum / smoothTempValue.length,
                         errorData: Math.abs(rawSum / rawTempValue.length - smoothSum / smoothTempValue.length),
                         time: i,
-                        rmse: 0
+                        rmse: 0,
+                        skip: skipLength,
+                        id: parseInt(kk) + 4
                         // x: x(parseInt(raw_data[i].id)),
                         // w: Math.abs(x(parseInt(raw_data[i + ((i + skipLength < raw_data.length) ? skipLength : (raw_data.length - 1 - i))].id)) - x(parseInt(raw_data[i].id))),
                     });
@@ -989,8 +1005,7 @@ export default {
                 }
                 heatDataSet.push(heat_data);
             }
-            // console.log(heatDataSet);
-
+            // console.log(heatBeforeDataSet);
 
             let lineData = [];
             for (let i in data) {
@@ -1007,6 +1022,7 @@ export default {
                         id: i,
                         skip: this.skip_length[i],
                         time: j * this.skip_length[i] + startPos,
+                        errorData: 0,
                         rmse: parseFloat(data[i][j]['rmse'])
                     });
                     maxTime = Math.max(maxTime, j * this.skip_length[i] + startPos);
@@ -1015,38 +1031,72 @@ export default {
                 }
                 lineData.push(tp);
             }
-            console.log(heatDataSet)
-            console.log(lineData);
+            // console.log(heatDataSet)
+            // console.log(lineData);
+            
+            for (let i in heatDataSet) {
+                for (let j in heatDataSet[i]) {
+                    heatDataSet[i][j]['rmse'] = lineData[parseInt(i) + 4][j]['rmse'];
+                    heatBeforeDataSet[i].push(heatDataSet[i][j])
+                }
+                // heatBeforeDataSet[i] = heatBeforeDataSet[i].concat(heatDataSet[i]);
+            }
+            let HeatSumData =  [];
+            for (let i = 0; i < 4; ++i) {
+                HeatSumData.push(lineData[i]);
+            }
+            for (let i = 0; i < heatBeforeDataSet.length; ++i) {
+                HeatSumData.push(heatBeforeDataSet[i]);
+            }
+
             let rmseScale = scaleLinear([minRmse, maxRmse], [0, 1]);
+            let errorScale = scaleLinear([minError, maxError], [0, 1]);
             let timeScale = scaleLinear([0, maxTime], [margin.left, width - margin.right]);
+            let quantization = vsup.quantization().branching(2).layers(4).valueDomain([minError, Math.log(maxError)]).uncertaintyDomain([Math.log(maxRmse), minRmse]);
+            let heatColor = interpolateYlOrRd;
+            let heatScale = vsup.scale().quantize(quantization).range(heatColor);
+
+            var legend = vsup.legend.arcmapLegend();
+
+            legend
+                .scale(heatScale)
+                .size(160)
+                .x(200)
+                .y(100)
+                .vtitle("Difference")
+                .utitle("RMSE");
+            select('#legend_g').append('g')
+            .call(legend)
             // let xAxis = axisBottom(timeScale).ticks(10);
             // let yAxis = axisLeft(rmseScale).ticks(10);
             // select("#x_axis_g").call(xAxis);
             // select("#y_axis_g").call(yAxis);
             let res_data = [];
-            for (let i in lineData) {
-                for (let j in lineData[i]) {
+            for (let i in HeatSumData) {
+                for (let j in HeatSumData[i]) {
                     // console.log(lineData[i][j].skip)
-                    lineData[i][j].x = timeScale(lineData[i][j].time);
-                    lineData[i][j].w = timeScale(lineData[i][j].skip);
-                    lineData[i][j].v = rmseScale(lineData[i][j].rmse);
-                    lineData[i][j].h = height / 36 - 3
-                    lineData[i][j].y = parseInt(lineData[i][j].id) * height / 36;
-                    lineData[i][j].fill = interpolateRdBu(lineData[i][j].v);
+                    HeatSumData[i][j].x = timeScale(HeatSumData[i][j].time);
+                    HeatSumData[i][j].w = timeScale(HeatSumData[i][j].skip);
+                    HeatSumData[i][j].v = rmseScale(HeatSumData[i][j].rmse);
+                    HeatSumData[i][j].h = height / 36 - 3
+                    HeatSumData[i][j].y = parseInt(HeatSumData[i][j].id) * height / 36;
+                    HeatSumData[i][j].rmseColor = heatColor(HeatSumData[i][j].v);
+                    HeatSumData[i][j].errorColor = heatColor(errorScale(HeatSumData[i][j].errorData));
+                    HeatSumData[i][j].vsupColor = heatScale(HeatSumData[i][j].errorData == 0? 0:Math.log(HeatSumData[i][j].errorData), HeatSumData[i][j].rmse == 0 ? 0: Math.log(HeatSumData[i][j].rmse))
                 }
                 res_data.push({
                     h: height / 36,
-                    heat: lineData[i]
+                    heat: HeatSumData[i]
                 })
             }
-            // console.log(res_data);
+            console.log(res_data);
 
             return res_data;
         }
     },
-    created () {
+    created() {
     },
-    mounted () {
+    mounted() {
         this.elHeight = this.$refs.DataTransformation.offsetHeight;
         this.elWidth = this.$refs.DataTransformation.offsetWidth;
         this.tlHeight = this.$refs.timeline.offsetHeight * 1;
