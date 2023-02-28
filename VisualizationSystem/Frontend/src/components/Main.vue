@@ -8,7 +8,7 @@
     <div id="navBar">DataTransAnalyzer</div>
     <div style="height: calc(94vh - 0px); width: calc(100% - 0px);">
         <div class="framework" id="controlPanel"
-            style="position: absolute; left: calc(10px); top: calc(10px); height: calc(27vh - 20px); width: calc(40vw - 17.5px);">
+            style="position: absolute; left: calc(10px); top: calc(10px); height: calc(27vh - 20px); width: calc(12vw - 17.5px);">
             <!-- <ReasoningView /> -->
             <ControlPanel :basicData="basicData"/>
         </div>
@@ -21,7 +21,7 @@
             <ModelExplainer :sliceData="sliceData"/>
         </div>
         <div class="framework" id="CorrelationView"
-            style="position: absolute; left: calc(10px);  top: calc(27vh + 5px); height: calc(27vh - 20px); width: calc(3vw + (50vw - 17.5px) / 2 - 7.5px);">
+            style="position: absolute; left: calc(10px + 12vw);  top: calc(10px); height: calc(27vh - 20px); width: calc(3vw + (50vw - 17.5px) / 2 - 7.5px);">
             <CorrelationView />
         </div>
         <!-- <div class="framework" id="UnitView"

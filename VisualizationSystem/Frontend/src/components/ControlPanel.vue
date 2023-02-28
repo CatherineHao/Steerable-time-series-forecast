@@ -11,7 +11,7 @@
     </div>
     <div class="frameworkBody">
         <div ref="ControlPanel"
-            style="height: 100%; width: calc(30% - 7.5px); float: left; border: 0px solid blue; font-size: 18px;">
+            style="height: 100%; width: calc(100%); float: left; border: 0px solid blue; font-size: 18px;">
             <!-- <svg id="ControlPanel" height="100%" width="100%">
                 
             </svg> -->
@@ -57,10 +57,7 @@
             </div>
 
         </div>
-        <div ref="ControlTable" style="height: 100%; width: calc(70% - 7.5px); float: right; background-color: green;">
-            <!-- <svg id="ControlPanel" height="100%" width="100%">
-                
-            </svg> -->
+        <!-- <div ref="ControlTable" style="height: 100%; width: calc(70% - 7.5px); float: right; background-color: green;">
             <el-table :data="tableData" stripe border style="width: 100%; height: 100%;" :header-cell-style="{'text-align':'center', 'background-color': 'rgb(250, 250, 250)'}" :cell-style="{'text-align':'center'}">
                 <el-table-column prop="slice_number" label="Slice number" width="120" />
                 <el-table-column prop="train length" label="Train length" width="120" />
@@ -69,7 +66,7 @@
                 <el-table-column prop="test length" label="Test length" />
             </el-table>
 
-        </div>
+        </div> -->
     </div>
 </template>
 <script>
