@@ -1073,7 +1073,7 @@ export default {
             }
             // console.log(heatDataSet)
             // console.log(lineData);
-            console.log(maxCorr, minCorr);
+            // console.log(maxCorr, minCorr);
             
 
             for (let i in heatDataSet) {
