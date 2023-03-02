@@ -195,12 +195,12 @@ export default {
                     continue;
                 for (let j in data[i]) {
                     // console.log(data[i][j])
-                    if (parseFloat(data[i][j]['norm_corr']) == 0)
+                    if (parseFloat(data[i][j]['129_pearson']) == 0)
                         continue;
                     sdata.push({
                         id: i,
                         time: j * this.skip_length[i] + startPos,
-                        norm_corr: parseFloat(data[i][j]['norm_corr']),
+                        norm_corr: parseFloat(data[i][j]['129_pearson']),
                         rmse: parseFloat(data[i][j]['rmse'])
                     });
                     // tp.push({
@@ -213,8 +213,8 @@ export default {
                     maxTime = Math.max(maxTime, j * this.skip_length[i] + startPos);
                     maxRmse = Math.max(maxRmse, parseFloat(data[i][j]['rmse']));
                     minRmse = Math.min(minRmse, parseFloat(data[i][j]['rmse']));
-                    maxNorm = Math.max(maxNorm, parseFloat(data[i][j]['norm_corr']));
-                    minNorm = Math.min(minNorm, parseFloat(data[i][j]['norm_corr']));
+                    maxNorm = Math.max(maxNorm, parseFloat(data[i][j]['129_pearson']));
+                    minNorm = Math.min(minNorm, parseFloat(data[i][j]['129_pearson']));
                 }
                 // lineData.push(tp);
             }
