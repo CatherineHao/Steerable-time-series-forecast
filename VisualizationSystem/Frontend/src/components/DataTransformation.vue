@@ -18,76 +18,77 @@
     <div class="frameworkBody">
         <div ref="DataTransformation" style="height: calc(50%); width: 100%;">
             <!-- <el-table :data="tableData" style="width: 100%" height="100%"
-                                                                                                                        :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
-                                                                                                                        :cell-style="{ 'text-align': 'center', 'backgro und-color': 'rgba(250, 250, 250, 1)', 'font-size': '16px' }">
-                                                                                                                        <el-table-column type="expand">
-                                                                                                                            <template #default="props">
-                                                                                                                                <div m="4">
-                                                                                                                                    <el-table :data="props.row['bar_data']" stripe style="width: 100%; float: right;"
-                                                                                                                                        :table-layout="'auto'" :header-cell-style="{ 'text-align': 'center' }"
-                                                                                                                                        :cell-style="{ 'text-align': 'center' }">
-                                                                                                                                        <el-table-column label="ID" prop="id" width="50" />
-                                                                                                                                        <el-table-column label="BEGIN" prop="startTime" width="120" />
-                                                                                                                                        <el-table-column label="END" prop="endTime" width="110" />
-                                                                                                                                        <el-table-column label="TIME SLICE">
-                                                                                                                                            <template #default="d">
-                                                                                                                                                <svg height="30" width="100%">
-                                                                                                                                                    <rect :x="d.row.train.x" :y="5" :height="20" :width="d.row.train.w"
-                                                                                                                                                        :fill="d.row.train.fill" :opacity="0.3">
-                                                                                                                                                    </rect>
-                                                                                                                                                    <path
-                                                                                                                                                        :d="'M ' + d.row.test.x1 + ' 5 L ' + d.row.test.x1 + ' 25 L ' + d.row.test.x2 + ' 20 L ' + d.row.test.x2 + ' 10 Z'"
-                                                                                                                                                        :fill="d.row.test.fill" :stroke="'black'"></path>
-                                                                                                                                                </svg>
-                                                                                                                                            </template>
-                                                                                                                                        </el-table-column>
-                                                                                                                                    </el-table>
-                                                                                                                                </div>
-                                                                                                                            </template>
-                                                                                                                        </el-table-column>
-                                                                                                                        <el-table-column label="Slice number" prop="slice" width="120" />
-                                                                                                                        <el-table-column label="Smooth" prop="smooth" width="110" />
-                                                                                                                        <el-table-column label="Heatmap" prop="heat_data">
-                                                                                                                            <template #default="scope">
-                                                                                                                                <svg height="30" width="100%">
-                                                                                                                                    <rect v-for="(item, item_i) in scope.row.bar_data" :key="'heat_' + item_i"
-                                                                                                                                        :x="(elWidth - 250) / scope.row.slice_num * item_i" :y="8"
-                                                                                                                                                    :width="(elWidth - 250) / scope.row.slice_num" :height="20" :fill="item.test.fill">
-                                                                                                                                                </rect>
-                                                                                                                                </svg>
-                                                                                                                            </template>
-                                                                                                                        </el-table-column>
-                                                                                                                    </el-table> -->
-
-            <!-- <el-table :data="heatRectData" style="width: 100%" border height="100%"
-                                                                                                                    :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
-                                                                                                                    :cell-style="{ 'text-align': 'center', 'background-color': 'rgba(250, 250, 250, 1)', 'font-size': '16px' }">
-                                                                                                                    <el-table-column label="Heatmap" prop="heat_data">
-                                                                                                                        <template #default="scope">
-                                                                                                                            <svg height="30" width="100%">
-                                                                                                                                <rect v-for="(item, item_i) in scope.row['heat']" :key="'heat_' + item_i" :x="item.x" :y="0"
-                                                                                                                                                :width="item.w" :height="50" :fill="item.color">
-                                                                                                                                            </rect>
+                                                                                                                                :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
+                                                                                                                                :cell-style="{ 'text-align': 'center', 'backgro und-color': 'rgba(250, 250, 250, 1)', 'font-size': '16px' }">
+                                                                                                                                <el-table-column type="expand">
+                                                                                                                                    <template #default="props">
+                                                                                                                                        <div m="4">
+                                                                                                                                            <el-table :data="props.row['bar_data']" stripe style="width: 100%; float: right;"
+                                                                                                                                                :table-layout="'auto'" :header-cell-style="{ 'text-align': 'center' }"
+                                                                                                                                                :cell-style="{ 'text-align': 'center' }">
+                                                                                                                                                <el-table-column label="ID" prop="id" width="50" />
+                                                                                                                                                <el-table-column label="BEGIN" prop="startTime" width="120" />
+                                                                                                                                                <el-table-column label="END" prop="endTime" width="110" />
+                                                                                                                                                <el-table-column label="TIME SLICE">
+                                                                                                                                                    <template #default="d">
+                                                                                                                                                        <svg height="30" width="100%">
+                                                                                                                                                            <rect :x="d.row.train.x" :y="5" :height="20" :width="d.row.train.w"
+                                                                                                                                                                :fill="d.row.train.fill" :opacity="0.3">
+                                                                                                                                                            </rect>
+                                                                                                                                                            <path
+                                                                                                                                                                :d="'M ' + d.row.test.x1 + ' 5 L ' + d.row.test.x1 + ' 25 L ' + d.row.test.x2 + ' 20 L ' + d.row.test.x2 + ' 10 Z'"
+                                                                                                                                                                :fill="d.row.test.fill" :stroke="'black'"></path>
+                                                                                                                                                        </svg>
+                                                                                                                                                    </template>
+                                                                                                                                                </el-table-column>
+                                                                                                                                            </el-table>
+                                                                                                                                        </div>
+                                                                                                                                    </template>
+                                                                                                                                </el-table-column>
+                                                                                                                                <el-table-column label="Slice number" prop="slice" width="120" />
+                                                                                                                                <el-table-column label="Smooth" prop="smooth" width="110" />
+                                                                                                                                <el-table-column label="Heatmap" prop="heat_data">
+                                                                                                                                    <template #default="scope">
+                                                                                                                                        <svg height="30" width="100%">
+                                                                                                                                            <rect v-for="(item, item_i) in scope.row.bar_data" :key="'heat_' + item_i"
+                                                                                                                                                :x="(elWidth - 250) / scope.row.slice_num * item_i" :y="8"
+                                                                                                                                                            :width="(elWidth - 250) / scope.row.slice_num" :height="20" :fill="item.test.fill">
+                                                                                                                                                        </rect>
                                                                                                                                         </svg>
                                                                                                                                     </template>
-                                                                                                                    </el-table-column>
-                                                                                                                </el-table> -->
+                                                                                                                                </el-table-column>
+                                                                                                                            </el-table> -->
+
+            <!-- <el-table :data="heatRectData" style="width: 100%" border height="100%"
+                                                                                                                            :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
+                                                                                                                            :cell-style="{ 'text-align': 'center', 'background-color': 'rgba(250, 250, 250, 1)', 'font-size': '16px' }">
+                                                                                                                            <el-table-column label="Heatmap" prop="heat_data">
+                                                                                                                                <template #default="scope">
+                                                                                                                                    <svg height="30" width="100%">
+                                                                                                                                        <rect v-for="(item, item_i) in scope.row['heat']" :key="'heat_' + item_i" :x="item.x" :y="0"
+                                                                                                                                                        :width="item.w" :height="50" :fill="item.color">
+                                                                                                                                                    </rect>
+                                                                                                                                                </svg>
+                                                                                                                                            </template>
+                                                                                                                            </el-table-column>
+                                                                                                                        </el-table> -->
 
 
             <svg height="100%" width="100%">
                 <!-- <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)">
-                                                                        <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
-                                                                            :width="item_h.w" :height="item_h.h" :fill="colorScale(item_h.raw, item_h.error, heatTag)"
-                                                                @click="timeCompare(item.tag)">
-                                                                        </rect>
-                                                                    </g> -->
+                                                                                <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
+                                                                                    :width="item_h.w" :height="item_h.h" :fill="colorScale(item_h.raw, item_h.error, heatTag)"
+                                                                        @click="timeCompare(item.tag)">
+                                                                                </rect>
+                                                                            </g> -->
                 <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)"
                     @mouseenter="selectFile(i)" @mouseout="cancelFile(i)">
                     <!-- <rect :id="'rst' + i" :x="item['heat'][0].x" :y="0" :width="elWidth - 0 - item['heat'][0].x"
-                                                    :height="item['heat'][0].h" fill="none" stroke="orange" stroke-width="0"></rect> -->
-                    <!-- <text font-size="12" text-anchor="end" dx="40em" dy="1em">{{ filename[i] }}</text> -->
+                                                            :height="item['heat'][0].h" fill="none" stroke="orange" stroke-width="0"></rect> -->
+                    <text font-size="12" text-anchor="end" dx="40em" dy="1em">{{ filename[i] }}</text>
                     <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
-                        :width="item_h.w" :height="item_h.h" :fill="item_h.colorMap[heatTag]" :fill-opacity="heatTag < 3 ? 1: item_h.fill_opacity">
+                        :width="item_h.w" :height="item_h.h" :fill="item_h.colorMap[heatTag]" :id="'tsr' + item_h.id_cnt"
+                        :fill-opacity="heatTag < 3 ? 1 : item_h.fill_opacity">
                     </rect>
                 </g>
                 <g id="legend_g"></g>
@@ -104,145 +105,145 @@
 
 
             <!-- <svg id="DataTransformation" height="100%" width="100%">
-                                                                                                                        <!~~ Transformation Tree ~~>
+                                                                                                                                <!~~ Transformation Tree ~~>
 
-                                                                                                                        <!~~ <g>
-                                                                                                                            <g>
-                                                                                                                                <rect :x="elWidth / 2 - 75" :y="0" :width="150" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                <text :x="elWidth / 2" :y="30" text-anchor="middle" font-size="24">Time</text>
-                                                                                                                                <text :x="elWidth / 2" :y="60" text-anchor="middle" font-size="24">Series</text>
+                                                                                                                                <!~~ <g>
+                                                                                                                                    <g>
+                                                                                                                                        <rect :x="elWidth / 2 - 75" :y="0" :width="150" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                        <text :x="elWidth / 2" :y="30" text-anchor="middle" font-size="24">Time</text>
+                                                                                                                                        <text :x="elWidth / 2" :y="60" text-anchor="middle" font-size="24">Series</text>
 
-                                                                                                                            </g>
-                                                                                                                            <g>
-                                                                                                                                <path
-                                                                                                                                    :d="'M' + (elWidth / 2) + ' ' + 75 + ' L ' + (elWidth / 2) + ' ' + (75 + (elHeight - 75 * 3) / 2)"
-                                                                                                                                    stroke="black"></path>
-                                                                                                                                <path :d="d[0]" stroke="black" :fill="'none'"></path>
-                                                                                                                                <path :d="d[1]" stroke="black" :fill="'none'"></path>
-                                                                                                                                <g :transform="translate(0, 75 + (elHeight - 75 * 3) / 2, 0)">
-                                                                                                                                    <rect :x="elWidth / 2 - 75" :y="0" :width="150" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                    <text :x="elWidth / 2" :y="45" text-anchor="middle" font-size="24">7-slice</text>
-                                                                                                                                </g>
-                                                                                                                                <g :transform="translate(-elWidth / 3, 75 + (elHeight - 75 * 3) / 2, 0)">
-                                                                                                                                    <rect :x="elWidth / 2 - 75" :y="0" :width="150" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                    <text :x="elWidth / 2" :y="45" text-anchor="middle" font-size="24">10-slice</text>
-                                                                                                                                </g>
-                                                                                                                                <g :transform="translate(elWidth / 3, 75 + (elHeight - 75 * 3) / 2, 0)">
-                                                                                                                                    <rect :x="elWidth / 2 - 75" :y="0" :width="150" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                    <text :x="elWidth / 2" :y="45" text-anchor="middle" font-size="24">3-slice</text>
-                                                                                                                                </g>
-                                                                                                                            </g>
-
-                                                                                                                            <g :transform="translate(0, 150 + (elHeight - 75 * 3), 0)">
-                                                                                                                                <path
-                                                                                                                                    :d="'M' + (elWidth / 2 - elWidth / 3) + ' ' + (-(elHeight - 75 * 3) / 2) + ' L ' + (elWidth / 2 - elWidth / 3) + ' ' + (0)"
-                                                                                                                                    stroke="black"></path>
-                                                                                                                                <path :d="d[2]" stroke="black" :fill="'none'"></path>
-                                                                                                                                <path :d="d[3]" stroke="black" :fill="'none'"></path>
-                                                                                                                                <g>
-                                                                                                                                    <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                    <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">Raw</text>
-                                                                                                                                    <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Sequence</text>
-
-                                                                                                                                </g>
-                                                                                                                                <g :transform="translate((elWidth - 40) / 9 + 5, 0, 0)">
-                                                                                                                                    <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                    <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">N-</text>
-                                                                                                                                    <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Average</text>
-
-                                                                                                                                </g>
-                                                                                                                                <g :transform="translate(2 * (elWidth - 40) / 9 + 10, 0, 0)">
-                                                                                                                                    <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                    <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">EMA/</text>
-                                                                                                                                    <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Holt</text>
-
-                                                                                                                                </g>
-                                                                                                                            </g>
-
-                                                                                                                            <g :transform="translate((elWidth - 40) / 3 + 15, 150 + (elHeight - 75 * 3), 0)">
-                                                                                                                                <path
-                                                                                                                                    :d="'M' + (elWidth / 2 - elWidth / 3) + ' ' + (-(elHeight - 75 * 3) / 2) + ' L ' + (elWidth / 2 - elWidth / 3) + ' ' + (0)"
-                                                                                                                                    stroke="black"></path>
-                                                                                                                                <path :d="d[2]" stroke="black" :fill="'none'"></path>
-                                                                                                                                <path :d="d[3]" stroke="black" :fill="'none'"></path>
-                                                                                                                                <g>
-                                                                                                                                    <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                    <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">Raw</text>
-                                                                                                                                    <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Sequence</text>
-
-                                                                                                                                </g>
-                                                                                                                                <g :transform="translate((elWidth - 40) / 9 + 5, 0, 0)">
-                                                                                                                                    <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                    <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">N-</text>
-                                                                                                                                    <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Average</text>
-
-                                                                                                                                </g>
-                                                                                                                                <g :transform="translate(2 * (elWidth - 40) / 9 + 10, 0, 0)">
-                                                                                                                                    <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                    <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">EMA/</text>
-                                                                                                                                    <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Holt</text>
-
-                                                                                                                                </g>
-                                                                                                                            </g>
-
-                                                                                                                            <g :transform="translate(2 * (elWidth - 40) / 3 + 30, 150 + (elHeight - 75 * 3), 0)">
-                                                                                                                                <path
-                                                                                                                                    :d="'M' + (elWidth / 2 - elWidth / 3) + ' ' + (-(elHeight - 75 * 3) / 2) + ' L ' + (elWidth / 2 - elWidth / 3) + ' ' + (0)"
-                                                                                                                                    stroke="black"></path>
-                                                                                                                                <path :d="d[2]" stroke="black" :fill="'none'"></path>
-                                                                                                                                <path :d="d[3]" stroke="black" :fill="'none'"></path>
-                                                                                                                                <g>
-                                                                                                                                    <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                    <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">Raw</text>
-                                                                                                                                    <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Sequence</text>
-
-                                                                                                                                </g>
-                                                                                                                                <g :transform="translate((elWidth - 40) / 9 + 5, 0, 0)">
-                                                                                                                                    <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                    <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">N-</text>
-                                                                                                                                    <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Average</text>
-
-                                                                                                                                </g>
-                                                                                                                                <g :transform="translate(2 * (elWidth - 40) / 9 + 10, 0, 0)">
-                                                                                                                                    <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                    <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">EMA/</text>
-                                                                                                                                    <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Holt</text>
-
-                                                                                                                                </g>
-                                                                                                                            </g>
-                                                                                                                        </g> ~~>
-                                                                                                                        <g v-for="(item, i) in barData" :key="'bar_g' + i"
-                                                                                                                            :transform="translate(0, i * elHeight / barData.length, 0)">
-                                                                                                                            <text x="0" y="1em">{{ item.slice }}</text>
-                                                                                                                            <text x="4em" y="1em">{{ item.smooth }}</text>
-                                                                                                                            <g v-for="(d, j) in item.bar_data" :key="'single_bar' + j" :transform="translate(0, 20, 0)">
-                                                                                                                                <rect :x="d.train.x" :y="5" :height="20" :width="d.train.w" :fill="d.train.fill" :opacity="0.1">
-                                                                                                                                </rect>
-                                                                                                                                            <path
-                                                                                                                                                :d="'M ' + d.test.x1 + ' 5 L ' + d.test.x1 + ' 25 L ' + d.test.x2 + ' 20 L ' + d.test.x2 + ' 10 Z'"
-                                                                                                                                                :fill="d.test.fill" :stroke="'black'"></path>
+                                                                                                                                    </g>
+                                                                                                                                    <g>
+                                                                                                                                        <path
+                                                                                                                                            :d="'M' + (elWidth / 2) + ' ' + 75 + ' L ' + (elWidth / 2) + ' ' + (75 + (elHeight - 75 * 3) / 2)"
+                                                                                                                                            stroke="black"></path>
+                                                                                                                                        <path :d="d[0]" stroke="black" :fill="'none'"></path>
+                                                                                                                                        <path :d="d[1]" stroke="black" :fill="'none'"></path>
+                                                                                                                                        <g :transform="translate(0, 75 + (elHeight - 75 * 3) / 2, 0)">
+                                                                                                                                            <rect :x="elWidth / 2 - 75" :y="0" :width="150" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="elWidth / 2" :y="45" text-anchor="middle" font-size="24">7-slice</text>
                                                                                                                                         </g>
-                                                                                                                        </g>
-                                                                                                                    </svg> -->
+                                                                                                                                        <g :transform="translate(-elWidth / 3, 75 + (elHeight - 75 * 3) / 2, 0)">
+                                                                                                                                            <rect :x="elWidth / 2 - 75" :y="0" :width="150" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="elWidth / 2" :y="45" text-anchor="middle" font-size="24">10-slice</text>
+                                                                                                                                        </g>
+                                                                                                                                        <g :transform="translate(elWidth / 3, 75 + (elHeight - 75 * 3) / 2, 0)">
+                                                                                                                                            <rect :x="elWidth / 2 - 75" :y="0" :width="150" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="elWidth / 2" :y="45" text-anchor="middle" font-size="24">3-slice</text>
+                                                                                                                                        </g>
+                                                                                                                                    </g>
+
+                                                                                                                                    <g :transform="translate(0, 150 + (elHeight - 75 * 3), 0)">
+                                                                                                                                        <path
+                                                                                                                                            :d="'M' + (elWidth / 2 - elWidth / 3) + ' ' + (-(elHeight - 75 * 3) / 2) + ' L ' + (elWidth / 2 - elWidth / 3) + ' ' + (0)"
+                                                                                                                                            stroke="black"></path>
+                                                                                                                                        <path :d="d[2]" stroke="black" :fill="'none'"></path>
+                                                                                                                                        <path :d="d[3]" stroke="black" :fill="'none'"></path>
+                                                                                                                                        <g>
+                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">Raw</text>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Sequence</text>
+
+                                                                                                                                        </g>
+                                                                                                                                        <g :transform="translate((elWidth - 40) / 9 + 5, 0, 0)">
+                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">N-</text>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Average</text>
+
+                                                                                                                                        </g>
+                                                                                                                                        <g :transform="translate(2 * (elWidth - 40) / 9 + 10, 0, 0)">
+                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">EMA/</text>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Holt</text>
+
+                                                                                                                                        </g>
+                                                                                                                                    </g>
+
+                                                                                                                                    <g :transform="translate((elWidth - 40) / 3 + 15, 150 + (elHeight - 75 * 3), 0)">
+                                                                                                                                        <path
+                                                                                                                                            :d="'M' + (elWidth / 2 - elWidth / 3) + ' ' + (-(elHeight - 75 * 3) / 2) + ' L ' + (elWidth / 2 - elWidth / 3) + ' ' + (0)"
+                                                                                                                                            stroke="black"></path>
+                                                                                                                                        <path :d="d[2]" stroke="black" :fill="'none'"></path>
+                                                                                                                                        <path :d="d[3]" stroke="black" :fill="'none'"></path>
+                                                                                                                                        <g>
+                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">Raw</text>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Sequence</text>
+
+                                                                                                                                        </g>
+                                                                                                                                        <g :transform="translate((elWidth - 40) / 9 + 5, 0, 0)">
+                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">N-</text>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Average</text>
+
+                                                                                                                                        </g>
+                                                                                                                                        <g :transform="translate(2 * (elWidth - 40) / 9 + 10, 0, 0)">
+                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">EMA/</text>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Holt</text>
+
+                                                                                                                                        </g>
+                                                                                                                                    </g>
+
+                                                                                                                                    <g :transform="translate(2 * (elWidth - 40) / 3 + 30, 150 + (elHeight - 75 * 3), 0)">
+                                                                                                                                        <path
+                                                                                                                                            :d="'M' + (elWidth / 2 - elWidth / 3) + ' ' + (-(elHeight - 75 * 3) / 2) + ' L ' + (elWidth / 2 - elWidth / 3) + ' ' + (0)"
+                                                                                                                                            stroke="black"></path>
+                                                                                                                                        <path :d="d[2]" stroke="black" :fill="'none'"></path>
+                                                                                                                                        <path :d="d[3]" stroke="black" :fill="'none'"></path>
+                                                                                                                                        <g>
+                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">Raw</text>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Sequence</text>
+
+                                                                                                                                        </g>
+                                                                                                                                        <g :transform="translate((elWidth - 40) / 9 + 5, 0, 0)">
+                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">N-</text>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Average</text>
+
+                                                                                                                                        </g>
+                                                                                                                                        <g :transform="translate(2 * (elWidth - 40) / 9 + 10, 0, 0)">
+                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">EMA/</text>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Holt</text>
+
+                                                                                                                                        </g>
+                                                                                                                                    </g>
+                                                                                                                                </g> ~~>
+                                                                                                                                <g v-for="(item, i) in barData" :key="'bar_g' + i"
+                                                                                                                                    :transform="translate(0, i * elHeight / barData.length, 0)">
+                                                                                                                                    <text x="0" y="1em">{{ item.slice }}</text>
+                                                                                                                                    <text x="4em" y="1em">{{ item.smooth }}</text>
+                                                                                                                                    <g v-for="(d, j) in item.bar_data" :key="'single_bar' + j" :transform="translate(0, 20, 0)">
+                                                                                                                                        <rect :x="d.train.x" :y="5" :height="20" :width="d.train.w" :fill="d.train.fill" :opacity="0.1">
+                                                                                                                                        </rect>
+                                                                                                                                                    <path
+                                                                                                                                                        :d="'M ' + d.test.x1 + ' 5 L ' + d.test.x1 + ' 25 L ' + d.test.x2 + ' 20 L ' + d.test.x2 + ' 10 Z'"
+                                                                                                                                                        :fill="d.test.fill" :stroke="'black'"></path>
+                                                                                                                                                </g>
+                                                                                                                                </g>
+                                                                                                                            </svg> -->
         </div>
         <div ref="timeline" style="height: calc(50% - 15px); width: 100%; margin-top: 15px;">
             <svg id="timeline" height="100%" width="100%">
                 <!-- <g>
-                                                                                                                                        <g v-for="(item, i) in heatRectData" :key="'r_g' + i" :transform="translate(0, 40 * i, 0)">
-                                                                                                                                            <rect v-for="(r_item, r_i) in item" :key="'h_r' + r_i" :x="r_item.x" :y="3" :height="30"
-                                                                                                                                                :width="r_item.w" :fill="r_item.color" @click="timeCompare(parseInt(i / 3))"></rect>
-                                                                                                                                            <text x="0" y="20">{{ item[0].t }}</text>
-                                                                                                                            </g>
-                                                                                                                                    </g> -->
+                                                                                                                                                <g v-for="(item, i) in heatRectData" :key="'r_g' + i" :transform="translate(0, 40 * i, 0)">
+                                                                                                                                                    <rect v-for="(r_item, r_i) in item" :key="'h_r' + r_i" :x="r_item.x" :y="3" :height="30"
+                                                                                                                                                        :width="r_item.w" :fill="r_item.color" @click="timeCompare(parseInt(i / 3))"></rect>
+                                                                                                                                                    <text x="0" y="20">{{ item[0].t }}</text>
+                                                                                                                                    </g>
+                                                                                                                                            </g> -->
                 <g :transform="translate(0, 0, 0)" id="timeline_g">
                     <g id="raw_line_g" :transform="translate(0, 110, 0)">
                         <!-- <g v-for="(item, i) in sparkboxData" :key="'box' + i"> -->
                         <!-- <rect :x="item.rect1.x" :y="item.rect1.y" :width="item.rect1.w" :height="item.rect1.h"
-                                                                                                                                                    fill="#f2f5fa"></rect> -->
+                                                                                                                                                            fill="#f2f5fa"></rect> -->
                         <!-- <rect :x="item.rect2.x" :y="item.rect2.y" :width="item.rect2.w" :height="item.rect2.h"  fill="#dce3f3"></rect> -->
                         <!-- <path
-                                                                                                                                                    :d="'M ' + item.line.x1 + ' ' + item.line.y + ' L ' + item.line.x2 + ' ' + item.line.y"
-                                                                                                                                                    :fill="'none'" :stroke="'#6d70b6'" stroke-width="3"></path> -->
+                                                                                                                                                            :d="'M ' + item.line.x1 + ' ' + item.line.y + ' L ' + item.line.x2 + ' ' + item.line.y"
+                                                                                                                                                            :fill="'none'" :stroke="'#6d70b6'" stroke-width="3"></path> -->
                         <!-- </g> -->
                         <defs>
                             <clipPath id="clipPath">
@@ -264,8 +265,8 @@
                         <g>
                             <path :d="smoothTimeLineData" stroke="red" :fill="'none'"></path>
                             <!-- <path v-for="(item, i) in selectAverageLine" :key="'xb' + i"
-                                                                                                                                                    :d="'M ' + item.x1 + ' ' + item.y + ' L ' + item.x2 + ' ' + item.y" :fill="'none'"
-                                                                                                                                                    :stroke="'orange'" stroke-width="3"></path> -->
+                                                                                                                                                            :d="'M ' + item.x1 + ' ' + item.y + ' L ' + item.x2 + ' ' + item.y" :fill="'none'"
+                                                                                                                                                            :stroke="'orange'" stroke-width="3"></path> -->
                         </g>
                     </g>
                     <g id="brush_g" :transform="translate(0, -15, 0)"></g>
@@ -274,7 +275,7 @@
                         <g id="brush_path_line"></g>
                         <g id="" :transform="translate(0, 100, 0)">
                             <!-- <path :d="'M ' + 50 + ' 0 ' + 'L ' + (tlWidth - 0) + ' 0'" :fill="'none'" stroke="black">
-                                                                                                </path> -->
+                                                                                                        </path> -->
                             <g v-for="(item, i) in brushTimeAxis" :key="'xa' + i">
                                 <path :d="'M ' + item.x + ' 0 ' + 'L ' + item.x + ' 5'" :fill="'none'" stroke="black">
                                 </path>
@@ -986,6 +987,7 @@ export default {
             let minCorr = 999999;
             let heatDataSet = [];
             let heatBeforeDataSet = [];
+            let id_cnt = 0;
             for (let kk in smooth_dataSet) {
                 let heat_data = [];
                 let heatBefore_data = [];
@@ -1006,7 +1008,8 @@ export default {
                         corr: 0,
                         skip: skp,
                         id: parseInt(kk),
-                        fill_opacity: 0
+                        fill_opacity: 0,
+                        id_cnt: -1
                         // x: x(parseInt(raw_data[i].id)),
                         // w: Math.abs(x(parseInt(raw_data[i + ((i + skipLength < raw_data.length) ? skipLength : (raw_data.length - 1 - i))].id)) - x(parseInt(raw_data[i].id))),
                     });
@@ -1029,7 +1032,8 @@ export default {
                         corr: 0,
                         skip: skipLength,
                         id: parseInt(kk),
-                        fill_opacity: 1
+                        fill_opacity: 1,
+                        id_cnt: id_cnt++
                         // x: x(parseInt(raw_data[i].id)),
                         // w: Math.abs(x(parseInt(raw_data[i + ((i + skipLength < raw_data.length) ? skipLength : (raw_data.length - 1 - i))].id)) - x(parseInt(raw_data[i].id))),
                     });
@@ -1059,22 +1063,22 @@ export default {
                         time: j * this.skip_length[i] + startPos,
                         errorData: 0,
                         rmse: parseFloat(data[i][j]['rmse']),
-                        corr: parseFloat(data[i][j]['norm_corr'])
+                        corr: parseFloat(data[i][j]['129_pearson'])
                     });
-                    // console.log(data[i][j]['norm_corr'])
+                    // console.log(data[i][j]['129_pearson'])
                     maxTime = Math.max(maxTime, j * this.skip_length[i] + startPos);
                     maxRmse = Math.max(maxRmse, parseFloat(data[i][j]['rmse']));
                     minRmse = Math.min(minRmse, parseFloat(data[i][j]['rmse']));
-                    maxCorr = Math.max(maxCorr, parseFloat(data[i][j]['norm_corr']));
-                    if (parseFloat(data[i][j]['norm_corr']) != 0)
-                    minCorr = Math.min(minCorr, parseFloat(data[i][j]['norm_corr']));
+                    maxCorr = Math.max(maxCorr, parseFloat(data[i][j]['129_pearson']));
+                    if (parseFloat(data[i][j]['129_pearson']) != 0)
+                        minCorr = Math.min(minCorr, parseFloat(data[i][j]['129_pearson']));
                 }
                 lineData.push(tp);
             }
             // console.log(heatDataSet)
             // console.log(lineData);
             // console.log(maxCorr, minCorr);
-            
+
 
             for (let i in heatDataSet) {
                 for (let j in heatDataSet[i]) {
@@ -1125,6 +1129,7 @@ export default {
                     HeatSumData[i][j].x = timeScale(HeatSumData[i][j].time);
                     HeatSumData[i][j].w = timeScale(HeatSumData[i][j].skip);
                     HeatSumData[i][j].v = rmseScale(HeatSumData[i][j].rmse);
+                    HeatSumData[i][j].id_cnt = HeatSumData[i][j].id_cnt;
                     HeatSumData[i][j].h = height / 36 - 3
                     HeatSumData[i][j].y = parseInt(HeatSumData[i][j].id) * height / 36;
                     HeatSumData[i][j].rmseColor = heatColor(HeatSumData[i][j].v);
@@ -1140,7 +1145,7 @@ export default {
                     heat: HeatSumData[i]
                 })
             }
-            console.log(res_data);
+            // console.log(res_data);
 
             return res_data;
         }
@@ -1186,6 +1191,25 @@ export default {
 
 
         this.setupBrush(SN_raw_data);
+
+        const dataStore = useDataStore();
+        let _this = this;
+
+        dataStore.$subscribe((mutation, state) => {
+            console.log(dataStore.selectDot, _this.heatRectData);
+            for (let i in _this.heatRectData) {
+                for (let j in _this.heatRectData[i].heat) {
+                    // console.log(_this.heatRectData[i][j])
+
+                    if (dataStore.selectDot[this.heatRectData[i].heat[j].id_cnt] == 1) {
+                        select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('opacity', 1).attr('stroke', 'blue').attr('stroke-width', 0);
+
+                    }
+                    else select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('opacity', 0)
+                    // .attr('fill', '#d9d9d9');
+                }
+            }
+        })
 
         // console.log(this.heatRectData);
         // this.groupPath = this.calcGroup();

@@ -100,6 +100,8 @@ import { axisBottom, axisLeft } from 'd3-axis';
 // import time from 'd3-scale/src/time';
 import { select, selectAll } from 'd3-selection';
 import { line } from 'd3-shape';
+import { drag } from 'd3-drag';
+import { polygonContains } from 'd3-polygon';
 
 export default {
     name: 'modelExplainerView',
@@ -110,10 +112,114 @@ export default {
             elWidth: 0,
             skip_length: [13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6],
             dot_data: [],
-            tableData: []
+            tableData: [],
+            DataTransferItem
         }
     },
     methods: {
+        setupLasso () {
+            let _this = this;
+            let lasso_g = select("#scatter")
+                .append('g')
+                .attr('class', 'lasso');
+            let origin_node = lasso_g
+                .append("circle")
+                .attr("id", "origin");
+            let draw_path = lasso_g
+                .append('path')
+                .attr("id", 'drawn');
+            let close_path = lasso_g
+                .append("path")
+                .attr("id", "loop_close");
+
+            let select_path = "";
+            // let end_path = "";
+            // let origin_circle;
+            let target_circle;
+            let closePathDistance = 100;
+
+            let polygon = new Array();
+            let lassoPoint = new Array();
+
+            let dragStarted = function (event) {
+                event
+                _this.lasso_t = 0;
+            }
+            let dragged = function (event) {
+                let tx = event.x;
+                let ty = event.y;
+                if (select_path == "") {
+                    select_path = select_path + "M " + tx + " " + ty;
+                    target_circle = [event.x, event.y];
+                    polygon.push([event.x, event.y]);
+                } else {
+                    select_path = select_path + "L " + tx + " " + ty;
+                }
+                polygon.push([tx, ty]);
+                let distance = Math.sqrt(Math.pow(tx - target_circle[0], 2) + Math.pow(ty - target_circle[1], 2));
+                let close_draw_path = "M " + tx + " " + ty + " L " + target_circle[0] + " " + target_circle[1];
+                draw_path.attr('d', select_path);
+
+                close_path.attr("d", close_draw_path);
+                if (distance < closePathDistance) {
+                    close_path.attr("display", null);
+                } else {
+                    close_path.attr("display", "none");
+                }
+            }
+            let dragEnded = async function () {
+                origin_node.attr("display", "none");
+                // draw_path.attr("d", null);
+                // close_path.attr("d", null);
+                
+                _this.lasso_t = 1;
+                let select_dot = new Object();
+                let select_info = new Array();
+                for (let i in _this.dot_data) {
+                    let dot_p = [_this.dot_data[i].x, _this.dot_data[i].y];
+                    if (polygonContains(polygon, dot_p)) {
+                        select_dot[i] = 1;
+                        select_info.push(1);
+                        // console.log
+                        // cie_x += parseFloat(_this.poem_dot[i].raw_value.x);
+                        // cie_y += parseFloat(_this.poem_dot[i].raw_value.y);
+                        // cie_cnt += 1;
+                    }
+                    else {
+                        select_info.push(0);
+                    }
+                }
+
+                // console.log(select_dot);
+                const dataStore = useDataStore();
+                dataStore.selectDot = select_dot;
+
+                
+        _this.tableData = _this.calcTableData(_this.dataSet, select_dot);
+                selectAll('.corr_cir').attr('opacity', (d, i) => {
+                    if (select_dot[i] == 1) return 1;
+                    else return 0.5;
+                }).attr('fill', (d, i) => {
+                    if (select_dot[i] == 1) return 'orange';
+                    else return '#d9d9d9';
+                })
+
+                select_path = "";
+                // end_path = "";
+                // origin_circle = [];
+                target_circle = [];
+                closePathDistance = 100;
+                polygon = new Array();
+            }
+
+            let dragL = drag()
+                .on('start', dragStarted)
+                .on('drag', dragged)
+                .on('end', dragEnded);
+            // console.log(drag);
+
+            select('#modelExplainer').call(dragL);
+        },
         translate (x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
         },
@@ -137,8 +243,9 @@ export default {
                 return v;
             }
         },
-        calcTableData (data) {
+        calcTableData (data, select_dot) {
             let sdata = [];
+            let id_cnt = 0;
             for (let i in data) {
                 let startPos = 840;
                 let tp = [];
@@ -149,6 +256,11 @@ export default {
                     // console.log(data[i][j])
                     if (parseFloat(data[i][j]['norm_corr']) == 0)
                         continue;
+                        
+                    if (select_dot[id_cnt] == 0) {
+                        continue;
+                    }
+                    id_cnt++;
                     sdata.push({
                         id: i,
                         smooth: data[i][j]['smooth'],
@@ -172,11 +284,11 @@ export default {
                 }
                 // lineData.push(tp);
             }
-            sdata.sort((a, b) => {
-                if (a.rmse != b.rmse) return b.rmse - a.rmse;
-                return b.norm_corr - a.norm_corr;
-            })
-            sdata = sdata.slice(0, 200);
+            // sdata.sort((a, b) => {
+            //     if (a.rmse != b.rmse) return b.rmse - a.rmse;
+            //     return b.norm_corr - a.norm_corr;
+            // })
+            // sdata = sdata.slice(0, 200);
 
             return sdata;
         },
@@ -188,11 +300,12 @@ export default {
             let minNorm = 999999;
             let maxTime = -999999;
             let lineData = [];
+            let id_cnt = 0;
             for (let i in data) {
                 let startPos = 840;
                 let tp = [];
-                if (i >= 16 && i <= 19)
-                    continue;
+                // if (i >= 16 && i <= 19)
+                //     continue;
                 for (let j in data[i]) {
                     // console.log(data[i][j])
                     if (parseFloat(data[i][j]['129_pearson']) == 0)
@@ -215,6 +328,8 @@ export default {
                     minRmse = Math.min(minRmse, parseFloat(data[i][j]['rmse']));
                     maxNorm = Math.max(maxNorm, parseFloat(data[i][j]['129_pearson']));
                     minNorm = Math.min(minNorm, parseFloat(data[i][j]['129_pearson']));
+
+                    id_cnt++;
                 }
                 // lineData.push(tp);
             }
@@ -241,11 +356,10 @@ export default {
                 .append('circle')
                 .attr('cx', d => d.x)
                 .attr('cy', d => d.y)
+                .attr('id', (d, i) => 'corr_c' + i)
                 .attr('class', 'corr_cir')
                 .attr('r', 1)
                 .attr('fill', 'orange')
-
-
 
             // let lineGenerate = line().x(d => timeScale(d.time)).y(d => rmseScale(d.rmse));
 
@@ -302,10 +416,12 @@ export default {
         this.elWidth = this.$refs.modelExplainer.offsetWidth;
         // console.log(dataX);
         let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35];
+        this.dataSet = dataSet;
+
         this.dot_data = this.calcScatter(dataSet);
-        this.tableData = this.calcTableData(dataSet);
+        // this.tableData = this.calcTableData(dataSet);
 
-
+        this.setupLasso();
     },
     watch: {
 
@@ -323,6 +439,29 @@ export default {
     font-weight: normal;
     color: black;
 }
+
+
+.lasso path {
+    stroke: #2378ae;
+    /* stroke: white; */
+    stroke-width: 3;
+    stroke-dasharray: 4, 4;
+}
+
+.lasso #drawn {
+    fill-opacity: 0.05;
+}
+
+.lasso #loop_close {
+    fill: none;
+    stroke-dasharray: 4, 4;
+}
+
+.lasso #origin {
+    fill: rgb(180, 180, 180);
+    fill-opacity: 0.5;
+}
+
 
 /*chrome--------------------------------------------start*/
 ::-webkit-scrollbar {

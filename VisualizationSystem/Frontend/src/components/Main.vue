@@ -24,6 +24,10 @@
             style="position: absolute; left: calc(10px + 12vw);  top: calc(10px); height: calc(27vh - 20px); width: calc(3vw + (50vw - 17.5px) / 2 - 7.5px);">
             <CorrelationView />
         </div>
+        <div class="framework" id="DistributionView"
+            style="position: absolute; left: calc(10px);  top: calc(5px + 27vh); height: calc(27vh - 15px); width: calc(40vw - 17.5px);">
+            <!-- <CorrelationView /> -->
+        </div>
         <!-- <div class="framework" id="UnitView"
             style="position: absolute; left: calc(10px + 3vw + (50vw - 17.5px) / 2 + 7.5px);  top: calc(27vh + 5px); height: calc(27vh - 20px); width: calc((50vw - 17.5px) / 2 - 3vw - 7.5px);">
         <UnitView/>
@@ -32,8 +36,6 @@
 </template>
 <script>
 import { dataService } from '@/service'
-
-
 import CorrelationView from './CorrelationView.vue';
 import ModelExplainer from './ModelExplainer.vue';
 import DataTransformation from './DataTransformation.vue';
