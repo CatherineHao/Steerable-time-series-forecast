@@ -2,13 +2,13 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2022-11-20 23:25:35
- * @LastEditTime: 2023-02-18 20:11:49
+ * @LastEditTime: 2023-03-05 22:49:12
 -->
 <template>
     <div id="navBar">DataTransAnalyzer</div>
     <div style="height: calc(94vh - 0px); width: calc(100% - 0px);">
         <div class="framework" id="controlPanel"
-            style="position: absolute; left: calc(10px); top: calc(10px); height: calc(27vh - 20px); width: calc(12vw - 17.5px);">
+            style="position: absolute; left: calc(10px); top: calc(10px); height: calc(20vh - 20px); width: calc(12vw - 17.5px);">
             <!-- <ReasoningView /> -->
             <ControlPanel :basicData="basicData"/>
         </div>
@@ -21,12 +21,13 @@
             <ModelExplainer :sliceData="sliceData"/>
         </div>
         <div class="framework" id="CorrelationView"
-            style="position: absolute; left: calc(10px + 12vw);  top: calc(10px); height: calc(27vh - 20px); width: calc(3vw + (50vw - 17.5px) / 2 - 7.5px);">
+            style="position: absolute; left: calc(10px + 12vw);  top: calc(10px); height: calc(20vh - 20px); width: calc(3vw + (50vw - 17.5px) / 2 - 7.5px);">
             <CorrelationView />
         </div>
         <div class="framework" id="DistributionView"
-            style="position: absolute; left: calc(10px);  top: calc(5px + 27vh); height: calc(27vh - 15px); width: calc(40vw - 17.5px);">
+            style="position: absolute; left: calc(10px);  top: calc(5px + 20vh); height: calc(34vh - 15px); width: calc(40vw - 17.5px);">
             <!-- <CorrelationView /> -->
+            <UnitView/>
         </div>
         <!-- <div class="framework" id="UnitView"
             style="position: absolute; left: calc(10px + 3vw + (50vw - 17.5px) / 2 + 7.5px);  top: calc(27vh + 5px); height: calc(27vh - 20px); width: calc((50vw - 17.5px) / 2 - 3vw - 7.5px);">
@@ -86,7 +87,7 @@ export default {
     height: calc(100% - 60px);
     /* width: 100%; */
     /* background-color: #4C87EC; */
-    padding: 0px 10px 10px 10px;
+    padding: 0px 10px 0px 10px;
 }
 
 .framework .frameworkTitle .title {

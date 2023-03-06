@@ -10,43 +10,27 @@
         <p class="titleTriangle"></p>
     </div>
     <div class="frameworkBody">
-        <div ref="modelTable"
-            style="height: 100%; width: calc(50% - 7.5px); float: right; overflow:auto; font-size: 18px;">
+        <div ref="modelTable" style="height: 100%; width: calc(50% - 7.5px); float: right; overflow:auto; font-size: 18px;">
             <el-table :data="tableData" style="width: 100%" height="100%"
                 :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
-                :cell-style="{ 'text-align': 'center', 'background-color': 'rgba(250, 250, 250, 1)', 'font-size': '16px' }">
-                <!-- <el-table-column type="expand">
-                    <template #default="props">
-                        <div m="4">
-                            <el-table :data="props.row['sub_slice']" stripe style="width: 100%; float: right;" height="200"
-                                :table-layout="'auto'" :header-cell-style="{ 'text-align': 'center' }"
-                                :cell-style="{ 'text-align': 'center' }">
-                                <el-table-column label="ID" prop="slice_num" />
-                                <el-table-column label="MAE" prop="MAE" />
-                                <el-table-column label="STD" prop="STD" />
-                                <el-table-column label="MEAN" prop="Mean" />
-                                <el-table-column label="BEGIN" prop="train_begin" />
-                                <el-table-column label="END" prop="test_end" />
-
-                            </el-table>
-                        </div>
-                    </template>
-                </el-table-column> -->
+                :cell-style="{ 'text-align': 'center', 'font-size': '16px', 'height': '15px' }"
+                :row-style="{ 'height': '18px' }">
+                <el-table-column label="ID" prop="id" sortable />
                 <el-table-column label="Smooth" prop="smooth" />
-                <el-table-column label="Skip" prop="skip" />
-                <el-table-column label="RMSE" prop="rmse" />
-                <el-table-column label="Corr." prop="norm_corr" />
+                <el-table-column label="Skip" prop="skip" sortable />
+                <el-table-column label="RMSE" prop="rmse" sortable />
+                <el-table-column label="Corr." prop="norm_corr" sortable />
             </el-table>
         </div>
         <div ref="modelExplainer" style="height: 100%; width: calc(50%); float: left;">
             <svg id="modelExplainer" height="100%" width="100%">
-                <g id="axis_g">
+            <g id="axis_g">
                     <g id="x_axis_g" :transform="translate(0, elHeight - 18, 0)"></g>
                     <g id="y_axis_g" :transform="translate(30, 0, 0)"></g>
                 </g>
                 <g id="scatter">
                     <!-- <circle v-for="(o, i) in dot_data" :key="'cir' + i" class="corr_cir" :id="'corr_cir' + o.id" :cx="o.x" :cy="o.y" :r="1"
-                            fill="orange"></circle> -->
+                                    fill="orange"></circle> -->
                 </g>
             </svg>
         </div>
@@ -167,11 +151,25 @@ export default {
                     close_path.attr("display", "none");
                 }
             }
-            let dragEnded = async function () {
+            let dragEnded = async function (event) {
                 origin_node.attr("display", "none");
                 // draw_path.attr("d", null);
                 // close_path.attr("d", null);
+                let tx = event.x;
+                let ty = event.y;
+                if (select_path == "") {
+                    select_path = select_path + "M " + tx + " " + ty;
+                    target_circle = [event.x, event.y];
+                    polygon.push([event.x, event.y]);
+                } else {
+                    select_path = select_path + "L " + tx + " " + ty;
+                }
                 
+                let distance = Math.sqrt(Math.pow(tx - target_circle[0], 2) + Math.pow(ty - target_circle[1], 2));
+
+                if (distance < 10)
+                    return;
+
                 _this.lasso_t = 1;
                 let select_dot = new Object();
                 let select_info = new Array();
@@ -194,11 +192,11 @@ export default {
                 const dataStore = useDataStore();
                 dataStore.selectDot = select_dot;
 
-                
-        _this.tableData = _this.calcTableData(_this.dataSet, select_dot);
+
+                _this.tableData = _this.calcTableData(_this.dataSet, select_dot);
                 selectAll('.corr_cir').attr('opacity', (d, i) => {
                     if (select_dot[i] == 1) return 1;
-                    else return 0.5;
+                    else return d.isShow == 0 ? 0 : 0.5;
                 }).attr('fill', (d, i) => {
                     if (select_dot[i] == 1) return 'orange';
                     else return '#d9d9d9';
@@ -256,13 +254,14 @@ export default {
                     // console.log(data[i][j])
                     if (parseFloat(data[i][j]['norm_corr']) == 0)
                         continue;
-                        
+
+                    id_cnt++;
                     if (select_dot[id_cnt] == 0) {
                         continue;
                     }
-                    id_cnt++;
+                    // console.log(id_cnt);
                     sdata.push({
-                        id: i,
+                        id: id_cnt,
                         smooth: data[i][j]['smooth'],
                         skip: data[i][j]['skip'],
                         time: j * this.skip_length[i] + startPos,
@@ -314,7 +313,9 @@ export default {
                         id: i,
                         time: j * this.skip_length[i] + startPos,
                         norm_corr: parseFloat(data[i][j]['129_pearson']),
-                        rmse: parseFloat(data[i][j]['rmse'])
+                        rmse: parseFloat(data[i][j]['rmse']),
+                        isShow: Math.random() < 0.1 ? 1 : 0,
+                        id_cnt: id_cnt
                     });
                     // tp.push({
                     //     id: i,
@@ -341,25 +342,77 @@ export default {
             let timeScale = scaleLinear([840, maxTime], [30, this.elWidth - 20]);
             let xAxis = axisBottom(normScale).ticks(10);
             let yAxis = axisLeft(rmseScale).ticks(10);
-            select("#x_axis_g").call(xAxis);
-            select("#y_axis_g").call(yAxis);
+            select("#x_axis_g").call(xAxis).call(g => g.selectAll(".title").data(['Corr.']).join("text")
+                .attr("class", "title")
+                .attr("x", this.elWidth - 20)
+                .attr("y", 16)
+                .attr("fill", "currentColor")
+                .attr("text-anchor", "middle")
+                .attr('font-size', '14px')
+                .text('Corr.'));
+            select("#y_axis_g").call(yAxis).call(g => g.selectAll(".title").data(['RMSE']).join("text")
+                .attr("class", "title")
+                .attr("x", 20)
+                .attr("y", 12)
+                .attr("fill", "currentColor")
+                .attr("text-anchor", "middle")
+                .attr('font-size', '14px')
+                .text('RMSE'));
             for (let i in sdata) {
                 sdata[i].x = normScale(sdata[i].norm_corr);
                 sdata[i].y = rmseScale(sdata[i].rmse);
             }
+            let _this = this;
             select('#scatter')
                 .append('g')
                 .selectAll('#res_c')
                 .attr('id', 'res_c')
-                .data(sdata)
+                .data(sdata, d => {
+                    if (d.isShow == 1) {
+                        return d;
+                    }
+                })
                 .enter()
                 .append('circle')
                 .attr('cx', d => d.x)
                 .attr('cy', d => d.y)
-                .attr('id', (d, i) => 'corr_c' + i)
+                .attr('id', (d, i) => 'corr_c' + d.id_cnt)
                 .attr('class', 'corr_cir')
-                .attr('r', 1)
+                .attr('r', 2)
+                // .attr('stroke', 'white')
                 .attr('fill', 'orange')
+                .attr('opacity', d => d.isShow)
+                .on('mouseover', (e, d) => {
+                    select('#corr_c' + d.id_cnt).attr('r', d.isShow == 1 ? 5 : 1);
+                })
+                .on('mouseout', (e, d) => {
+                    select('#corr_c' + d.id_cnt).attr('r', 2);
+                })
+                .on('click', (e, d) => {
+                    // console.log()
+                    let select_dot = [];
+                    // select_dot[d.id_cnt] = 1;
+                    for (let i = 0; i < id_cnt; ++i) {
+                        select_dot.push(0);
+                        if (i == d.id_cnt) {
+                            console.log(d.id_cnt)
+                            select_dot[i] = 1;
+                        }
+                    }
+                    const dataStore = useDataStore();
+                    dataStore.selectDot = select_dot;
+
+                    console.log(select_dot);
+                    _this.tableData = _this.calcTableData(_this.dataSet, select_dot);
+                    console.log(_this.tableData);
+                    selectAll('.corr_cir').attr('opacity', (d, i) => {
+                        if (select_dot[i] == 1) return 1;
+                        else return d.isShow == 0 ? 0 : 0.5;
+                    }).attr('fill', (d, i) => {
+                        if (select_dot[i] == 1) return 'orange';
+                        else return '#d9d9d9';
+                    })
+                })
 
             // let lineGenerate = line().x(d => timeScale(d.time)).y(d => rmseScale(d.rmse));
 
@@ -460,6 +513,10 @@ export default {
 .lasso #origin {
     fill: rgb(180, 180, 180);
     fill-opacity: 0.5;
+}
+
+.el-table__cell {
+    height: 15px;
 }
 
 

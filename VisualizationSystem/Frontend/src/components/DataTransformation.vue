@@ -85,11 +85,11 @@
                     @mouseenter="selectFile(i)" @mouseout="cancelFile(i)">
                     <!-- <rect :id="'rst' + i" :x="item['heat'][0].x" :y="0" :width="elWidth - 0 - item['heat'][0].x"
                                                             :height="item['heat'][0].h" fill="none" stroke="orange" stroke-width="0"></rect> -->
-                    <text font-size="12" text-anchor="end" dx="40em" dy="1em">{{ filename[i] }}</text>
                     <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
                         :width="item_h.w" :height="item_h.h" :fill="item_h.colorMap[heatTag]" :id="'tsr' + item_h.id_cnt"
-                        :fill-opacity="heatTag < 3 ? 1 : item_h.fill_opacity">
+                        :fill-opacity="heatTag < 3 ? 1 : 1">
                     </rect>
+                    <text font-size="12" text-anchor="start" dx="00em" dy="1em">{{ filename[i].substring(0, filename[i].length - 8) }}</text>
                 </g>
                 <g id="legend_g"></g>
                 <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)">
@@ -270,18 +270,17 @@
                         </g>
                     </g>
                     <g id="brush_g" :transform="translate(0, -15, 0)"></g>
-                    <g :transform="translate(0, -15, 0)">
+                    <g :transform="translate(0, -15, 0)" id="focusLine_g">
                         <path :d="brushTimeLineData" stroke="steelblue" :fill="'none'"></path>
                         <g id="brush_path_line"></g>
-                        <g id="" :transform="translate(0, 100, 0)">
-                            <!-- <path :d="'M ' + 50 + ' 0 ' + 'L ' + (tlWidth - 0) + ' 0'" :fill="'none'" stroke="black">
-                                                                                                        </path> -->
+                        <!-- <g id="" :transform="translate(0, 100, 0)">
+                            
                             <g v-for="(item, i) in brushTimeAxis" :key="'xa' + i">
                                 <path :d="'M ' + item.x + ' 0 ' + 'L ' + item.x + ' 5'" :fill="'none'" stroke="black">
                                 </path>
                                 <text :x="item.x" y="20" font-size="12" text-anchor="middle">{{ item.text }}</text>
                             </g>
-                        </g>
+                        </g> -->
                     </g>
                 </g>
             </svg>
@@ -292,7 +291,7 @@
 
 
 import { arc, curveBumpY, line } from 'd3-shape';
-import { scaleUtc, scaleLinear } from 'd3-scale';
+import { scaleUtc, scaleLinear, scaleOrdinal } from 'd3-scale';
 import { axisLeft, axisBottom } from 'd3-axis';
 import { interpolateRdBu, interpolateYlOrRd, schemeYlOrRd } from 'd3-scale-chromatic';
 import { useDataStore } from "../stores/counter";
@@ -363,7 +362,7 @@ export default {
             tlHeight: 100,
             tlWidth: 100,
             heatHeight: 0,
-            heatTag: 0,
+            heatTag: 3,
             heatOptions: ['Raw + Difference', 'Raw', 'Difference', 'RMSE + Corr.', 'RMSE', 'Corr.'],
             sample: ['10-slice', '7-slice', '3-slice'],
             smooth: ['Raw Sequence', 'N-Average', 'EMA/Holt'],
@@ -439,7 +438,7 @@ export default {
     methods: {
         selectFile (num) {
 
-            select('#rst' + num).attr('stroke-width', 3);
+            select('#rst' + num).attr('stroke-width', 3).attr('fill', '#bbb').attr('fill-opacity', 0.5);
             selectAll('.p_x').attr('opacity', (d, i) => {
                 return d.id == num ? 1 : 0;
             })
@@ -556,12 +555,12 @@ export default {
                 .join(
                     enter => enter.append("path")
                         .attr("class", "handle--custom")
-                        .attr("fill", "#666")
-                        .attr("fill-opacity", 0.8)
-                        .attr("stroke", "#000")
-                        .attr("stroke-width", 1.5)
+                        .attr("fill", "white")
+                        .attr("opacity", 1)
+                        .attr("stroke", "#777")
+                        .attr("stroke-width", 1)
                         .attr("cursor", "ew-resize")
-                        .attr("d", arcA)
+                        .attr("d", 'M -5 ' + (-focusHeight / 2 + 30) + ' L -5 ' + (focusHeight / 2 - 30) + 'L 5 ' + (focusHeight / 2 - 30) + ' L 5 ' + (-focusHeight / 2 + 30) + ' Z'),
                 )
                 .attr("display", s === null ? "none" : null)
                 .attr("transform", s === null ? null : (d, i) => `translate(${s[i]},${radius + margin.top})`)
@@ -588,7 +587,7 @@ export default {
                         y: 0,
                         text: parseInt(parseInt(_this.lineData[i].timestamp) / 100) + '.' + parseInt(parseInt(_this.lineData[i].timestamp) % 100)
                     });
-
+                    
                 }
                 // _this.timeAxis = xAxis;
 
@@ -619,7 +618,7 @@ export default {
 
         },
         calcTimeLine (data, height, width) {
-            let margin = ({ top: 20, right: 0, bottom: 30, left: 50 });
+            let margin = ({ top: 20, right: 20, bottom: 30, left: 50 });
             // let height = 440;
             // let width = 1000;
             let focusHeight = 100;
@@ -636,6 +635,25 @@ export default {
             const rx = scaleLinear()
                 .domain([margin.left, width - margin.right])
                 .range([0, max(data, d => parseInt(d.id))]);
+
+            let timeData = [];
+            let lenData = [];
+            for (let i = 0; i < data.length; ++i) {
+                
+                if (i == 0 || i == data.length - 1 || i % Math.floor(data.length / 10) === 0) {
+                    lenData.push(x(parseInt(data[i].id)));
+                    timeData.push(parseInt(data[i].timestamp));
+                }
+            }
+            let timeScale = scaleOrdinal(timeData, lenData);
+            select('#focusLine_g').append('g').call(axisBottom(timeScale).tickSizeOuter(0).tickPadding(10)).attr('transform', `translate(0,${focusHeight})`).call(g => g.selectAll(".title").data(['Time']).join("text")
+                    .attr("class", "title")
+                    .attr("x", this.elWidth - 20)
+                    .attr("y", 35)
+                    .attr("fill", "currentColor")
+                    .attr("text-anchor", "middle")
+                    .attr('font-size', '14px')
+                    .text('Time'))
             this.xScale = x;
             this.yScale = y;
             this.rxScale = rx;
@@ -661,10 +679,11 @@ export default {
                 // .call(g => g.select(".domain").remove())
                 .call(g => g.selectAll(".title").data([title]).join("text")
                     .attr("class", "title")
-                    .attr("x", -margin.left)
-                    .attr("y", 10)
+                    .attr("x", 0)
+                    .attr("y", 12)
                     .attr("fill", "currentColor")
-                    .attr("text-anchor", "start")
+                    .attr("text-anchor", "middle")
+                    .attr('font-size', '14px')
                     .text(title));
             let xAxis = (g, x, height) => g
                 .attr("transform", `translate(0,${height - margin.bottom})`)
@@ -679,7 +698,7 @@ export default {
             this.timeAxis = timeAxis;
             this.brushTimeAxis = timeAxis;
             // select('#timeline').append('g').call(xAxis, x, focusHeight);
-            select('#raw_line_g').append('g').attr('id', 'yAxis_g').call(yAxis, y, 'value');
+            select('#raw_line_g').append('g').attr('id', 'yAxis_g').call(yAxis, y, 'Value');
             // select('#brush_path_g').append("defs").append("clipPath")
             //     .attr("id", "clip")
             //     .append("rect")
@@ -704,7 +723,7 @@ export default {
             const _this = this;
 
 
-            select("#timeline_g").append('path').attr('id', 'selected_area').attr('d', 'M ' + parseInt(988) + ' ' + 85 + ' L ' + parseInt(1760) + ' ' + 85 + ' L ' + (_this.elWidth) + ' 130 L 50 130 Z').attr('stroke', 'black').attr('stroke-width', 1).attr('fill', 'black').attr('opacity', 0.15);
+            select("#timeline_g").append('path').attr('id', 'selected_area').attr('d', 'M ' + parseInt(988) + ' ' + 85 + ' L ' + parseInt(1760) + ' ' + 85 + ' L ' + (_this.elWidth) + ' 130 L 50 130 Z').attr('stroke', '#777').attr('stroke-width', 1).attr('fill', '#777').attr('opacity', 0.15);
 
             select('#brush_path_line')
                 // .append('g')
@@ -763,7 +782,7 @@ export default {
             return sumMonth;
         },
         calcHeat (raw_data, smooth_data, skipLength, width, tag) {
-            let margin = ({ top: 20, right: 0, bottom: 30, left: 50 });
+            let margin = ({ top: 20, right: 50, bottom: 30, left: 50 });
             let x = scaleLinear()
                 .domain([0, max(raw_data, d => parseInt(d.id))])
                 .range([margin.left, width - margin.right])
@@ -1009,7 +1028,7 @@ export default {
                         skip: skp,
                         id: parseInt(kk),
                         fill_opacity: 0,
-                        id_cnt: -1
+                        id_cnt: '_1'
                         // x: x(parseInt(raw_data[i].id)),
                         // w: Math.abs(x(parseInt(raw_data[i + ((i + skipLength < raw_data.length) ? skipLength : (raw_data.length - 1 - i))].id)) - x(parseInt(raw_data[i].id))),
                     });
@@ -1196,11 +1215,12 @@ export default {
         let _this = this;
 
         dataStore.$subscribe((mutation, state) => {
-            console.log(dataStore.selectDot, _this.heatRectData);
+            // console.log(dataStore.selectDot, _this.heatRectData);
+            selectAll('#tsr_1').attr('opacity', 0);
             for (let i in _this.heatRectData) {
                 for (let j in _this.heatRectData[i].heat) {
                     // console.log(_this.heatRectData[i][j])
-
+                    
                     if (dataStore.selectDot[this.heatRectData[i].heat[j].id_cnt] == 1) {
                         select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('opacity', 1).attr('stroke', 'blue').attr('stroke-width', 0);
 
@@ -1242,5 +1262,9 @@ export default {
 
 .el-table .el-table__cell {
     padding: 0px;
+}
+
+.selection {
+    fill-opacity: 0.15;
 }
 </style>

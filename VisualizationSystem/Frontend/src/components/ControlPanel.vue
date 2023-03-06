@@ -11,11 +11,11 @@
     </div>
     <div class="frameworkBody">
         <div ref="ControlPanel"
-            style="height: 100%; width: calc(100%); float: left; border: 0px solid blue; font-size: 18px;">
+            style="height: 100%; width: calc(100%); float: left; border: 0px solid blue; font-size: 16px;">
             <!-- <svg id="ControlPanel" height="100%" width="100%">
                 
             </svg> -->
-            <div style="height: 25%;">
+            <div style="height: calc(20% - 5px);">
                 <span style="float: left; font-weight: normal; margin-top: 6px;">
                     DataSet:
                 </span>
@@ -26,7 +26,7 @@
                     </el-select>
                 </span>
             </div>
-            <div style="height: 25%;">
+            <div style="height: calc(20% - 5px); margin-top: 5px;">
                 <span style="float: left; font-weight: normal; margin-top: 6px;">
                     Model:
                 </span>
@@ -37,7 +37,15 @@
                     </el-select>
                 </span>
             </div>
-            <div style="height: 25%;">
+            <div style="height: calc(20% - 5px); margin-top: 5px;">
+                <span style="float: left; font-weight: normal; margin-top: 6px;">
+                    Multi-variable:
+                </span>
+                <span style="width: 60%; float: right;">
+                    
+                </span>
+            </div>
+            <div style="height: calc(20% - 5px); margin-top: 5px;">
                 <span style="float: left; font-weight: normal; margin-top: 6px;">
                     Stationary:
                 </span>
@@ -46,7 +54,7 @@
                     basicData[fileValue].stationary['p-value'] + ')') }}
                 </span>
             </div>
-            <div style="height: 25%;">
+            <div style="height: calc(20% - 5px); margin-top: 5px;">
                 <span style="float: left; font-weight: normal; margin-top: 6px;">
                     Periodicity:
                 </span>
