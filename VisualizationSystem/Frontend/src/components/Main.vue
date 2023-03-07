@@ -5,7 +5,10 @@
  * @LastEditTime: 2023-03-05 22:49:12
 -->
 <template>
-    <div id="navBar">DataTransAnalyzer</div>
+    <div id="navBar">
+        <img src="../assets/logo/logo.png" width="40" alt="">
+        <span style="font-weight: 800; padding-left: 10px; margin-bottom: 100px; position: absolute;">DataTransAnalyzer</span> 
+    </div>
     <div style="height: calc(96vh - 0px); width: calc(100% - 0px);">
         <div class="framework" id="controlPanel"
             style="position: absolute; left: calc(5px); top: calc(5px); height: calc(30vw); width: calc(12vw - 15px);">
@@ -17,7 +20,7 @@
             <DataTransformation :timeData="timeData" :sliceData="sliceData"/>
         </div>
         <div class="framework" id="ModelExplainer"
-            style="position: absolute; left: calc(5px); top: calc(30vw + 10px); height: calc(96vh - 30vw - 10px); width: calc(42vw - 10px);">
+            style="position: absolute; left: calc(5px); top: calc(30vw + 10px); height: calc(96vh - 30vw - 15px); width: calc(42vw - 10px);">
             <ModelExplainer :sliceData="sliceData"/>
         </div>
         <!-- <div class="framework" id="CorrelationView"
@@ -42,6 +45,7 @@ import ModelExplainer from './ModelExplainer.vue';
 import DataTransformation from './DataTransformation.vue';
 import ControlPanel from './ControlPanel.vue';
 import UnitView from './UnitView.vue';
+// import logo from '';
 export default {
     name: "APP",
     props: ["msgH", 'timeData', 'sliceData', 'basicData'],
@@ -133,9 +137,9 @@ export default {
     color: white;
     font-size: 28px;
     height: calc(4%);
-    padding-top: 0.2%;
+    padding-top: 0.3%;
     padding-bottom: 0.5%;
-    padding-left: 20px;
+    padding-left: 10px;
     /* font-family: STHeiti; */
     font-family: 'KoHo', 'Avenir', Helvetica, Arial, sans-serif;
 }

@@ -65,6 +65,18 @@
             </div>
 
         </div>
+        <div ref="resTable" style="height: 70%; width: calc(100%); float: right; overflow:auto; font-size: 18px;">
+            <el-table :data="tableData" style="width: 100%" height="100%"
+                :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
+                :cell-style="{ 'text-align': 'center', 'font-size': '16px', 'height': '15px', 'padding-left': '5px', 'padding-right': '5px'}"
+                :row-style="{ 'height': '18px' }">
+                <!-- <el-table-column label="ID" prop="id" sortable /> -->
+                <el-table-column label="Smooth" prop="dataset_name" width="90"/>
+                <el-table-column label="Skip" prop="skip" width="60" />
+                <el-table-column label="Loss" prop="test" width="60"  />
+                <el-table-column label="ACF" prop="acf" width="60" />
+            </el-table>
+        </div>
         <!-- <div ref="ControlTable" style="height: 100%; width: calc(70% - 7.5px); float: right; background-color: green;">
             <el-table :data="tableData" stripe border style="width: 100%; height: 100%;" :header-cell-style="{'text-align':'center', 'background-color': 'rgb(250, 250, 250)'}" :cell-style="{'text-align':'center'}">
                 <el-table-column prop="slice_number" label="Slice number" width="120" />
@@ -78,6 +90,7 @@
     </div>
 </template>
 <script>
+import res_data from '../assets/model_skip_results.json';
 import { useDataStore } from "../stores/counter";
 export default {
     name: 'ControlPanelView',
@@ -87,6 +100,7 @@ export default {
             elHeight: 0,
             elWidth: 0,
             fileValue: null,
+            tableData: [],
             fileOptions: [
                 {
                     value: '13_average_smooth_sunspot',
@@ -126,8 +140,48 @@ export default {
         }
     },
     methods: {
+        
+        formatNum (num) {
+            //1. 可能是字符串，转换为浮点数
+            //2. 乘以100 小数点向右移动两位
+            //3. Math.round 进行四舍五入
+            //4. 除以100 小数点向左移动两位 实现保留小数点后两位
+            let v = Math.round(parseFloat(num) * 100) / 100;
+            // 去掉小数点 存为数组
+            let arrayNum = v.toString().split(".");
+            //只有一位（整数）
+            if (arrayNum.length == 1) {
+                return v.toString() + ".00";
+            }
+            if (arrayNum.length > 1) {
+                //小数点右侧 如果小于两位 则补一个0
+                if (arrayNum[1].length < 2) {
+                    return v.toString() + "0";
+                }
+                return v;
+            }
+        },
         translate(x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
+        },
+        calcTable(data) {
+            // console.log(data);
+            let tmpData = [];
+            for (let i = 0; i < 9; ++i) {
+                for (const j in data[i].predic_info) {
+                    let d = data[i].predic_info[j];
+                    let tmp = new Object();
+                    tmp['dataset_name'] = data[i].dataset_name;
+                    tmp['skip'] = d.skip;
+                    // console.log(d.skip);
+                    tmp['train'] = this.formatNum(d['loss=mean_squared_error']);
+                    tmp['test'] = this.formatNum(d['val_loss=val_mse']);
+                    tmp['acf'] = this.formatNum(d['ACF']);
+                    tmpData.push(tmp);
+                }
+            }
+            // console.log(tmpData);
+            return tmpData;
         }
     },
     watch: {
@@ -146,6 +200,7 @@ export default {
         this.elHeight = this.$refs.ControlPanel.offsetHeight;
         this.elWidth = this.$refs.ControlPanel.offsetWidth;
         // console.log(this.basicData)
+        this.tableData = this.calcTable(res_data);
     },
 }
 </script>
@@ -161,5 +216,9 @@ export default {
 }
 td {
     height:25%;
+}
+.el-table .cell {
+    padding-left: 3px;
+    padding-right: 3px;
 }
 </style>
