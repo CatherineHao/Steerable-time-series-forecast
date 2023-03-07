@@ -94,7 +94,7 @@ export default {
             F_sparkBoxData: [],
             linePath: null,
             F_name: ['pm25', 'temp', 'rh', 'psfc', 'wnd_dir', 'wnd_spd'],
-            S_name: ['value', 'weight13', 'rolling13'],
+            S_name: ['raw', 'weight13', 'rolling13'],
             tfData: []
         }
     },
@@ -249,6 +249,7 @@ export default {
         for (let i in SN_raw_data) {
             SN_raw_data[i]['weight13'] = weight13[i]['value'];
             SN_raw_data[i]['rolling13'] = rolling13[i]['value'];
+            SN_raw_data[i]['raw'] = SN_raw_data[i]['value'];
         }
         // console.log(SN_raw_data);
 

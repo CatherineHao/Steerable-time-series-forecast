@@ -252,13 +252,14 @@ export default {
                 //     continue;
                 for (let j in data[i]) {
                     // console.log(data[i][j])
+                    if (j > 1000) break;
                     if (parseFloat(data[i][j]['norm_corr']) == 0)
                         continue;
 
                     id_cnt++;
-                    if (select_dot[id_cnt] == 0) {
-                        continue;
-                    }
+                    // if (select_dot[id_cnt] == 0) {
+                    //     continue;
+                    // }
                     // console.log(id_cnt);
                     sdata.push({
                         id: id_cnt,
@@ -472,7 +473,7 @@ export default {
         this.dataSet = dataSet;
 
         this.dot_data = this.calcScatter(dataSet);
-        // this.tableData = this.calcTableData(dataSet);
+        this.tableData = this.calcTableData(dataSet);
 
         this.setupLasso();
     },
