@@ -6,26 +6,26 @@
 -->
 <template>
     <div id="navBar">DataTransAnalyzer</div>
-    <div style="height: calc(94vh - 0px); width: calc(100% - 0px);">
+    <div style="height: calc(96vh - 0px); width: calc(100% - 0px);">
         <div class="framework" id="controlPanel"
-            style="position: absolute; left: calc(10px); top: calc(10px); height: calc(20vh - 20px); width: calc(12vw - 17.5px);">
+            style="position: absolute; left: calc(5px); top: calc(5px); height: calc(30vw); width: calc(12vw - 15px);">
             <!-- <ReasoningView /> -->
             <ControlPanel :basicData="basicData"/>
         </div>
         <div class="framework" id="DataTransformation"
-            style="position: absolute; left: calc(10px + 40vw - 17.5px + 15px); top: calc(10px); height: calc(94vh - 20px); width: calc(60vw - 17.5px);">
+            style="position: absolute; right: 5px; top: calc(5px); height: calc(96vh - 10px); width: calc(58vw - 5px);">
             <DataTransformation :timeData="timeData" :sliceData="sliceData"/>
         </div>
         <div class="framework" id="ModelExplainer"
-            style="position: absolute; left: calc(10px); top: calc(54vh + 5px); height: calc(40vh - 15px); width: calc(40vw - 17.5px);">
+            style="position: absolute; left: calc(5px); top: calc(30vw + 10px); height: calc(96vh - 30vw - 10px); width: calc(42vw - 10px);">
             <ModelExplainer :sliceData="sliceData"/>
         </div>
-        <div class="framework" id="CorrelationView"
+        <!-- <div class="framework" id="CorrelationView"
             style="position: absolute; left: calc(10px + 12vw);  top: calc(10px); height: calc(20vh - 20px); width: calc(3vw + (50vw - 17.5px) / 2 - 7.5px);">
             <CorrelationView />
-        </div>
+        </div> -->
         <div class="framework" id="DistributionView"
-            style="position: absolute; left: calc(10px);  top: calc(5px + 20vh); height: calc(34vh - 15px); width: calc(40vw - 17.5px);">
+            style="position: absolute; left: calc(12vw - 5px);  top: calc(5px); height: calc(30vw); width: calc(30vw);">
             <!-- <CorrelationView /> -->
             <UnitView/>
         </div>
@@ -132,8 +132,8 @@ export default {
     font-weight: bold;
     color: white;
     font-size: 28px;
-    height: calc(6%);
-    padding-top: 0.5%;
+    height: calc(4%);
+    padding-top: 0.2%;
     padding-bottom: 0.5%;
     padding-left: 20px;
     /* font-family: STHeiti; */

@@ -11,7 +11,7 @@
     </div>
     <div class="frameworkBody">
         <div ref="ControlPanel"
-            style="height: 100%; width: calc(100%); float: left; border: 0px solid blue; font-size: 16px;">
+            style="height: 30%; width: calc(100%); float: left; border: 0px solid blue; font-size: 16px;">
             <!-- <svg id="ControlPanel" height="100%" width="100%">
                 
             </svg> -->
