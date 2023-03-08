@@ -8,6 +8,9 @@
     <div class="frameworkTitle">
         <div class="title">Distribution View</div>
         <p class="titleTriangle"></p>
+        <span style="position: absolute; top: 10px; right: 170px;">
+            Pm 2.5: &nbsp;<img style="position: absolute;" src="../assets/img/Blues.png" alt="" width="150" height="20">
+        </span>
     </div>
     <div class="frameworkBody">
         <div ref="DistributionView" style="height: 100%; width: 100%;">
@@ -26,12 +29,12 @@
                         <path :d="'M ' + item.line.x1 + ' ' + item.line.y + ' L ' + item.line.x2 + ' ' + item.line.y"
                             :fill="'none'" :stroke="'#6d70b6'" stroke-width="3"></path>
                     </g>
-                    <g>
-                        <path :d="linePath" stroke="steelblue" fill="none"></path>
-                    </g>
-                </g>
-
                 <g>
+                    <path :d="linePath" stroke="steelblue" fill="none"></path>
+                </g>
+            </g>
+
+            <!-- <g>
                     <g>
                         <text v-for="(o, i) in S_name" :key="'F_leg' + i" :x="0" :y="0"
                             :transform="translate(10, 100 + i * (elHeight - 30) / S_name.length, 0)">{{
@@ -44,13 +47,13 @@
                     </g>
                     <g v-for="(o, i) in F_sparkBoxData" :key="'fsb' + i" :transform="translate(o.tx, o.ty, 0)">
                         <g :transform="translate(80, 15, 0)">
-                            <rect v-for="(oo, r_i) in o.boxData" :key="'fsbr' + r_i" :x="oo.x" :y="oo.y" :width="oo.w"
-                                :height="oo.h" fill="steelblue" :opacity="oo.fill" stroke="white"></rect>
+                                <rect v-for="(oo, r_i) in o.boxData" :key="'fsbr' + r_i" :x="oo.x" :y="oo.y" :width="oo.w"
+                                    :height="oo.h" fill="steelblue" :opacity="oo.fill" stroke="white"></rect>
+                            </g>
+                            <rect :x="o.rx" :y="o.ry" :width="o.w" :height="o.h" fill="none" stroke="black"></rect>
                         </g>
-                        <rect :x="o.rx" :y="o.ry" :width="o.w" :height="o.h" fill="none" stroke="black"></rect>
-                    </g>
-                </g>
-                <!-- <g>
+                    </g> -->
+                <g>
                     <g>
                         <text v-for="(o, i) in F_name" :key="'F_leg' + i" :x="0" :y="0"
                             :transform="translate(10, 50 + i * (elHeight - 30) / F_name.length, 0)">{{
@@ -64,11 +67,11 @@
                     <g v-for="(o, i) in F_sparkBoxData" :key="'fsb' + i" :transform="translate(o.tx, o.ty, 0)">
                         <g :transform="translate(80, 15, 0)">
                             <rect v-for="(oo, r_i) in o.boxData" :key="'fsbr' + r_i" :x="oo.x" :y="oo.y" :width="oo.w"
-                                :height="oo.h" fill="steelblue" :opacity="oo.fill" stroke="white"></rect>
+                                :height="oo.h" :fill="oo.fillColor" :opacity="oo.fill" stroke="white"></rect>
                         </g>
                         <rect :x="o.rx" :y="o.ry" :width="o.w" :height="o.h" fill="none" stroke="black"></rect>
                     </g>
-                </g> -->
+                </g>
             </svg>
         </div>
     </div>
@@ -83,6 +86,7 @@ import SN_raw_data from "../assets/SN_m_tot_V2.0.csv";
 import weight13 from '../assets/data/SN_weighted_moving_average13_tot.csv';
 import rolling13 from '../assets/data/SN_rolling13_tot.csv';
 import multi_data from "../assets/used_multi.csv";
+import { interpolateYlGnBu } from "d3-scale-chromatic";
 export default {
     name: 'UnitView',
     props: [],
@@ -229,9 +233,14 @@ export default {
             let v = scaleLinear()
                 .domain([minV, maxV])
                 .range([0.3, 1]);
+            let vScale = scaleLinear()
+                .domain([minV, maxV])
+                .range([0.3, 1]);
+            
 
             for (let i in sparkBoxData) {
                 sparkBoxData[i].fill = v(sparkBoxData[i].v);
+                sparkBoxData[i].fillColor = interpolateYlGnBu(vScale(sparkBoxData[i].v));
             }
             return sparkBoxData;
         },
@@ -246,45 +255,45 @@ export default {
         let F_sparkBoxData = []
         let margin = { top: 15, left: 80, right: 5, bottom: 30 }
         // console.log(rolling13, weight13, SN_raw_data);
-        for (let i in SN_raw_data) {
-            SN_raw_data[i]['weight13'] = weight13[i]['value'];
-            SN_raw_data[i]['rolling13'] = rolling13[i]['value'];
-            SN_raw_data[i]['raw'] = SN_raw_data[i]['value'];
-        }
-        // console.log(SN_raw_data);
+        // for (let i in SN_raw_data) {
+        //     SN_raw_data[i]['weight13'] = weight13[i]['value'];
+        //     SN_raw_data[i]['rolling13'] = rolling13[i]['value'];
+        //     SN_raw_data[i]['raw'] = SN_raw_data[i]['value'];
+        // }
+        // // console.log(SN_raw_data);
 
-        for (let i = 0; i < this.S_name.length; ++i) {
-            for (let j = 0; j < i + 1; ++j) {
-                // console.log(this.S_name[i], this.S_name[j]);
-                F_sparkBoxData.push({
-                    x: j,
-                    y: i,
-                    tx: (this.elWidth - margin.left - margin.right) / this.S_name.length * j,
-                    rx: margin.left,
-                    w: (this.elWidth - margin.left - margin.right) / this.S_name.length,
-                    ty: (this.elHeight - margin.bottom - margin.top) / this.S_name.length * i,
-                    ry: margin.top,
-                    h: (this.elHeight - margin.bottom - margin.top) / this.S_name.length,
-                    boxData: this.calcDisSparkBox(SN_raw_data, (this.elHeight - margin.bottom - margin.top) / this.S_name.length, (this.elWidth - margin.left - margin.right) / this.S_name.length, 4, this.S_name[i], this.S_name[j], 'value')
-                })
-            }
-        }
-        
-        // for (let i = 0; i < this.F_name.length; ++i) {
+        // for (let i = 0; i < this.S_name.length; ++i) {
         //     for (let j = 0; j < i + 1; ++j) {
+        //         // console.log(this.S_name[i], this.S_name[j]);
         //         F_sparkBoxData.push({
         //             x: j,
         //             y: i,
-        //             tx: (this.elWidth - margin.left - margin.right) / this.F_name.length * j,
+        //             tx: (this.elWidth - margin.left - margin.right) / this.S_name.length * j,
         //             rx: margin.left,
-        //             w: (this.elWidth - margin.left - margin.right) / this.F_name.length,
-        //             ty: (this.elHeight - margin.bottom - margin.top) / this.F_name.length * i,
+        //             w: (this.elWidth - margin.left - margin.right) / this.S_name.length,
+        //             ty: (this.elHeight - margin.bottom - margin.top) / this.S_name.length * i,
         //             ry: margin.top,
-        //             h: (this.elHeight - margin.bottom - margin.top) / this.F_name.length,
-        //             boxData: this.calcDisSparkBox(multi_data, (this.elHeight - margin.bottom - margin.top) / this.F_name.length, (this.elWidth - margin.left - margin.right) / this.F_name.length, 4, this.F_name[i], this.F_name[j], 'pm25')
+        //             h: (this.elHeight - margin.bottom - margin.top) / this.S_name.length,
+        //             boxData: this.calcDisSparkBox(SN_raw_data, (this.elHeight - margin.bottom - margin.top) / this.S_name.length, (this.elWidth - margin.left - margin.right) / this.S_name.length, 4, this.S_name[i], this.S_name[j], 'value')
         //         })
         //     }
         // }
+
+        for (let i = 0; i < this.F_name.length; ++i) {
+            for (let j = 0; j < i + 1; ++j) {
+                F_sparkBoxData.push({
+                    x: j,
+                    y: i,
+                    tx: (this.elWidth - margin.left - margin.right) / this.F_name.length * j,
+                    rx: margin.left,
+                    w: (this.elWidth - margin.left - margin.right) / this.F_name.length,
+                    ty: (this.elHeight - margin.bottom - margin.top) / this.F_name.length * i,
+                    ry: margin.top,
+                    h: (this.elHeight - margin.bottom - margin.top) / this.F_name.length,
+                    boxData: this.calcDisSparkBox(multi_data, (this.elHeight - margin.bottom - margin.top) / this.F_name.length, (this.elWidth - margin.left - margin.right) / this.F_name.length, 8, this.F_name[i], this.F_name[j], 'pm25')
+                })
+            }
+        }
         // console.log(F_sparkBoxData);
         this.F_sparkBoxData = F_sparkBoxData;
     },

@@ -237,14 +237,14 @@
                                                                                                                                             </g> -->
                 <g :transform="translate(0, 0, 0)" id="timeline_g">
                     <g id="raw_line_g" :transform="translate(0, 110, 0)">
-                        <!-- <g v-for="(item, i) in sparkboxData" :key="'box' + i"> -->
-                        <!-- <rect :x="item.rect1.x" :y="item.rect1.y" :width="item.rect1.w" :height="item.rect1.h"
-                                                                                                                                                            fill="#f2f5fa"></rect> -->
-                        <!-- <rect :x="item.rect2.x" :y="item.rect2.y" :width="item.rect2.w" :height="item.rect2.h"  fill="#dce3f3"></rect> -->
-                        <!-- <path
+                        <g v-for="(item, i) in sparkboxData" :key="'box' + i">
+                        <rect :x="item.rect1.x" :y="item.rect1.y" :width="item.rect1.w" :height="item.rect1.h"
+                                                                                                                                                            fill="#f2f5fa"></rect>
+                        <rect :x="item.rect2.x" :y="item.rect2.y" :width="item.rect2.w" :height="item.rect2.h"  fill="#dce3f3"></rect>
+                        <path
                                                                                                                                                             :d="'M ' + item.line.x1 + ' ' + item.line.y + ' L ' + item.line.x2 + ' ' + item.line.y"
-                                                                                                                                                            :fill="'none'" :stroke="'#6d70b6'" stroke-width="3"></path> -->
-                        <!-- </g> -->
+                                                                                                                                                            :fill="'none'" :stroke="'#6d70b6'" stroke-width="3"></path>
+                        </g>
                         <defs>
                             <clipPath id="clipPath">
                                 <rect :x="50" :y="20" :width="tlWidth - 50" :height="tlHeight - 50"></rect>
@@ -1190,7 +1190,7 @@ export default {
 
         // this.tableData = barData;
 
-        // this.sparkboxData = this.calcSparkBox(SN_row_data, this.tlHeight, this.tlWidth);
+        this.sparkboxData = this.calcSparkBox(SN_raw_data, this.tlHeight, this.tlWidth);
 
         this.calcTimeLine(SN_raw_data, this.tlHeight, this.tlWidth);
 
