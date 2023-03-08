@@ -46,6 +46,9 @@ export default {
   },
   mounted() {
     // const dataStore = useDataStore();
+    // dataStore.tag = 1;
+    
+    // const dataStore = useDataStore();
     // dataStore.fetchHello();
     // this.msgH = dataStore.msg;
       this.timeData = timeData;
