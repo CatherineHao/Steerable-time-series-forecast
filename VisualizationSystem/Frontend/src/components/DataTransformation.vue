@@ -35,7 +35,7 @@
                         </clipPath>
                     </defs>
                     <g id="brush_path_g" clip-path="url(#clipPath)">
-                        <!-- <path :d="rawTimeLineData" stroke="steelblue" :fill="'none'"></path> -->
+                        <!-- <path :d="rawTimeLineData" stroke="#777" :fill="'none'"></path> -->
                     </g>
                     <!--                        <g :transform="translate(0, tlHeight - 130, 0)">
                             <path :d="'M ' + 50 + ' 0 ' + 'L ' + (tlWidth - 0) + ' 0'" :fill="'none'" stroke="black">
@@ -51,7 +51,7 @@
                         </g>
                 </g>
                 <g :transform="translate(0, 440, 0)" id="focusLine_g">
-                    <path :d="brushTimeLineData" stroke="steelblue" :fill="'none'"></path>
+                    <path :d="brushTimeLineData" stroke="#777" :fill="'none'"></path>
                     <g id="brush_path_line"></g>
                     <!-- <g id="" :transform="translate(0, 100, 0)">
                             
@@ -133,10 +133,10 @@
                                                                                                     </rect>
                                                                                                 </g> -->
                 <g>
-                    <text font-size="16" font-family="Arial" text-anchor="middle" dx="2.5em" y="15" dy="0em">{{ columnData[0]
+                    <!-- <text font-size="16" font-family="Arial" text-anchor="middle" dx="2.5em" y="15" dy="0em">{{ columnData[0]
                     }}</text>
                     <text font-size="16" font-family="Arial" text-anchor="middle" dx="6em" y="15" dy="0em">{{ columnData[1]
-                    }}</text>
+                    }}</text> -->
                     <!-- <text font-size="16" font-family="Arial" text-anchor="middle" dx="0em" x="200" y="15" dy="0em">{{
                         columnData[2] }}</text>
                     <text font-size="16" font-family="Arial" text-anchor="middle" dx="0em" x="330" y="15" dy="0em">{{
@@ -159,7 +159,7 @@
                         :fill-opacity="item_h.fill_opacity">
                     </rect>
 
-                    <text font-size="14" font-family="Arial" text-anchor="middle" dx="3em" dy="1em">{{
+                    <text font-size="14" font-family="Arial" text-anchor="start" dx="0em" dy="1em">{{
                         // filename[i].substring(0, filename[i].length - 8)
                         filename_type[i].substring(0, filename_type[i].indexOf('_'))
                     }}</text>
@@ -503,7 +503,7 @@ export default {
         selectFile (num) {
 
             select('#rst' + num).attr('stroke-width', 3)
-            // .attr('fill', '#bbb').attr('fill-opacity', 0.5);
+            // .attr('fill', '#777').attr('fill-opacity', 0.5);
             selectAll('.p_x').attr('opacity', (d, i) => {
                 return d.id == num ? 1 : 0;
             })
@@ -651,7 +651,7 @@ export default {
                 .attr('d', d => {
                     return this.timeLinePath
                 })
-                .attr('stroke', 'steelblue')
+                .attr('stroke', '#777')
                 .attr('stroke-width', 1.5)
                 .attr('fill', 'none')
                 .style('z-index', 5)
@@ -854,7 +854,7 @@ export default {
                 .attr("fill", "currentColor")
                 .attr("text-anchor", "middle")
                 .attr('font-size', '14px')
-                .text('Time'))
+                .text(''))
             this.xScale = x;
             this.yScale = y;
             this.rxScale = rx;
@@ -918,7 +918,7 @@ export default {
             //     .attr('d', d => {
             //         return lineGenerate(data)
             //     })
-            //     .attr('stroke', 'steelblue')
+            //     .attr('stroke', '#777')
             //     .attr('stroke-width', 1.5)
             //     .attr('fill', 'none')
             //     .style('z-index', 5)
@@ -939,7 +939,7 @@ export default {
                 .attr('d', d => {
                     return lineGenerate2(data)
                 })
-                .attr('stroke', 'steelblue')
+                .attr('stroke', '#777')
                 .attr('stroke-width', 1)
                 .attr('fill', 'none')
             this.lineData = data;
@@ -1102,7 +1102,7 @@ export default {
                     train: {
                         x: this.timeScale(this.calcMonth(this.startTime, d['train_begin'])),
                         w: this.timeScale(this.calcMonth(d['train_begin'], d['train_end'])),
-                        fill: 'steelblue'
+                        fill: '#777'
                     },
                     test: {
                         x1: this.timeScale(this.calcMonth(this.startTime, d['test_begin'])),

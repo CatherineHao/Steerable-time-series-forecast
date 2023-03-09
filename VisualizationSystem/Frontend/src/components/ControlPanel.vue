@@ -65,18 +65,18 @@
             </div>
 
         </div>
-<!--        <div ref="resTable" style="height: 70%; width: calc(100%); float: right; overflow:auto; font-size: 18px;">
+        <div ref="resTable" style="height: 70%; width: calc(100%); float: right; overflow:auto; font-size: 18px;">
             <el-table :data="tableData" style="width: 100%" height="100%"
                 :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
                 :cell-style="{ 'text-align': 'center', 'font-size': '16px', 'height': '15px', 'padding-left': '5px', 'padding-right': '5px'}"
                 :row-style="{ 'height': '18px' }">
-                <!~~ <el-table-column label="ID" prop="id" sortable /> ~~>
-                <el-table-column label="Smooth" prop="dataset_name" width="90"/>
-                <el-table-column label="Skip" prop="skip" width="60" />
-                <el-table-column label="Loss" prop="test" width="60"  />
-                <el-table-column label="ACF" prop="acf" width="60" />
+                <!-- <el-table-column label="ID" prop="id" sortable /> -->
+                <el-table-column label="Smooth" prop="" width="90"/>
+                <el-table-column label="Skip" prop="" width="60" />
+                <el-table-column label="Loss" prop="" width="60"  />
+                <el-table-column label="ACF" prop="" width="60" />
             </el-table>
-        </div>-->
+        </div>
         <!-- <div ref="ControlTable" style="height: 100%; width: calc(70% - 7.5px); float: right; background-color: green;">
             <el-table :data="tableData" stripe border style="width: 100%; height: 100%;" :header-cell-style="{'text-align':'center', 'background-color': 'rgb(250, 250, 250)'}" :cell-style="{'text-align':'center'}">
                 <el-table-column prop="slice_number" label="Slice number" width="120" />
@@ -216,7 +216,7 @@ export default {
                 tmpData[i]['test_bar'] = testScale(tmpData[i]['test']);
                 tmpData[i]['acf_bar'] = acfScale(tmpData[i]['acf']);
             }
-            console.log(tmpData);
+            // console.log(tmpData);
             return tmpData;
         }
     },
