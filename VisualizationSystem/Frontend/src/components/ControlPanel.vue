@@ -65,18 +65,18 @@
             </div>
 
         </div>
-        <div ref="resTable" style="height: 70%; width: calc(100%); float: right; overflow:auto; font-size: 18px;">
+<!--        <div ref="resTable" style="height: 70%; width: calc(100%); float: right; overflow:auto; font-size: 18px;">
             <el-table :data="tableData" style="width: 100%" height="100%"
                 :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
                 :cell-style="{ 'text-align': 'center', 'font-size': '16px', 'height': '15px', 'padding-left': '5px', 'padding-right': '5px'}"
                 :row-style="{ 'height': '18px' }">
-                <!-- <el-table-column label="ID" prop="id" sortable /> -->
+                <!~~ <el-table-column label="ID" prop="id" sortable /> ~~>
                 <el-table-column label="Smooth" prop="dataset_name" width="90"/>
                 <el-table-column label="Skip" prop="skip" width="60" />
                 <el-table-column label="Loss" prop="test" width="60"  />
                 <el-table-column label="ACF" prop="acf" width="60" />
             </el-table>
-        </div>
+        </div>-->
         <!-- <div ref="ControlTable" style="height: 100%; width: calc(70% - 7.5px); float: right; background-color: green;">
             <el-table :data="tableData" stripe border style="width: 100%; height: 100%;" :header-cell-style="{'text-align':'center', 'background-color': 'rgb(250, 250, 250)'}" :cell-style="{'text-align':'center'}">
                 <el-table-column prop="slice_number" label="Slice number" width="120" />
@@ -90,6 +90,7 @@
     </div>
 </template>
 <script>
+import { scaleLinear } from 'd3-scale';
 import res_data from '../assets/model_skip_results.json';
 import { useDataStore } from "../stores/counter";
 export default {
@@ -167,20 +168,55 @@ export default {
         calcTable(data) {
             // console.log(data);
             let tmpData = [];
+            
+            let max_train = 0, max_test = 0, max_acf = 0
             for (let i = 0; i < 9; ++i) {
                 for (const j in data[i].predic_info) {
                     let d = data[i].predic_info[j];
                     let tmp = new Object();
                     tmp['dataset_name'] = data[i].dataset_name;
+                    let smooth_name = '';
+                    if (data[i].dataset_name[1] == 'a') {
+                        smooth_name = 'RAW';
+                    } else {
+                        if (data[i].dataset_name[1] == 'o') {
+                            smooth_name = 'MA-';
+                        } else if (data[i].dataset_name[1] == 'e') {
+                            smooth_name = 'WMA-';
+                        }
+                        // console.log(typeof(data[i].dataset_name));
+                        let stcnt = data[i].dataset_name;
+                        let cnt = stcnt.substring(stcnt.length - 2);
+                        if (cnt == '13') {
+                            smooth_name += cnt;
+                        } else {
+                            smooth_name += cnt[1];
+                        }
+                    }
+                    tmp['smooth'] = smooth_name;
                     tmp['skip'] = d.skip;
                     // console.log(d.skip);
-                    tmp['train'] = this.formatNum(d['loss=mean_squared_error']);
-                    tmp['test'] = this.formatNum(d['val_loss=val_mse']);
-                    tmp['acf'] = this.formatNum(d['ACF']);
+                    tmp['train'] = (d['loss=mean_squared_error']);
+                    tmp['test'] = (d['val_loss=val_mse']);
+                    tmp['acf'] = (d['ACF']);
+                    max_acf = Math.max(max_acf, parseFloat(data[i].predic_info[j]['ACF']));
+                    max_train = Math.max(max_train, parseFloat(data[i].predic_info[j]['loss=mean_squared_error']));
+                    max_test = Math.max(max_test, parseFloat(data[i].predic_info[j]['val_loss=val_mse']));
                     tmpData.push(tmp);
                 }
             }
+            let leftT = 0;
+            let barS = 300 - leftT;
+            let trainScale = scaleLinear([0, max_train], [0, ((barS) / 3) * 0.9]);
+            let testScale = scaleLinear([0, max_test], [0, ((barS) / 3) * 0.9]);
+            let acfScale = scaleLinear([0, max_acf], [0, ((barS) / 3) * 0.9]);
             // console.log(tmpData);
+            for (let i in tmpData) {
+                tmpData[i]['train_bar'] = trainScale(tmpData[i]['train']);
+                tmpData[i]['test_bar'] = testScale(tmpData[i]['test']);
+                tmpData[i]['acf_bar'] = acfScale(tmpData[i]['acf']);
+            }
+            console.log(tmpData);
             return tmpData;
         }
     },

@@ -173,11 +173,18 @@ export default {
                 _this.lasso_t = 1;
                 let select_dot = new Object();
                 let select_info = new Array();
+                let selectSkip = new Array();
                 for (let i in _this.dot_data) {
                     let dot_p = [_this.dot_data[i].x, _this.dot_data[i].y];
                     if (polygonContains(polygon, dot_p)) {
                         select_dot[i] = 1;
                         select_info.push(1);
+                        // console.log('#tsr' + i)
+                        // select('#tsr' + i).attr("opacity", d => {
+                        //     console.log(d);
+                        //     selectSkip.push(d);
+                        //     return 0;
+                        // })
                         // console.log
                         // cie_x += parseFloat(_this.poem_dot[i].raw_value.x);
                         // cie_y += parseFloat(_this.poem_dot[i].raw_value.y);
@@ -187,10 +194,12 @@ export default {
                         select_info.push(0);
                     }
                 }
+                // console.log(selectSkip);
 
                 // console.log(select_dot);
                 const dataStore = useDataStore();
                 dataStore.selectDot = select_dot;
+                selectAll('.rst').attr('fill', '#bbb').attr('fill-opacity', 0.5)
 
 
                 _this.tableData = _this.calcTableData(_this.dataSet, select_dot);
@@ -293,6 +302,7 @@ export default {
             return sdata;
         },
         calcScatter (data) {
+            // console.log(data)
             let sdata = [];
             let maxRmse = -999999;
             let minRmse = 999999;
@@ -310,13 +320,15 @@ export default {
                     // console.log(data[i][j])
                     if (parseFloat(data[i][j]['129_pearson']) == 0)
                         continue;
+                    let className = (data[i][j]['smooth'] == 'raw' ? 'rawdata' : data[i][j]['smooth']) + '_skip' + data[i][j]['skip'];
                     sdata.push({
                         id: i,
                         time: j * this.skip_length[i] + startPos,
                         norm_corr: parseFloat(data[i][j]['129_pearson']),
                         rmse: parseFloat(data[i][j]['rmse']),
                         isShow: Math.random() < 0.1 ? 1 : 0,
-                        id_cnt: id_cnt
+                        id_cnt: id_cnt,
+                        class_name: className
                     });
                     // tp.push({
                     //     id: i,

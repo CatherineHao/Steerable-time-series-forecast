@@ -16,8 +16,59 @@
         </div>
     </div>
     <div class="frameworkBody">
-        <div ref="DataTransformation" style="height: calc(50%); width: 100%;">
-            <!-- <el-table :data="tableData" style="width: 100%" height="100%"
+
+    <div ref="timeline" style="height: calc(45% - 15px); width: 100%; margin-top: 0px;">
+        <svg id="timeline" height="100%" width="100%">
+            <g :transform="translate(0, 0, 0)" id="timeline_g">
+                <g id="raw_line_g" :transform="translate(0, 0, 0)">
+                    <!-- <g v-for="(item, i) in sparkboxData" :key="'box' + i">
+                            <rect :x="item.rect1.x" :y="item.rect1.y" :width="item.rect1.w" :height="item.rect1.h"
+                                            fill="#f2f5fa"></rect>
+                                        <rect :x="item.rect2.x" :y="item.rect2.y" :width="item.rect2.w" :height="item.rect2.h"
+                                            fill="#dce3f3"></rect>
+                                        <path :d="'M ' + item.line.x1 + ' ' + item.line.y + ' L ' + item.line.x2 + ' ' + item.line.y"
+                                            :fill="'none'" :stroke="'#6d70b6'" stroke-width="3"></path>
+                                    </g> -->
+                        <defs>
+                            <clipPath id="clipPath">
+                                <rect :x="50" :y="20" :width="tlWidth - 70" :height="tlHeight - 50"></rect>
+                        </clipPath>
+                    </defs>
+                    <g id="brush_path_g" clip-path="url(#clipPath)">
+                        <!-- <path :d="rawTimeLineData" stroke="steelblue" :fill="'none'"></path> -->
+                    </g>
+                    <!--                        <g :transform="translate(0, tlHeight - 130, 0)">
+                            <path :d="'M ' + 50 + ' 0 ' + 'L ' + (tlWidth - 0) + ' 0'" :fill="'none'" stroke="black">
+                            </path>
+                                        <!~~ <g v-for="(item, i) in timeAxis" :key="'xa' + i">
+                                            <path :d="'M ' + item.x + ' 0 ' + 'L ' + item.x + ' 5'" :fill="'none'" stroke="black">
+                                            </path>
+                                        <text :x="item.x" y="20" font-size="12" text-anchor="middle">{{ item.text }}</text>
+                                    </g> ~~>
+                                    </g>-->
+                        <g>
+                            <path :d="smoothTimeLineData" stroke="red" :fill="'none'"></path>
+                        </g>
+                </g>
+                <g :transform="translate(0, 440, 0)" id="focusLine_g">
+                    <path :d="brushTimeLineData" stroke="steelblue" :fill="'none'"></path>
+                    <g id="brush_path_line"></g>
+                    <!-- <g id="" :transform="translate(0, 100, 0)">
+                            
+                                                <g v-for="(item, i) in brushTimeAxis" :key="'xa' + i">
+                                                    <path :d="'M ' + item.x + ' 0 ' + 'L ' + item.x + ' 5'" :fill="'none'" stroke="black">
+                                                    </path>
+                                                    <text :x="item.x" y="20" font-size="12" text-anchor="middle">{{ item.text }}</text>
+                                                </g>
+                                            </g> -->
+                    </g>
+
+                <g id="brush_g" :transform="translate(0, 440, 0)"></g>
+            </g>
+        </svg>
+    </div>
+    <div ref="DataTransformation" style="height: calc(55%); width: 100%; margin-top: 15px;">
+        <!-- <el-table :data="tableData" style="width: 100%" height="100%"
                                                                                                                                 :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
                                                                                                                                 :cell-style="{ 'text-align': 'center', 'backgro und-color': 'rgba(250, 250, 250, 1)', 'font-size': '16px' }">
                                                                                                                                 <el-table-column type="expand">
@@ -52,59 +103,90 @@
                                                                                                                                         <svg height="30" width="100%">
                                                                                                                                             <rect v-for="(item, item_i) in scope.row.bar_data" :key="'heat_' + item_i"
                                                                                                                                                 :x="(elWidth - 250) / scope.row.slice_num * item_i" :y="8"
-                                                                                                                                                            :width="(elWidth - 250) / scope.row.slice_num" :height="20" :fill="item.test.fill">
-                                                                                                                                                        </rect>
+                                                                                                                                                                                :width="(elWidth - 250) / scope.row.slice_num" :height="20" :fill="item.test.fill">
+                                                                                                                                                                            </rect>
                                                                                                                                         </svg>
                                                                                                                                     </template>
                                                                                                                                 </el-table-column>
                                                                                                                             </el-table> -->
 
-            <!-- <el-table :data="heatRectData" style="width: 100%" border height="100%"
+        <!-- <el-table :data="heatRectData" style="width: 100%" border height="100%"
                                                                                                                             :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
                                                                                                                             :cell-style="{ 'text-align': 'center', 'background-color': 'rgba(250, 250, 250, 1)', 'font-size': '16px' }">
                                                                                                                             <el-table-column label="Heatmap" prop="heat_data">
                                                                                                                                 <template #default="scope">
                                                                                                                                     <svg height="30" width="100%">
                                                                                                                                         <rect v-for="(item, item_i) in scope.row['heat']" :key="'heat_' + item_i" :x="item.x" :y="0"
-                                                                                                                                                        :width="item.w" :height="50" :fill="item.color">
-                                                                                                                                                    </rect>
-                                                                                                                                                </svg>
-                                                                                                                                            </template>
+                                                                                                                                                                            :width="item.w" :height="50" :fill="item.color">
+                                                                                                                                                                        </rect>
+                                                                                                                                                                    </svg>
+                                                                                                                                                                </template>
                                                                                                                             </el-table-column>
                                                                                                                         </el-table> -->
 
 
-            <svg height="100%" width="100%">
+        <svg height="100%" width="100%">
                 <!-- <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)">
-                                                                                <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
-                                                                                    :width="item_h.w" :height="item_h.h" :fill="colorScale(item_h.raw, item_h.error, heatTag)"
-                                                                        @click="timeCompare(item.tag)">
-                                                                                </rect>
-                                                                            </g> -->
-                <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)"
-                    @mouseenter="selectFile(i)" @mouseout="cancelFile(i)">
+                                                                                                    <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
+                                                                                                        :width="item_h.w" :height="item_h.h" :fill="colorScale(item_h.raw, item_h.error, heatTag)"
+                                                                                    @click="timeCompare(item.tag)">
+                                                                                                    </rect>
+                                                                                                </g> -->
+                <g>
+                    <text font-size="16" font-family="Arial" text-anchor="middle" dx="2.5em" y="15" dy="0em">{{ columnData[0]
+                    }}</text>
+                    <text font-size="16" font-family="Arial" text-anchor="middle" dx="6em" y="15" dy="0em">{{ columnData[1]
+                    }}</text>
+                    <!-- <text font-size="16" font-family="Arial" text-anchor="middle" dx="0em" x="200" y="15" dy="0em">{{
+                        columnData[2] }}</text>
+                    <text font-size="16" font-family="Arial" text-anchor="middle" dx="0em" x="330" y="15" dy="0em">{{
+                        columnData[3] }}</text>
+                    <text font-size="16" font-family="Arial" text-anchor="middle" dx="0em" x="460" y="15" dy="0em">{{
+                        columnData[4] }}</text>
+                <text font-size="16" font-family="Arial" text-anchor="middle" dx="0em" x="1000" y="15" dy="0em">{{
+                    columnData[5] }}</text> -->
+                </g>
+                <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i + 20, 0)"
+                    @mouseenter="selectFile(i)" @mouseout="cancelFile(i)" @click="clickFile(i)">
                     <!-- <rect :id="'rst' + i" :x="item['heat'][0].x" :y="0" :width="elWidth - 0 - item['heat'][0].x"
-                                                            :height="item['heat'][0].h" fill="none" stroke="orange" stroke-width="0"></rect> -->
+                                                                                :height="item['heat'][0].h" fill="none" stroke="orange" stroke-width="0"></rect> -->
                     <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
-                        :width="item_h.w" :height="item_h.h" :fill="item_h.colorMap[heatTag]" :id="'tsr' + item_h.id_cnt"
-                        :fill-opacity="heatTag < 3 ? 1 : 1">
+                        :width="item_h.w" :height="item_h.h" :fill="item_h.colorMap[heatTag]" :id="'tsr' + item_h.id_cnt" :class="'wsr' + i"
+                        :fill-opacity="1">
                     </rect>
-                    <text font-size="12" text-anchor="start" dx="00em" dy="1em">{{ filename[i].substring(0, filename[i].length - 8) }}</text>
+                    <rect v-for="(item_h, item_i) in item['res']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
+                        :width="item_h.w" :height="item_h.h" :fill="'orange'" :id="'tsr' + item_i"
+                        :fill-opacity="item_h.fill_opacity">
+                    </rect>
+
+                    <text font-size="14" font-family="Arial" text-anchor="middle" dx="3em" dy="1em">{{
+                        // filename[i].substring(0, filename[i].length - 8)
+                        filename_type[i].substring(0, filename_type[i].indexOf('_'))
+                    }}</text>
+
+                    <text font-size="14" font-family="Arial" text-anchor="middle" dx="7em" dy="1em">{{
+                        // filename[i].substring(0, filename[i].length - 8)
+                        filename_type[i].substring(filename_type[i].indexOf('_') + 1, filename[i].length)
+                    }}</text>
                 </g>
                 <g id="legend_g"></g>
-                <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)">
-                    <rect :id="'rst' + i" :x="item['heat'][0].x" :y="0" :width="elWidth - 0 - item['heat'][0].x"
+                <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i + 20, 0)">
+                    <rect :id="'rst' + i" class="rst" :x="item['heat'][0].x" :y="0" :width="elWidth - 0 - item['heat'][0].x"
                         :height="item['heat'][0].h" fill="none" stroke="orange" stroke-width="0"></rect>
+                </g>
+                <g v-for="(item, i) in coverRect" :key="'heat_g' + i" :transform="translate(0, ((elHeight - 20) / 36) * (parseInt(item.cnt.substring(item.cnt.length - 1, item.cnt.length))) + 20, 0)">
+                    <rect :id="'rst' + i" class="rst" :x="item.x" :y="0" :width="item.w"
+                        :height="item.h" :fill="item.fill" stroke="none" stroke-width="0"></rect>
                 </g>
                 <g v-for="(item, i) in groupPath" :key="'group_g' + i" :transform="translate(0, 0, 0)">
                     <path :d="'M ' + item.x1 + ' ' + item.y1 + ' L ' + item.x2 + ' ' + item.y2" fill="none" stroke="black">
                     </path>
-                </g>
+            </g>
 
-            </svg>
+        </svg>
 
 
-            <!-- <svg id="DataTransformation" height="100%" width="100%">
+        <!-- <svg id="DataTransformation" height="100%" width="100%">
                                                                                                                                 <!~~ Transformation Tree ~~>
 
                                                                                                                                 <!~~ <g>
@@ -219,76 +301,18 @@
                                                                                                                                     <g v-for="(d, j) in item.bar_data" :key="'single_bar' + j" :transform="translate(0, 20, 0)">
                                                                                                                                         <rect :x="d.train.x" :y="5" :height="20" :width="d.train.w" :fill="d.train.fill" :opacity="0.1">
                                                                                                                                         </rect>
-                                                                                                                                                    <path
-                                                                                                                                                        :d="'M ' + d.test.x1 + ' 5 L ' + d.test.x1 + ' 25 L ' + d.test.x2 + ' 20 L ' + d.test.x2 + ' 10 Z'"
-                                                                                                                                                        :fill="d.test.fill" :stroke="'black'"></path>
-                                                                                                                                                </g>
-                                                                                                                                </g>
-                                                                                                                            </svg> -->
-        </div>
-        <div ref="timeline" style="height: calc(50% - 15px); width: 100%; margin-top: 15px;">
-            <svg id="timeline" height="100%" width="100%">
-                <!-- <g>
-                                                                                                                                                <g v-for="(item, i) in heatRectData" :key="'r_g' + i" :transform="translate(0, 40 * i, 0)">
-                                                                                                                                                    <rect v-for="(r_item, r_i) in item" :key="'h_r' + r_i" :x="r_item.x" :y="3" :height="30"
-                                                                                                                                                        :width="r_item.w" :fill="r_item.color" @click="timeCompare(parseInt(i / 3))"></rect>
-                                                                                                                                                    <text x="0" y="20">{{ item[0].t }}</text>
-                                                                                                                                    </g>
-                                                                                                                                            </g> -->
-                <g :transform="translate(0, 0, 0)" id="timeline_g">
-                    <g id="raw_line_g" :transform="translate(0, 110, 0)">
-                        <g v-for="(item, i) in sparkboxData" :key="'box' + i">
-                        <rect :x="item.rect1.x" :y="item.rect1.y" :width="item.rect1.w" :height="item.rect1.h"
-                                                                                                                                                            fill="#f2f5fa"></rect>
-                        <rect :x="item.rect2.x" :y="item.rect2.y" :width="item.rect2.w" :height="item.rect2.h"  fill="#dce3f3"></rect>
-                        <path
-                                                                                                                                                            :d="'M ' + item.line.x1 + ' ' + item.line.y + ' L ' + item.line.x2 + ' ' + item.line.y"
-                                                                                                                                                            :fill="'none'" :stroke="'#6d70b6'" stroke-width="3"></path>
-                        </g>
-                        <defs>
-                            <clipPath id="clipPath">
-                                <rect :x="50" :y="20" :width="tlWidth - 50" :height="tlHeight - 50"></rect>
-                            </clipPath>
-                        </defs>
-                        <g id="brush_path_g" clip-path="url(#clipPath)">
-                            <!-- <path :d="rawTimeLineData" stroke="steelblue" :fill="'none'"></path> -->
-                        </g>
-                        <g :transform="translate(0, tlHeight - 130, 0)">
-                            <path :d="'M ' + 50 + ' 0 ' + 'L ' + (tlWidth - 0) + ' 0'" :fill="'none'" stroke="black">
-                            </path>
-                            <g v-for="(item, i) in timeAxis" :key="'xa' + i">
-                                <path :d="'M ' + item.x + ' 0 ' + 'L ' + item.x + ' 5'" :fill="'none'" stroke="black">
-                                </path>
-                                <text :x="item.x" y="20" font-size="12" text-anchor="middle">{{ item.text }}</text>
-                            </g>
-                        </g>
-                        <g>
-                            <path :d="smoothTimeLineData" stroke="red" :fill="'none'"></path>
-                            <!-- <path v-for="(item, i) in selectAverageLine" :key="'xb' + i"
-                                                                                                                                                            :d="'M ' + item.x1 + ' ' + item.y + ' L ' + item.x2 + ' ' + item.y" :fill="'none'"
-                                                                                                                                                            :stroke="'orange'" stroke-width="3"></path> -->
-                        </g>
-                    </g>
-                    <g id="brush_g" :transform="translate(0, -15, 0)"></g>
-                    <g :transform="translate(0, -15, 0)" id="focusLine_g">
-                        <path :d="brushTimeLineData" stroke="steelblue" :fill="'none'"></path>
-                        <g id="brush_path_line"></g>
-                        <!-- <g id="" :transform="translate(0, 100, 0)">
-                            
-                            <g v-for="(item, i) in brushTimeAxis" :key="'xa' + i">
-                                <path :d="'M ' + item.x + ' 0 ' + 'L ' + item.x + ' 5'" :fill="'none'" stroke="black">
-                                </path>
-                                <text :x="item.x" y="20" font-size="12" text-anchor="middle">{{ item.text }}</text>
-                            </g>
-                        </g> -->
-                    </g>
-                </g>
-            </svg>
+                                                                                                                                                                        <path
+                                                                                                                                                                            :d="'M ' + d.test.x1 + ' 5 L ' + d.test.x1 + ' 25 L ' + d.test.x2 + ' 20 L ' + d.test.x2 + ' 10 Z'"
+                                                                                                                                                                            :fill="d.test.fill" :stroke="'black'"></path>
+                                                                                                                                                                    </g>
+                                                                                                                                                    </g>
+                                                                                                                                                </svg> -->
         </div>
     </div>
 </template>
 <script>
 
+import res_data from '../assets/model_skip_results.json';
 
 import { arc, curveBumpY, line } from 'd3-shape';
 import { scaleUtc, scaleLinear, scaleOrdinal } from 'd3-scale';
@@ -307,7 +331,7 @@ import sa9 from '../assets/data/SN_weighted_moving_average9_tot.csv';
 import sa13 from '../assets/data/SN_weighted_moving_average13_tot.csv';
 import sa26 from '../assets/data/SN_weighted_moving_average26_tot.csv';
 
-[sr13, sr13, sr13, sr13, sr3, sr3, sr3, sr3, sr6, sr6, sr6, sr6, sr9, sr9, sr9, sr9, sa13, sa13, sa13, sa13, sa3, sa3, sa3, sa3, sa6, sa6, sa6, sa6, sa9, sa9, sa9, sa9]
+// [sr13, sr13, sr13, sr13, sr3, sr3, sr3, sr3, sr6, sr6, sr6, sr6, sr9, sr9, sr9, sr9, sa13, sa13, sa13, sa13, sa3, sa3, sa3, sa3, sa6, sa6, sa6, sa6, sa9, sa9, sa9, sa9]
 // import SN_rolling_6_data from "../assets/SN_rolling6_tot.csv";
 // import SN_rolling_13_data from "../assets/SN_weighted_moving_average13_tot.csv";
 
@@ -396,6 +420,7 @@ export default {
             lineData: [],
             smoothLineData: [],
             skip_length: [13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6],
+            columnData: ['Smooth', 'Skip', 'Train-Loss', 'Test-Loss', 'ACF', 'Window Performance'],
             filename: ['rawdata_skip13_0.8.csv',
                 'rawdata_skip1_0.8.csv',
                 'rawdata_skip3_0.8.csv',
@@ -432,20 +457,77 @@ export default {
                 'weighted9_skip1_0.8.csv',
                 'weighted9_skip3_0.8.csv',
                 'weighted9_skip6_0.8.csv'],
-            smoothTag: 0
+            filename_type: ['RAW_13',
+                'RAW_1',
+                'RAW_3',
+                'RAW_6',
+                'MA-13_13',
+                'MA-13_1',
+                'MA-13_3',
+                'MA-13_6',
+                'MA-3_13',
+                'MA-3_1',
+                'MA-3_3',
+                'MA-3_6',
+                'MA-6_13',
+                'MA-6_1',
+                'MA-6_3',
+                'MA-6_6',
+                'MA-9_13',
+                'MA-9_1',
+                'MA-9_3',
+                'MA-9_6',
+                'WMA-13_13',
+                'WMA-13_1',
+                'WMA-13_3',
+                'WMA-13_6',
+                'WMA-3_13',
+                'WMA-3_1',
+                'WMA-3_3',
+                'WMA-3_6',
+                'WMA-6_13',
+                'WMA-6_1',
+                'WMA-6_3',
+                'WMA-6_6',
+                'WMA-9_3',
+                'WMA-9_13',
+                'WMA-9_1',
+                'WMA-9_6'],
+            smoothTag: 0,
+            timeLinePath: null,
+            linePathTag: 0,
+            coverRect: []
         }
     },
     methods: {
         selectFile (num) {
 
-            select('#rst' + num).attr('stroke-width', 3).attr('fill', '#bbb').attr('fill-opacity', 0.5);
+            select('#rst' + num).attr('stroke-width', 3)
+            // .attr('fill', '#bbb').attr('fill-opacity', 0.5);
             selectAll('.p_x').attr('opacity', (d, i) => {
                 return d.id == num ? 1 : 0;
             })
         },
+        clickFile (num) {
+            selectAll('.corr_cir').attr('opacity', (d, i) => {
+                if (d.class_name == this.filename[num].substring(0, this.filename[num].length - 8)) {
+                    return 1;
+                }
+                return 0.01;
+            }).attr('fill', (d, i) => {
+                        if (d.class_name == this.filename[num].substring(0, this.filename[num].length - 8)) return 'orange';
+                        else return '#d9d9d9';
+                    })
+        },
         cancelFile (num) {
             select('#rst' + num).attr('stroke-width', 0);
             selectAll('.p_x').attr('opacity', 1)
+            // selectAll('.corr_cir').attr('opacity', (d, i) => {
+            //     // if (d.class_name == this.filename[num].substring(0, this.filename[num].length - 8)) {
+            //     //     return 1;
+            //     // }
+            //     return 1;
+            // })
         },
         colorScale: function (raw_value, error_value, tag) {
             let rawRange = this.scaleRange.raw;
@@ -481,30 +563,53 @@ export default {
             return d;
         },
         calcSparkBox (data, height, width) {
-            let margin = ({ top: 20, right: 0, bottom: 30, left: 30 });
+            let margin = ({ top: 20, right: 20, bottom: 30, left: 50 });
             // let height = 440;
             // let width = 1000;
             let focusHeight = 100;
 
             let y = scaleLinear()
                 .domain([0, max(data, d => parseFloat(d.value))])
-                .range([height - 100 - margin.bottom, margin.top])
+                .range([height - focusHeight - 30 - margin.bottom, margin.top])
+            let sBData = [];
             let y2 = scaleLinear()
                 .domain([0, max(data, d => parseFloat(d.value))])
                 .range([focusHeight, margin.top])
-            let x = scaleLinear()
-                .domain([0, max(data, d => parseInt(d.id))])
-                .range([margin.left, width - margin.right])
-            let sparkboxData = [];
-            for (let i = 0; i < data.length; i += 10) {
+            // let x = scaleLinear()
+            //     .domain([0, max(data, d => parseInt(d.id))])
+            //     .range([margin.left, width - margin.right])
+            let x = this.xScale;
+            let sparkBoxData = [];
+            let timeGap = 130
+            for (let i = 0; i < data.length; i += timeGap) {
                 // let tempValue = Array.from(new Set(data.slice(i, i + 10).map(d => parseFloat(d.value)).sort((a, b) => a - b)));
-                let tempValue = data.slice(i, i + 10).map(d => parseFloat(d.value)).sort((a, b) => a - b)
+                let tempValue = data.slice(i, i + timeGap).map(d => parseFloat(d.value)).sort((a, b) => a - b)
                 let sumData = sum(tempValue);
 
                 // console.log(sumData)
 
                 // console.log(tempValue[tempValue.length /2 - 1], tempValue.length /2 - 1);
-                sparkboxData.push({
+                sBData.push({
+                    x: x(parseInt(data[i].id)),
+                    y: y(tempValue[tempValue.length - 1]),
+                    w: Math.abs(x(parseInt(data[i + ((i + timeGap < data.length) ? timeGap : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
+                    h: Math.abs(y(tempValue[0]) - y(tempValue[tempValue.length - 1]))
+                })
+                sBData.push({
+                    x: x(parseInt(data[i].id)),
+                    y: y(tempValue[parseInt(tempValue.length * 3 / 4) - 1]),
+                    w: Math.abs(x(parseInt(data[i + ((i + timeGap < data.length) ? timeGap : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
+                    h: Math.abs(y(tempValue[parseInt(tempValue.length * 3 / 4) - 1]) - y(tempValue[parseInt(tempValue.length / 4) - 1]))
+                })
+                sBData.push({
+                    x: x(parseInt(data[i].id)),
+                    // y: y(tempValue[parseInt(tempValue.length /2) - 1]),
+                    // y: y((tempValue[0] + tempValue[parseInt(tempValue.length - 1)]) / 2),
+                    y: y(sumData / tempValue.length),
+                    w: Math.abs(x(parseInt(data[i + ((i + timeGap < data.length) ? timeGap : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
+                    h: 1
+                })
+                sparkBoxData.push({
                     rect1: {
                         x: x(parseInt(data[i].id)),
                         y: y(tempValue[tempValue.length - 1]),
@@ -526,18 +631,44 @@ export default {
                     }
                 })
             }
+            selectAll('.sparkbox').remove();
+            selectAll('#time_path_raw').remove();
+            select('#brush_path_g').append('g').attr('class', 'sparkbox').selectAll('#sparkRect').attr('id', 'sparkRect').data(sBData).enter().append('rect').attr('x', d => d.x).attr('y', d => d.y).attr('width', d => d.w).attr('height', d => d.h).attr('fill', (d, i) => {
+                if (i % 3 == 0) {
+                    return '#f2f5fa';
+                } else if (i % 3 == 1) {
+                    return '#dce3f3'
+                } else return '#6d70b6';
+            });
+            select('#brush_path_g')
+                // .append('g')
+                // .data([{
+                //     value: data
+                // }])
+                // .enter()
+                .append('path')
+                .attr('id', 'time_path_raw')
+                .attr('d', d => {
+                    return this.timeLinePath
+                })
+                .attr('stroke', 'steelblue')
+                .attr('stroke-width', 1.5)
+                .attr('fill', 'none')
+                .style('z-index', 5)
+            
             // console.log(sparkboxData)
-            return sparkboxData;
+            // return sparkboxData;
         },
         setupBrush: function (data) {
             let width = this.tlWidth;
             let height = this.tlHeight;
             let focusHeight = 100;
-            let margin = ({ top: 20, right: 0, bottom: 30, left: 50 });
+            let margin = ({ top: 20, right: 20, bottom: 30, left: 50 });
             const timeBrush = brushX()
                 .extent([[margin.left, margin.top], [width - margin.right, focusHeight]])
+                .on('start', brushStart)
                 .on('brush', brushed)
-                .on('end', brushed);
+                .on('end', brushEnd);
             let x = scaleLinear()
                 .domain([0, max(data, d => parseInt(d.id))])
                 .range([margin.left, width - margin.right])
@@ -564,7 +695,62 @@ export default {
                 )
                 .attr("display", s === null ? "none" : null)
                 .attr("transform", s === null ? null : (d, i) => `translate(${s[i]},${radius + margin.top})`)
+            function brushStart() {
+                selectAll('.sparkbox').remove();
+            }
+            function brushEnd ({ selection }) {
+                _this.calcSparkBox(SN_raw_data, _this.tlHeight, _this.tlWidth);
+                let timeStep = [parseInt(_this.rxScale(selection[0])), parseInt(_this.rxScale(selection[1]))];
+                // let maxY = max(data, (d, i) => {
+                //     if (i >= timeStep[0] && i <= timeStep[1]) {
+                //     return parseFloat(d.value)
+                //     }
+                //     return 0;
+                // });
 
+
+                _this.xScale.domain(timeStep);
+                // _this.yScale.domain([0, maxY]);
+                let xAxis = [];
+                let timeRange = [];
+                let lenRange = [];
+                let cnt_i = 0
+                for (let ii = timeStep[0]; ii <= timeStep[1]; ii += Math.floor(timeStep[1] - timeStep[0]) / 10) {
+                    // console.log(i, _this.lineData);
+                    let i = parseInt(ii);
+                    cnt_i = i;
+                    xAxis.push({
+                        x: _this.xScale(i),
+                        y: 0,
+                        // text: parseInt(parseInt(_this.lineData[i].timestamp) / 100) + '.' + parseInt(parseInt(_this.lineData[i].timestamp) % 100)
+                        text: (_this.lineData[i].timestamp)
+                    });
+                    timeRange.push(_this.lineData[i].timestamp);
+                    lenRange.push(_this.xScale(i))
+                }
+                if (timeRange.length == 10) {
+                    timeRange.push('');
+                    lenRange.push(_this.elWidth - 20)
+                }
+                let tScale = scaleOrdinal(timeRange, lenRange)
+                // console.log(timeRange, lenRange);
+                selectAll('#axsg').remove();
+                select('#focusLine_g').append('g').attr('id', 'axsg').attr("transform", "translate(0, -25)").call(axisBottom(tScale));
+
+                // _this.timeAxis = xAxis;
+
+                let lineGenerate = line()
+                    .x(d => _this.xScale(d.id))
+                    .y(d => _this.yScale(d.value));
+
+                _this.select_time_step = timeStep;
+
+                select('#time_path_raw').attr('d', lineGenerate(_this.lineData));
+                if (_this.smoothTag) {
+
+                    select('#time_path_selected').attr('d', lineGenerate(_this.smoothLineData));
+                }
+            }
             function brushed ({ selection }) {
                 // console.log(selection);
                 let timeStep = [parseInt(_this.rxScale(selection[0])), parseInt(_this.rxScale(selection[1]))];
@@ -579,16 +765,31 @@ export default {
                 _this.xScale.domain(timeStep);
                 // _this.yScale.domain([0, maxY]);
                 let xAxis = [];
-                for (let ii = timeStep[0]; ii <= timeStep[1]; ii += (timeStep[1] - timeStep[0]) / 10) {
+                let timeRange = [];
+                let lenRange = [];
+                let cnt_i = 0
+                for (let ii = timeStep[0]; ii <= timeStep[1]; ii += Math.floor(timeStep[1] - timeStep[0]) / 10) {
                     // console.log(i, _this.lineData);
                     let i = parseInt(ii);
+                    cnt_i = i;
                     xAxis.push({
                         x: _this.xScale(i),
                         y: 0,
-                        text: parseInt(parseInt(_this.lineData[i].timestamp) / 100) + '.' + parseInt(parseInt(_this.lineData[i].timestamp) % 100)
+                        // text: parseInt(parseInt(_this.lineData[i].timestamp) / 100) + '.' + parseInt(parseInt(_this.lineData[i].timestamp) % 100)
+                        text: (_this.lineData[i].timestamp)
                     });
-                    
+                    timeRange.push(_this.lineData[i].timestamp);
+                    lenRange.push(_this.xScale(i))
                 }
+                if (timeRange.length == 10) {
+                    timeRange.push('');
+                    lenRange.push(_this.elWidth - 20)
+                }
+                let tScale = scaleOrdinal(timeRange, lenRange)
+                // console.log(timeRange, lenRange);
+                selectAll('#axsg').remove();
+                select('#focusLine_g').append('g').attr('id', 'axsg').attr("transform", "translate(0, -25)").call(axisBottom(tScale));
+
                 // _this.timeAxis = xAxis;
 
                 let lineGenerate = line()
@@ -603,7 +804,7 @@ export default {
                     select('#time_path_selected').attr('d', lineGenerate(_this.smoothLineData));
                 }
 
-                select("#selected_area").attr('d', 'M ' + parseInt(selection[0]) + ' ' + 85 + ' L ' + parseInt(selection[1]) + ' ' + 85 + ' L ' + (_this.elWidth) + ' 130 L 50 130 Z')
+                select("#selected_area").attr('d', 'M ' + parseInt(selection[0]) + ' ' + 460 + ' L ' + parseInt(selection[1]) + ' ' + 460 + ' L ' + (_this.elWidth - margin.right) + ' 415 L 50 415 Z')
                 select(this).call(brushHandle, selection);
 
                 // console.log(timeStep);
@@ -625,7 +826,7 @@ export default {
 
             let y = scaleLinear()
                 .domain([0, max(data, d => parseFloat(d.value))])
-                .range([height - 100 - margin.bottom, margin.top])
+                .range([height - focusHeight - 30 - margin.bottom, margin.top])
             let y2 = scaleLinear()
                 .domain([0, max(data, d => parseFloat(d.value))])
                 .range([focusHeight, margin.top])
@@ -639,7 +840,7 @@ export default {
             let timeData = [];
             let lenData = [];
             for (let i = 0; i < data.length; ++i) {
-                
+
                 if (i == 0 || i == data.length - 1 || i % Math.floor(data.length / 10) === 0) {
                     lenData.push(x(parseInt(data[i].id)));
                     timeData.push(parseInt(data[i].timestamp));
@@ -647,13 +848,13 @@ export default {
             }
             let timeScale = scaleOrdinal(timeData, lenData);
             select('#focusLine_g').append('g').call(axisBottom(timeScale).tickSizeOuter(0).tickPadding(10)).attr('transform', `translate(0,${focusHeight})`).call(g => g.selectAll(".title").data(['Time']).join("text")
-                    .attr("class", "title")
-                    .attr("x", this.elWidth - 20)
-                    .attr("y", 35)
-                    .attr("fill", "currentColor")
-                    .attr("text-anchor", "middle")
-                    .attr('font-size', '14px')
-                    .text('Time'))
+                .attr("class", "title")
+                .attr("x", this.elWidth - 20)
+                .attr("y", 35)
+                .attr("fill", "currentColor")
+                .attr("text-anchor", "middle")
+                .attr('font-size', '14px')
+                .text('Time'))
             this.xScale = x;
             this.yScale = y;
             this.rxScale = rx;
@@ -706,20 +907,22 @@ export default {
             //     .attr('y', margin.top)
             //     .attr("width", width - margin.right - margin.left)
             //     .attr("height", height - 100 - margin.bottom - margin.top);
-            select('#brush_path_g')
-                // .append('g')
-                // .data([{
-                //     value: data
-                // }])
-                // .enter()
-                .append('path')
-                .attr('id', 'time_path_raw')
-                .attr('d', d => {
-                    return lineGenerate(data)
-                })
-                .attr('stroke', 'steelblue')
-                .attr('stroke-width', 1.5)
-                .attr('fill', 'none')
+            // select('#brush_path_g')
+            //     // .append('g')
+            //     // .data([{
+            //     //     value: data
+            //     // }])
+            //     // .enter()
+            //     .append('path')
+            //     .attr('id', 'time_path_raw')
+            //     .attr('d', d => {
+            //         return lineGenerate(data)
+            //     })
+            //     .attr('stroke', 'steelblue')
+            //     .attr('stroke-width', 1.5)
+            //     .attr('fill', 'none')
+            //     .style('z-index', 5)
+            this.timeLinePath = lineGenerate(data);
             const _this = this;
 
 
@@ -993,7 +1196,7 @@ export default {
             return group;
         },
         calcRMSEHeat (data, smooth_dataSet, raw_data, width, height) {
-            let margin = ({ top: 20, right: 0, bottom: 30, left: 50 });
+            let margin = ({ top: 20, right: 20, bottom: 30, left: 50 });
             // let sdata = [];
             let maxRmse = -999999;
             let minRmse = 999999;
@@ -1105,7 +1308,7 @@ export default {
                     heatDataSet[i][j]['corr'] = lineData[parseInt(i)][j]['corr'];
                     heatBeforeDataSet[i].push(heatDataSet[i][j])
                 }
-                // heatBeforeDataSet[i] = heatBeforeDataSet[i].concat(heatDataSet[i]);
+                heatBeforeDataSet[i] = heatBeforeDataSet[i].concat(heatDataSet[i]);
             }
             let HeatSumData = [];
             // for (let i = 0; i < 4; ++i) {
@@ -1114,6 +1317,10 @@ export default {
             for (let i = 0; i < heatBeforeDataSet.length; ++i) {
                 HeatSumData.push(heatBeforeDataSet[i]);
             }
+
+            // for (let i = 0; i < heatDataSet.length; ++i) {
+            //     HeatSumData.push(heatDataSet[i]);
+            // }
             let rawScale = scaleLinear([minRaw, maxRaw], [0, 1]);
             let rmseScale = scaleLinear([minRmse, maxRmse], [0, 1]);
             let errorScale = scaleLinear([minError, maxError], [0, 1]);
@@ -1167,6 +1374,47 @@ export default {
             // console.log(res_data);
 
             return res_data;
+        },
+        calcResultData (data, heatData) {
+            let res_data = new Object();
+            let max_train = 0, max_test = 0, max_acf = 0
+            for (let i in data) {
+                if (i == '9' || i == '10')
+                    continue;
+                for (let j in data[i].predic_info) {
+                    res_data[data[i].dataset_name + '_skip' + data[i].predic_info[j].skip] = data[i].predic_info[j];
+                    // console.log(data[i].predic_info[j]['ACF'], i, j)
+                    max_acf = Math.max(max_acf, data[i].predic_info[j]['ACF']);
+                    max_train = Math.max(max_train, data[i].predic_info[j]['loss=mean_squared_error']);
+                    max_test = Math.max(max_test, data[i].predic_info[j]['val_loss=val_mse']);
+                }
+            }
+            // console.log(max_acf);
+            let leftT = 140;
+            let barS = heatData[0].heat[0].x - leftT;
+            let trainScale = scaleLinear([0, max_train], [0, ((barS) / 3) * 0.9]);
+            let testScale = scaleLinear([0, max_test], [0, ((barS) / 3) * 0.9]);
+            let acfScale = scaleLinear([0, max_acf], [0, ((barS) / 3) * 0.9]);
+
+            for (let i in heatData) {
+                heatData[i]['res'] = [{
+                    x: leftT,
+                    w: trainScale(res_data[this.filename[i].substring(0, this.filename[i].length - 8)]['loss=mean_squared_error']),
+                    y: i * this.elHeight / 36,
+                    h: this.elHeight / 36 - 3
+                }, {
+                    x: leftT + (barS) / 3,
+                    w: testScale(res_data[this.filename[i].substring(0, this.filename[i].length - 8)]['val_loss=val_mse']),
+                    y: i * this.elHeight / 36,
+                    h: this.elHeight / 36 - 3
+                }, {
+                    x: leftT + 2 * (barS) / 3,
+                    w: acfScale(res_data[this.filename[i].substring(0, this.filename[i].length - 8)]['ACF']),
+                    y: i * this.elHeight / 36,
+                    h: this.elHeight / 36 - 3
+                }]
+            }
+            return heatData;
         }
     },
     created () {
@@ -1177,36 +1425,19 @@ export default {
         this.tlHeight = this.$refs.timeline.offsetHeight * 1;
         this.heatHeight = this.$refs.timeline.offsetHeight * 0.3;
         this.tlWidth = this.$refs.timeline.offsetWidth;
-        // this.d = this.calcCurve();
-        // // console.log(this.timeData)
-        // console.log(this.sliceData);
-        // const dataStore = useDataStore();
-        // dataStore.$subscribe((mutation, state) => {
-        // [this.startTime, this.timeScale, this.maeScale] = this.calcTimeScale(this.sliceData);
-        // let barData = new Array();
-        // for (const d of this.sliceData) {
-        //     barData.push(this.calcTimeData(d));
-        // }
-
-        // this.tableData = barData;
-
-        this.sparkboxData = this.calcSparkBox(SN_raw_data, this.tlHeight, this.tlWidth);
 
         this.calcTimeLine(SN_raw_data, this.tlHeight, this.tlWidth);
 
-        // let smoothData = { raw: SN_raw_data, sr3: sr3, sr6: sr6, sr9: sr9, sr13: sr13, sr26: sr26, sa3: sa3, sa6: sa6, sa9: sa9, sa13: sa13, sa26: sa26 };
-        // this.smoothData = smoothData;
-        // for (let d in smoothData) {
-        //     for (let sk = 1; sk <= 13; sk += 12) {
-        //         this.heatRectData.push(this.calcHeat(SN_raw_data, smoothData[d], sk, this.tlWidth, d));
-        //     }
-        // }
 
+        // this.calcSparkBox(SN_raw_data, this.tlHeight, this.tlWidth);
 
         let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35];
         let smoothDataSet = [SN_raw_data, SN_raw_data, SN_raw_data, SN_raw_data, sr13, sr13, sr13, sr13, sr3, sr3, sr3, sr3, sr6, sr6, sr6, sr6, sr9, sr9, sr9, sr9, sa13, sa13, sa13, sa13, sa3, sa3, sa3, sa3, sa6, sa6, sa6, sa6, sa9, sa9, sa9, sa9];
 
-        this.heatRectData = this.calcRMSEHeat(dataSet, smoothDataSet, SN_raw_data, this.tlWidth, this.tlHeight);
+        this.heatRectData = this.calcRMSEHeat(dataSet, smoothDataSet, SN_raw_data, this.tlWidth, this.elHeight - 20);
+
+        // this.heatRectData = this.calcResultData(res_data, this.heatRectData);
+        // console.log(this.heatRectData);
 
 
         this.setupBrush(SN_raw_data);
@@ -1217,34 +1448,30 @@ export default {
         dataStore.$subscribe((mutation, state) => {
             // console.log(dataStore.selectDot, _this.heatRectData);
             selectAll('#tsr_1').attr('opacity', 0);
+            let coverRect = [];
             for (let i in _this.heatRectData) {
                 for (let j in _this.heatRectData[i].heat) {
                     // console.log(_this.heatRectData[i][j])
-                    
-                    if (dataStore.selectDot[this.heatRectData[i].heat[j].id_cnt] == 1) {
-                        select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('opacity', 1).attr('stroke', 'blue').attr('stroke-width', 0);
 
+                    if (dataStore.selectDot[this.heatRectData[i].heat[j].id_cnt] == 1) {
+                        // select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('opacity', 1).attr('stroke', 'blue').attr('stroke-width', 0);
+                        coverRect.push({
+                            x: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('x'),
+                            y: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('y'),
+                            w: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('width'),
+                            h: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('height'),
+                            fill: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('fill'),
+                            cnt: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('class'),
+                        })
                     }
-                    else select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('opacity', 0)
+                    // else select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('opacity', 0)
                     // .attr('fill', '#d9d9d9');
                 }
             }
+            // console.log(coverRect);
+            this.coverRect = coverRect;
         })
 
-        // console.log(this.heatRectData);
-        // this.groupPath = this.calcGroup();
-
-
-        // })
-
-
-        // [this.startTime, this.timeScale, this.maeScale] = this.calcTimeScale(this.sliceData);
-        // let barData = new Array();
-        // for (const d of this.sliceData) {
-        //     barData.push(this.calcTimeData(d));
-        // }
-        // // console.log(barData);
-        // this.barData = barData;
     },
 }
 </script>

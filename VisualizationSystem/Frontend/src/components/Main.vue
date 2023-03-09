@@ -11,7 +11,7 @@
     </div>
     <div style="height: calc(96vh - 0px); width: calc(100% - 0px);">
         <div class="framework" id="controlPanel"
-            style="position: absolute; left: calc(5px); top: calc(5px); height: calc(30vw); width: calc(12vw - 15px);">
+            style="position: absolute; left: calc(5px); top: calc(5px); height: calc(30vw); width: calc(12vw + 15px);">
             <!-- <ReasoningView /> -->
             <ControlPanel :basicData="basicData"/>
         </div>
@@ -28,7 +28,7 @@
             <CorrelationView />
         </div> -->
         <div class="framework" id="DistributionView"
-            style="position: absolute; left: calc(12vw - 5px);  top: calc(5px); height: calc(30vw); width: calc(30vw);">
+            style="position: absolute; left: calc(12vw - 5px + 30px);  top: calc(5px); height: calc(30vw); width: calc(30vw - 30px);">
             <!-- <CorrelationView /> -->
             <UnitView/>
         </div>

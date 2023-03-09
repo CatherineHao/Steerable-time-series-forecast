@@ -55,17 +55,17 @@
                     </g> -->
                 <g>
                     <g>
-                        <text v-for="(o, i) in F_name" :key="'F_leg' + i" :x="0" :y="0"
-                            :transform="translate(10, 50 + i * (elHeight - 30) / F_name.length, 0)">{{
+                        <text v-for="(o, i) in F_name" :key="'F_leg' + i" :x="0" :y="0" text-anchor="end"
+                            :transform="translate(40, 50 + i * (elHeight - 30) / F_name.length, -65)">{{
                                 (o).charAt(0).toUpperCase() + (o).slice(1) }}</text>
                     </g>
                     <g>
                         <text v-for="(o, i) in F_name" :key="'F_leg' + i" :x="0" :y="0"
-                            :transform="translate(80 + (elWidth - 85) / F_name.length / 2 + (elWidth - 85) / F_name.length * i, (elHeight - 30) + 20, 0)"
+                            :transform="translate(50 + (elWidth - 50) / F_name.length / 2 + (elWidth - 50) / F_name.length * i, (elHeight - 30) + 20, 0)"
                             font-weight="100" text-anchor="middle">{{ (o).charAt(0).toUpperCase() + (o).slice(1) }}</text>
                     </g>
                     <g v-for="(o, i) in F_sparkBoxData" :key="'fsb' + i" :transform="translate(o.tx, o.ty, 0)">
-                        <g :transform="translate(80, 15, 0)">
+                        <g :transform="translate(50, 15, 0)">
                             <rect v-for="(oo, r_i) in o.boxData" :key="'fsbr' + r_i" :x="oo.x" :y="oo.y" :width="oo.w"
                                 :height="oo.h" :fill="oo.fillColor" :opacity="oo.fill" stroke="white"></rect>
                         </g>
@@ -253,7 +253,7 @@ export default {
         // [this.sparkBoxData, this.linePath] = this.calcSparkBox(SN_raw_data, this.elHeight, this.elWidth);
 
         let F_sparkBoxData = []
-        let margin = { top: 15, left: 80, right: 5, bottom: 30 }
+        let margin = { top: 15, left: 50, right: 5, bottom: 30 }
         // console.log(rolling13, weight13, SN_raw_data);
         // for (let i in SN_raw_data) {
         //     SN_raw_data[i]['weight13'] = weight13[i]['value'];
