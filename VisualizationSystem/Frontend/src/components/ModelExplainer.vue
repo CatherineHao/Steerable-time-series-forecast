@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-02-18 20:36:39
+ * @LastEditTime: 2023-03-10 17:19:15
 -->
 <template>
     <div class="frameworkTitle">
@@ -87,6 +87,8 @@ import { line } from 'd3-shape';
 import { drag } from 'd3-drag';
 import { polygonContains } from 'd3-polygon';
 
+import * as vsup from 'vsup';
+import { interpolateYlOrRd } from 'd3-scale-chromatic';
 export default {
     name: 'modelExplainerView',
     props: ['sliceData'],
@@ -347,6 +349,9 @@ export default {
                 }
                 // lineData.push(tp);
             }
+            let quantization2 = vsup.quantization().branching(2).layers(4).valueDomain([minRmse, maxRmse]).uncertaintyDomain([(maxNorm), minNorm]);
+            let heatColor = interpolateYlOrRd;
+            let heatScale = vsup.scale().quantize(quantization2).range(heatColor);
             // console.log(minNorm, maxNorm);
 
             let rmseScale = scaleLinear([minRmse, maxRmse], [this.elHeight - 18, 10]);
@@ -374,6 +379,7 @@ export default {
             for (let i in sdata) {
                 sdata[i].x = normScale(sdata[i].norm_corr);
                 sdata[i].y = rmseScale(sdata[i].rmse);
+                sdata[i].fill = heatScale(sdata[i].rmse, sdata[i].norm_corr);
             }
             let _this = this;
             select('#scatter')
@@ -392,8 +398,8 @@ export default {
                 .attr('id', (d, i) => 'corr_c' + d.id_cnt)
                 .attr('class', 'corr_cir')
                 .attr('r', 2)
-                // .attr('stroke', 'white')
-                .attr('fill', 'orange')
+                // .attr('stroke', '#bbb')
+                .attr('fill',d=> d.fill)
                 .attr('opacity', d => d.isShow)
                 .on('mouseover', (e, d) => {
                     select('#corr_c' + d.id_cnt).attr('r', d.isShow == 1 ? 5 : 1);
@@ -415,7 +421,7 @@ export default {
                     const dataStore = useDataStore();
                     dataStore.selectDot = select_dot;
 
-                    console.log(select_dot);
+                    // console.log(select_dot);
                     _this.tableData = _this.calcTableData(_this.dataSet, select_dot);
                     console.log(_this.tableData);
                     selectAll('.corr_cir').attr('opacity', (d, i) => {
