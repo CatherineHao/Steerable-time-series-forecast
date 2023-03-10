@@ -262,38 +262,38 @@ export default {
         }
         // console.log(SN_raw_data);
 
-        for (let i = 0; i < this.S_name.length; ++i) {
-            for (let j = 0; j < i + 1; ++j) {
-                // console.log(this.S_name[i], this.S_name[j]);
-                F_sparkBoxData.push({
-                    x: j,
-                    y: i,
-                    tx: (this.elWidth - margin.left - margin.right) / this.S_name.length * j,
-                    rx: margin.left,
-                    w: (this.elWidth - margin.left - margin.right) / this.S_name.length,
-                    ty: (this.elHeight - margin.bottom - margin.top) / this.S_name.length * i,
-                    ry: margin.top,
-                    h: (this.elHeight - margin.bottom - margin.top) / this.S_name.length,
-                    boxData: this.calcDisSparkBox(SN_raw_data, (this.elHeight - margin.bottom - margin.top) / this.S_name.length, (this.elWidth - margin.left - margin.right) / this.S_name.length, 8, this.S_name[i], this.S_name[j], 'value')
-                })
-            }
-        }
-
-        // for (let i = 0; i < this.F_name.length; ++i) {
+        // for (let i = 0; i < this.S_name.length; ++i) {
         //     for (let j = 0; j < i + 1; ++j) {
+        //         // console.log(this.S_name[i], this.S_name[j]);
         //         F_sparkBoxData.push({
         //             x: j,
         //             y: i,
-        //             tx: (this.elWidth - margin.left - margin.right) / this.F_name.length * j,
+        //             tx: (this.elWidth - margin.left - margin.right) / this.S_name.length * j,
         //             rx: margin.left,
-        //             w: (this.elWidth - margin.left - margin.right) / this.F_name.length,
-        //             ty: (this.elHeight - margin.bottom - margin.top) / this.F_name.length * i,
+        //             w: (this.elWidth - margin.left - margin.right) / this.S_name.length,
+        //             ty: (this.elHeight - margin.bottom - margin.top) / this.S_name.length * i,
         //             ry: margin.top,
-        //             h: (this.elHeight - margin.bottom - margin.top) / this.F_name.length,
-        //             boxData: this.calcDisSparkBox(multi_data, (this.elHeight - margin.bottom - margin.top) / this.F_name.length, (this.elWidth - margin.left - margin.right) / this.F_name.length, 8, this.F_name[i], this.F_name[j], 'pm25')
+        //             h: (this.elHeight - margin.bottom - margin.top) / this.S_name.length,
+        //             boxData: this.calcDisSparkBox(SN_raw_data, (this.elHeight - margin.bottom - margin.top) / this.S_name.length, (this.elWidth - margin.left - margin.right) / this.S_name.length, 8, this.S_name[i], this.S_name[j], 'value')
         //         })
         //     }
         // }
+
+        for (let i = 0; i < this.F_name.length; ++i) {
+            for (let j = 0; j < i + 1; ++j) {
+                F_sparkBoxData.push({
+                    x: j,
+                    y: i,
+                    tx: (this.elWidth - margin.left - margin.right) / this.F_name.length * j,
+                    rx: margin.left,
+                    w: (this.elWidth - margin.left - margin.right) / this.F_name.length,
+                    ty: (this.elHeight - margin.bottom - margin.top) / this.F_name.length * i,
+                    ry: margin.top,
+                    h: (this.elHeight - margin.bottom - margin.top) / this.F_name.length,
+                    boxData: this.calcDisSparkBox(multi_data, (this.elHeight - margin.bottom - margin.top) / this.F_name.length, (this.elWidth - margin.left - margin.right) / this.F_name.length, 8, this.F_name[i], this.F_name[j], 'pm25')
+                })
+            }
+        }
         // console.log(F_sparkBoxData);
         this.F_sparkBoxData = F_sparkBoxData;
     },
