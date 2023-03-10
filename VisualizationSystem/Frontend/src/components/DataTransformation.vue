@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-02-24 22:29:08
+ * @LastEditTime: 2023-03-10 17:43:36
 -->
 <template>
     <div class="frameworkTitle" style="padding-right: 10px;">
@@ -23,12 +23,12 @@
                 <g id="raw_line_g" :transform="translate(0, 0, 0)">
                     <!-- <g v-for="(item, i) in sparkboxData" :key="'box' + i">
                             <rect :x="item.rect1.x" :y="item.rect1.y" :width="item.rect1.w" :height="item.rect1.h"
-                                            fill="#f2f5fa"></rect>
-                                        <rect :x="item.rect2.x" :y="item.rect2.y" :width="item.rect2.w" :height="item.rect2.h"
-                                            fill="#dce3f3"></rect>
-                                        <path :d="'M ' + item.line.x1 + ' ' + item.line.y + ' L ' + item.line.x2 + ' ' + item.line.y"
-                                            :fill="'none'" :stroke="'#6d70b6'" stroke-width="3"></path>
-                                    </g> -->
+                                                fill="#f2f5fa"></rect>
+                                            <rect :x="item.rect2.x" :y="item.rect2.y" :width="item.rect2.w" :height="item.rect2.h"
+                                                fill="#dce3f3"></rect>
+                                            <path :d="'M ' + item.line.x1 + ' ' + item.line.y + ' L ' + item.line.x2 + ' ' + item.line.y"
+                                                :fill="'none'" :stroke="'#6d70b6'" stroke-width="3"></path>
+                                        </g> -->
                         <defs>
                             <clipPath id="clipPath">
                                 <rect :x="50" :y="20" :width="tlWidth - 70" :height="tlHeight - 50"></rect>
@@ -40,27 +40,27 @@
                     <!--                        <g :transform="translate(0, tlHeight - 130, 0)">
                             <path :d="'M ' + 50 + ' 0 ' + 'L ' + (tlWidth - 0) + ' 0'" :fill="'none'" stroke="black">
                             </path>
-                                        <!~~ <g v-for="(item, i) in timeAxis" :key="'xa' + i">
-                                            <path :d="'M ' + item.x + ' 0 ' + 'L ' + item.x + ' 5'" :fill="'none'" stroke="black">
-                                            </path>
-                                        <text :x="item.x" y="20" font-size="12" text-anchor="middle">{{ item.text }}</text>
-                                    </g> ~~>
-                                    </g>-->
+                                            <!~~ <g v-for="(item, i) in timeAxis" :key="'xa' + i">
+                                                <path :d="'M ' + item.x + ' 0 ' + 'L ' + item.x + ' 5'" :fill="'none'" stroke="black">
+                                                </path>
+                                            <text :x="item.x" y="20" font-size="12" text-anchor="middle">{{ item.text }}</text>
+                                        </g> ~~>
+                                        </g>-->
                         <g>
                             <path :d="smoothTimeLineData" stroke="red" :fill="'none'"></path>
-                        </g>
+                    </g>
                 </g>
                 <g :transform="translate(0, 440, 0)" id="focusLine_g">
                     <path :d="brushTimeLineData" stroke="#777" :fill="'none'"></path>
                     <g id="brush_path_line"></g>
                     <!-- <g id="" :transform="translate(0, 100, 0)">
                             
-                                                <g v-for="(item, i) in brushTimeAxis" :key="'xa' + i">
-                                                    <path :d="'M ' + item.x + ' 0 ' + 'L ' + item.x + ' 5'" :fill="'none'" stroke="black">
-                                                    </path>
-                                                    <text :x="item.x" y="20" font-size="12" text-anchor="middle">{{ item.text }}</text>
-                                                </g>
-                                            </g> -->
+                                                    <g v-for="(item, i) in brushTimeAxis" :key="'xa' + i">
+                                                        <path :d="'M ' + item.x + ' 0 ' + 'L ' + item.x + ' 5'" :fill="'none'" stroke="black">
+                                                        </path>
+                                                        <text :x="item.x" y="20" font-size="12" text-anchor="middle">{{ item.text }}</text>
+                                                    </g>
+                                                </g> -->
                     </g>
 
                 <g id="brush_g" :transform="translate(0, 440, 0)"></g>
@@ -103,8 +103,8 @@
                                                                                                                                         <svg height="30" width="100%">
                                                                                                                                             <rect v-for="(item, item_i) in scope.row.bar_data" :key="'heat_' + item_i"
                                                                                                                                                 :x="(elWidth - 250) / scope.row.slice_num * item_i" :y="8"
-                                                                                                                                                                                :width="(elWidth - 250) / scope.row.slice_num" :height="20" :fill="item.test.fill">
-                                                                                                                                                                            </rect>
+                                                                                                                                                                                    :width="(elWidth - 250) / scope.row.slice_num" :height="20" :fill="item.test.fill">
+                                                                                                                                                                                </rect>
                                                                                                                                         </svg>
                                                                                                                                     </template>
                                                                                                                                 </el-table-column>
@@ -117,42 +117,42 @@
                                                                                                                                 <template #default="scope">
                                                                                                                                     <svg height="30" width="100%">
                                                                                                                                         <rect v-for="(item, item_i) in scope.row['heat']" :key="'heat_' + item_i" :x="item.x" :y="0"
-                                                                                                                                                                            :width="item.w" :height="50" :fill="item.color">
-                                                                                                                                                                        </rect>
-                                                                                                                                                                    </svg>
-                                                                                                                                                                </template>
+                                                                                                                                                                                :width="item.w" :height="50" :fill="item.color">
+                                                                                                                                                                            </rect>
+                                                                                                                                                                        </svg>
+                                                                                                                                                                    </template>
                                                                                                                             </el-table-column>
                                                                                                                         </el-table> -->
 
 
         <svg height="100%" width="100%">
                 <!-- <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)">
-                                                                                                    <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
+                                                                                                        <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
                                                                                                         :width="item_h.w" :height="item_h.h" :fill="colorScale(item_h.raw, item_h.error, heatTag)"
                                                                                     @click="timeCompare(item.tag)">
                                                                                                     </rect>
-                                                                                                </g> -->
-                <g>
-                    <!-- <text font-size="16" font-family="Arial" text-anchor="middle" dx="2.5em" y="15" dy="0em">{{ columnData[0]
+                                                                                                    </g> -->
+            <g>
+                <!-- <text font-size="16" font-family="Arial" text-anchor="middle" dx="2.5em" y="15" dy="0em">{{ columnData[0]
                     }}</text>
                     <text font-size="16" font-family="Arial" text-anchor="middle" dx="6em" y="15" dy="0em">{{ columnData[1]
                     }}</text> -->
-                    <!-- <text font-size="16" font-family="Arial" text-anchor="middle" dx="0em" x="200" y="15" dy="0em">{{
+                <!-- <text font-size="16" font-family="Arial" text-anchor="middle" dx="0em" x="200" y="15" dy="0em">{{
                         columnData[2] }}</text>
-                    <text font-size="16" font-family="Arial" text-anchor="middle" dx="0em" x="330" y="15" dy="0em">{{
-                        columnData[3] }}</text>
-                    <text font-size="16" font-family="Arial" text-anchor="middle" dx="0em" x="460" y="15" dy="0em">{{
-                        columnData[4] }}</text>
+                        <text font-size="16" font-family="Arial" text-anchor="middle" dx="0em" x="330" y="15" dy="0em">{{
+                            columnData[3] }}</text>
+                        <text font-size="16" font-family="Arial" text-anchor="middle" dx="0em" x="460" y="15" dy="0em">{{
+                            columnData[4] }}</text>
                 <text font-size="16" font-family="Arial" text-anchor="middle" dx="0em" x="1000" y="15" dy="0em">{{
-                    columnData[5] }}</text> -->
+                        columnData[5] }}</text> -->
                 </g>
                 <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i + 20, 0)"
                     @mouseenter="selectFile(i)" @mouseout="cancelFile(i)" @click="clickFile(i)">
                     <!-- <rect :id="'rst' + i" :x="item['heat'][0].x" :y="0" :width="elWidth - 0 - item['heat'][0].x"
-                                                                                :height="item['heat'][0].h" fill="none" stroke="orange" stroke-width="0"></rect> -->
+                                                                                    :height="item['heat'][0].h" fill="none" stroke="orange" stroke-width="0"></rect> -->
                     <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
-                        :width="item_h.w" :height="item_h.h" :fill="item_h.colorMap[heatTag]" :id="'tsr' + item_h.id_cnt" :class="'wsr' + i"
-                        :fill-opacity="1">
+                        :width="item_h.w" :height="item_h.h" :fill="item_h.colorMap[heatTag]" :id="'tsr' + item_h.id_cnt"
+                        :class="'wsr' + i" :fill-opacity="1">
                     </rect>
                     <rect v-for="(item_h, item_i) in item['res']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
                         :width="item_h.w" :height="item_h.h" :fill="'orange'" :id="'tsr' + item_i"
@@ -174,9 +174,10 @@
                     <rect :id="'rst' + i" class="rst" :x="item['heat'][0].x" :y="0" :width="elWidth - 0 - item['heat'][0].x"
                         :height="item['heat'][0].h" fill="none" stroke="orange" stroke-width="0"></rect>
                 </g>
-                <g v-for="(item, i) in coverRect" :key="'heat_g' + i" :transform="translate(0, ((elHeight - 20) / 36) * (parseInt(item.cnt.substring(item.cnt.length - 1, item.cnt.length))) + 20, 0)">
-                    <rect :id="'rst' + i" class="rst" :x="item.x" :y="0" :width="item.w"
-                        :height="item.h" :fill="item.fill" stroke="none" stroke-width="0"></rect>
+                <g v-for="(item, i) in coverRect" :key="'heat_g' + i"
+                    :transform="translate(0, ((elHeight - 20) / 36) * (parseInt(item.cnt.substring(item.cnt.length - 1, item.cnt.length))) + 20, 0)">
+                    <rect :id="'rst' + i" class="rst" :x="item.x" :y="0" :width="item.w" :height="item.h" :fill="item.fill"
+                        stroke="none" stroke-width="0"></rect>
                 </g>
                 <g v-for="(item, i) in groupPath" :key="'group_g' + i" :transform="translate(0, 0, 0)">
                     <path :d="'M ' + item.x1 + ' ' + item.y1 + ' L ' + item.x2 + ' ' + item.y2" fill="none" stroke="black">
@@ -301,12 +302,12 @@
                                                                                                                                     <g v-for="(d, j) in item.bar_data" :key="'single_bar' + j" :transform="translate(0, 20, 0)">
                                                                                                                                         <rect :x="d.train.x" :y="5" :height="20" :width="d.train.w" :fill="d.train.fill" :opacity="0.1">
                                                                                                                                         </rect>
-                                                                                                                                                                        <path
-                                                                                                                                                                            :d="'M ' + d.test.x1 + ' 5 L ' + d.test.x1 + ' 25 L ' + d.test.x2 + ' 20 L ' + d.test.x2 + ' 10 Z'"
-                                                                                                                                                                            :fill="d.test.fill" :stroke="'black'"></path>
-                                                                                                                                                                    </g>
-                                                                                                                                                    </g>
-                                                                                                                                                </svg> -->
+                                                                                                                                                                            <path
+                                                                                                                                                                                :d="'M ' + d.test.x1 + ' 5 L ' + d.test.x1 + ' 25 L ' + d.test.x2 + ' 20 L ' + d.test.x2 + ' 10 Z'"
+                                                                                                                                                                                :fill="d.test.fill" :stroke="'black'"></path>
+                                                                                                                                                                        </g>
+                                                                                                                                                        </g>
+                                                                                                                                                    </svg> -->
         </div>
     </div>
 </template>
@@ -509,15 +510,33 @@ export default {
             })
         },
         clickFile (num) {
+            let tdata = []
             selectAll('.corr_cir').attr('opacity', (d, i) => {
                 if (d.class_name == this.filename[num].substring(0, this.filename[num].length - 8)) {
-                    return 1;
+                    tdata.push(d);
+                    // return 0.5;
                 }
-                return 0.01;
+                return d.isShow? 0 : 0.5;
             }).attr('fill', (d, i) => {
-                        if (d.class_name == this.filename[num].substring(0, this.filename[num].length - 8)) return 'orange';
-                        else return '#d9d9d9';
-                    })
+                // if (d.class_name == this.filename[num].substring(0, this.filename[num].length - 8)) return 'orange';
+                // else 
+                return '#d9d9d9';
+            })
+            // console.log(tdata)
+            select('#scatter')
+                .append('g')
+                .selectAll('#res_c')
+                .attr('id', 'res_c')
+                .data(tdata)
+                .enter()
+                .append('circle')
+                .attr('cx', d => d.x)
+                .attr('cy', d => d.y)
+                .attr('id', (d, i) => 'corr_c' + d.id_cnt)
+                .attr('class', 'corr_cir')
+                .attr('r', 3)
+                .attr('stroke', 'black')
+                .attr('fill', d => d.fill)
         },
         cancelFile (num) {
             select('#rst' + num).attr('stroke-width', 0);
@@ -655,7 +674,7 @@ export default {
                 .attr('stroke-width', 1.5)
                 .attr('fill', 'none')
                 .style('z-index', 5)
-            
+
             // console.log(sparkboxData)
             // return sparkboxData;
         },
@@ -695,7 +714,7 @@ export default {
                 )
                 .attr("display", s === null ? "none" : null)
                 .attr("transform", s === null ? null : (d, i) => `translate(${s[i]},${radius + margin.top})`)
-            function brushStart() {
+            function brushStart () {
                 selectAll('.sparkbox').remove();
             }
             function brushEnd ({ selection }) {

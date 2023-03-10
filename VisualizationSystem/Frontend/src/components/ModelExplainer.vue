@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-03-10 17:19:15
+ * @LastEditTime: 2023-03-10 17:35:15
 -->
 <template>
     <div class="frameworkTitle">
@@ -209,7 +209,7 @@ export default {
                     if (select_dot[i] == 1) return 1;
                     else return d.isShow == 0 ? 0 : 0.5;
                 }).attr('fill', (d, i) => {
-                    if (select_dot[i] == 1) return 'orange';
+                    if (select_dot[i] == 1) return d.fill;
                     else return '#d9d9d9';
                 })
 
