@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-01-10 22:18:32
+ * @LastEditTime: 2023-03-11 15:16:52
 -->
 <template>
     <div class="frameworkTitle">
@@ -34,26 +34,26 @@
                 </g>
             </g>
 
-            <!-- <g>
-                    <g>
-                        <text v-for="(o, i) in S_name" :key="'F_leg' + i" :x="0" :y="0"
-                            :transform="translate(10, 100 + i * (elHeight - 30) / S_name.length, 0)">{{
+            <g>
+                <g>
+                        <text v-for="(o, i) in S_name" :key="'F_leg' + i" :x="0" :y="0" text-anchor="end"
+                            :transform="translate(40, 50 + i * (elHeight - 30) / S_name.length, -65)">{{
                                 (o).charAt(0).toUpperCase() + (o).slice(1) }}</text>
                     </g>
                     <g>
                         <text v-for="(o, i) in S_name" :key="'F_leg' + i" :x="0" :y="0"
-                            :transform="translate(80 + (elWidth - 85) / S_name.length / 2 + (elWidth - 85) / S_name.length * i, (elHeight - 30) + 20, 0)"
+                            :transform="translate(50 + (elWidth - 50) / S_name.length / 2 + (elWidth - 50) / S_name.length * i, (elHeight - 30) + 20, 0)"
                             font-weight="100" text-anchor="middle">{{ (o).charAt(0).toUpperCase() + (o).slice(1) }}</text>
                     </g>
                     <g v-for="(o, i) in F_sparkBoxData" :key="'fsb' + i" :transform="translate(o.tx, o.ty, 0)">
-                        <g :transform="translate(80, 15, 0)">
-                                <rect v-for="(oo, r_i) in o.boxData" :key="'fsbr' + r_i" :x="oo.x" :y="oo.y" :width="oo.w"
-                                    :height="oo.h" fill="steelblue" :opacity="oo.fill" stroke="white"></rect>
-                            </g>
-                            <rect :x="o.rx" :y="o.ry" :width="o.w" :height="o.h" fill="none" stroke="black"></rect>
+                        <g :transform="translate(50, 15, 0)">
+                            <rect v-for="(oo, r_i) in o.boxData" :key="'fsbr' + r_i" :x="oo.x" :y="oo.y" :width="oo.w"
+                                :height="oo.h" :fill="oo.fillColor" :opacity="oo.fill" stroke="white"></rect>
                         </g>
-                    </g> -->
-                <g>
+                        <rect :x="o.rx" :y="o.ry" :width="o.w" :height="o.h" fill="none" stroke="black"></rect>
+                    </g>
+                    </g>
+                <!-- <g>
                     <g>
                         <text v-for="(o, i) in F_name" :key="'F_leg' + i" :x="0" :y="0" text-anchor="end"
                             :transform="translate(40, 50 + i * (elHeight - 30) / F_name.length, -65)">{{
@@ -71,7 +71,7 @@
                         </g>
                         <rect :x="o.rx" :y="o.ry" :width="o.w" :height="o.h" fill="none" stroke="black"></rect>
                     </g>
-                </g>
+                </g> -->
             </svg>
         </div>
     </div>
@@ -82,9 +82,22 @@ import { axisBottom, axisLeft } from "d3-axis";
 import { scaleLinear, scaleOrdinal } from "d3-scale";
 import { select } from "d3-selection";
 import { line } from "d3-shape";
+// import SN_raw_data from "../assets/SN_m_tot_V2.0.csv";
+// import weight13 from '../assets/data/SN_weighted_moving_average13_tot.csv';
+// import rolling13 from '../assets/data/SN_rolling13_tot.csv';
+
+
 import SN_raw_data from "../assets/SN_m_tot_V2.0.csv";
-import weight13 from '../assets/data/SN_weighted_moving_average13_tot.csv';
-import rolling13 from '../assets/data/SN_rolling13_tot.csv';
+import sr3 from '../assets/data/SN_rolling3_tot.csv';
+import sr6 from '../assets/data/SN_rolling6_tot.csv';
+import sr9 from '../assets/data/SN_rolling9_tot.csv';
+import sr13 from '../assets/data/SN_rolling13_tot.csv';
+import sr26 from '../assets/data/SN_rolling26_tot.csv';
+import sa3 from '../assets/data/SN_weighted_moving_average3_tot.csv';
+import sa6 from '../assets/data/SN_weighted_moving_average6_tot.csv';
+import sa9 from '../assets/data/SN_weighted_moving_average9_tot.csv';
+import sa13 from '../assets/data/SN_weighted_moving_average13_tot.csv';
+import sa26 from '../assets/data/SN_weighted_moving_average26_tot.csv';
 import multi_data from "../assets/used_multi.csv";
 import { interpolateYlGnBu } from "d3-scale-chromatic";
 export default {
@@ -98,7 +111,7 @@ export default {
             F_sparkBoxData: [],
             linePath: null,
             F_name: ['pm25', 'temp', 'rh', 'psfc', 'wnd_dir', 'wnd_spd'],
-            S_name: ['raw', 'weight13', 'rolling13'],
+            S_name: ['raw', 'weight13', 'rolling13', 'weight3', 'rolling3', 'weight6', 'rolling6'],
             tfData: []
         }
     },
@@ -256,44 +269,48 @@ export default {
         let margin = { top: 15, left: 50, right: 5, bottom: 30 }
         // console.log(rolling13, weight13, SN_raw_data);
         for (let i in SN_raw_data) {
-            SN_raw_data[i]['weight13'] = weight13[i]['value'];
-            SN_raw_data[i]['rolling13'] = rolling13[i]['value'];
+            SN_raw_data[i]['weight13'] = sa13[i]['value'];
+            SN_raw_data[i]['rolling13'] = sr13[i]['value'];
+            SN_raw_data[i]['weight3'] = sa3[i]['value'];
+            SN_raw_data[i]['rolling3'] = sr3[i]['value'];
+            SN_raw_data[i]['weight6'] = sa6[i]['value'];
+            SN_raw_data[i]['rolling6'] = sr6[i]['value'];
             SN_raw_data[i]['raw'] = SN_raw_data[i]['value'];
         }
         // console.log(SN_raw_data);
 
-        // for (let i = 0; i < this.S_name.length; ++i) {
-        //     for (let j = 0; j < i + 1; ++j) {
-        //         // console.log(this.S_name[i], this.S_name[j]);
-        //         F_sparkBoxData.push({
-        //             x: j,
-        //             y: i,
-        //             tx: (this.elWidth - margin.left - margin.right) / this.S_name.length * j,
-        //             rx: margin.left,
-        //             w: (this.elWidth - margin.left - margin.right) / this.S_name.length,
-        //             ty: (this.elHeight - margin.bottom - margin.top) / this.S_name.length * i,
-        //             ry: margin.top,
-        //             h: (this.elHeight - margin.bottom - margin.top) / this.S_name.length,
-        //             boxData: this.calcDisSparkBox(SN_raw_data, (this.elHeight - margin.bottom - margin.top) / this.S_name.length, (this.elWidth - margin.left - margin.right) / this.S_name.length, 8, this.S_name[i], this.S_name[j], 'value')
-        //         })
-        //     }
-        // }
-
-        for (let i = 0; i < this.F_name.length; ++i) {
+        for (let i = 0; i < this.S_name.length; ++i) {
             for (let j = 0; j < i + 1; ++j) {
+                // console.log(this.S_name[i], this.S_name[j]);
                 F_sparkBoxData.push({
                     x: j,
                     y: i,
-                    tx: (this.elWidth - margin.left - margin.right) / this.F_name.length * j,
+                    tx: (this.elWidth - margin.left - margin.right) / this.S_name.length * j,
                     rx: margin.left,
-                    w: (this.elWidth - margin.left - margin.right) / this.F_name.length,
-                    ty: (this.elHeight - margin.bottom - margin.top) / this.F_name.length * i,
+                    w: (this.elWidth - margin.left - margin.right) / this.S_name.length,
+                    ty: (this.elHeight - margin.bottom - margin.top) / this.S_name.length * i,
                     ry: margin.top,
-                    h: (this.elHeight - margin.bottom - margin.top) / this.F_name.length,
-                    boxData: this.calcDisSparkBox(multi_data, (this.elHeight - margin.bottom - margin.top) / this.F_name.length, (this.elWidth - margin.left - margin.right) / this.F_name.length, 8, this.F_name[i], this.F_name[j], 'pm25')
+                    h: (this.elHeight - margin.bottom - margin.top) / this.S_name.length,
+                    boxData: this.calcDisSparkBox(SN_raw_data, (this.elHeight - margin.bottom - margin.top) / this.S_name.length, (this.elWidth - margin.left - margin.right) / this.S_name.length, 8, this.S_name[i], this.S_name[j], 'value')
                 })
             }
         }
+
+        // for (let i = 0; i < this.F_name.length; ++i) {
+        //     for (let j = 0; j < i + 1; ++j) {
+        //         F_sparkBoxData.push({
+        //             x: j,
+        //             y: i,
+        //             tx: (this.elWidth - margin.left - margin.right) / this.F_name.length * j,
+        //             rx: margin.left,
+        //             w: (this.elWidth - margin.left - margin.right) / this.F_name.length,
+        //             ty: (this.elHeight - margin.bottom - margin.top) / this.F_name.length * i,
+        //             ry: margin.top,
+        //             h: (this.elHeight - margin.bottom - margin.top) / this.F_name.length,
+        //             boxData: this.calcDisSparkBox(multi_data, (this.elHeight - margin.bottom - margin.top) / this.F_name.length, (this.elWidth - margin.left - margin.right) / this.F_name.length, 8, this.F_name[i], this.F_name[j], 'pm25')
+        //         })
+        //     }
+        // }
         // console.log(F_sparkBoxData);
         this.F_sparkBoxData = F_sparkBoxData;
     },
