@@ -1,0 +1,371 @@
+[
+    {
+        "dataset_name": "rawdata",
+        "epochs": 15,
+        "train_period":72,
+        "test_period": 24,
+        "ratio": 0.8,
+        "predic_info":[
+            {
+                "skip": 1,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": 0.0034,
+                "val_loss=val_mse": 0.0013,
+                "file_name": "rawdata_skip1.csv"
+            },
+            {
+                "skip": 3,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "rawdata_skip3.csv"
+            },
+            {
+                "skip": 6,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "rawdata_skip6.csv"
+            },
+            {
+                "skip": 12,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "rawdata_skip12.csv"
+            }
+        ]
+    },
+    {
+        "dataset_name": "rolling3",
+        "epochs": 15,
+        "train_period":72,
+        "test_period": 24,
+        "ratio": 0.8,
+        "predic_info":[
+            {
+                "skip": 1,
+                "ACF":0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "rolling3_skip1.csv"
+            },
+            {
+                "skip": 3,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "rolling3_skip3.csv"
+            },
+            {
+                "skip": 6,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "rolling3_skip6.csv"
+            },
+            {
+                "skip": 12,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "rolling3_skip12.csv"
+            }
+        ]
+    },
+    {
+        "dataset_name": "rolling6",
+        "epochs": 15,
+        "train_period":72,
+        "test_period": 24,
+        "ratio": 0.8,
+        "predic_info":[
+            {
+                "skip": 1,
+                "ACF":0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "rolling6_skip1.csv"
+            },
+            {
+                "skip": 3,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "rolling6_skip3.csv"
+            },
+            {
+                "skip": 6,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "rolling6_skip6.csv"
+            },
+            {
+                "skip": 12,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "rolling6_skip12.csv"
+            }
+        ]
+    },
+    {
+        "dataset_name": "rolling12",
+        "epochs": 15,
+        "train_period":72,
+        "test_period": 24,
+        "ratio": 0.8,
+        "predic_info":[
+            {
+                "skip": 1,
+                "ACF":0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "rolling12_skip1.csv"
+            },
+            {
+                "skip": 3,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "rolling12_skip3.csv"
+            },
+            {
+                "skip": 6,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "rolling12_skip6.csv"
+            },
+            {
+                "skip": 12,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "rolling12_skip12.csv"
+            }
+        ]
+    },
+    {
+        "dataset_name": "rolling24",
+        "epochs": 15,
+        "train_period":72,
+        "test_period": 24,
+        "ratio": 0.8,
+        "predic_info":[
+            {
+                "skip": 1,
+                "ACF":0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "rolling24_skip1.csv"
+            },
+            {
+                "skip": 3,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "rolling24_skip3.csv"
+            },
+            {
+                "skip": 6,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "rolling24_skip6.csv"
+            },
+            {
+                "skip": 12,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "rolling24_skip12.csv"
+            }
+        ]
+    },
+    {
+        "dataset_name": "weighted3",
+        "epochs": 15,
+        "train_period":72,
+        "test_period": 24,
+        "ratio": 0.8,
+        "predic_info":[
+            {
+                "skip": 1,
+                "ACF":0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "weighted3_skip1.csv"
+            },
+            {
+                "skip": 3,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "weighted3_skip3.csv"
+            },
+            {
+                "skip": 6,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "weighted3_skip6.csv"
+            },
+            {
+                "skip": 12,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "weighted3_skip12.csv"
+            }
+        ]
+    },
+    {
+        "dataset_name": "weighted6",
+        "epochs": 15,
+        "train_period":72,
+        "test_period": 24,
+        "ratio": 0.8,
+        "predic_info":[
+            {
+                "skip": 1,
+                "ACF":0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "weighted6_skip1.csv"
+            },
+            {
+                "skip": 3,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "weighted6_skip3.csv"
+            },
+            {
+                "skip": 6,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "weighted6_skip6.csv"
+            },
+            {
+                "skip": 12,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "weighted6_skip12.csv"
+            }
+        ]
+    },
+    {
+        "dataset_name": "weighted12",
+        "epochs": 15,
+        "train_period":72,
+        "test_period": 24,
+        "ratio": 0.8,
+        "predic_info":[
+            {
+                "skip": 1,
+                "ACF":0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "weighted12_skip1.csv"
+            },
+            {
+                "skip": 3,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "weighted12_skip3.csv"
+            },
+            {
+                "skip": 6,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "weighted12_skip6.csv"
+            },
+            {
+                "skip": 12,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "weighted12_skip12.csv"
+            }
+        ]
+    },
+    {
+        "dataset_name": "weighted24",
+        "epochs": 15,
+        "train_period":72,
+        "test_period": 24,
+        "ratio": 0.8,
+        "predic_info":[
+            {
+                "skip": 1,
+                "ACF":0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "weighted24_skip1.csv"
+            },
+            {
+                "skip": 3,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "weighted24_skip3.csv"
+            },
+            {
+                "skip": 6,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "weighted24_skip6.csv"
+            },
+            {
+                "skip": 12,
+                "ACF": 0,
+                "result numbers": 0,
+                "loss=mean_squared_error": ,
+                "val_loss=val_mse": ,
+                "file_name": "weighted24_skip12.csv"
+            }
+        ]
+    },
+]
