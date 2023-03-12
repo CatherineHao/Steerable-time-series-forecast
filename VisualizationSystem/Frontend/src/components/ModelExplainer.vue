@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-03-10 17:35:15
+ * @LastEditTime: 2023-03-12 22:08:24
 -->
 <template>
     <div class="frameworkTitle">
@@ -10,19 +10,11 @@
         <p class="titleTriangle"></p>
     </div>
     <div class="frameworkBody">
-        <div ref="modelTable" style="height: 100%; width: calc(50% - 7.5px); float: right; overflow:auto; font-size: 18px;">
-            <el-table :data="tableData" style="width: 100%" height="100%"
-                :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
-                :cell-style="{ 'text-align': 'center', 'font-size': '16px', 'height': '15px' }"
-                :row-style="{ 'height': '18px' }">
-                <el-table-column label="ID" prop="id" sortable />
-                <el-table-column label="Smooth" prop="smooth" />
-                <el-table-column label="Skip" prop="skip" sortable />
-                <el-table-column label="RMSE" prop="rmse" sortable />
-                <el-table-column label="Corr." prop="norm_corr" sortable />
-            </el-table>
-        </div>
-        <div ref="modelExplainer" style="height: 100%; width: calc(50%); float: left;">
+        <div ref="modelExplainer" :style="{
+            height: '100%',
+            width: elHeight + 'px',
+            float: 'right'
+        }">
             <svg id="modelExplainer" height="100%" width="100%">
             <g id="axis_g">
                     <g id="x_axis_g" :transform="translate(0, elHeight - 18, 0)"></g>
@@ -30,10 +22,29 @@
                 </g>
                 <g id="scatter">
                     <!-- <circle v-for="(o, i) in dot_data" :key="'cir' + i" class="corr_cir" :id="'corr_cir' + o.id" :cx="o.x" :cy="o.y" :r="1"
-                                    fill="orange"></circle> -->
+                                            fill="orange"></circle> -->
                 </g>
             </svg>
         </div>
+        <div ref="modelTable" :style="{
+            height: '100%',
+            width: `calc(100% - ${elHeight}px - 10px)`,
+            float: 'left',
+            overflow: 'auto',
+            'font-size': '18px'
+        }">
+            <el-table :data="tableData" style="width: 100%" height="100%"
+                :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
+                :cell-style="{ 'text-align': 'center', 'font-size': '16px', 'height': '15px' }"
+                :row-style="{ 'height': '18px' }">
+                <!-- <el-table-column label="ID" prop="id" sortable /> -->
+                <el-table-column label="Smooth" prop="smooth" />
+                <el-table-column label="Skip" prop="skip" sortable />
+                <el-table-column label="RMSE" prop="rmse" sortable />
+                <el-table-column label="Corr." prop="norm_corr" sortable />
+            </el-table>
+        </div>
+
     </div>
 </template>
 <script>
@@ -166,7 +177,7 @@ export default {
                 } else {
                     select_path = select_path + "L " + tx + " " + ty;
                 }
-                
+
                 let distance = Math.sqrt(Math.pow(tx - target_circle[0], 2) + Math.pow(ty - target_circle[1], 2));
 
                 if (distance < 10)
@@ -399,7 +410,7 @@ export default {
                 .attr('class', 'corr_cir')
                 .attr('r', 2)
                 // .attr('stroke', '#bbb')
-                .attr('fill',d=> d.fill)
+                .attr('fill', d => d.fill)
                 .attr('opacity', d => d.isShow)
                 .on('mouseover', (e, d) => {
                     select('#corr_c' + d.id_cnt).attr('r', d.isShow == 1 ? 5 : 1);
@@ -433,51 +444,6 @@ export default {
                     })
                 })
 
-            // let lineGenerate = line().x(d => timeScale(d.time)).y(d => rmseScale(d.rmse));
-
-            // let lres = [];
-            // for (let i in lineData) {
-            //     lres.push({
-            //         d: lineGenerate(lineData[i]),
-            //         id: i
-            //     });
-            // }
-
-            // select('#scatter').append('g')
-            //     .selectAll('#res_p')
-            //     .attr('id', 'res_p')
-            //     .data(lres)
-            //     .enter()
-            //     .append('path')
-            //     .attr('class', 'p_x')
-            //     .attr('d', d => d.d)
-            //     .attr('fill', 'none')
-            //     .attr('stroke', (d, i) => {
-            //         // if (i == 10)
-            //         return 'black'
-            //         return 'none'
-            //     })
-            //     .on('mouseover', (e, d, i) => {
-            //         // console.log(d, i);
-            //         // console.log(d);
-
-            //         select('#rst' + d.id).attr('stroke-width', 3);
-
-            //         selectAll('.p_x').attr('opacity', (td, ti) => {
-            //             // console.log(td);
-            //             if (d.id == td.id) {
-            //                 return 1;
-            //             }
-            //             return 0;
-            //         })
-            //     })
-            //     .on('mouseout', (e, d, i) => {
-            //         selectAll('.p_x').attr('opacity', 1)
-            //         select('#rst' + d.id).attr('stroke-width', 0);
-
-            //     })
-
-
             return sdata;
         }
     },
@@ -485,8 +451,10 @@ export default {
     },
     mounted () {
         this.elHeight = this.$refs.modelExplainer.offsetHeight;
-        this.elWidth = this.$refs.modelExplainer.offsetWidth;
+        // this.elWidth = this.$refs.modelExplainer.offsetWidth;
+        this.elWidth = this.elHeight;
         // console.log(dataX);
+
         let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35];
         this.dataSet = dataSet;
 

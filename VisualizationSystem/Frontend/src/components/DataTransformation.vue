@@ -2,11 +2,11 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-03-10 17:43:36
+ * @LastEditTime: 2023-03-12 21:48:27
 -->
 <template>
     <div class="frameworkTitle" style="padding-right: 10px;">
-        <div class="title">Data Transformation Overview</div>
+        <div class="title">Transformation View</div>
         <p class="titleTriangle"></p>
         <div style="float: right; margin-top: 3px;">
             <span>Metric: </span>
