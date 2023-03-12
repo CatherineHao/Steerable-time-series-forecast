@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2022-11-20 23:25:35
- * @LastEditTime: 2023-03-05 22:49:12
+ * @LastEditTime: 2023-03-12 21:52:03
 -->
 <template>
     <div id="navBar">
@@ -11,7 +11,7 @@
     </div>
     <div style="height: calc(96vh - 0px); width: calc(100% - 0px);">
         <div class="framework" id="controlPanel"
-            style="position: absolute; left: calc(5px); top: calc(5px); height: calc(30vw); width: calc(12vw - 15px);">
+            style="position: absolute; left: calc(5px); top: calc(5px); height: calc(28vw); width: calc(14vw + 15px);">
             <!-- <ReasoningView /> -->
             <ControlPanel :basicData="basicData"/>
         </div>
@@ -20,7 +20,7 @@
             <DataTransformation :timeData="timeData" :sliceData="sliceData"/>
         </div>
         <div class="framework" id="ModelExplainer"
-            style="position: absolute; left: calc(5px); top: calc(30vw + 10px); height: calc(96vh - 30vw - 15px); width: calc(42vw - 10px);">
+            style="position: absolute; left: calc(5px); top: calc(28vw + 10px); height: calc(96vh - 28vw - 15px); width: calc(42vw - 10px);">
             <ModelExplainer :sliceData="sliceData"/>
         </div>
         <!-- <div class="framework" id="CorrelationView"
@@ -28,7 +28,7 @@
             <CorrelationView />
         </div> -->
         <div class="framework" id="DistributionView"
-            style="position: absolute; left: calc(12vw - 5px);  top: calc(5px); height: calc(30vw); width: calc(30vw);">
+            style="position: absolute; left: calc(14vw - 5px + 30px);  top: calc(5px); height: calc(28vw); width: calc(28vw - 30px);">
             <!-- <CorrelationView /> -->
             <UnitView/>
         </div>

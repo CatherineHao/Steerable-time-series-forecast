@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-02-18 20:36:39
+ * @LastEditTime: 2023-03-12 22:08:24
 -->
 <template>
     <div class="frameworkTitle">
@@ -10,19 +10,11 @@
         <p class="titleTriangle"></p>
     </div>
     <div class="frameworkBody">
-        <div ref="modelTable" style="height: 100%; width: calc(50% - 7.5px); float: right; overflow:auto; font-size: 18px;">
-            <el-table :data="tableData" style="width: 100%" height="100%"
-                :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
-                :cell-style="{ 'text-align': 'center', 'font-size': '16px', 'height': '15px' }"
-                :row-style="{ 'height': '18px' }">
-                <el-table-column label="ID" prop="id" sortable />
-                <el-table-column label="Smooth" prop="smooth" />
-                <el-table-column label="Skip" prop="skip" sortable />
-                <el-table-column label="RMSE" prop="rmse" sortable />
-                <el-table-column label="Corr." prop="norm_corr" sortable />
-            </el-table>
-        </div>
-        <div ref="modelExplainer" style="height: 100%; width: calc(50%); float: left;">
+        <div ref="modelExplainer" :style="{
+            height: '100%',
+            width: elHeight + 'px',
+            float: 'right'
+        }">
             <svg id="modelExplainer" height="100%" width="100%">
             <g id="axis_g">
                     <g id="x_axis_g" :transform="translate(0, elHeight - 18, 0)"></g>
@@ -30,10 +22,29 @@
                 </g>
                 <g id="scatter">
                     <!-- <circle v-for="(o, i) in dot_data" :key="'cir' + i" class="corr_cir" :id="'corr_cir' + o.id" :cx="o.x" :cy="o.y" :r="1"
-                                    fill="orange"></circle> -->
+                                            fill="orange"></circle> -->
                 </g>
             </svg>
         </div>
+        <div ref="modelTable" :style="{
+            height: '100%',
+            width: `calc(100% - ${elHeight}px - 10px)`,
+            float: 'left',
+            overflow: 'auto',
+            'font-size': '18px'
+        }">
+            <el-table :data="tableData" style="width: 100%" height="100%"
+                :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
+                :cell-style="{ 'text-align': 'center', 'font-size': '16px', 'height': '15px' }"
+                :row-style="{ 'height': '18px' }">
+                <!-- <el-table-column label="ID" prop="id" sortable /> -->
+                <el-table-column label="Smooth" prop="smooth" />
+                <el-table-column label="Skip" prop="skip" sortable />
+                <el-table-column label="RMSE" prop="rmse" sortable />
+                <el-table-column label="Corr." prop="norm_corr" sortable />
+            </el-table>
+        </div>
+
     </div>
 </template>
 <script>
@@ -87,6 +98,8 @@ import { line } from 'd3-shape';
 import { drag } from 'd3-drag';
 import { polygonContains } from 'd3-polygon';
 
+import * as vsup from 'vsup';
+import { interpolateYlOrRd } from 'd3-scale-chromatic';
 export default {
     name: 'modelExplainerView',
     props: ['sliceData'],
@@ -164,7 +177,7 @@ export default {
                 } else {
                     select_path = select_path + "L " + tx + " " + ty;
                 }
-                
+
                 let distance = Math.sqrt(Math.pow(tx - target_circle[0], 2) + Math.pow(ty - target_circle[1], 2));
 
                 if (distance < 10)
@@ -173,11 +186,18 @@ export default {
                 _this.lasso_t = 1;
                 let select_dot = new Object();
                 let select_info = new Array();
+                let selectSkip = new Array();
                 for (let i in _this.dot_data) {
                     let dot_p = [_this.dot_data[i].x, _this.dot_data[i].y];
                     if (polygonContains(polygon, dot_p)) {
                         select_dot[i] = 1;
                         select_info.push(1);
+                        // console.log('#tsr' + i)
+                        // select('#tsr' + i).attr("opacity", d => {
+                        //     console.log(d);
+                        //     selectSkip.push(d);
+                        //     return 0;
+                        // })
                         // console.log
                         // cie_x += parseFloat(_this.poem_dot[i].raw_value.x);
                         // cie_y += parseFloat(_this.poem_dot[i].raw_value.y);
@@ -187,10 +207,12 @@ export default {
                         select_info.push(0);
                     }
                 }
+                // console.log(selectSkip);
 
                 // console.log(select_dot);
                 const dataStore = useDataStore();
                 dataStore.selectDot = select_dot;
+                selectAll('.rst').attr('fill', '#bbb').attr('fill-opacity', 0.5)
 
 
                 _this.tableData = _this.calcTableData(_this.dataSet, select_dot);
@@ -198,7 +220,7 @@ export default {
                     if (select_dot[i] == 1) return 1;
                     else return d.isShow == 0 ? 0 : 0.5;
                 }).attr('fill', (d, i) => {
-                    if (select_dot[i] == 1) return 'orange';
+                    if (select_dot[i] == 1) return d.fill;
                     else return '#d9d9d9';
                 })
 
@@ -252,13 +274,14 @@ export default {
                 //     continue;
                 for (let j in data[i]) {
                     // console.log(data[i][j])
+                    if (j > 1000) break;
                     if (parseFloat(data[i][j]['norm_corr']) == 0)
                         continue;
 
                     id_cnt++;
-                    if (select_dot[id_cnt] == 0) {
-                        continue;
-                    }
+                    // if (select_dot[id_cnt] == 0) {
+                    //     continue;
+                    // }
                     // console.log(id_cnt);
                     sdata.push({
                         id: id_cnt,
@@ -292,6 +315,7 @@ export default {
             return sdata;
         },
         calcScatter (data) {
+            // console.log(data)
             let sdata = [];
             let maxRmse = -999999;
             let minRmse = 999999;
@@ -309,13 +333,15 @@ export default {
                     // console.log(data[i][j])
                     if (parseFloat(data[i][j]['129_pearson']) == 0)
                         continue;
+                    let className = (data[i][j]['smooth'] == 'raw' ? 'rawdata' : data[i][j]['smooth']) + '_skip' + data[i][j]['skip'];
                     sdata.push({
                         id: i,
                         time: j * this.skip_length[i] + startPos,
                         norm_corr: parseFloat(data[i][j]['129_pearson']),
                         rmse: parseFloat(data[i][j]['rmse']),
                         isShow: Math.random() < 0.1 ? 1 : 0,
-                        id_cnt: id_cnt
+                        id_cnt: id_cnt,
+                        class_name: className
                     });
                     // tp.push({
                     //     id: i,
@@ -334,6 +360,9 @@ export default {
                 }
                 // lineData.push(tp);
             }
+            let quantization2 = vsup.quantization().branching(2).layers(4).valueDomain([minRmse, maxRmse]).uncertaintyDomain([(maxNorm), minNorm]);
+            let heatColor = interpolateYlOrRd;
+            let heatScale = vsup.scale().quantize(quantization2).range(heatColor);
             // console.log(minNorm, maxNorm);
 
             let rmseScale = scaleLinear([minRmse, maxRmse], [this.elHeight - 18, 10]);
@@ -361,6 +390,7 @@ export default {
             for (let i in sdata) {
                 sdata[i].x = normScale(sdata[i].norm_corr);
                 sdata[i].y = rmseScale(sdata[i].rmse);
+                sdata[i].fill = heatScale(sdata[i].rmse, sdata[i].norm_corr);
             }
             let _this = this;
             select('#scatter')
@@ -379,8 +409,8 @@ export default {
                 .attr('id', (d, i) => 'corr_c' + d.id_cnt)
                 .attr('class', 'corr_cir')
                 .attr('r', 2)
-                // .attr('stroke', 'white')
-                .attr('fill', 'orange')
+                // .attr('stroke', '#bbb')
+                .attr('fill', d => d.fill)
                 .attr('opacity', d => d.isShow)
                 .on('mouseover', (e, d) => {
                     select('#corr_c' + d.id_cnt).attr('r', d.isShow == 1 ? 5 : 1);
@@ -402,7 +432,7 @@ export default {
                     const dataStore = useDataStore();
                     dataStore.selectDot = select_dot;
 
-                    console.log(select_dot);
+                    // console.log(select_dot);
                     _this.tableData = _this.calcTableData(_this.dataSet, select_dot);
                     console.log(_this.tableData);
                     selectAll('.corr_cir').attr('opacity', (d, i) => {
@@ -414,51 +444,6 @@ export default {
                     })
                 })
 
-            // let lineGenerate = line().x(d => timeScale(d.time)).y(d => rmseScale(d.rmse));
-
-            // let lres = [];
-            // for (let i in lineData) {
-            //     lres.push({
-            //         d: lineGenerate(lineData[i]),
-            //         id: i
-            //     });
-            // }
-
-            // select('#scatter').append('g')
-            //     .selectAll('#res_p')
-            //     .attr('id', 'res_p')
-            //     .data(lres)
-            //     .enter()
-            //     .append('path')
-            //     .attr('class', 'p_x')
-            //     .attr('d', d => d.d)
-            //     .attr('fill', 'none')
-            //     .attr('stroke', (d, i) => {
-            //         // if (i == 10)
-            //         return 'black'
-            //         return 'none'
-            //     })
-            //     .on('mouseover', (e, d, i) => {
-            //         // console.log(d, i);
-            //         // console.log(d);
-
-            //         select('#rst' + d.id).attr('stroke-width', 3);
-
-            //         selectAll('.p_x').attr('opacity', (td, ti) => {
-            //             // console.log(td);
-            //             if (d.id == td.id) {
-            //                 return 1;
-            //             }
-            //             return 0;
-            //         })
-            //     })
-            //     .on('mouseout', (e, d, i) => {
-            //         selectAll('.p_x').attr('opacity', 1)
-            //         select('#rst' + d.id).attr('stroke-width', 0);
-
-            //     })
-
-
             return sdata;
         }
     },
@@ -466,13 +451,15 @@ export default {
     },
     mounted () {
         this.elHeight = this.$refs.modelExplainer.offsetHeight;
-        this.elWidth = this.$refs.modelExplainer.offsetWidth;
+        // this.elWidth = this.$refs.modelExplainer.offsetWidth;
+        this.elWidth = this.elHeight;
         // console.log(dataX);
+
         let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35];
         this.dataSet = dataSet;
 
         this.dot_data = this.calcScatter(dataSet);
-        // this.tableData = this.calcTableData(dataSet);
+        this.tableData = this.calcTableData(dataSet);
 
         this.setupLasso();
     },
