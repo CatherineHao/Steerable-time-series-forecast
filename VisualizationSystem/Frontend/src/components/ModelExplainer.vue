@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-03-12 22:08:24
+ * @LastEditTime: 2023-03-13 13:28:03
 -->
 <template>
     <div class="frameworkTitle">
@@ -11,31 +11,30 @@
     </div>
     <div class="frameworkBody">
         <div ref="modelExplainer" :style="{
-            height: '100%',
-            width: elHeight + 'px',
-            float: 'right'
-        }">
+                    height: '100%',
+                    width: elHeight + 'px',
+                    float: 'right'
+                }">
             <svg id="modelExplainer" height="100%" width="100%">
-            <g id="axis_g">
-                    <g id="x_axis_g" :transform="translate(0, elHeight - 18, 0)"></g>
-                    <g id="y_axis_g" :transform="translate(30, 0, 0)"></g>
-                </g>
-                <g id="scatter">
-                    <!-- <circle v-for="(o, i) in dot_data" :key="'cir' + i" class="corr_cir" :id="'corr_cir' + o.id" :cx="o.x" :cy="o.y" :r="1"
-                                            fill="orange"></circle> -->
-                </g>
-            </svg>
+                    <g id="axis_g">
+                            <g id="x_axis_g" :transform="translate(0, elHeight - 18, 0)"></g>
+                            <g id="y_axis_g" :transform="translate(30, 0, 0)"></g>
+                        </g>
+                        <g id="scatter">
+                            <!-- <circle v-for="(o, i) in dot_data" :key="'cir' + i" class="corr_cir" :id="'corr_cir' + o.id" :cx="o.x" :cy="o.y" :r="1"
+                                                    fill="orange"></circle> -->
+                        </g>
+                        <g id="legend_g_s"></g>
+                    </svg>
         </div>
         <div ref="modelTable" :style="{
-            height: '100%',
-            width: `calc(100% - ${elHeight}px - 10px)`,
-            float: 'left',
-            overflow: 'auto',
-            'font-size': '18px'
-        }">
-            <el-table :data="tableData" style="width: 100%" height="100%"
-                :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
-                :cell-style="{ 'text-align': 'center', 'font-size': '16px', 'height': '15px' }"
+                    height: '100%',
+                    width: `calc(100% - ${elHeight}px - 10px)`,
+                    float: 'left',
+                    overflow: 'auto',
+                    'font-size': '18px'
+                }">
+            <el-table :data="tableData" style="width: 100%" height="100%" :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }" :cell-style="{ 'text-align': 'center', 'font-size': '16px', 'height': '15px' }"
                 :row-style="{ 'height': '18px' }">
                 <!-- <el-table-column label="ID" prop="id" sortable /> -->
                 <el-table-column label="Smooth" prop="smooth" />
@@ -44,9 +43,10 @@
                 <el-table-column label="Corr." prop="norm_corr" sortable />
             </el-table>
         </div>
-
+    
     </div>
 </template>
+
 <script>
 import { scaleLinear } from 'd3-scale';
 import { useDataStore } from "../stores/counter";
@@ -103,7 +103,7 @@ import { interpolateYlOrRd } from 'd3-scale-chromatic';
 export default {
     name: 'modelExplainerView',
     props: ['sliceData'],
-    data () {
+    data() {
         return {
             elHeight: 0,
             elWidth: 0,
@@ -114,7 +114,7 @@ export default {
         }
     },
     methods: {
-        setupLasso () {
+        setupLasso() {
             let _this = this;
             let lasso_g = select("#scatter")
                 .append('g')
@@ -138,11 +138,11 @@ export default {
             let polygon = new Array();
             let lassoPoint = new Array();
 
-            let dragStarted = function (event) {
+            let dragStarted = function(event) {
                 event
                 _this.lasso_t = 0;
             }
-            let dragged = function (event) {
+            let dragged = function(event) {
                 let tx = event.x;
                 let ty = event.y;
                 if (select_path == "") {
@@ -164,7 +164,7 @@ export default {
                     close_path.attr("display", "none");
                 }
             }
-            let dragEnded = async function (event) {
+            let dragEnded = async function(event) {
                 origin_node.attr("display", "none");
                 // draw_path.attr("d", null);
                 // close_path.attr("d", null);
@@ -202,8 +202,7 @@ export default {
                         // cie_x += parseFloat(_this.poem_dot[i].raw_value.x);
                         // cie_y += parseFloat(_this.poem_dot[i].raw_value.y);
                         // cie_cnt += 1;
-                    }
-                    else {
+                    } else {
                         select_info.push(0);
                     }
                 }
@@ -240,10 +239,10 @@ export default {
 
             select('#modelExplainer').call(dragL);
         },
-        translate (x, y, deg) {
+        translate(x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
         },
-        formatNum (num) {
+        formatNum(num) {
             //1. 可能是字符串，转换为浮点数
             //2. 乘以100 小数点向右移动两位
             //3. Math.round 进行四舍五入
@@ -263,7 +262,7 @@ export default {
                 return v;
             }
         },
-        calcTableData (data, select_dot) {
+        calcTableData(data, select_dot) {
             let sdata = [];
             let id_cnt = 0;
             for (let i in data) {
@@ -279,12 +278,35 @@ export default {
                         continue;
 
                     id_cnt++;
+                    let predict_data = data[i][j]['predict_data'].split(' ');
+                    let pre_data = [];
+                    for (let k in predict_data) {
+                        if (predict_data[k] == '' || predict_data[k] == '[' || predict_data[k] == ']') {
+                            continue;
+                        }
+                        // console.log(predict_data[k])
+                        if (predict_data[k][0] == '[') {
+                            // console.log(predict_data[k].slice(1, -1))
+                            pre_data.push(parseFloat(predict_data[k].slice(1, -1)));
+                        } else if (predict_data[k][predict_data[k].length - 1] == ']') {
+                            // console.log(predict_data[k].slice(0, -1))
+                            pre_data.push(parseFloat(predict_data[k].slice(0, -1)));
+                        } else if (predict_data[k][predict_data[k].length -1] == '\n') {
+                            // console.log(predict_data[k])
+                            pre_data.push(parseFloat(predict_data[k].slice(0, -1)));
+                        } else {
+                            pre_data.push(parseFloat(predict_data[k]));
+                        }
+                    }
+                        // console.log(pre_data)
+                    // console.log(Array.from(data[i][j]['predict_data']))
                     // if (select_dot[id_cnt] == 0) {
                     //     continue;
                     // }
                     // console.log(id_cnt);
                     sdata.push({
                         id: id_cnt,
+                        predict_data: pre_data,
                         smooth: data[i][j]['smooth'],
                         skip: data[i][j]['skip'],
                         time: j * this.skip_length[i] + startPos,
@@ -314,7 +336,7 @@ export default {
 
             return sdata;
         },
-        calcScatter (data) {
+        calcScatter(data) {
             // console.log(data)
             let sdata = [];
             let maxRmse = -999999;
@@ -367,6 +389,17 @@ export default {
 
             let rmseScale = scaleLinear([minRmse, maxRmse], [this.elHeight - 18, 10]);
             let normScale = scaleLinear([minNorm, maxNorm], [30, this.elWidth - 20]);
+            var legend = vsup.legend.arcmapLegend();
+
+            legend
+                .scale(heatScale)
+                .size(120)
+                .x(100)
+                .y(40)
+                .vtitle("RMSE")
+                .utitle("Corr.");
+            select('#legend_g_s').append('g')
+                .call(legend)
 
             let timeScale = scaleLinear([840, maxTime], [30, this.elWidth - 20]);
             let xAxis = axisBottom(normScale).ticks(10);
@@ -447,9 +480,8 @@ export default {
             return sdata;
         }
     },
-    created () {
-    },
-    mounted () {
+    created() {},
+    mounted() {
         this.elHeight = this.$refs.modelExplainer.offsetHeight;
         // this.elWidth = this.$refs.modelExplainer.offsetWidth;
         this.elWidth = this.elHeight;
@@ -468,6 +500,7 @@ export default {
     }
 }
 </script>
+
 <style>
 *,
 *::before,
@@ -479,7 +512,6 @@ export default {
     font-weight: normal;
     color: black;
 }
-
 
 .lasso path {
     stroke: #2378ae;
@@ -506,26 +538,29 @@ export default {
     height: 15px;
 }
 
-
 /*chrome--------------------------------------------start*/
+
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
 
 /* Track */
+
 ::-webkit-scrollbar-track {
     background: #ffffff;
     border-radius: 8px;
 }
 
 /* Handle */
+
 ::-webkit-scrollbar-thumb {
     background: rgb(201, 201, 202);
     border-radius: 8px;
 }
 
 /* Handle on hover */
+
 ::-webkit-scrollbar-thumb:hover {
     background: rgb(162, 162, 163);
 }
