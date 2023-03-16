@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-03-12 21:48:27
+ * @LastEditTime: 2023-03-13 11:47:05
 -->
 <template>
     <div class="frameworkTitle" style="padding-right: 10px;">
@@ -523,6 +523,7 @@ export default {
                 return '#d9d9d9';
             })
             // console.log(tdata)
+            selectAll('.corr_cir_out').remove();
             select('#scatter')
                 .append('g')
                 .selectAll('#res_c')
@@ -533,7 +534,7 @@ export default {
                 .attr('cx', d => d.x)
                 .attr('cy', d => d.y)
                 .attr('id', (d, i) => 'corr_c' + d.id_cnt)
-                .attr('class', 'corr_cir')
+                .attr('class', 'corr_cir_out')
                 .attr('r', 3)
                 .attr('stroke', 'black')
                 .attr('fill', d => d.fill)
