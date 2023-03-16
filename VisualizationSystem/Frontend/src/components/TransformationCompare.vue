@@ -1,12 +1,16 @@
 <!--
+ * @Author: Qing Shi
+ * @LastEditTime: 2023-03-16 10:16:47
+-->
+<!--
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-03-16 10:33:17
+ * @LastEditTime: 2023-03-13 11:47:05
 -->
 <template>
     <div class="frameworkTitle" style="padding-right: 10px;">
-        <div class="title">Temporal Analyzer View</div>
+        <div class="title">Transformation Comparator View</div>
         <p class="titleTriangle"></p>
         <div style="float: right; margin-top: 3px;">
             <span>Metric: </span>
@@ -16,44 +20,283 @@
         </div>
     </div>
     <div class="frameworkBody">
-    
-        <div ref="timeline" style="height: calc(100%); width: 100%; margin-top: 0px;">
-            <svg id="timeline" height="100%" width="100%">
-                            <g :transform="translate(0, 0, 0)" id="timeline_g">
-                                <g id="raw_line_g" :transform="translate(0, 0, 0)">
-                                    <!-- <g v-for="(item, i) in sparkboxData" :key="'box' + i">
-                                            <rect :x="item.rect1.x" :y="item.rect1.y" :width="item.rect1.w" :height="item.rect1.h"
-                                                                fill="#f2f5fa"></rect>
-                                                            <rect :x="item.rect2.x" :y="item.rect2.y" :width="item.rect2.w" :height="item.rect2.h"
-                                                                fill="#dce3f3"></rect>
-                                                            <path :d="'M ' + item.line.x1 + ' ' + item.line.y + ' L ' + item.line.x2 + ' ' + item.line.y"
-                                                                :fill="'none'" :stroke="'#6d70b6'" stroke-width="3"></path>
-                                                        </g> -->
-                                        <defs>
-                                            <clipPath id="clipPath">
-                                                <rect :x="50" :y="20" :width="tlWidth - 70" :height="tlHeight - 50"></rect>
-                                        </clipPath>
-                                    </defs>
-                                    <g id="brush_path_g" clip-path="url(#clipPath)">
-                                    </g>
-                                        <g>
-                                            <path :d="smoothTimeLineData" stroke="red" :fill="'none'"></path>
-                                    </g>
-                                </g>
-                                <g :transform="translate(0, tlHeight - 100 - 30, 0)" id="focusLine_g">
-                                    <path :d="brushTimeLineData" stroke="#777" :fill="'none'"></path>
-                                    <g id="brush_path_line"></g>
-                                    </g>
-                
-                                <g id="brush_g" :transform="translate(0, tlHeight - 100 - 30, 0)"></g>
-                            </g>
-                        </svg>
+
+    <!--<div ref="timeline" style="height: calc(45% - 15px); width: 100%; margin-top: 0px;">
+        <svg id="timeline" height="100%" width="100%">
+            <g :transform="translate(0, 0, 0)" id="timeline_g">
+                <g id="raw_line_g" :transform="translate(0, 0, 0)">
+                    <!~~ <g v-for="(item, i) in sparkboxData" :key="'box' + i">
+                            <rect :x="item.rect1.x" :y="item.rect1.y" :width="item.rect1.w" :height="item.rect1.h"
+                                                fill="#f2f5fa"></rect>
+                                            <rect :x="item.rect2.x" :y="item.rect2.y" :width="item.rect2.w" :height="item.rect2.h"
+                                                fill="#dce3f3"></rect>
+                                            <path :d="'M ' + item.line.x1 + ' ' + item.line.y + ' L ' + item.line.x2 + ' ' + item.line.y"
+                                                :fill="'none'" :stroke="'#6d70b6'" stroke-width="3"></path>
+                                        </g> ~~>
+                        <defs>
+                            <clipPath id="clipPath">
+                                <rect :x="50" :y="20" :width="tlWidth - 70" :height="tlHeight - 50"></rect>
+                        </clipPath>
+                    </defs>
+                    <g id="brush_path_g" clip-path="url(#clipPath)">
+                        <!~~ <path :d="rawTimeLineData" stroke="#777" :fill="'none'"></path> ~~>
+                    </g>
+                    <!~~                        <g :transform="translate(0, tlHeight - 130, 0)">
+                            <path :d="'M ' + 50 + ' 0 ' + 'L ' + (tlWidth - 0) + ' 0'" :fill="'none'" stroke="black">
+                            </path>
+                                            <!~~ <g v-for="(item, i) in timeAxis" :key="'xa' + i">
+                                                <path :d="'M ' + item.x + ' 0 ' + 'L ' + item.x + ' 5'" :fill="'none'" stroke="black">
+                                                </path>
+                                            <text :x="item.x" y="20" font-size="12" text-anchor="middle">{{ item.text }}</text>
+                                        </g> ~~>
+                                        </g>~~>
+                        <g>
+                            <path :d="smoothTimeLineData" stroke="red" :fill="'none'"></path>
+                    </g>
+                </g>
+                <g :transform="translate(0, 440, 0)" id="focusLine_g">
+                    <path :d="brushTimeLineData" stroke="#777" :fill="'none'"></path>
+                    <g id="brush_path_line"></g>
+                    <!~~ <g id="" :transform="translate(0, 100, 0)">
+                            
+                                                    <g v-for="(item, i) in brushTimeAxis" :key="'xa' + i">
+                                                        <path :d="'M ' + item.x + ' 0 ' + 'L ' + item.x + ' 5'" :fill="'none'" stroke="black">
+                                                        </path>
+                                                        <text :x="item.x" y="20" font-size="12" text-anchor="middle">{{ item.text }}</text>
+                                                    </g>
+                                                </g> ~~>
+                    </g>
+
+                <g id="brush_g" :transform="translate(0, 440, 0)"></g>
+            </g>
+        </svg>
+    </div>-->
+    <div ref="DataTransformation" style="height: calc(100%); width: 100%; margin-top: 0px;">
+        <!-- <el-table :data="tableData" style="width: 100%" height="100%"
+                                                                                                                                :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
+                                                                                                                                :cell-style="{ 'text-align': 'center', 'backgro und-color': 'rgba(250, 250, 250, 1)', 'font-size': '16px' }">
+                                                                                                                                <el-table-column type="expand">
+                                                                                                                                    <template #default="props">
+                                                                                                                                        <div m="4">
+                                                                                                                                            <el-table :data="props.row['bar_data']" stripe style="width: 100%; float: right;"
+                                                                                                                                                :table-layout="'auto'" :header-cell-style="{ 'text-align': 'center' }"
+                                                                                                                                                :cell-style="{ 'text-align': 'center' }">
+                                                                                                                                                <el-table-column label="ID" prop="id" width="50" />
+                                                                                                                                                <el-table-column label="BEGIN" prop="startTime" width="120" />
+                                                                                                                                                <el-table-column label="END" prop="endTime" width="110" />
+                                                                                                                                                <el-table-column label="TIME SLICE">
+                                                                                                                                                    <template #default="d">
+                                                                                                                                                        <svg height="30" width="100%">
+                                                                                                                                                            <rect :x="d.row.train.x" :y="5" :height="20" :width="d.row.train.w"
+                                                                                                                                                                :fill="d.row.train.fill" :opacity="0.3">
+                                                                                                                                                            </rect>
+                                                                                                                                                            <path
+                                                                                                                                                                :d="'M ' + d.row.test.x1 + ' 5 L ' + d.row.test.x1 + ' 25 L ' + d.row.test.x2 + ' 20 L ' + d.row.test.x2 + ' 10 Z'"
+                                                                                                                                                                :fill="d.row.test.fill" :stroke="'black'"></path>
+                                                                                                                                                        </svg>
+                                                                                                                                                    </template>
+                                                                                                                                                </el-table-column>
+                                                                                                                                            </el-table>
+                                                                                                                                        </div>
+                                                                                                                                    </template>
+                                                                                                                                </el-table-column>
+                                                                                                                                <el-table-column label="Slice number" prop="slice" width="120" />
+                                                                                                                                <el-table-column label="Smooth" prop="smooth" width="110" />
+                                                                                                                                <el-table-column label="Heatmap" prop="heat_data">
+                                                                                                                                    <template #default="scope">
+                                                                                                                                        <svg height="30" width="100%">
+                                                                                                                                            <rect v-for="(item, item_i) in scope.row.bar_data" :key="'heat_' + item_i"
+                                                                                                                                                :x="(elWidth - 250) / scope.row.slice_num * item_i" :y="8"
+                                                                                                                                                                                    :width="(elWidth - 250) / scope.row.slice_num" :height="20" :fill="item.test.fill">
+                                                                                                                                                                                </rect>
+                                                                                                                                        </svg>
+                                                                                                                                    </template>
+                                                                                                                                </el-table-column>
+                                                                                                                            </el-table> -->
+
+        <!-- <el-table :data="heatRectData" style="width: 100%" border height="100%"
+                                                                                                                            :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
+                                                                                                                            :cell-style="{ 'text-align': 'center', 'background-color': 'rgba(250, 250, 250, 1)', 'font-size': '16px' }">
+                                                                                                                            <el-table-column label="Heatmap" prop="heat_data">
+                                                                                                                                <template #default="scope">
+                                                                                                                                    <svg height="30" width="100%">
+                                                                                                                                        <rect v-for="(item, item_i) in scope.row['heat']" :key="'heat_' + item_i" :x="item.x" :y="0"
+                                                                                                                                                                                :width="item.w" :height="50" :fill="item.color">
+                                                                                                                                                                            </rect>
+                                                                                                                                                                        </svg>
+                                                                                                                                                                    </template>
+                                                                                                                            </el-table-column>
+                                                                                                                        </el-table> -->
+
+
+        <svg height="100%" width="100%" transform="translate(0, 0)">
+                <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)"
+                    @mouseenter="selectFile(i)" @mouseout="cancelFile(i)" @click="clickFile(i)">
+                    <!-- <rect :id="'rst' + i" :x="item['heat'][0].x" :y="0" :width="elWidth - 0 - item['heat'][0].x"
+                                                                                    :height="item['heat'][0].h" fill="none" stroke="orange" stroke-width="0"></rect> -->
+                    <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
+                        :width="item_h.w" :height="item_h.h" :fill="item_h.colorMap[heatTag]" :id="'tsr' + item_h.id_cnt"
+                        :class="'wsr' + i" :fill-opacity="1">
+                    </rect>
+                    <rect v-for="(item_h, item_i) in item['res']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
+                        :width="item_h.w" :height="item_h.h" :fill="'orange'" :id="'tsr' + item_i"
+                        :fill-opacity="item_h.fill_opacity">
+                    </rect>
+
+                    <text font-size="14" font-family="Arial" text-anchor="start" dx="0em" dy="1em">{{
+                        // filename[i].substring(0, filename[i].length - 8)
+                        filename_type[i].substring(0, filename_type[i].indexOf('_'))
+                    }}</text>
+
+                    <text font-size="14" font-family="Arial" text-anchor="middle" dx="7em" dy="1em">{{
+                        // filename[i].substring(0, filename[i].length - 8)
+                        filename_type[i].substring(filename_type[i].indexOf('_') + 1, filename[i].length)
+                    }}</text>
+                </g>
+                <g id="legend_g"></g>
+                <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)">
+                    <rect :id="'rst' + i" class="rst" :x="item['heat'][0].x" :y="0" :width="elWidth - 0 - item['heat'][0].x"
+                        :height="item['heat'][0].h" fill="none" stroke="orange" stroke-width="0"></rect>
+                </g>
+                <g v-for="(item, i) in coverRect" :key="'heat_g' + i"
+                    :transform="translate(0, ((elHeight - 20) / 36) * (parseInt(item.cnt.substring(item.cnt.length - 1, item.cnt.length))) + 20, 0)">
+                    <rect :id="'rst' + i" class="rst" :x="item.x" :y="0" :width="item.w" :height="item.h" :fill="item.fill"
+                        stroke="none" stroke-width="0"></rect>
+                </g>
+                <g v-for="(item, i) in groupPath" :key="'group_g' + i" :transform="translate(0, 0, 0)">
+                    <path :d="'M ' + item.x1 + ' ' + item.y1 + ' L ' + item.x2 + ' ' + item.y2" fill="none" stroke="black">
+                    </path>
+            </g>
+
+        </svg>
+
+
+        <!-- <svg id="DataTransformation" height="100%" width="100%">
+                                                                                                                                <!~~ Transformation Tree ~~>
+
+                                                                                                                                <!~~ <g>
+                                                                                                                                    <g>
+                                                                                                                                        <rect :x="elWidth / 2 - 75" :y="0" :width="150" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                        <text :x="elWidth / 2" :y="30" text-anchor="middle" font-size="24">Time</text>
+                                                                                                                                        <text :x="elWidth / 2" :y="60" text-anchor="middle" font-size="24">Series</text>
+
+                                                                                                                                    </g>
+                                                                                                                                    <g>
+                                                                                                                                        <path
+                                                                                                                                            :d="'M' + (elWidth / 2) + ' ' + 75 + ' L ' + (elWidth / 2) + ' ' + (75 + (elHeight - 75 * 3) / 2)"
+                                                                                                                                            stroke="black"></path>
+                                                                                                                                        <path :d="d[0]" stroke="black" :fill="'none'"></path>
+                                                                                                                                        <path :d="d[1]" stroke="black" :fill="'none'"></path>
+                                                                                                                                        <g :transform="translate(0, 75 + (elHeight - 75 * 3) / 2, 0)">
+                                                                                                                                            <rect :x="elWidth / 2 - 75" :y="0" :width="150" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="elWidth / 2" :y="45" text-anchor="middle" font-size="24">7-slice</text>
+                                                                                                                                        </g>
+                                                                                                                                        <g :transform="translate(-elWidth / 3, 75 + (elHeight - 75 * 3) / 2, 0)">
+                                                                                                                                            <rect :x="elWidth / 2 - 75" :y="0" :width="150" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="elWidth / 2" :y="45" text-anchor="middle" font-size="24">10-slice</text>
+                                                                                                                                        </g>
+                                                                                                                                        <g :transform="translate(elWidth / 3, 75 + (elHeight - 75 * 3) / 2, 0)">
+                                                                                                                                            <rect :x="elWidth / 2 - 75" :y="0" :width="150" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="elWidth / 2" :y="45" text-anchor="middle" font-size="24">3-slice</text>
+                                                                                                                                        </g>
+                                                                                                                                    </g>
+
+                                                                                                                                    <g :transform="translate(0, 150 + (elHeight - 75 * 3), 0)">
+                                                                                                                                        <path
+                                                                                                                                            :d="'M' + (elWidth / 2 - elWidth / 3) + ' ' + (-(elHeight - 75 * 3) / 2) + ' L ' + (elWidth / 2 - elWidth / 3) + ' ' + (0)"
+                                                                                                                                            stroke="black"></path>
+                                                                                                                                        <path :d="d[2]" stroke="black" :fill="'none'"></path>
+                                                                                                                                        <path :d="d[3]" stroke="black" :fill="'none'"></path>
+                                                                                                                                        <g>
+                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">Raw</text>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Sequence</text>
+
+                                                                                                                                        </g>
+                                                                                                                                        <g :transform="translate((elWidth - 40) / 9 + 5, 0, 0)">
+                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">N-</text>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Average</text>
+
+                                                                                                                                        </g>
+                                                                                                                                        <g :transform="translate(2 * (elWidth - 40) / 9 + 10, 0, 0)">
+                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">EMA/</text>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Holt</text>
+
+                                                                                                                                        </g>
+                                                                                                                                    </g>
+
+                                                                                                                                    <g :transform="translate((elWidth - 40) / 3 + 15, 150 + (elHeight - 75 * 3), 0)">
+                                                                                                                                        <path
+                                                                                                                                            :d="'M' + (elWidth / 2 - elWidth / 3) + ' ' + (-(elHeight - 75 * 3) / 2) + ' L ' + (elWidth / 2 - elWidth / 3) + ' ' + (0)"
+                                                                                                                                            stroke="black"></path>
+                                                                                                                                        <path :d="d[2]" stroke="black" :fill="'none'"></path>
+                                                                                                                                        <path :d="d[3]" stroke="black" :fill="'none'"></path>
+                                                                                                                                        <g>
+                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">Raw</text>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Sequence</text>
+
+                                                                                                                                        </g>
+                                                                                                                                        <g :transform="translate((elWidth - 40) / 9 + 5, 0, 0)">
+                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">N-</text>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Average</text>
+
+                                                                                                                                        </g>
+                                                                                                                                        <g :transform="translate(2 * (elWidth - 40) / 9 + 10, 0, 0)">
+                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">EMA/</text>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Holt</text>
+
+                                                                                                                                        </g>
+                                                                                                                                    </g>
+
+                                                                                                                                    <g :transform="translate(2 * (elWidth - 40) / 3 + 30, 150 + (elHeight - 75 * 3), 0)">
+                                                                                                                                        <path
+                                                                                                                                            :d="'M' + (elWidth / 2 - elWidth / 3) + ' ' + (-(elHeight - 75 * 3) / 2) + ' L ' + (elWidth / 2 - elWidth / 3) + ' ' + (0)"
+                                                                                                                                            stroke="black"></path>
+                                                                                                                                        <path :d="d[2]" stroke="black" :fill="'none'"></path>
+                                                                                                                                        <path :d="d[3]" stroke="black" :fill="'none'"></path>
+                                                                                                                                        <g>
+                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">Raw</text>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Sequence</text>
+
+                                                                                                                                        </g>
+                                                                                                                                        <g :transform="translate((elWidth - 40) / 9 + 5, 0, 0)">
+                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">N-</text>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Average</text>
+
+                                                                                                                                        </g>
+                                                                                                                                        <g :transform="translate(2 * (elWidth - 40) / 9 + 10, 0, 0)">
+                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">EMA/</text>
+                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Holt</text>
+
+                                                                                                                                        </g>
+                                                                                                                                    </g>
+                                                                                                                                </g> ~~>
+                                                                                                                                <g v-for="(item, i) in barData" :key="'bar_g' + i"
+                                                                                                                                    :transform="translate(0, i * elHeight / barData.length, 0)">
+                                                                                                                                    <text x="0" y="1em">{{ item.slice }}</text>
+                                                                                                                                    <text x="4em" y="1em">{{ item.smooth }}</text>
+                                                                                                                                    <g v-for="(d, j) in item.bar_data" :key="'single_bar' + j" :transform="translate(0, 20, 0)">
+                                                                                                                                        <rect :x="d.train.x" :y="5" :height="20" :width="d.train.w" :fill="d.train.fill" :opacity="0.1">
+                                                                                                                                        </rect>
+                                                                                                                                                                            <path
+                                                                                                                                                                                :d="'M ' + d.test.x1 + ' 5 L ' + d.test.x1 + ' 25 L ' + d.test.x2 + ' 20 L ' + d.test.x2 + ' 10 Z'"
+                                                                                                                                                                                :fill="d.test.fill" :stroke="'black'"></path>
+                                                                                                                                                                        </g>
+                                                                                                                                                        </g>
+                                                                                                                                                    </svg> -->
         </div>
-    
     </div>
 </template>
-
 <script>
+
 import res_data from '../assets/model_skip_results.json';
 
 import { arc, curveBumpY, line } from 'd3-shape';
@@ -73,6 +316,9 @@ import sa9 from '../assets/data/SN_weighted_moving_average9_tot.csv';
 import sa13 from '../assets/data/SN_weighted_moving_average13_tot.csv';
 import sa26 from '../assets/data/SN_weighted_moving_average26_tot.csv';
 
+// [sr13, sr13, sr13, sr13, sr3, sr3, sr3, sr3, sr6, sr6, sr6, sr6, sr9, sr9, sr9, sr9, sa13, sa13, sa13, sa13, sa3, sa3, sa3, sa3, sa6, sa6, sa6, sa6, sa9, sa9, sa9, sa9]
+// import SN_rolling_6_data from "../assets/SN_rolling6_tot.csv";
+// import SN_rolling_13_data from "../assets/SN_weighted_moving_average13_tot.csv";
 
 import d0 from '../assets/explaindata/rawdata_skip13_0.8.csv';
 import d1 from '../assets/explaindata/rawdata_skip1_0.8.csv';
@@ -118,7 +364,7 @@ import * as vsup from 'vsup';
 export default {
     name: 'DataTransformationView',
     props: ['timeData', 'sliceData'],
-    data() {
+    data () {
         return {
             elHeight: 1000,
             elWidth: 1000,
@@ -126,8 +372,6 @@ export default {
             tlWidth: 100,
             heatHeight: 0,
             heatTag: 3,
-            timeBrush: null,
-            allTimeScale: null,
             heatOptions: ['Raw + Difference', 'Raw', 'Difference', 'RMSE + Corr.', 'RMSE', 'Corr.'],
             sample: ['10-slice', '7-slice', '3-slice'],
             smooth: ['Raw Sequence', 'N-Average', 'EMA/Holt'],
@@ -197,8 +441,7 @@ export default {
                 'weighted9_skip13_0.8.csv',
                 'weighted9_skip1_0.8.csv',
                 'weighted9_skip3_0.8.csv',
-                'weighted9_skip6_0.8.csv'
-            ],
+                'weighted9_skip6_0.8.csv'],
             filename_type: ['RAW_13',
                 'RAW_1',
                 'RAW_3',
@@ -234,18 +477,15 @@ export default {
                 'WMA-9_3',
                 'WMA-9_13',
                 'WMA-9_1',
-                'WMA-9_6'
-            ],
+                'WMA-9_6'],
             smoothTag: 0,
             timeLinePath: null,
             linePathTag: 0,
-            coverRect: [],
-            predict_line: [],
-            predict_tag: 0
+            coverRect: []
         }
     },
     methods: {
-        selectFile(num) {
+        selectFile (num) {
 
             select('#rst' + num).attr('stroke-width', 3)
             // .attr('fill', '#777').attr('fill-opacity', 0.5);
@@ -253,14 +493,14 @@ export default {
                 return d.id == num ? 1 : 0;
             })
         },
-        clickFile(num) {
+        clickFile (num) {
             let tdata = []
             selectAll('.corr_cir').attr('opacity', (d, i) => {
                 if (d.class_name == this.filename[num].substring(0, this.filename[num].length - 8)) {
                     tdata.push(d);
                     // return 0.5;
                 }
-                return d.isShow ? 0 : 0.5;
+                return d.isShow? 0 : 0.5;
             }).attr('fill', (d, i) => {
                 // if (d.class_name == this.filename[num].substring(0, this.filename[num].length - 8)) return 'orange';
                 // else 
@@ -283,7 +523,7 @@ export default {
                 .attr('stroke', 'black')
                 .attr('fill', d => d.fill)
         },
-        cancelFile(num) {
+        cancelFile (num) {
             select('#rst' + num).attr('stroke-width', 0);
             selectAll('.p_x').attr('opacity', 1)
             // selectAll('.corr_cir').attr('opacity', (d, i) => {
@@ -293,7 +533,7 @@ export default {
             //     return 1;
             // })
         },
-        colorScale: function(raw_value, error_value, tag) {
+        colorScale: function (raw_value, error_value, tag) {
             let rawRange = this.scaleRange.raw;
             let errorRange = this.scaleRange.error;
 
@@ -306,37 +546,27 @@ export default {
 
             if (tag == "Raw + RMSE") {
                 return heatScale(raw_value, error_value);
-            } else if (tag == "Raw") {
+            }
+            else if (tag == "Raw") {
                 return heatColor(rawDataScale(raw_value, error_value));
-            } else if (tag == "RMSE") {
+            }
+            else if (tag == "RMSE") {
                 return heatColor(errorDataScale(raw_value, error_value));
             }
         },
-        translate(x, y, deg) {
+        translate (x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
         },
-        calcCurve() {
-            let p1 = [
-                [this.elWidth / 2, 75],
-                [this.elWidth / 2 - this.elWidth / 3, 75 + (this.elHeight - 75 * 3) / 2]
-            ];
-            let p2 = [
-                [this.elWidth / 2, 75],
-                [this.elWidth / 2 + this.elWidth / 3, 75 + (this.elHeight - 75 * 3) / 2]
-            ];
-            let p3 = [
-                [this.elWidth / 2 - this.elWidth / 3, -((this.elHeight - 75 * 3) / 2)],
-                [(this.elWidth - 40) / 18, 0]
-            ];
-            let p4 = [
-                [this.elWidth / 2 - this.elWidth / 3, -(this.elHeight - 75 * 3) / 2],
-                [2 * (this.elWidth - 40) / 9 + (this.elWidth - 40) / 18 + 10, 0]
-            ];
+        calcCurve () {
+            let p1 = [[this.elWidth / 2, 75], [this.elWidth / 2 - this.elWidth / 3, 75 + (this.elHeight - 75 * 3) / 2]];
+            let p2 = [[this.elWidth / 2, 75], [this.elWidth / 2 + this.elWidth / 3, 75 + (this.elHeight - 75 * 3) / 2]];
+            let p3 = [[this.elWidth / 2 - this.elWidth / 3, -((this.elHeight - 75 * 3) / 2)], [(this.elWidth - 40) / 18, 0]];
+            let p4 = [[this.elWidth / 2 - this.elWidth / 3, -(this.elHeight - 75 * 3) / 2], [2 * (this.elWidth - 40) / 9 + (this.elWidth - 40) / 18 + 10, 0]];
             let cline = line().curve(curveBumpY);
             let d = [cline(p1), cline(p2), cline(p3), cline(p4)];
             return d;
         },
-        calcSparkBox(data, height, width) {
+        calcSparkBox (data, height, width) {
             let margin = ({ top: 20, right: 20, bottom: 30, left: 50 });
             // let height = 440;
             // let width = 1000;
@@ -433,24 +663,19 @@ export default {
             // console.log(sparkboxData)
             // return sparkboxData;
         },
-        setupBrush: function(data) {
+        setupBrush: function (data) {
             let width = this.tlWidth;
             let height = this.tlHeight;
             let focusHeight = 100;
             let margin = ({ top: 20, right: 20, bottom: 30, left: 50 });
             const timeBrush = brushX()
-                .extent([
-                    [margin.left, margin.top],
-                    [width - margin.right, focusHeight]
-                ])
+                .extent([[margin.left, margin.top], [width - margin.right, focusHeight]])
                 .on('start', brushStart)
                 .on('brush', brushed)
                 .on('end', brushEnd);
-            this.timeBrush = timeBrush;
             let x = scaleLinear()
                 .domain([0, max(data, d => parseInt(d.id))])
                 .range([margin.left, width - margin.right])
-            this.allTimeScale = x;
 
             let _this = this;
             let radius = focusHeight / 2 - 10;
@@ -464,22 +689,20 @@ export default {
                 .data([{ type: "w" }, { type: "e" }])
                 .join(
                     enter => enter.append("path")
-                    .attr("class", "handle--custom")
-                    .attr("fill", "white")
-                    .attr("opacity", 1)
-                    .attr("stroke", "#777")
-                    .attr("stroke-width", 1)
-                    .attr("cursor", "ew-resize")
-                    .attr("d", 'M -5 ' + (-focusHeight / 2 + 30) + ' L -5 ' + (focusHeight / 2 - 30) + 'L 5 ' + (focusHeight / 2 - 30) + ' L 5 ' + (-focusHeight / 2 + 30) + ' Z'),
+                        .attr("class", "handle--custom")
+                        .attr("fill", "white")
+                        .attr("opacity", 1)
+                        .attr("stroke", "#777")
+                        .attr("stroke-width", 1)
+                        .attr("cursor", "ew-resize")
+                        .attr("d", 'M -5 ' + (-focusHeight / 2 + 30) + ' L -5 ' + (focusHeight / 2 - 30) + 'L 5 ' + (focusHeight / 2 - 30) + ' L 5 ' + (-focusHeight / 2 + 30) + ' Z'),
                 )
                 .attr("display", s === null ? "none" : null)
                 .attr("transform", s === null ? null : (d, i) => `translate(${s[i]},${radius + margin.top})`)
-
-            function brushStart() {
+            function brushStart () {
                 selectAll('.sparkbox').remove();
             }
-
-            function brushEnd({ selection }) {
+            function brushEnd ({ selection }) {
                 _this.calcSparkBox(SN_raw_data, _this.tlHeight, _this.tlWidth);
                 let timeStep = [parseInt(_this.rxScale(selection[0])), parseInt(_this.rxScale(selection[1]))];
                 // let maxY = max(data, (d, i) => {
@@ -490,52 +713,6 @@ export default {
                 // });
 
 
-                _this.xScale.domain(timeStep);
-                // _this.yScale.domain([0, maxY]);
-                let xAxis = [];
-                let timeRange = [];
-                let lenRange = [];
-                let cnt_i = 0
-                for (let ii = timeStep[0]; ii <= timeStep[1]; ii += Math.floor(timeStep[1] - timeStep[0]) / 10) {
-                    // console.log(i, _this.lineData);
-                    let i = parseInt(ii);
-                    cnt_i = i;
-                    xAxis.push({
-                        x: _this.xScale(i),
-                        y: 0,
-                        // text: parseInt(parseInt(_this.lineData[i].timestamp) / 100) + '.' + parseInt(parseInt(_this.lineData[i].timestamp) % 100)
-                        text: (_this.lineData[i].timestamp)
-                    });
-                    timeRange.push(_this.lineData[i].timestamp);
-                    lenRange.push(_this.xScale(i))
-                }
-                if (timeRange.length == 10) {
-                    timeRange.push('');
-                    lenRange.push(_this.elWidth - 20)
-                }
-                let tScale = scaleOrdinal(timeRange, lenRange)
-                // console.log(timeRange, lenRange);
-                selectAll('#axsg').remove();
-                select('#focusLine_g').append('g').attr('id', 'axsg').attr("transform", `translate(0, ${-30})`).call(axisBottom(tScale));
-
-                // _this.timeAxis = xAxis;
-
-                let lineGenerate = line()
-                    .x(d => _this.xScale(d.id))
-                    .y(d => _this.yScale(d.value));
-
-                _this.select_time_step = timeStep;
-
-                select('#time_path_raw').attr('d', lineGenerate(_this.lineData));
-                if (_this.smoothTag) {
-
-                    select('#time_path_selected').attr('d', lineGenerate(_this.smoothLineData));
-                }
-            }
-
-            function brushed({ selection }) {
-                // console.log(selection);
-                let timeStep = [parseInt(_this.rxScale(selection[0])), parseInt(_this.rxScale(selection[1]))];
                 _this.xScale.domain(timeStep);
                 // _this.yScale.domain([0, maxY]);
                 let xAxis = [];
@@ -573,12 +750,65 @@ export default {
                 _this.select_time_step = timeStep;
 
                 select('#time_path_raw').attr('d', lineGenerate(_this.lineData));
-                if (_this.predict_tag) {
+                if (_this.smoothTag) {
 
-                    select('#sel_predict_line').attr('d', lineGenerate(_this.predict_line));
+                    select('#time_path_selected').attr('d', lineGenerate(_this.smoothLineData));
+                }
+            }
+            function brushed ({ selection }) {
+                // console.log(selection);
+                let timeStep = [parseInt(_this.rxScale(selection[0])), parseInt(_this.rxScale(selection[1]))];
+                // let maxY = max(data, (d, i) => {
+                //     if (i >= timeStep[0] && i <= timeStep[1]) {
+                //     return parseFloat(d.value)
+                //     }
+                //     return 0;
+                // });
+
+
+                _this.xScale.domain(timeStep);
+                // _this.yScale.domain([0, maxY]);
+                let xAxis = [];
+                let timeRange = [];
+                let lenRange = [];
+                let cnt_i = 0
+                for (let ii = timeStep[0]; ii <= timeStep[1]; ii += Math.floor(timeStep[1] - timeStep[0]) / 10) {
+                    // console.log(i, _this.lineData);
+                    let i = parseInt(ii);
+                    cnt_i = i;
+                    xAxis.push({
+                        x: _this.xScale(i),
+                        y: 0,
+                        // text: parseInt(parseInt(_this.lineData[i].timestamp) / 100) + '.' + parseInt(parseInt(_this.lineData[i].timestamp) % 100)
+                        text: (_this.lineData[i].timestamp)
+                    });
+                    timeRange.push(_this.lineData[i].timestamp);
+                    lenRange.push(_this.xScale(i))
+                }
+                if (timeRange.length == 10) {
+                    timeRange.push('');
+                    lenRange.push(_this.elWidth - 20)
+                }
+                let tScale = scaleOrdinal(timeRange, lenRange)
+                // console.log(timeRange, lenRange);
+                selectAll('#axsg').remove();
+                select('#focusLine_g').append('g').attr('id', 'axsg').attr("transform", "translate(0, -25)").call(axisBottom(tScale));
+
+                // _this.timeAxis = xAxis;
+
+                let lineGenerate = line()
+                    .x(d => _this.xScale(d.id))
+                    .y(d => _this.yScale(d.value));
+
+                _this.select_time_step = timeStep;
+
+                select('#time_path_raw').attr('d', lineGenerate(_this.lineData));
+                if (_this.smoothTag) {
+
+                    select('#time_path_selected').attr('d', lineGenerate(_this.smoothLineData));
                 }
 
-                select("#selected_area").attr('d', 'M ' + parseInt(selection[0]) + ' ' + 441 + ' L ' + parseInt(selection[1]) + ' ' + 441 + ' L ' + (_this.tlWidth - margin.right) + ' 393 L 50 393 Z')
+                select("#selected_area").attr('d', 'M ' + parseInt(selection[0]) + ' ' + 460 + ' L ' + parseInt(selection[1]) + ' ' + 460 + ' L ' + (_this.elWidth - margin.right) + ' 415 L 50 415 Z')
                 select(this).call(brushHandle, selection);
 
                 // console.log(timeStep);
@@ -592,7 +822,7 @@ export default {
                 .call(timeBrush.move, [x(988), x(1760)]);
 
         },
-        calcTimeLine(data, height, width) {
+        calcTimeLine (data, height, width) {
             let margin = ({ top: 20, right: 20, bottom: 30, left: 50 });
             // let height = 440;
             // let width = 1000;
@@ -720,7 +950,7 @@ export default {
 
             // return [lineGenerate(data), lineGenerate2(data)];
         },
-        calcTimeLineCompare(tsmooth_data) {
+        calcTimeLineCompare (tsmooth_data) {
             this.smoothTag = 1;
             this.smoothLineData = tsmooth_data;
 
@@ -743,7 +973,7 @@ export default {
                 .attr('fill', 'none')
             // return [lineGenerate(data), lineGenerate(smooth_data), average_line];
         },
-        timeCompare(select_num) {
+        timeCompare (select_num) {
             // console.log(select_num, this.smoothData);
             this.select_smooth_data = this.smoothData[select_num]
             this.calcTimeLineCompare(this.smoothData[select_num]);
@@ -752,13 +982,13 @@ export default {
             // this.smoothTimeLineData = d[1];
             // console.log(d[1], this.smoothTimeLineData);
         },
-        calcMonth(startTime, endTime) {
+        calcMonth (startTime, endTime) {
             let year = parseInt(endTime / 100) - parseInt(startTime / 100);
             let month = endTime % 100 - startTime % 100 + 1;
             let sumMonth = year * 12 + month;
             return sumMonth;
         },
-        calcHeat(raw_data, smooth_data, skipLength, width, tag) {
+        calcHeat (raw_data, smooth_data, skipLength, width, tag) {
             let margin = ({ top: 20, right: 50, bottom: 30, left: 50 });
             let x = scaleLinear()
                 .domain([0, max(raw_data, d => parseInt(d.id))])
@@ -837,21 +1067,15 @@ export default {
             }
             if (tag == 'raw')
                 return {
-                    heat: rawRectData,
-                    raw: rawRectData,
-                    error: rawRectData,
-                    tag: tag,
+                    heat: rawRectData, raw: rawRectData, error: rawRectData, tag: tag,
                     h: this.elHeight / 22
                 }
             return {
-                heat: heatRectData,
-                raw: rawRectData,
-                error: errorRectData,
-                tag: tag,
+                heat: heatRectData, raw: rawRectData, error: errorRectData, tag: tag,
                 h: this.elHeight / 22
             };
         },
-        calcTimeScale(data) {
+        calcTimeScale (data) {
             let startTime = 9999999;
             let endTime = 0;
             let maeMax = 0;
@@ -865,7 +1089,7 @@ export default {
             let month = this.calcMonth(startTime, endTime);
             return [startTime, scaleLinear([0, month], [0, this.elWidth - 300]), scaleLinear([0, maeMax], [1, 0])];
         },
-        calcTimeData(data) {
+        calcTimeData (data) {
             let r_data = new Array();
             let t_data = new Object();
             let cnt = 0;
@@ -909,7 +1133,7 @@ export default {
             }
             return t_data;
         },
-        calcGroup: function() {
+        calcGroup: function () {
             let midDot = (this.elHeight / 18);
             let left = 50;
             let groupRow = [];
@@ -975,7 +1199,7 @@ export default {
             let group = groupRow.concat(groupColum);
             return group;
         },
-        calcRMSEHeat(data, smooth_dataSet, raw_data, width, height) {
+        calcRMSEHeat (data, smooth_dataSet, raw_data, width, height) {
             let margin = ({ top: 20, right: 20, bottom: 30, left: 50 });
             // let sdata = [];
             let maxRmse = -999999;
@@ -1036,8 +1260,8 @@ export default {
                         id: parseInt(kk),
                         fill_opacity: 1,
                         id_cnt: id_cnt++
-                            // x: x(parseInt(raw_data[i].id)),
-                            // w: Math.abs(x(parseInt(raw_data[i + ((i + skipLength < raw_data.length) ? skipLength : (raw_data.length - 1 - i))].id)) - x(parseInt(raw_data[i].id))),
+                        // x: x(parseInt(raw_data[i].id)),
+                        // w: Math.abs(x(parseInt(raw_data[i + ((i + skipLength < raw_data.length) ? skipLength : (raw_data.length - 1 - i))].id)) - x(parseInt(raw_data[i].id))),
                     });
                     maxError = Math.max(maxError, Math.abs(rawSum / rawTempValue.length - smoothSum / smoothTempValue.length));
                     minError = Math.min(minError, Math.abs(rawSum / rawTempValue.length - smoothSum / smoothTempValue.length));
@@ -1155,11 +1379,9 @@ export default {
 
             return res_data;
         },
-        calcResultData(data, heatData) {
+        calcResultData (data, heatData) {
             let res_data = new Object();
-            let max_train = 0,
-                max_test = 0,
-                max_acf = 0
+            let max_train = 0, max_test = 0, max_acf = 0
             for (let i in data) {
                 if (i == '9' || i == '10')
                     continue;
@@ -1199,15 +1421,16 @@ export default {
             return heatData;
         }
     },
-    created() {},
-    mounted() {
-        // this.elHeight = this.$refs.DataTransformation.offsetHeight;
-        // this.elWidth = this.$refs.DataTransformation.offsetWidth;
-        this.tlHeight = this.$refs.timeline.offsetHeight * 1;
-        this.heatHeight = this.$refs.timeline.offsetHeight * 0.3;
-        this.tlWidth = this.$refs.timeline.offsetWidth;
+    created () {
+    },
+    mounted () {
+        this.elHeight = this.$refs.DataTransformation.offsetHeight;
+        this.elWidth = this.$refs.DataTransformation.offsetWidth;
+        // this.tlHeight = this.$refs.timeline.offsetHeight * 1;
+        // this.heatHeight = this.$refs.timeline.offsetHeight * 0.3;
+        // this.tlWidth = this.$refs.timeline.offsetWidth;
 
-        this.calcTimeLine(SN_raw_data, this.tlHeight, this.tlWidth);
+        // this.calcTimeLine(SN_raw_data, this.tlHeight, this.tlWidth);
 
 
         // this.calcSparkBox(SN_raw_data, this.tlHeight, this.tlWidth);
@@ -1215,37 +1438,47 @@ export default {
         let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35];
         let smoothDataSet = [SN_raw_data, SN_raw_data, SN_raw_data, SN_raw_data, sr13, sr13, sr13, sr13, sr3, sr3, sr3, sr3, sr6, sr6, sr6, sr6, sr9, sr9, sr9, sr9, sa13, sa13, sa13, sa13, sa3, sa3, sa3, sa3, sa6, sa6, sa6, sa6, sa9, sa9, sa9, sa9];
 
-        // this.heatRectData = this.calcRMSEHeat(dataSet, smoothDataSet, SN_raw_data, this.tlWidth, this.elHeight - 20);
+        this.heatRectData = this.calcRMSEHeat(dataSet, smoothDataSet, SN_raw_data, this.elWidth, this.elHeight - 20);
 
         // this.heatRectData = this.calcResultData(res_data, this.heatRectData);
         // console.log(this.heatRectData);
 
 
-        this.setupBrush(SN_raw_data);
+        // this.setupBrush(SN_raw_data);
 
         const dataStore = useDataStore();
         let _this = this;
 
         dataStore.$subscribe((mutation, state) => {
-            if (dataStore.select_row != null) {
-                let sel_row = dataStore.select_row;
-                console.log(sel_row);
-                select('#brush_g').call(this.timeBrush.move, [this.allTimeScale(sel_row.time), this.allTimeScale(sel_row.time + 120)]);
+            // console.log(dataStore.selectDot, _this.heatRectData);
+            selectAll('#tsr_1').attr('opacity', 0);
+            let coverRect = [];
+            for (let i in _this.heatRectData) {
+                for (let j in _this.heatRectData[i].heat) {
+                    // console.log(_this.heatRectData[i][j])
 
-                let lineGenerate = line()
-                    .x(d => _this.xScale(d.id))
-                    .y(d => _this.yScale(d.value));
-                this.predict_tag = 1;
-                this.predict_line = sel_row.predict_line;
-                selectAll('#sel_predict_line').remove();
-                select('#brush_path_g').append('path').attr('d', lineGenerate(sel_row.predict_line)).attr('id', 'sel_predict_line').attr('stroke', 'red').attr('stroke-width', 2).attr('fill', 'none');
+                    if (dataStore.selectDot[this.heatRectData[i].heat[j].id_cnt] == 1) {
+                        // select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('opacity', 1).attr('stroke', 'blue').attr('stroke-width', 0);
+                        coverRect.push({
+                            x: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('x'),
+                            y: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('y'),
+                            w: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('width'),
+                            h: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('height'),
+                            fill: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('fill'),
+                            cnt: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('class'),
+                        })
+                    }
+                    // else select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('opacity', 0)
+                    // .attr('fill', '#d9d9d9');
+                }
             }
+            console.log(coverRect);
+            this.coverRect = coverRect;
         })
 
     },
 }
 </script>
-
 <style>
 *,
 *::before,

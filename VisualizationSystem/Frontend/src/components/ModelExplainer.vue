@@ -6,7 +6,7 @@
 -->
 <template>
     <div class="frameworkTitle">
-        <div class="title">Model Explainer</div>
+        <div class="title">Unit Comparator View</div>
         <p class="titleTriangle"></p>
     </div>
     <div class="frameworkBody">
@@ -34,9 +34,9 @@
                     overflow: 'auto',
                     'font-size': '18px'
                 }">
-            <el-table :data="tableData" style="width: 100%" height="100%" :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }" :cell-style="{ 'text-align': 'center', 'font-size': '16px', 'height': '15px' }"
+            <el-table :data="tableData" style="width: 100%" height="100%" :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }" :cell-style="{ 'text-align': 'center', 'font-size': '16px', 'height': '15px' }" @row-click="selectPredict"
                 :row-style="{ 'height': '18px' }">
-                <!-- <el-table-column label="ID" prop="id" sortable /> -->
+                <el-table-column label="ID" prop="id" sortable />
                 <el-table-column label="Smooth" prop="smooth" />
                 <el-table-column label="Skip" prop="skip" sortable />
                 <el-table-column label="RMSE" prop="rmse" sortable />
@@ -55,42 +55,42 @@ import { max, min } from 'd3-array';
 import res_data from '../assets/data/model_skip_results.json'
 
 // data import
-import d0 from '../assets/explaindata/rawdata_skip13_0.8.csv';
-import d1 from '../assets/explaindata/rawdata_skip1_0.8.csv';
-import d2 from '../assets/explaindata/rawdata_skip3_0.8.csv';
-import d3 from '../assets/explaindata/rawdata_skip6_0.8.csv';
-import d4 from '../assets/explaindata/rolling13_skip13_0.8.csv';
-import d5 from '../assets/explaindata/rolling13_skip1_0.8.csv';
-import d6 from '../assets/explaindata/rolling13_skip3_0.8.csv';
-import d7 from '../assets/explaindata/rolling13_skip6_0.8.csv';
-import d8 from '../assets/explaindata/rolling3_skip13_0.8.csv';
-import d9 from '../assets/explaindata/rolling3_skip1_0.8.csv';
-import d10 from '../assets/explaindata/rolling3_skip3_0.8.csv';
-import d11 from '../assets/explaindata/rolling3_skip6_0.8.csv';
-import d12 from '../assets/explaindata/rolling6_skip13_0.8.csv';
-import d13 from '../assets/explaindata/rolling6_skip1_0.8.csv';
-import d14 from '../assets/explaindata/rolling6_skip3_0.8.csv';
-import d15 from '../assets/explaindata/rolling6_skip6_0.8.csv';
-import d16 from '../assets/explaindata/rolling9_skip13_0.8.csv';
-import d17 from '../assets/explaindata/rolling9_skip1_0.8.csv';
-import d18 from '../assets/explaindata/rolling9_skip3_0.8.csv';
-import d19 from '../assets/explaindata/rolling9_skip6_0.8.csv';
-import d20 from '../assets/explaindata/weighted13_skip13_0.8.csv';
-import d21 from '../assets/explaindata/weighted13_skip1_0.8.csv';
-import d22 from '../assets/explaindata/weighted13_skip3_0.8.csv';
-import d23 from '../assets/explaindata/weighted13_skip6_0.8.csv';
-import d24 from '../assets/explaindata/weighted3_skip13_0.8.csv';
-import d25 from '../assets/explaindata/weighted3_skip1_0.8.csv';
-import d26 from '../assets/explaindata/weighted3_skip3_0.8.csv';
-import d27 from '../assets/explaindata/weighted3_skip6_0.8.csv';
-import d28 from '../assets/explaindata/weighted6_skip13_0.8.csv';
-import d29 from '../assets/explaindata/weighted6_skip1_0.8.csv';
-import d30 from '../assets/explaindata/weighted6_skip3_0.8.csv';
-import d31 from '../assets/explaindata/weighted6_skip6_0.8.csv';
-import d32 from '../assets/explaindata/weighted9_skip13_0.8.csv';
-import d33 from '../assets/explaindata/weighted9_skip1_0.8.csv';
-import d34 from '../assets/explaindata/weighted9_skip3_0.8.csv';
-import d35 from '../assets/explaindata/weighted9_skip6_0.8.csv';
+import d0 from '../assets/0316/rawdata_skip13_0.8.csv';
+import d1 from '../assets/0316/rawdata_skip1_0.8.csv';
+import d2 from '../assets/0316/rawdata_skip3_0.8.csv';
+import d3 from '../assets/0316/rawdata_skip6_0.8.csv';
+import d4 from '../assets/0316/rolling13_skip13_0.8.csv';
+import d5 from '../assets/0316/rolling13_skip1_0.8.csv';
+import d6 from '../assets/0316/rolling13_skip3_0.8.csv';
+import d7 from '../assets/0316/rolling13_skip6_0.8.csv';
+import d8 from '../assets/0316/rolling3_skip13_0.8.csv';
+import d9 from '../assets/0316/rolling3_skip1_0.8.csv';
+import d10 from '../assets/0316/rolling3_skip3_0.8.csv';
+import d11 from '../assets/0316/rolling3_skip6_0.8.csv';
+import d12 from '../assets/0316/rolling6_skip13_0.8.csv';
+import d13 from '../assets/0316/rolling6_skip1_0.8.csv';
+import d14 from '../assets/0316/rolling6_skip3_0.8.csv';
+import d15 from '../assets/0316/rolling6_skip6_0.8.csv';
+import d16 from '../assets/0316/rolling9_skip13_0.8.csv';
+import d17 from '../assets/0316/rolling9_skip1_0.8.csv';
+import d18 from '../assets/0316/rolling9_skip3_0.8.csv';
+import d19 from '../assets/0316/rolling9_skip6_0.8.csv';
+import d20 from '../assets/0316/weighted13_skip13_0.8.csv';
+import d21 from '../assets/0316/weighted13_skip1_0.8.csv';
+import d22 from '../assets/0316/weighted13_skip3_0.8.csv';
+import d23 from '../assets/0316/weighted13_skip6_0.8.csv';
+import d24 from '../assets/0316/weighted3_skip13_0.8.csv';
+import d25 from '../assets/0316/weighted3_skip1_0.8.csv';
+import d26 from '../assets/0316/weighted3_skip3_0.8.csv';
+import d27 from '../assets/0316/weighted3_skip6_0.8.csv';
+import d28 from '../assets/0316/weighted6_skip13_0.8.csv';
+import d29 from '../assets/0316/weighted6_skip1_0.8.csv';
+import d30 from '../assets/0316/weighted6_skip3_0.8.csv';
+import d31 from '../assets/0316/weighted6_skip6_0.8.csv';
+import d32 from '../assets/0316/weighted9_skip13_0.8.csv';
+import d33 from '../assets/0316/weighted9_skip1_0.8.csv';
+import d34 from '../assets/0316/weighted9_skip3_0.8.csv';
+import d35 from '../assets/0316/weighted9_skip6_0.8.csv';
 import { axisBottom, axisLeft } from 'd3-axis';
 // import time from 'd3-scale/src/time';
 import { select, selectAll } from 'd3-selection';
@@ -110,10 +110,26 @@ export default {
             skip_length: [13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6],
             dot_data: [],
             tableData: [],
-            DataTransferItem
         }
     },
     methods: {
+        selectPredict(row) {
+            console.log(row);
+            let td = row;
+            let st = td.time;
+            let ts = []
+            for (let i = 0; i < td.predict_data.length; i++) {
+                ts.push({
+                    value: td.predict_data[i],
+                    id: st + i
+                })
+            }
+            // console.log(ts);
+            td.predict_line = ts;
+            const dataStore = useDataStore();
+
+            dataStore.select_row = td;
+        },
         setupLasso() {
             let _this = this;
             let lasso_g = select("#scatter")
@@ -311,7 +327,7 @@ export default {
                         skip: data[i][j]['skip'],
                         time: j * this.skip_length[i] + startPos,
                         norm_corr: this.formatNum(parseFloat(data[i][j]['norm_corr'])),
-                        rmse: this.formatNum(parseFloat(data[i][j]['rmse']))
+                        rmse: this.formatNum(parseFloat(data[i][j]['result_corr']))
                     });
                     // tp.push({
                     //     id: i,
@@ -353,13 +369,13 @@ export default {
                 //     continue;
                 for (let j in data[i]) {
                     // console.log(data[i][j])
-                    if (parseFloat(data[i][j]['129_pearson']) == 0)
+                    if (parseFloat(data[i][j]['result_corr']) == 0)
                         continue;
                     let className = (data[i][j]['smooth'] == 'raw' ? 'rawdata' : data[i][j]['smooth']) + '_skip' + data[i][j]['skip'];
                     sdata.push({
                         id: i,
                         time: j * this.skip_length[i] + startPos,
-                        norm_corr: parseFloat(data[i][j]['129_pearson']),
+                        norm_corr: parseFloat(data[i][j]['result_corr']),
                         rmse: parseFloat(data[i][j]['rmse']),
                         isShow: Math.random() < 0.1 ? 1 : 0,
                         id_cnt: id_cnt,
@@ -375,8 +391,8 @@ export default {
                     maxTime = Math.max(maxTime, j * this.skip_length[i] + startPos);
                     maxRmse = Math.max(maxRmse, parseFloat(data[i][j]['rmse']));
                     minRmse = Math.min(minRmse, parseFloat(data[i][j]['rmse']));
-                    maxNorm = Math.max(maxNorm, parseFloat(data[i][j]['129_pearson']));
-                    minNorm = Math.min(minNorm, parseFloat(data[i][j]['129_pearson']));
+                    maxNorm = Math.max(maxNorm, parseFloat(data[i][j]['result_corr']));
+                    minNorm = Math.min(minNorm, parseFloat(data[i][j]['result_corr']));
 
                     id_cnt++;
                 }
@@ -395,7 +411,7 @@ export default {
                 .scale(heatScale)
                 .size(120)
                 .x(100)
-                .y(40)
+                .y(400)
                 .vtitle("RMSE")
                 .utitle("Corr.");
             select('#legend_g_s').append('g')
