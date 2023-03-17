@@ -6,7 +6,7 @@
 -->
 <template>
     <div class="frameworkTitle">
-        <div class="title">Distribution View</div>
+        <div class="title">Feature Inspector View</div>
         <p class="titleTriangle"></p>
         <span style="position: absolute; top: 10px; right: 170px;">
             Pm 2.5: &nbsp;<img style="position: absolute;" src="../assets/img/Blues.png" alt="" width="150" height="20">

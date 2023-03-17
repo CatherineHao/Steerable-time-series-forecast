@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2022-11-20 23:25:35
- * @LastEditTime: 2023-03-13 11:42:07
+ * @LastEditTime: 2023-03-16 10:12:44
 -->
 <template>
     <div id="navBar">
@@ -16,8 +16,12 @@
             <ControlPanel :basicData="basicData"/>
         </div>
         <div class="framework" id="DataTransformation"
-            style="position: absolute; right: 5px; top: calc(5px); height: calc(96vh - 10px); width: calc(58vw - 5px);">
+            style="position: absolute; right: 5px; top: calc(5px); height: calc((96vh - 10px) * .45 - 5px); width: calc(58vw - 5px);">
             <DataTransformation :timeData="timeData" :sliceData="sliceData"/>
+        </div>
+        <div class="framework" id="DataTransformation"
+            style="position: absolute; right: 5px; top: calc((96vh - 10px) * .45 + 5px); height: calc((96vh - 10px) * .55 - 0px); width: calc(58vw - 5px);">
+            <TransformationCompare :timeData="timeData" :sliceData="sliceData"/>
         </div>
         <div class="framework" id="ModelExplainer"
             style="position: absolute; left: calc(5px); top: calc(28vw + 10px); height: calc(96vh - 28vw - 15px); width: calc(42vw - 10px);">
@@ -45,6 +49,7 @@ import ModelExplainer from './ModelExplainer.vue';
 import DataTransformation from './DataTransformation.vue';
 import ControlPanel from './ControlPanel.vue';
 import UnitView from './UnitView.vue';
+import TransformationCompare from './TransformationCompare.vue';
 // import logo from '';
 export default {
     name: "APP",
@@ -59,7 +64,7 @@ export default {
     },
     mounted() {
     },
-    components: { CorrelationView, ModelExplainer, DataTransformation, ControlPanel, UnitView }
+    components: { CorrelationView, ModelExplainer, DataTransformation, ControlPanel, UnitView, TransformationCompare }
 }
 </script>
 <style>
