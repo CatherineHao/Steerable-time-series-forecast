@@ -224,13 +224,14 @@ export default {
                 }
                 // console.log(selectSkip);
 
-                // console.log(select_dot);
+                console.log(select_dot);
                 const dataStore = useDataStore();
                 dataStore.selectDot = select_dot;
                 selectAll('.rst').attr('fill', '#bbb').attr('fill-opacity', 0.5)
 
 
                 _this.tableData = _this.calcTableData(_this.dataSet, select_dot);
+                console.log(_this.tableData);
                 selectAll('.corr_cir').attr('opacity', (d, i) => {
                     if (select_dot[i] == 1) return 1;
                     else return d.isShow == 0 ? 0 : 0.5;
@@ -289,7 +290,7 @@ export default {
                 //     continue;
                 for (let j in data[i]) {
                     // console.log(data[i][j])
-                    if (j > 1000) break;
+                    if (select_dot == 1 &&  j > 1000) break;
                     if (parseFloat(data[i][j]['norm_corr']) == 0)
                         continue;
 
@@ -316,9 +317,10 @@ export default {
                     }
                         // console.log(pre_data)
                     // console.log(Array.from(data[i][j]['predict_data']))
-                    // if (select_dot[id_cnt] == 0) {
-                    //     continue;
-                    // }
+                    if (select_dot != 1){
+                    if (select_dot[id_cnt] != 1) {
+                        continue;
+                    }}
                     // console.log(id_cnt);
                     sdata.push({
                         id: id_cnt,
@@ -326,8 +328,8 @@ export default {
                         smooth: data[i][j]['smooth'],
                         skip: data[i][j]['skip'],
                         time: j * this.skip_length[i] + startPos,
-                        norm_corr: this.formatNum(parseFloat(data[i][j]['norm_corr'])),
-                        rmse: this.formatNum(parseFloat(data[i][j]['result_corr']))
+                        norm_corr: this.formatNum(parseFloat(data[i][j]['result_corr'])),
+                        rmse: this.formatNum(parseFloat(data[i][j]['rmse']))
                     });
                     // tp.push({
                     //     id: i,
@@ -507,7 +509,7 @@ export default {
         this.dataSet = dataSet;
 
         this.dot_data = this.calcScatter(dataSet);
-        this.tableData = this.calcTableData(dataSet);
+        this.tableData = this.calcTableData(dataSet, 1);
 
         this.setupLasso();
     },
