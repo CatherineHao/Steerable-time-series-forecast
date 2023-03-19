@@ -2,11 +2,11 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-03-13 15:46:08
+ * @LastEditTime: 2023-03-20 01:44:52
 -->
 <template>
     <div class="frameworkTitle">
-        <div class="title">Unit Comparator View</div>
+        <div class="title">Sample Comparator View</div>
         <p class="titleTriangle"></p>
     </div>
     <div class="frameworkBody">

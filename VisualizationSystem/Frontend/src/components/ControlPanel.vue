@@ -2,11 +2,11 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-03-13 12:55:25
+ * @LastEditTime: 2023-03-20 01:44:32
 -->
 <template>
     <div class="frameworkTitle">
-        <div class="title">Summary View</div>
+        <div class="title">Profile View</div>
         <p class="titleTriangle"></p>
     </div>
     <div class="frameworkBody">
