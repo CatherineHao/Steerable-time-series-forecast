@@ -1,6 +1,6 @@
 <!--
  * @Author: Qing Shi
- * @LastEditTime: 2023-03-16 10:16:47
+ * @LastEditTime: 2023-03-20 09:31:42
 -->
 <!--
  * @Description: 
@@ -10,7 +10,7 @@
 -->
 <template>
     <div class="frameworkTitle" style="padding-right: 10px;">
-        <div class="title">Transformation Comparator View</div>
+        <div class="title">Representation View</div>
         <p class="titleTriangle"></p>
         <div style="float: right; margin-top: 3px;">
             <span>Metric: </span>
@@ -132,8 +132,6 @@
         <svg height="100%" width="100%" transform="translate(0, 0)">
                 <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)"
                     @mouseenter="selectFile(i)" @mouseout="cancelFile(i)" @click="clickFile(i)">
-                    <!-- <rect :id="'rst' + i" :x="item['heat'][0].x" :y="0" :width="elWidth - 0 - item['heat'][0].x"
-                                                                                    :height="item['heat'][0].h" fill="none" stroke="orange" stroke-width="0"></rect> -->
                     <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
                         :width="item_h.w" :height="item_h.h" :fill="item_h.colorMap[heatTag]" :id="'tsr' + item_h.id_cnt"
                         :class="'wsr' + i" :fill-opacity="1">
@@ -143,7 +141,7 @@
                         :fill-opacity="item_h.fill_opacity">
                     </rect>
 
-                    <text font-size="14" font-family="Arial" text-anchor="start" dx="0em" dy="1em">{{
+                    <!--<text font-size="14" font-family="Arial" text-anchor="start" dx="0em" dy="1em">{{
                         // filename[i].substring(0, filename[i].length - 8)
                         filename_type[i].substring(0, filename_type[i].indexOf('_'))
                     }}</text>
@@ -151,7 +149,7 @@
                     <text font-size="14" font-family="Arial" text-anchor="middle" dx="7em" dy="1em">{{
                         // filename[i].substring(0, filename[i].length - 8)
                         filename_type[i].substring(filename_type[i].indexOf('_') + 1, filename[i].length)
-                    }}</text>
+                    }}</text>-->
                 </g>
                 <g id="legend_g"></g>
                 <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)">
@@ -170,128 +168,6 @@
 
         </svg>
 
-
-        <!-- <svg id="DataTransformation" height="100%" width="100%">
-                                                                                                                                <!~~ Transformation Tree ~~>
-
-                                                                                                                                <!~~ <g>
-                                                                                                                                    <g>
-                                                                                                                                        <rect :x="elWidth / 2 - 75" :y="0" :width="150" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                        <text :x="elWidth / 2" :y="30" text-anchor="middle" font-size="24">Time</text>
-                                                                                                                                        <text :x="elWidth / 2" :y="60" text-anchor="middle" font-size="24">Series</text>
-
-                                                                                                                                    </g>
-                                                                                                                                    <g>
-                                                                                                                                        <path
-                                                                                                                                            :d="'M' + (elWidth / 2) + ' ' + 75 + ' L ' + (elWidth / 2) + ' ' + (75 + (elHeight - 75 * 3) / 2)"
-                                                                                                                                            stroke="black"></path>
-                                                                                                                                        <path :d="d[0]" stroke="black" :fill="'none'"></path>
-                                                                                                                                        <path :d="d[1]" stroke="black" :fill="'none'"></path>
-                                                                                                                                        <g :transform="translate(0, 75 + (elHeight - 75 * 3) / 2, 0)">
-                                                                                                                                            <rect :x="elWidth / 2 - 75" :y="0" :width="150" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                            <text :x="elWidth / 2" :y="45" text-anchor="middle" font-size="24">7-slice</text>
-                                                                                                                                        </g>
-                                                                                                                                        <g :transform="translate(-elWidth / 3, 75 + (elHeight - 75 * 3) / 2, 0)">
-                                                                                                                                            <rect :x="elWidth / 2 - 75" :y="0" :width="150" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                            <text :x="elWidth / 2" :y="45" text-anchor="middle" font-size="24">10-slice</text>
-                                                                                                                                        </g>
-                                                                                                                                        <g :transform="translate(elWidth / 3, 75 + (elHeight - 75 * 3) / 2, 0)">
-                                                                                                                                            <rect :x="elWidth / 2 - 75" :y="0" :width="150" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                            <text :x="elWidth / 2" :y="45" text-anchor="middle" font-size="24">3-slice</text>
-                                                                                                                                        </g>
-                                                                                                                                    </g>
-
-                                                                                                                                    <g :transform="translate(0, 150 + (elHeight - 75 * 3), 0)">
-                                                                                                                                        <path
-                                                                                                                                            :d="'M' + (elWidth / 2 - elWidth / 3) + ' ' + (-(elHeight - 75 * 3) / 2) + ' L ' + (elWidth / 2 - elWidth / 3) + ' ' + (0)"
-                                                                                                                                            stroke="black"></path>
-                                                                                                                                        <path :d="d[2]" stroke="black" :fill="'none'"></path>
-                                                                                                                                        <path :d="d[3]" stroke="black" :fill="'none'"></path>
-                                                                                                                                        <g>
-                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">Raw</text>
-                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Sequence</text>
-
-                                                                                                                                        </g>
-                                                                                                                                        <g :transform="translate((elWidth - 40) / 9 + 5, 0, 0)">
-                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">N-</text>
-                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Average</text>
-
-                                                                                                                                        </g>
-                                                                                                                                        <g :transform="translate(2 * (elWidth - 40) / 9 + 10, 0, 0)">
-                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">EMA/</text>
-                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Holt</text>
-
-                                                                                                                                        </g>
-                                                                                                                                    </g>
-
-                                                                                                                                    <g :transform="translate((elWidth - 40) / 3 + 15, 150 + (elHeight - 75 * 3), 0)">
-                                                                                                                                        <path
-                                                                                                                                            :d="'M' + (elWidth / 2 - elWidth / 3) + ' ' + (-(elHeight - 75 * 3) / 2) + ' L ' + (elWidth / 2 - elWidth / 3) + ' ' + (0)"
-                                                                                                                                            stroke="black"></path>
-                                                                                                                                        <path :d="d[2]" stroke="black" :fill="'none'"></path>
-                                                                                                                                        <path :d="d[3]" stroke="black" :fill="'none'"></path>
-                                                                                                                                        <g>
-                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">Raw</text>
-                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Sequence</text>
-
-                                                                                                                                        </g>
-                                                                                                                                        <g :transform="translate((elWidth - 40) / 9 + 5, 0, 0)">
-                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">N-</text>
-                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Average</text>
-
-                                                                                                                                        </g>
-                                                                                                                                        <g :transform="translate(2 * (elWidth - 40) / 9 + 10, 0, 0)">
-                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">EMA/</text>
-                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Holt</text>
-
-                                                                                                                                        </g>
-                                                                                                                                    </g>
-
-                                                                                                                                    <g :transform="translate(2 * (elWidth - 40) / 3 + 30, 150 + (elHeight - 75 * 3), 0)">
-                                                                                                                                        <path
-                                                                                                                                            :d="'M' + (elWidth / 2 - elWidth / 3) + ' ' + (-(elHeight - 75 * 3) / 2) + ' L ' + (elWidth / 2 - elWidth / 3) + ' ' + (0)"
-                                                                                                                                            stroke="black"></path>
-                                                                                                                                        <path :d="d[2]" stroke="black" :fill="'none'"></path>
-                                                                                                                                        <path :d="d[3]" stroke="black" :fill="'none'"></path>
-                                                                                                                                        <g>
-                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">Raw</text>
-                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Sequence</text>
-
-                                                                                                                                        </g>
-                                                                                                                                        <g :transform="translate((elWidth - 40) / 9 + 5, 0, 0)">
-                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">N-</text>
-                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Average</text>
-
-                                                                                                                                        </g>
-                                                                                                                                        <g :transform="translate(2 * (elWidth - 40) / 9 + 10, 0, 0)">
-                                                                                                                                            <rect :x="0" :y="0" :width="(elWidth - 40) / 9" :height="75" fill="#D9D9D9"></rect>
-                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="30" text-anchor="middle" font-size="24">EMA/</text>
-                                                                                                                                            <text :x="(elWidth - 40) / 18" :y="60" text-anchor="middle" font-size="20">Holt</text>
-
-                                                                                                                                        </g>
-                                                                                                                                    </g>
-                                                                                                                                </g> ~~>
-                                                                                                                                <g v-for="(item, i) in barData" :key="'bar_g' + i"
-                                                                                                                                    :transform="translate(0, i * elHeight / barData.length, 0)">
-                                                                                                                                    <text x="0" y="1em">{{ item.slice }}</text>
-                                                                                                                                    <text x="4em" y="1em">{{ item.smooth }}</text>
-                                                                                                                                    <g v-for="(d, j) in item.bar_data" :key="'single_bar' + j" :transform="translate(0, 20, 0)">
-                                                                                                                                        <rect :x="d.train.x" :y="5" :height="20" :width="d.train.w" :fill="d.train.fill" :opacity="0.1">
-                                                                                                                                        </rect>
-                                                                                                                                                                            <path
-                                                                                                                                                                                :d="'M ' + d.test.x1 + ' 5 L ' + d.test.x1 + ' 25 L ' + d.test.x2 + ' 20 L ' + d.test.x2 + ' 10 Z'"
-                                                                                                                                                                                :fill="d.test.fill" :stroke="'black'"></path>
-                                                                                                                                                                        </g>
-                                                                                                                                                        </g>
-                                                                                                                                                    </svg> -->
         </div>
     </div>
 </template>
@@ -316,46 +192,79 @@ import sa9 from '../assets/data/SN_weighted_moving_average9_tot.csv';
 import sa13 from '../assets/data/SN_weighted_moving_average13_tot.csv';
 import sa26 from '../assets/data/SN_weighted_moving_average26_tot.csv';
 
-// [sr13, sr13, sr13, sr13, sr3, sr3, sr3, sr3, sr6, sr6, sr6, sr6, sr9, sr9, sr9, sr9, sa13, sa13, sa13, sa13, sa3, sa3, sa3, sa3, sa6, sa6, sa6, sa6, sa9, sa9, sa9, sa9]
-// import SN_rolling_6_data from "../assets/SN_rolling6_tot.csv";
-// import SN_rolling_13_data from "../assets/SN_weighted_moving_average13_tot.csv";
-
-import d0 from '../assets/explaindata/rawdata_skip13_0.8.csv';
-import d1 from '../assets/explaindata/rawdata_skip1_0.8.csv';
-import d2 from '../assets/explaindata/rawdata_skip3_0.8.csv';
-import d3 from '../assets/explaindata/rawdata_skip6_0.8.csv';
-import d4 from '../assets/explaindata/rolling13_skip13_0.8.csv';
-import d5 from '../assets/explaindata/rolling13_skip1_0.8.csv';
-import d6 from '../assets/explaindata/rolling13_skip3_0.8.csv';
-import d7 from '../assets/explaindata/rolling13_skip6_0.8.csv';
-import d8 from '../assets/explaindata/rolling3_skip13_0.8.csv';
-import d9 from '../assets/explaindata/rolling3_skip1_0.8.csv';
-import d10 from '../assets/explaindata/rolling3_skip3_0.8.csv';
-import d11 from '../assets/explaindata/rolling3_skip6_0.8.csv';
-import d12 from '../assets/explaindata/rolling6_skip13_0.8.csv';
-import d13 from '../assets/explaindata/rolling6_skip1_0.8.csv';
-import d14 from '../assets/explaindata/rolling6_skip3_0.8.csv';
-import d15 from '../assets/explaindata/rolling6_skip6_0.8.csv';
-import d16 from '../assets/explaindata/rolling9_skip13_0.8.csv';
-import d17 from '../assets/explaindata/rolling9_skip1_0.8.csv';
-import d18 from '../assets/explaindata/rolling9_skip3_0.8.csv';
-import d19 from '../assets/explaindata/rolling9_skip6_0.8.csv';
-import d20 from '../assets/explaindata/weighted13_skip13_0.8.csv';
-import d21 from '../assets/explaindata/weighted13_skip1_0.8.csv';
-import d22 from '../assets/explaindata/weighted13_skip3_0.8.csv';
-import d23 from '../assets/explaindata/weighted13_skip6_0.8.csv';
-import d24 from '../assets/explaindata/weighted3_skip13_0.8.csv';
-import d25 from '../assets/explaindata/weighted3_skip1_0.8.csv';
-import d26 from '../assets/explaindata/weighted3_skip3_0.8.csv';
-import d27 from '../assets/explaindata/weighted3_skip6_0.8.csv';
-import d28 from '../assets/explaindata/weighted6_skip13_0.8.csv';
-import d29 from '../assets/explaindata/weighted6_skip1_0.8.csv';
-import d30 from '../assets/explaindata/weighted6_skip3_0.8.csv';
-import d31 from '../assets/explaindata/weighted6_skip6_0.8.csv';
-import d32 from '../assets/explaindata/weighted9_skip13_0.8.csv';
-import d33 from '../assets/explaindata/weighted9_skip1_0.8.csv';
-import d34 from '../assets/explaindata/weighted9_skip3_0.8.csv';
-import d35 from '../assets/explaindata/weighted9_skip6_0.8.csv';
+// import uni variable data
+import d0 from '../assets/0316/rawdata_skip13_0.8.csv';
+import d1 from '../assets/0316/rawdata_skip1_0.8.csv';
+import d2 from '../assets/0316/rawdata_skip3_0.8.csv';
+import d3 from '../assets/0316/rawdata_skip6_0.8.csv';
+import d4 from '../assets/0316/rolling13_skip13_0.8.csv';
+import d5 from '../assets/0316/rolling13_skip1_0.8.csv';
+import d6 from '../assets/0316/rolling13_skip3_0.8.csv';
+import d7 from '../assets/0316/rolling13_skip6_0.8.csv';
+import d8 from '../assets/0316/rolling3_skip13_0.8.csv';
+import d9 from '../assets/0316/rolling3_skip1_0.8.csv';
+import d10 from '../assets/0316/rolling3_skip3_0.8.csv';
+import d11 from '../assets/0316/rolling3_skip6_0.8.csv';
+import d12 from '../assets/0316/rolling6_skip13_0.8.csv';
+import d13 from '../assets/0316/rolling6_skip1_0.8.csv';
+import d14 from '../assets/0316/rolling6_skip3_0.8.csv';
+import d15 from '../assets/0316/rolling6_skip6_0.8.csv';
+import d16 from '../assets/0316/rolling9_skip13_0.8.csv';
+import d17 from '../assets/0316/rolling9_skip1_0.8.csv';
+import d18 from '../assets/0316/rolling9_skip3_0.8.csv';
+import d19 from '../assets/0316/rolling9_skip6_0.8.csv';
+import d20 from '../assets/0316/weighted13_skip13_0.8.csv';
+import d21 from '../assets/0316/weighted13_skip1_0.8.csv';
+import d22 from '../assets/0316/weighted13_skip3_0.8.csv';
+import d23 from '../assets/0316/weighted13_skip6_0.8.csv';
+import d24 from '../assets/0316/weighted3_skip13_0.8.csv';
+import d25 from '../assets/0316/weighted3_skip1_0.8.csv';
+import d26 from '../assets/0316/weighted3_skip3_0.8.csv';
+import d27 from '../assets/0316/weighted3_skip6_0.8.csv';
+import d28 from '../assets/0316/weighted6_skip13_0.8.csv';
+import d29 from '../assets/0316/weighted6_skip1_0.8.csv';
+import d30 from '../assets/0316/weighted6_skip3_0.8.csv';
+import d31 from '../assets/0316/weighted6_skip6_0.8.csv';
+import d32 from '../assets/0316/weighted9_skip13_0.8.csv';
+import d33 from '../assets/0316/weighted9_skip1_0.8.csv';
+import d34 from '../assets/0316/weighted9_skip3_0.8.csv';
+import d35 from '../assets/0316/weighted9_skip6_0.8.csv';
+// import d0 from '../assets/explaindata/rawdata_skip13_0.8.csv';
+// import d1 from '../assets/explaindata/rawdata_skip1_0.8.csv';
+// import d2 from '../assets/explaindata/rawdata_skip3_0.8.csv';
+// import d3 from '../assets/explaindata/rawdata_skip6_0.8.csv';
+// import d4 from '../assets/explaindata/rolling13_skip13_0.8.csv';
+// import d5 from '../assets/explaindata/rolling13_skip1_0.8.csv';
+// import d6 from '../assets/explaindata/rolling13_skip3_0.8.csv';
+// import d7 from '../assets/explaindata/rolling13_skip6_0.8.csv';
+// import d8 from '../assets/explaindata/rolling3_skip13_0.8.csv';
+// import d9 from '../assets/explaindata/rolling3_skip1_0.8.csv';
+// import d10 from '../assets/explaindata/rolling3_skip3_0.8.csv';
+// import d11 from '../assets/explaindata/rolling3_skip6_0.8.csv';
+// import d12 from '../assets/explaindata/rolling6_skip13_0.8.csv';
+// import d13 from '../assets/explaindata/rolling6_skip1_0.8.csv';
+// import d14 from '../assets/explaindata/rolling6_skip3_0.8.csv';
+// import d15 from '../assets/explaindata/rolling6_skip6_0.8.csv';
+// import d16 from '../assets/explaindata/rolling9_skip13_0.8.csv';
+// import d17 from '../assets/explaindata/rolling9_skip1_0.8.csv';
+// import d18 from '../assets/explaindata/rolling9_skip3_0.8.csv';
+// import d19 from '../assets/explaindata/rolling9_skip6_0.8.csv';
+// import d20 from '../assets/explaindata/weighted13_skip13_0.8.csv';
+// import d21 from '../assets/explaindata/weighted13_skip1_0.8.csv';
+// import d22 from '../assets/explaindata/weighted13_skip3_0.8.csv';
+// import d23 from '../assets/explaindata/weighted13_skip6_0.8.csv';
+// import d24 from '../assets/explaindata/weighted3_skip13_0.8.csv';
+// import d25 from '../assets/explaindata/weighted3_skip1_0.8.csv';
+// import d26 from '../assets/explaindata/weighted3_skip3_0.8.csv';
+// import d27 from '../assets/explaindata/weighted3_skip6_0.8.csv';
+// import d28 from '../assets/explaindata/weighted6_skip13_0.8.csv';
+// import d29 from '../assets/explaindata/weighted6_skip1_0.8.csv';
+// import d30 from '../assets/explaindata/weighted6_skip3_0.8.csv';
+// import d31 from '../assets/explaindata/weighted6_skip6_0.8.csv';
+// import d32 from '../assets/explaindata/weighted9_skip13_0.8.csv';
+// import d33 from '../assets/explaindata/weighted9_skip1_0.8.csv';
+// import d34 from '../assets/explaindata/weighted9_skip3_0.8.csv';
+// import d35 from '../assets/explaindata/weighted9_skip6_0.8.csv';
 
 import { select, selectAll } from 'd3-selection';
 import { extent, max, min, sum } from 'd3-array';
@@ -533,135 +442,8 @@ export default {
             //     return 1;
             // })
         },
-        colorScale: function (raw_value, error_value, tag) {
-            let rawRange = this.scaleRange.raw;
-            let errorRange = this.scaleRange.error;
-
-            let heatColor = interpolateYlOrRd;
-            // let heatColor = interpolateRdBu;
-            let rawDataScale = scaleLinear(rawRange, [0, 1]);
-            let errorDataScale = scaleLinear(errorRange, [0, 1]);
-            let quantization = vsup.quantization().branching(2).layers(4).valueDomain(rawRange).uncertaintyDomain(errorRange);
-            let heatScale = vsup.scale().quantize(quantization).range(heatColor);
-
-            if (tag == "Raw + RMSE") {
-                return heatScale(raw_value, error_value);
-            }
-            else if (tag == "Raw") {
-                return heatColor(rawDataScale(raw_value, error_value));
-            }
-            else if (tag == "RMSE") {
-                return heatColor(errorDataScale(raw_value, error_value));
-            }
-        },
         translate (x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
-        },
-        calcCurve () {
-            let p1 = [[this.elWidth / 2, 75], [this.elWidth / 2 - this.elWidth / 3, 75 + (this.elHeight - 75 * 3) / 2]];
-            let p2 = [[this.elWidth / 2, 75], [this.elWidth / 2 + this.elWidth / 3, 75 + (this.elHeight - 75 * 3) / 2]];
-            let p3 = [[this.elWidth / 2 - this.elWidth / 3, -((this.elHeight - 75 * 3) / 2)], [(this.elWidth - 40) / 18, 0]];
-            let p4 = [[this.elWidth / 2 - this.elWidth / 3, -(this.elHeight - 75 * 3) / 2], [2 * (this.elWidth - 40) / 9 + (this.elWidth - 40) / 18 + 10, 0]];
-            let cline = line().curve(curveBumpY);
-            let d = [cline(p1), cline(p2), cline(p3), cline(p4)];
-            return d;
-        },
-        calcSparkBox (data, height, width) {
-            let margin = ({ top: 20, right: 20, bottom: 30, left: 50 });
-            // let height = 440;
-            // let width = 1000;
-            let focusHeight = 100;
-
-            let y = scaleLinear()
-                .domain([0, max(data, d => parseFloat(d.value))])
-                .range([height - focusHeight - 30 - margin.bottom, margin.top])
-            let sBData = [];
-            let y2 = scaleLinear()
-                .domain([0, max(data, d => parseFloat(d.value))])
-                .range([focusHeight, margin.top])
-            // let x = scaleLinear()
-            //     .domain([0, max(data, d => parseInt(d.id))])
-            //     .range([margin.left, width - margin.right])
-            let x = this.xScale;
-            let sparkBoxData = [];
-            let timeGap = 130
-            for (let i = 0; i < data.length; i += timeGap) {
-                // let tempValue = Array.from(new Set(data.slice(i, i + 10).map(d => parseFloat(d.value)).sort((a, b) => a - b)));
-                let tempValue = data.slice(i, i + timeGap).map(d => parseFloat(d.value)).sort((a, b) => a - b)
-                let sumData = sum(tempValue);
-
-                // console.log(sumData)
-
-                // console.log(tempValue[tempValue.length /2 - 1], tempValue.length /2 - 1);
-                sBData.push({
-                    x: x(parseInt(data[i].id)),
-                    y: y(tempValue[tempValue.length - 1]),
-                    w: Math.abs(x(parseInt(data[i + ((i + timeGap < data.length) ? timeGap : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
-                    h: Math.abs(y(tempValue[0]) - y(tempValue[tempValue.length - 1]))
-                })
-                sBData.push({
-                    x: x(parseInt(data[i].id)),
-                    y: y(tempValue[parseInt(tempValue.length * 3 / 4) - 1]),
-                    w: Math.abs(x(parseInt(data[i + ((i + timeGap < data.length) ? timeGap : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
-                    h: Math.abs(y(tempValue[parseInt(tempValue.length * 3 / 4) - 1]) - y(tempValue[parseInt(tempValue.length / 4) - 1]))
-                })
-                sBData.push({
-                    x: x(parseInt(data[i].id)),
-                    // y: y(tempValue[parseInt(tempValue.length /2) - 1]),
-                    // y: y((tempValue[0] + tempValue[parseInt(tempValue.length - 1)]) / 2),
-                    y: y(sumData / tempValue.length),
-                    w: Math.abs(x(parseInt(data[i + ((i + timeGap < data.length) ? timeGap : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
-                    h: 1
-                })
-                sparkBoxData.push({
-                    rect1: {
-                        x: x(parseInt(data[i].id)),
-                        y: y(tempValue[tempValue.length - 1]),
-                        w: Math.abs(x(parseInt(data[i + ((i + 10 < data.length) ? 10 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
-                        h: Math.abs(y(tempValue[0]) - y(tempValue[tempValue.length - 1]))
-                    },
-                    rect2: {
-                        x: x(parseInt(data[i].id)),
-                        y: y(tempValue[parseInt(tempValue.length * 3 / 4) - 1]),
-                        w: Math.abs(x(parseInt(data[i + ((i + 10 < data.length) ? 10 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
-                        h: Math.abs(y(tempValue[parseInt(tempValue.length * 3 / 4) - 1]) - y(tempValue[parseInt(tempValue.length / 4) - 1]))
-                    },
-                    line: {
-                        x1: x(parseInt(data[i].id)),
-                        // y: y(tempValue[parseInt(tempValue.length /2) - 1]),
-                        // y: y((tempValue[0] + tempValue[parseInt(tempValue.length - 1)]) / 2),
-                        y: y(sumData / tempValue.length),
-                        x2: Math.abs(x(parseInt(data[i + ((i + 10 < data.length) ? 10 : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))) + x(parseInt(data[i].id))
-                    }
-                })
-            }
-            selectAll('.sparkbox').remove();
-            selectAll('#time_path_raw').remove();
-            select('#brush_path_g').append('g').attr('class', 'sparkbox').selectAll('#sparkRect').attr('id', 'sparkRect').data(sBData).enter().append('rect').attr('x', d => d.x).attr('y', d => d.y).attr('width', d => d.w).attr('height', d => d.h).attr('fill', (d, i) => {
-                if (i % 3 == 0) {
-                    return '#f2f5fa';
-                } else if (i % 3 == 1) {
-                    return '#dce3f3'
-                } else return '#6d70b6';
-            });
-            select('#brush_path_g')
-                // .append('g')
-                // .data([{
-                //     value: data
-                // }])
-                // .enter()
-                .append('path')
-                .attr('id', 'time_path_raw')
-                .attr('d', d => {
-                    return this.timeLinePath
-                })
-                .attr('stroke', '#777')
-                .attr('stroke-width', 1.5)
-                .attr('fill', 'none')
-                .style('z-index', 5)
-
-            // console.log(sparkboxData)
-            // return sparkboxData;
         },
         setupBrush: function (data) {
             let width = this.tlWidth;
@@ -822,383 +604,6 @@ export default {
                 .call(timeBrush.move, [x(988), x(1760)]);
 
         },
-        calcTimeLine (data, height, width) {
-            let margin = ({ top: 20, right: 20, bottom: 30, left: 50 });
-            // let height = 440;
-            // let width = 1000;
-            let focusHeight = 100;
-
-            let y = scaleLinear()
-                .domain([0, max(data, d => parseFloat(d.value))])
-                .range([height - focusHeight - 30 - margin.bottom, margin.top])
-            let y2 = scaleLinear()
-                .domain([0, max(data, d => parseFloat(d.value))])
-                .range([focusHeight, margin.top])
-            let x = scaleLinear()
-                .domain([0, max(data, d => parseInt(d.id))])
-                .range([margin.left, width - margin.right])
-            const rx = scaleLinear()
-                .domain([margin.left, width - margin.right])
-                .range([0, max(data, d => parseInt(d.id))]);
-
-            let timeData = [];
-            let lenData = [];
-            for (let i = 0; i < data.length; ++i) {
-
-                if (i == 0 || i == data.length - 1 || i % Math.floor(data.length / 10) === 0) {
-                    lenData.push(x(parseInt(data[i].id)));
-                    timeData.push(parseInt(data[i].timestamp));
-                }
-            }
-            let timeScale = scaleOrdinal(timeData, lenData);
-            select('#focusLine_g').append('g').call(axisBottom(timeScale).tickSizeOuter(0).tickPadding(10)).attr('transform', `translate(0,${focusHeight})`).call(g => g.selectAll(".title").data(['Time']).join("text")
-                .attr("class", "title")
-                .attr("x", this.elWidth - 20)
-                .attr("y", 35)
-                .attr("fill", "currentColor")
-                .attr("text-anchor", "middle")
-                .attr('font-size', '14px')
-                .text(''))
-            this.xScale = x;
-            this.yScale = y;
-            this.rxScale = rx;
-            // console.log(y.domain(), x.domain(), data);
-
-            // let area = (x, y) => d3.area()
-            //     .defined(d => !isNaN(d.value))
-            //     .x(d => x(d.date))
-            //     .y0(y(0))
-            //     .y1(d => y(d.value))
-            let lineGenerate = line()
-                .x(d => x(d.id))
-                .y(d => y(d.value));
-            this.lineGenerateFunc = lineGenerate;
-
-            let lineGenerate2 = line()
-                .x(d => x(d.id))
-                .y(d => y2(d.value));
-
-            let yAxis = (g, y, title) => g
-                .attr("transform", `translate(${margin.left},${0})`)
-                .call(axisLeft(y))
-                // .call(g => g.select(".domain").remove())
-                .call(g => g.selectAll(".title").data([title]).join("text")
-                    .attr("class", "title")
-                    .attr("x", 0)
-                    .attr("y", 12)
-                    .attr("fill", "currentColor")
-                    .attr("text-anchor", "middle")
-                    .attr('font-size', '14px')
-                    .text(title));
-            let xAxis = (g, x, height) => g
-                .attr("transform", `translate(0,${height - margin.bottom})`)
-                .call(axisBottom(x).ticks(width / 80).tickSizeOuter(0));
-            let timeAxis = []
-            for (let i = 0; i < data.length; i += parseInt(data.length / 10)) {
-                timeAxis.push({
-                    x: x(i),
-                    text: parseInt(parseInt(data[i].timestamp) / 100) + '.' + parseInt(parseInt(data[i].timestamp) % 100)
-                })
-            }
-            this.timeAxis = timeAxis;
-            this.brushTimeAxis = timeAxis;
-            // select('#timeline').append('g').call(xAxis, x, focusHeight);
-            select('#raw_line_g').append('g').attr('id', 'yAxis_g').call(yAxis, y, 'Value');
-            // select('#brush_path_g').append("defs").append("clipPath")
-            //     .attr("id", "clip")
-            //     .append("rect")
-            //     .attr('x', margin.left)
-            //     .attr('y', margin.top)
-            //     .attr("width", width - margin.right - margin.left)
-            //     .attr("height", height - 100 - margin.bottom - margin.top);
-            // select('#brush_path_g')
-            //     // .append('g')
-            //     // .data([{
-            //     //     value: data
-            //     // }])
-            //     // .enter()
-            //     .append('path')
-            //     .attr('id', 'time_path_raw')
-            //     .attr('d', d => {
-            //         return lineGenerate(data)
-            //     })
-            //     .attr('stroke', '#777')
-            //     .attr('stroke-width', 1.5)
-            //     .attr('fill', 'none')
-            //     .style('z-index', 5)
-            this.timeLinePath = lineGenerate(data);
-            const _this = this;
-
-
-            select("#timeline_g").append('path').attr('id', 'selected_area').attr('d', 'M ' + parseInt(988) + ' ' + 85 + ' L ' + parseInt(1760) + ' ' + 85 + ' L ' + (_this.elWidth) + ' 130 L 50 130 Z').attr('stroke', '#777').attr('stroke-width', 1).attr('fill', '#777').attr('opacity', 0.15);
-
-            select('#brush_path_line')
-                // .append('g')
-                // .data([{
-                //     value: data
-                // }])
-                // .enter()
-                .append('path')
-                .attr('id', 'time_brush')
-                .attr('d', d => {
-                    return lineGenerate2(data)
-                })
-                .attr('stroke', '#777')
-                .attr('stroke-width', 1)
-                .attr('fill', 'none')
-            this.lineData = data;
-
-            // return [lineGenerate(data), lineGenerate2(data)];
-        },
-        calcTimeLineCompare (tsmooth_data) {
-            this.smoothTag = 1;
-            this.smoothLineData = tsmooth_data;
-
-            let lineGenerate = line()
-                .x(d => this.xScale(d.id))
-                .y(d => this.yScale(d.value));
-            select('#brush_path_g')
-                // .append('g')
-                // .data([{
-                //     value: data
-                // }])
-                // .enter()
-                .append('path')
-                .attr('id', 'time_path_selected')
-                .attr('d', d => {
-                    return lineGenerate(tsmooth_data)
-                })
-                .attr('stroke', 'red')
-                .attr('stroke-width', 1.5)
-                .attr('fill', 'none')
-            // return [lineGenerate(data), lineGenerate(smooth_data), average_line];
-        },
-        timeCompare (select_num) {
-            // console.log(select_num, this.smoothData);
-            this.select_smooth_data = this.smoothData[select_num]
-            this.calcTimeLineCompare(this.smoothData[select_num]);
-
-            // this.rawTimeLineData = d[0];
-            // this.smoothTimeLineData = d[1];
-            // console.log(d[1], this.smoothTimeLineData);
-        },
-        calcMonth (startTime, endTime) {
-            let year = parseInt(endTime / 100) - parseInt(startTime / 100);
-            let month = endTime % 100 - startTime % 100 + 1;
-            let sumMonth = year * 12 + month;
-            return sumMonth;
-        },
-        calcHeat (raw_data, smooth_data, skipLength, width, tag) {
-            let margin = ({ top: 20, right: 50, bottom: 30, left: 50 });
-            let x = scaleLinear()
-                .domain([0, max(raw_data, d => parseInt(d.id))])
-                .range([margin.left, width - margin.right])
-            let heat_data = [];
-            for (let i = 0; i < raw_data.length; i += skipLength) {
-                // let tempValue = Array.from(new Set(data.slice(i, i + 10).map(d => parseFloat(d.value)).sort((a, b) => a - b)));
-                let rawTempValue = raw_data.slice(i, i + skipLength).map(d => parseFloat(d.value)).sort((a, b) => a - b)
-                let rawSum = sum(rawTempValue);
-                let smoothTempValue = smooth_data.slice(i, i + skipLength).map(d => parseFloat(d.value)).sort((a, b) => a - b)
-                let smoothSum = sum(smoothTempValue);
-                heat_data.push({
-                    rawData: smoothSum / smoothTempValue.length,
-                    errorData: Math.abs(rawSum / rawTempValue.length - smoothSum / smoothTempValue.length),
-                    x: x(parseInt(raw_data[i].id)),
-                    w: Math.abs(x(parseInt(raw_data[i + ((i + skipLength < raw_data.length) ? skipLength : (raw_data.length - 1 - i))].id)) - x(parseInt(raw_data[i].id))),
-                });
-            }
-            let rawRange = [min(heat_data, d => d.rawData), max(heat_data, d => d.rawData)];
-            let errorRange = [min(heat_data, d => d.errorData), max(heat_data, d => d.errorData)];
-            // console.log(rawRange, errorRange)
-            let heatRectData = [];
-            let rawRectData = [];
-            let errorRectData = [];
-            let heatColor = interpolateYlOrRd;
-            // let heatColor = interpolateRdBu;
-            let rawDataScale = scaleLinear(rawRange, [0, 1]);
-            let errorDataScale = scaleLinear(errorRange, [0, 1]);
-            // let heatScale = scaleLinear([0, 14], [0, 1]);
-            // let colorStep = [1, 2, 4, 8];
-
-            let quantization = vsup.quantization().branching(2).layers(4).valueDomain(rawRange).uncertaintyDomain(errorRange);
-            let heatScale = vsup.scale().quantize(quantization).range(heatColor);
-            for (let i in heat_data) {
-                let hd = heat_data[i];
-                // let errorScale = parseFloat((hd.errorRange - errorRange[0]) / (errorRange[1] - errorRange[0]));
-                // let errorStep = ((errorScale * 4 == parseInt(errorScale * 4)) && errorScale != 0) ? parseInt(errorScale * 4) - 1 : parseInt(errorScale * 4);
-                // let rawScale = parseFloat((hd.rawData - rawRange[0]) / (rawRange[1] - rawRange[0]));
-                // // console.log(parseInt(rawScale * 4))
-                // let colorScale = sum(colorStep.slice(0, errorStep)) + parseInt(rawScale * colorStep[errorStep]);
-                // console.log(colorScale,colorStep[errorStep], errorStep, sum(colorStep.slice(0, parseInt(errorScale * 4))))
-                this.scaleRange.raw[0] = Math.min(this.scaleRange.raw[0], hd.rawData);
-                this.scaleRange.raw[1] = Math.max(this.scaleRange.raw[1], hd.rawData);
-                this.scaleRange.error[0] = Math.min(this.scaleRange.error[0], hd.rawData);
-                this.scaleRange.error[1] = Math.max(this.scaleRange.error[1], hd.rawData);
-
-                heatRectData.push({
-                    t: tag,
-                    x: hd.x,
-                    w: hd.w,
-                    h: this.elHeight / 22 - 3,
-                    // color: (heatScale(hd.rawData, hd.errorData))
-                    raw: hd.rawData,
-                    error: hd.errorData
-                });
-                rawRectData.push({
-                    t: tag,
-                    x: hd.x,
-                    w: hd.w,
-                    h: this.elHeight / 22 - 3,
-                    // color: heatColor(rawDataScale(hd.rawData))
-                    raw: hd.rawData,
-                    error: hd.errorData
-
-                });
-                errorRectData.push({
-                    t: tag,
-                    x: hd.x,
-                    w: hd.w,
-                    h: this.elHeight / 22 - 3,
-                    // color: heatColor(errorDataScale(hd.errorData))
-                    raw: hd.rawData,
-                    error: hd.errorData
-                });
-                // console.log(heatColor(heatScale((colorScale != 0 ? colorScale - 1 : 0))), colorScale, heatScale((colorScale == 0 ? colorScale - 1 : 0)))
-            }
-            if (tag == 'raw')
-                return {
-                    heat: rawRectData, raw: rawRectData, error: rawRectData, tag: tag,
-                    h: this.elHeight / 22
-                }
-            return {
-                heat: heatRectData, raw: rawRectData, error: errorRectData, tag: tag,
-                h: this.elHeight / 22
-            };
-        },
-        calcTimeScale (data) {
-            let startTime = 9999999;
-            let endTime = 0;
-            let maeMax = 0;
-            for (const d of data) {
-                for (const sub_d of d['sub slice']) {
-                    startTime = Math.min(startTime, parseInt(sub_d['train_begin']));
-                    endTime = Math.max(endTime, parseInt(sub_d['test_end']));
-                    maeMax = Math.max(maeMax, d['MAE']);
-                }
-            }
-            let month = this.calcMonth(startTime, endTime);
-            return [startTime, scaleLinear([0, month], [0, this.elWidth - 300]), scaleLinear([0, maeMax], [1, 0])];
-        },
-        calcTimeData (data) {
-            let r_data = new Array();
-            let t_data = new Object();
-            let cnt = 0;
-            // console.log(data['sub slice']);
-            let maeRange = [min(data['sub slice'], d => d['MAE']), max(data['sub slice'], d => d['MAE'])];
-            let maeScale = scaleLinear(maeRange, [0, 1]);
-
-
-            for (const d of data['sub slice']) {
-                r_data.push({
-                    id: cnt++,
-                    startTime: d['train_begin'],
-                    endTime: d['test_end'],
-                    train: {
-                        x: this.timeScale(this.calcMonth(this.startTime, d['train_begin'])),
-                        w: this.timeScale(this.calcMonth(d['train_begin'], d['train_end'])),
-                        fill: '#777'
-                    },
-                    test: {
-                        x1: this.timeScale(this.calcMonth(this.startTime, d['test_begin'])),
-                        x2: this.timeScale(this.calcMonth(this.startTime, d['test_end'])),
-                        w: this.timeScale(this.calcMonth(d['test_begin'], d['test_end'])),
-                        fill: interpolateRdBu(maeScale(d['MAE']))
-                    }
-                })
-            }
-
-            let h_data = new Array();
-            for (let i = 0; i < 20; ++i) {
-                h_data.push({
-                    fill: interpolateRdBu(Math.random())
-                })
-            }
-            t_data = {
-                slice: data['slice_info']['slice_number'] + '-slice',
-                smooth: '13-Average',
-                slice_num: parseInt(data['slice_info']['slice_number']),
-                heat_data: h_data,
-                // bar_data: r_data.reverse(),
-                bar_data: r_data
-            }
-            return t_data;
-        },
-        calcGroup: function () {
-            let midDot = (this.elHeight / 18);
-            let left = 50;
-            let groupRow = [];
-            let groupColum = [];
-            let tp = [];
-            for (let i = 1; i <= 18; ++i) {
-                groupRow.push({
-                    x1: 50,
-                    y1: (i) * midDot - this.elHeight / 36,
-                    x2: 50 - 48 / 3,
-                    y2: (i) * midDot - this.elHeight / 36
-                });
-                if (i % 2 == 0) {
-                    groupColum.push({
-                        x1: 50 - 48 / 3,
-                        x2: 50 - 48 / 3,
-                        y1: (i - 1) * midDot - this.elHeight / 36,
-                        y2: i * midDot - this.elHeight / 36
-                    })
-                    groupRow.push({
-                        x1: 50 - 48 / 3,
-                        x2: i == 2 ? 50 - 48 * 3 / 3 : 50 - 48 * 2 / 3,
-                        y1: ((i) * midDot - this.elHeight / 36 + (i - 1) * midDot - this.elHeight / 36) / 2,
-                        y2: ((i) * midDot - this.elHeight / 36 + (i - 1) * midDot - this.elHeight / 36) / 2,
-                    })
-                }
-            }
-            groupColum.push({
-                x1: 50 - 48 * 2 / 3,
-                x2: 50 - 48 * 2 / 3,
-                y1: ((4) * midDot - this.elHeight / 36 + (3) * midDot - this.elHeight / 36) / 2,
-                y2: ((10) * midDot - this.elHeight / 36 + (9) * midDot - this.elHeight / 36) / 2
-            })
-
-            groupRow.push({
-                x1: 50 - 48 * 2 / 3,
-                x2: 50 - 48 * 3 / 3,
-                y1: ((14) * midDot + (12) * midDot - 4 * this.elHeight / 36) / 4,
-                y2: ((14) * midDot + (12) * midDot - 4 * this.elHeight / 36) / 4
-            })
-
-            groupRow.push({
-                x1: 50 - 48 * 2 / 3,
-                x2: 50 - 48 * 3 / 3,
-                y1: ((30) * midDot + (28) * midDot - 4 * this.elHeight / 36) / 4,
-                y2: ((30) * midDot + (28) * midDot - 4 * this.elHeight / 36) / 4
-            })
-
-            groupColum.push({
-                x1: 50 - 48 * 2 / 3,
-                x2: 50 - 48 * 2 / 3,
-                y1: ((12) * midDot - this.elHeight / 36 + (11) * midDot - this.elHeight / 36) / 2,
-                y2: ((18) * midDot - this.elHeight / 36 + (17) * midDot - this.elHeight / 36) / 2
-            })
-
-            groupColum.push({
-                x1: 50 - 48 * 3 / 3,
-                x2: 50 - 48 * 3 / 3,
-                y1: ((2) * midDot - this.elHeight / 36 + (1) * midDot - this.elHeight / 36) / 2,
-                y2: ((15) * midDot - this.elHeight / 36 + (14) * midDot - this.elHeight / 36) / 2
-            })
-
-            let group = groupRow.concat(groupColum);
-            return group;
-        },
         calcRMSEHeat (data, smooth_dataSet, raw_data, width, height) {
             let margin = ({ top: 20, right: 20, bottom: 30, left: 50 });
             // let sdata = [];
@@ -1289,15 +694,15 @@ export default {
                         time: j * this.skip_length[i] + startPos,
                         errorData: 0,
                         rmse: parseFloat(data[i][j]['rmse']),
-                        corr: parseFloat(data[i][j]['129_pearson'])
+                        corr: parseFloat(data[i][j]['result_corr'])
                     });
                     // console.log(data[i][j]['129_pearson'])
                     maxTime = Math.max(maxTime, j * this.skip_length[i] + startPos);
                     maxRmse = Math.max(maxRmse, parseFloat(data[i][j]['rmse']));
                     minRmse = Math.min(minRmse, parseFloat(data[i][j]['rmse']));
-                    maxCorr = Math.max(maxCorr, parseFloat(data[i][j]['129_pearson']));
-                    if (parseFloat(data[i][j]['129_pearson']) != 0)
-                        minCorr = Math.min(minCorr, parseFloat(data[i][j]['129_pearson']));
+                    maxCorr = Math.max(maxCorr, parseFloat(data[i][j]['result_corr']));
+                    if (parseFloat(data[i][j]['result_corr']) != 0)
+                        minCorr = Math.min(minCorr, parseFloat(data[i][j]['result_corr']));
                 }
                 lineData.push(tp);
             }
@@ -1379,46 +784,189 @@ export default {
 
             return res_data;
         },
-        calcResultData (data, heatData) {
-            let res_data = new Object();
-            let max_train = 0, max_test = 0, max_acf = 0
-            for (let i in data) {
-                if (i == '9' || i == '10')
-                    continue;
-                for (let j in data[i].predic_info) {
-                    res_data[data[i].dataset_name + '_skip' + data[i].predic_info[j].skip] = data[i].predic_info[j];
-                    // console.log(data[i].predic_info[j]['ACF'], i, j)
-                    max_acf = Math.max(max_acf, data[i].predic_info[j]['ACF']);
-                    max_train = Math.max(max_train, data[i].predic_info[j]['loss=mean_squared_error']);
-                    max_test = Math.max(max_test, data[i].predic_info[j]['val_loss=val_mse']);
-                }
-            }
-            // console.log(max_acf);
-            let leftT = 140;
-            let barS = heatData[0].heat[0].x - leftT;
-            let trainScale = scaleLinear([0, max_train], [0, ((barS) / 3) * 0.9]);
-            let testScale = scaleLinear([0, max_test], [0, ((barS) / 3) * 0.9]);
-            let acfScale = scaleLinear([0, max_acf], [0, ((barS) / 3) * 0.9]);
+        calcRMSEHeatMultiVariable (data, raw_data, width, height) {
+            let margin = ({ top: 20, right: 20, bottom: 30, left: 50 });
+            // let sdata = [];
+            let allStrip = data.length;
+            let maxRmse = -999999;
+            let minRmse = 999999;
+            let maxTime = -999999;
+            let maxError = -999999;
+            let minError = 999999;
+            let maxRaw = -999999;
+            let minRaw = 999999;
+            let maxCorr = -999999;
+            let minCorr = 999999;
+            let heatDataSet = [];
+            let heatBeforeDataSet = [];
+            let id_cnt = 0;
+            // for (let kk in data) {
+            //     let heat_data = [];
+            //     let heatBefore_data = [];
+            //     // let smooth_data = smooth_dataSet[kk];
+            //     let skipLength = this.skip_length[parseInt(kk)];
+            //     // console.log(smooth_data, skipLength);
+            //     for (let i = 0; i < 840; i += (i == 0 && 840 % skipLength != 0 ? 840 % skipLength : skipLength)) {
+            //         let skp = (i == 0 && 840 % skipLength != 0 ? 840 % skipLength : skipLength);
+            //         let rawTempValue = raw_data.slice(i, i + skp).map(d => parseFloat(d.value)).sort((a, b) => a - b)
+            //         let rawSum = sum(rawTempValue);
+            //         // let smoothTempValue = smooth_data.slice(i, i + skp).map(d => parseFloat(d.value)).sort((a, b) => a - b)
+            //         // let smoothSum = sum(smoothTempValue);
+            //         heatBefore_data.push({
+            //             // rawData: smoothSum / smoothTempValue.length,
+            //             // errorData: Math.abs(rawSum / rawTempValue.length - smoothSum / smoothTempValue.length),
+            //             time: i,
+            //             rmse: 0,
+            //             corr: 0,
+            //             skip: skp,
+            //             id: parseInt(kk),
+            //             fill_opacity: 0,
+            //             id_cnt: '_1'
+            //             // x: x(parseInt(raw_data[i].id)),
+            //             // w: Math.abs(x(parseInt(raw_data[i + ((i + skipLength < raw_data.length) ? skipLength : (raw_data.length - 1 - i))].id)) - x(parseInt(raw_data[i].id))),
+            //         });
+            //         // maxError = Math.max(maxError, Math.abs(rawSum / rawTempValue.length - smoothSum / smoothTempValue.length));
+            //         // minError = Math.min(minError, Math.abs(rawSum / rawTempValue.length - smoothSum / smoothTempValue.length));
+            //         // maxRaw = Math.max(maxRaw, smoothSum / smoothTempValue.length);
+            //         // minRaw = Math.min(minRaw, smoothSum / smoothTempValue.length);
+            //     }
+            //     heatBeforeDataSet.push(heatBefore_data);
+            //     for (let i = 840; i < raw_data.length; i += skipLength) {
+            //         // let rawTempValue = raw_data.slice(i, i + skipLength).map(d => parseFloat(d.value)).sort((a, b) => a - b)
+            //         // let rawSum = sum(rawTempValue);
+            //         // let smoothTempValue = smooth_data.slice(i, i + skipLength).map(d => parseFloat(d.value)).sort((a, b) => a - b)
+            //         // let smoothSum = sum(smoothTempValue);
+            //         heat_data.push({
+            //             // rawData: smoothSum / smoothTempValue.length,
+            //             // errorData: Math.abs(rawSum / rawTempValue.length - smoothSum / smoothTempValue.length),
+            //             time: i,
+            //             rmse: 0,
+            //             corr: 0,
+            //             skip: skipLength,
+            //             id: parseInt(kk),
+            //             fill_opacity: 1,
+            //             id_cnt: id_cnt++
+            //             // x: x(parseInt(raw_data[i].id)),
+            //             // w: Math.abs(x(parseInt(raw_data[i + ((i + skipLength < raw_data.length) ? skipLength : (raw_data.length - 1 - i))].id)) - x(parseInt(raw_data[i].id))),
+            //         });
+            //         // maxError = Math.max(maxError, Math.abs(rawSum / rawTempValue.length - smoothSum / smoothTempValue.length));
+            //         // minError = Math.min(minError, Math.abs(rawSum / rawTempValue.length - smoothSum / smoothTempValue.length));
+            //         // maxRaw = Math.max(maxRaw, smoothSum / smoothTempValue.length);
+            //         // minRaw = Math.min(minRaw, smoothSum / smoothTempValue.length);
+            //     }
+            //     heatDataSet.push(heat_data);
+            // }
+            // console.log(heatBeforeDataSet);
 
-            for (let i in heatData) {
-                heatData[i]['res'] = [{
-                    x: leftT,
-                    w: trainScale(res_data[this.filename[i].substring(0, this.filename[i].length - 8)]['loss=mean_squared_error']),
-                    y: i * this.elHeight / 36,
-                    h: this.elHeight / 36 - 3
-                }, {
-                    x: leftT + (barS) / 3,
-                    w: testScale(res_data[this.filename[i].substring(0, this.filename[i].length - 8)]['val_loss=val_mse']),
-                    y: i * this.elHeight / 36,
-                    h: this.elHeight / 36 - 3
-                }, {
-                    x: leftT + 2 * (barS) / 3,
-                    w: acfScale(res_data[this.filename[i].substring(0, this.filename[i].length - 8)]['ACF']),
-                    y: i * this.elHeight / 36,
-                    h: this.elHeight / 36 - 3
-                }]
+            let lineData = [];
+            let cnt_id_cnt = 0;
+            for (let i in data) {
+                let startPos = 0;
+                let tp = [];
+                for (let j in data[i]) {
+                    if (j > data[i].length / 2) break;
+                    // sdata.push({
+                    //     id: i,
+                    //     skip: this.skip_length[i],
+                    //     time: j * this.skip_length[i] + startPos,
+                    //     rmse: parseFloat(data[i][j]['rmse'])
+                    // });
+                    tp.push({
+                        id: i,
+                        skip: parseInt(data[i][j]['skip']),
+                        time: j * parseInt(data[i][j]['skip']) + startPos,
+                        errorData: 0,
+                        id_cnt: cnt_id_cnt++,
+                        rmse: parseFloat(data[i][j]['rmse']),
+                        corr: parseFloat(data[i][j]['result_corr'])
+                    });
+                    // console.log(data[i][j]['129_pearson'])
+                    maxTime = Math.max(maxTime, j * parseInt(data[i][j]['skip']) + startPos);
+                    maxRmse = Math.max(maxRmse, parseFloat(data[i][j]['rmse']));
+                    minRmse = Math.min(minRmse, parseFloat(data[i][j]['rmse']));
+                    maxCorr = Math.max(maxCorr, parseFloat(data[i][j]['result_corr']));
+                    if (parseFloat(data[i][j]['result_corr']) != 0)
+                        minCorr = Math.min(minCorr, parseFloat(data[i][j]['result_corr']));
+                }
+                lineData.push(tp);
             }
-            return heatData;
+            // console.log(heatDataSet)
+            // console.log(lineData);
+            // console.log(maxCorr, minCorr);
+
+
+            // for (let i in heatDataSet) {
+            //     for (let j in heatDataSet[i]) {
+            //         heatDataSet[i][j]['rmse'] = lineData[parseInt(i)][j]['rmse'];
+            //         heatDataSet[i][j]['corr'] = lineData[parseInt(i)][j]['corr'];
+            //         heatBeforeDataSet[i].push(heatDataSet[i][j])
+            //     }
+            //     heatBeforeDataSet[i] = heatBeforeDataSet[i].concat(heatDataSet[i]);
+            // }
+            let HeatSumData = [];
+            // for (let i = 0; i < 4; ++i) {
+            //     HeatSumData.push(lineData[i]);
+            // }
+            for (let i = 0; i < lineData.length; ++i) {
+                HeatSumData.push(lineData[i]);
+            }
+
+            // for (let i = 0; i < heatDataSet.length; ++i) {
+            //     HeatSumData.push(heatDataSet[i]);
+            // }
+            // let rawScale = scaleLinear([minRaw, maxRaw], [0, 1]);
+            let rmseScale = scaleLinear([minRmse, maxRmse], [0, 1]);
+            // let errorScale = scaleLinear([minError, maxError], [0, 1]);
+            let corrScale = scaleLinear([minCorr, maxCorr], [0, 1]);
+            let timeScale = scaleLinear([0, maxTime], [margin.left, width - margin.right]);
+            // let quantization1 = vsup.quantization().branching(2).layers(4).valueDomain([minError, maxError]).uncertaintyDomain([(maxRaw), minRaw]);
+            let quantization2 = vsup.quantization().branching(2).layers(4).valueDomain([minRmse, maxRmse]).uncertaintyDomain([(maxCorr), minCorr]);
+
+            let heatColor = interpolateYlOrRd;
+            // let heatScale1 = vsup.scale().quantize(quantization1).range(heatColor);
+            let heatScale2 = vsup.scale().quantize(quantization2).range(heatColor);
+
+            // var legend = vsup.legend.arcmapLegend();
+
+            // legend
+            //     .scale(heatScale)
+            //     .size(160)
+            //     .x(200)
+            //     .y(100)
+            //     .vtitle("Difference")
+            //     .utitle("RMSE");
+            // select('#legend_g').append('g')
+            // .call(legend)
+            // let xAxis = axisBottom(timeScale).ticks(10);
+            // let yAxis = axisLeft(rmseScale).ticks(10);
+            // select("#x_axis_g").call(xAxis);
+            // select("#y_axis_g").call(yAxis);
+            let res_data = [];
+            for (let i in HeatSumData) {
+                for (let j in HeatSumData[i]) {
+                    // console.log(lineData[i][j].skip)
+                    HeatSumData[i][j].x = timeScale(HeatSumData[i][j].time);
+                    HeatSumData[i][j].w = timeScale(HeatSumData[i][j].skip);
+                    HeatSumData[i][j].v = rmseScale(HeatSumData[i][j].rmse);
+                    HeatSumData[i][j].id_cnt = HeatSumData[i][j].id_cnt;
+                    HeatSumData[i][j].h = height / allStrip - 3
+                    HeatSumData[i][j].y = parseInt(HeatSumData[i][j].id) * height / allStrip;
+                    HeatSumData[i][j].rmseColor = heatColor(HeatSumData[i][j].v);
+                    // HeatSumData[i][j].errorColor = heatColor(errorScale(HeatSumData[i][j].errorData));
+                    // HeatSumData[i][j].rawColor = heatColor(rawScale(HeatSumData[i][j].rawData));
+                    HeatSumData[i][j].corrColor = heatColor(corrScale(HeatSumData[i][j].corr));
+                    // HeatSumData[i][j].vsupColor1 = heatScale1((HeatSumData[i][j].errorData), (HeatSumData[i][j].rawData));
+                    HeatSumData[i][j].vsupColor2 = heatScale2((HeatSumData[i][j].rmse), HeatSumData[i][j].corr);
+                    HeatSumData[i][j].colorMap = ['grey', 'grey', 'grey', HeatSumData[i][j].vsupColor2, HeatSumData[i][j].rmseColor, HeatSumData[i][j].corrColor];
+                }
+                res_data.push({
+                    h: height / allStrip,
+                    heat: HeatSumData[i]
+                })
+            }
+            // console.log(res_data);
+
+            return res_data;
         }
     },
     created () {
@@ -1426,25 +974,21 @@ export default {
     mounted () {
         this.elHeight = this.$refs.DataTransformation.offsetHeight;
         this.elWidth = this.$refs.DataTransformation.offsetWidth;
-        // this.tlHeight = this.$refs.timeline.offsetHeight * 1;
-        // this.heatHeight = this.$refs.timeline.offsetHeight * 0.3;
-        // this.tlWidth = this.$refs.timeline.offsetWidth;
 
-        // this.calcTimeLine(SN_raw_data, this.tlHeight, this.tlWidth);
-
-
-        // this.calcSparkBox(SN_raw_data, this.tlHeight, this.tlWidth);
-
+        const importData = import.meta.globEager('../assets/multivarData/*.csv');
+        // console.log(importData)
+        let multiDataSet = []
+        for (let i in importData) {
+            multiDataSet.push(importData[i]['default'])
+            console.log(importData[i], i)
+        }
         let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35];
         let smoothDataSet = [SN_raw_data, SN_raw_data, SN_raw_data, SN_raw_data, sr13, sr13, sr13, sr13, sr3, sr3, sr3, sr3, sr6, sr6, sr6, sr6, sr9, sr9, sr9, sr9, sa13, sa13, sa13, sa13, sa3, sa3, sa3, sa3, sa6, sa6, sa6, sa6, sa9, sa9, sa9, sa9];
 
-        this.heatRectData = this.calcRMSEHeat(dataSet, smoothDataSet, SN_raw_data, this.elWidth, this.elHeight - 20);
+        this.heatRectData = this.calcRMSEHeatMultiVariable(multiDataSet, SN_raw_data, this.elWidth, this.elHeight - 20);
 
-        // this.heatRectData = this.calcResultData(res_data, this.heatRectData);
-        // console.log(this.heatRectData);
+        // this.heatRectData = this.calcRMSEHeat(dataSet, smoothDataSet, SN_raw_data, this.elWidth, this.elHeight - 20);
 
-
-        // this.setupBrush(SN_raw_data);
 
         const dataStore = useDataStore();
         let _this = this;
