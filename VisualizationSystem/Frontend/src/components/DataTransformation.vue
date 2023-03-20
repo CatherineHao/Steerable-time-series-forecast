@@ -2,11 +2,11 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-03-16 10:33:17
+ * @LastEditTime: 2023-03-20 02:11:32
 -->
 <template>
     <div class="frameworkTitle" style="padding-right: 10px;">
-        <div class="title">Temporal Analyzer View</div>
+        <div class="title">Temporal View</div>
         <p class="titleTriangle"></p>
         <div style="float: right; margin-top: 3px;">
             <span>Metric: </span>
@@ -62,54 +62,6 @@ import { axisLeft, axisBottom } from 'd3-axis';
 import { interpolateRdBu, interpolateYlOrRd, schemeYlOrRd } from 'd3-scale-chromatic';
 import { useDataStore } from "../stores/counter";
 import SN_raw_data from "../assets/SN_m_tot_V2.0.csv";
-import sr3 from '../assets/data/SN_rolling3_tot.csv';
-import sr6 from '../assets/data/SN_rolling6_tot.csv';
-import sr9 from '../assets/data/SN_rolling9_tot.csv';
-import sr13 from '../assets/data/SN_rolling13_tot.csv';
-import sr26 from '../assets/data/SN_rolling26_tot.csv';
-import sa3 from '../assets/data/SN_weighted_moving_average3_tot.csv';
-import sa6 from '../assets/data/SN_weighted_moving_average6_tot.csv';
-import sa9 from '../assets/data/SN_weighted_moving_average9_tot.csv';
-import sa13 from '../assets/data/SN_weighted_moving_average13_tot.csv';
-import sa26 from '../assets/data/SN_weighted_moving_average26_tot.csv';
-
-
-import d0 from '../assets/explaindata/rawdata_skip13_0.8.csv';
-import d1 from '../assets/explaindata/rawdata_skip1_0.8.csv';
-import d2 from '../assets/explaindata/rawdata_skip3_0.8.csv';
-import d3 from '../assets/explaindata/rawdata_skip6_0.8.csv';
-import d4 from '../assets/explaindata/rolling13_skip13_0.8.csv';
-import d5 from '../assets/explaindata/rolling13_skip1_0.8.csv';
-import d6 from '../assets/explaindata/rolling13_skip3_0.8.csv';
-import d7 from '../assets/explaindata/rolling13_skip6_0.8.csv';
-import d8 from '../assets/explaindata/rolling3_skip13_0.8.csv';
-import d9 from '../assets/explaindata/rolling3_skip1_0.8.csv';
-import d10 from '../assets/explaindata/rolling3_skip3_0.8.csv';
-import d11 from '../assets/explaindata/rolling3_skip6_0.8.csv';
-import d12 from '../assets/explaindata/rolling6_skip13_0.8.csv';
-import d13 from '../assets/explaindata/rolling6_skip1_0.8.csv';
-import d14 from '../assets/explaindata/rolling6_skip3_0.8.csv';
-import d15 from '../assets/explaindata/rolling6_skip6_0.8.csv';
-import d16 from '../assets/explaindata/rolling9_skip13_0.8.csv';
-import d17 from '../assets/explaindata/rolling9_skip1_0.8.csv';
-import d18 from '../assets/explaindata/rolling9_skip3_0.8.csv';
-import d19 from '../assets/explaindata/rolling9_skip6_0.8.csv';
-import d20 from '../assets/explaindata/weighted13_skip13_0.8.csv';
-import d21 from '../assets/explaindata/weighted13_skip1_0.8.csv';
-import d22 from '../assets/explaindata/weighted13_skip3_0.8.csv';
-import d23 from '../assets/explaindata/weighted13_skip6_0.8.csv';
-import d24 from '../assets/explaindata/weighted3_skip13_0.8.csv';
-import d25 from '../assets/explaindata/weighted3_skip1_0.8.csv';
-import d26 from '../assets/explaindata/weighted3_skip3_0.8.csv';
-import d27 from '../assets/explaindata/weighted3_skip6_0.8.csv';
-import d28 from '../assets/explaindata/weighted6_skip13_0.8.csv';
-import d29 from '../assets/explaindata/weighted6_skip1_0.8.csv';
-import d30 from '../assets/explaindata/weighted6_skip3_0.8.csv';
-import d31 from '../assets/explaindata/weighted6_skip6_0.8.csv';
-import d32 from '../assets/explaindata/weighted9_skip13_0.8.csv';
-import d33 from '../assets/explaindata/weighted9_skip1_0.8.csv';
-import d34 from '../assets/explaindata/weighted9_skip3_0.8.csv';
-import d35 from '../assets/explaindata/weighted9_skip6_0.8.csv';
 
 import { select, selectAll } from 'd3-selection';
 import { extent, max, min, sum } from 'd3-array';
@@ -1208,18 +1160,6 @@ export default {
         this.tlWidth = this.$refs.timeline.offsetWidth;
 
         this.calcTimeLine(SN_raw_data, this.tlHeight, this.tlWidth);
-
-
-        // this.calcSparkBox(SN_raw_data, this.tlHeight, this.tlWidth);
-
-        let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35];
-        let smoothDataSet = [SN_raw_data, SN_raw_data, SN_raw_data, SN_raw_data, sr13, sr13, sr13, sr13, sr3, sr3, sr3, sr3, sr6, sr6, sr6, sr6, sr9, sr9, sr9, sr9, sa13, sa13, sa13, sa13, sa3, sa3, sa3, sa3, sa6, sa6, sa6, sa6, sa9, sa9, sa9, sa9];
-
-        // this.heatRectData = this.calcRMSEHeat(dataSet, smoothDataSet, SN_raw_data, this.tlWidth, this.elHeight - 20);
-
-        // this.heatRectData = this.calcResultData(res_data, this.heatRectData);
-        // console.log(this.heatRectData);
-
 
         this.setupBrush(SN_raw_data);
 

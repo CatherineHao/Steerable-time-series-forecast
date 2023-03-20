@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-03-11 15:16:52
+ * @LastEditTime: 2023-03-20 09:08:06
 -->
 <template>
     <div class="frameworkTitle">
@@ -34,7 +34,7 @@
                 </g>
             </g>
 
-            <g>
+            <!-- <g>
                 <g>
                         <text v-for="(o, i) in S_name" :key="'F_leg' + i" :x="0" :y="0" text-anchor="end"
                             :transform="translate(40, 50 + i * (elHeight - 30) / S_name.length, -65)">{{
@@ -52,8 +52,8 @@
                         </g>
                         <rect :x="o.rx" :y="o.ry" :width="o.w" :height="o.h" fill="none" stroke="black"></rect>
                     </g>
-                    </g>
-                <!-- <g>
+                    </g> -->
+                <g>
                     <g>
                         <text v-for="(o, i) in F_name" :key="'F_leg' + i" :x="0" :y="0" text-anchor="end"
                             :transform="translate(40, 50 + i * (elHeight - 30) / F_name.length, -65)">{{
@@ -71,7 +71,7 @@
                         </g>
                         <rect :x="o.rx" :y="o.ry" :width="o.w" :height="o.h" fill="none" stroke="black"></rect>
                     </g>
-                </g> -->
+                </g>
             </svg>
         </div>
     </div>
@@ -268,49 +268,49 @@ export default {
         let F_sparkBoxData = []
         let margin = { top: 15, left: 50, right: 5, bottom: 30 }
         // console.log(rolling13, weight13, SN_raw_data);
-        for (let i in SN_raw_data) {
-            SN_raw_data[i]['weight13'] = sa13[i]['value'];
-            SN_raw_data[i]['rolling13'] = sr13[i]['value'];
-            SN_raw_data[i]['weight3'] = sa3[i]['value'];
-            SN_raw_data[i]['rolling3'] = sr3[i]['value'];
-            SN_raw_data[i]['weight6'] = sa6[i]['value'];
-            SN_raw_data[i]['rolling6'] = sr6[i]['value'];
-            SN_raw_data[i]['raw'] = SN_raw_data[i]['value'];
-        }
-        // console.log(SN_raw_data);
+        // for (let i in SN_raw_data) {
+        //     SN_raw_data[i]['weight13'] = sa13[i]['value'];
+        //     SN_raw_data[i]['rolling13'] = sr13[i]['value'];
+        //     SN_raw_data[i]['weight3'] = sa3[i]['value'];
+        //     SN_raw_data[i]['rolling3'] = sr3[i]['value'];
+        //     SN_raw_data[i]['weight6'] = sa6[i]['value'];
+        //     SN_raw_data[i]['rolling6'] = sr6[i]['value'];
+        //     SN_raw_data[i]['raw'] = SN_raw_data[i]['value'];
+        // }
+        // // console.log(SN_raw_data);
 
-        for (let i = 0; i < this.S_name.length; ++i) {
-            for (let j = 0; j < i + 1; ++j) {
-                // console.log(this.S_name[i], this.S_name[j]);
-                F_sparkBoxData.push({
-                    x: j,
-                    y: i,
-                    tx: (this.elWidth - margin.left - margin.right) / this.S_name.length * j,
-                    rx: margin.left,
-                    w: (this.elWidth - margin.left - margin.right) / this.S_name.length,
-                    ty: (this.elHeight - margin.bottom - margin.top) / this.S_name.length * i,
-                    ry: margin.top,
-                    h: (this.elHeight - margin.bottom - margin.top) / this.S_name.length,
-                    boxData: this.calcDisSparkBox(SN_raw_data, (this.elHeight - margin.bottom - margin.top) / this.S_name.length, (this.elWidth - margin.left - margin.right) / this.S_name.length, 8, this.S_name[i], this.S_name[j], 'value')
-                })
-            }
-        }
-
-        // for (let i = 0; i < this.F_name.length; ++i) {
+        // for (let i = 0; i < this.S_name.length; ++i) {
         //     for (let j = 0; j < i + 1; ++j) {
+        //         // console.log(this.S_name[i], this.S_name[j]);
         //         F_sparkBoxData.push({
         //             x: j,
         //             y: i,
-        //             tx: (this.elWidth - margin.left - margin.right) / this.F_name.length * j,
+        //             tx: (this.elWidth - margin.left - margin.right) / this.S_name.length * j,
         //             rx: margin.left,
-        //             w: (this.elWidth - margin.left - margin.right) / this.F_name.length,
-        //             ty: (this.elHeight - margin.bottom - margin.top) / this.F_name.length * i,
+        //             w: (this.elWidth - margin.left - margin.right) / this.S_name.length,
+        //             ty: (this.elHeight - margin.bottom - margin.top) / this.S_name.length * i,
         //             ry: margin.top,
-        //             h: (this.elHeight - margin.bottom - margin.top) / this.F_name.length,
-        //             boxData: this.calcDisSparkBox(multi_data, (this.elHeight - margin.bottom - margin.top) / this.F_name.length, (this.elWidth - margin.left - margin.right) / this.F_name.length, 8, this.F_name[i], this.F_name[j], 'pm25')
+        //             h: (this.elHeight - margin.bottom - margin.top) / this.S_name.length,
+        //             boxData: this.calcDisSparkBox(SN_raw_data, (this.elHeight - margin.bottom - margin.top) / this.S_name.length, (this.elWidth - margin.left - margin.right) / this.S_name.length, 8, this.S_name[i], this.S_name[j], 'value')
         //         })
         //     }
         // }
+
+        for (let i = 0; i < this.F_name.length; ++i) {
+            for (let j = 0; j < i + 1; ++j) {
+                F_sparkBoxData.push({
+                    x: j,
+                    y: i,
+                    tx: (this.elWidth - margin.left - margin.right) / this.F_name.length * j,
+                    rx: margin.left,
+                    w: (this.elWidth - margin.left - margin.right) / this.F_name.length,
+                    ty: (this.elHeight - margin.bottom - margin.top) / this.F_name.length * i,
+                    ry: margin.top,
+                    h: (this.elHeight - margin.bottom - margin.top) / this.F_name.length,
+                    boxData: this.calcDisSparkBox(multi_data, (this.elHeight - margin.bottom - margin.top) / this.F_name.length, (this.elWidth - margin.left - margin.right) / this.F_name.length, 8, this.F_name[i], this.F_name[j], 'pm25')
+                })
+            }
+        }
         // console.log(F_sparkBoxData);
         this.F_sparkBoxData = F_sparkBoxData;
     },

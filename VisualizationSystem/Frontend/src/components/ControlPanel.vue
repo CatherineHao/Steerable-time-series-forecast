@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-03-20 01:44:32
+ * @LastEditTime: 2023-03-20 02:02:00
 -->
 <template>
     <div class="frameworkTitle">
@@ -132,13 +132,13 @@ export default {
             fileValue: null,
             tableData: [],
             fileOptions: [{
-                    value: '13_average_smooth_sunspot',
-                    label: '13_average_smooth_sunspot',
+                    value: 'sunspots',
+                    label: 'Sunspots',
                 },
 
                 {
-                    value: 'raw_sunspot',
-                    label: 'raw_sunspot',
+                    value: 'pm',
+                    label: 'PM 2.5',
                 }
             ],
             modelValue: null,
@@ -147,22 +147,6 @@ export default {
                 label: 'LSTM',
             }],
             tableData: [],
-            tableDataB: [{
-                    date: '2016-05-03',
-                    name: 'Tom',
-                    address: 'No. 189, Grove St, Los Angeles',
-                },
-                {
-                    date: '2016-05-02',
-                    name: 'Tom',
-                    address: 'No. 189, Grove St, Los Angeles',
-                },
-                {
-                    date: '2016-05-04',
-                    name: 'Tom',
-                    address: 'No. 189, Grove St, Los Angeles',
-                }
-            ]
         }
     },
     methods: {

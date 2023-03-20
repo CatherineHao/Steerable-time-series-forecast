@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-03-20 01:44:52
+ * @LastEditTime: 2023-03-20 10:05:03
 -->
 <template>
     <div class="frameworkTitle">
@@ -365,11 +365,12 @@ export default {
             let lineData = [];
             let id_cnt = 0;
             for (let i in data) {
-                let startPos = 840;
+                let startPos = 0;
                 let tp = [];
                 // if (i >= 16 && i <= 19)
                 //     continue;
                 for (let j in data[i]) {
+                    if (j > data[i].length / 2) break;
                     // console.log(data[i][j])
                     if (parseFloat(data[i][j]['result_corr']) == 0)
                         continue;
@@ -379,7 +380,7 @@ export default {
                         time: j * this.skip_length[i] + startPos,
                         norm_corr: parseFloat(data[i][j]['result_corr']),
                         rmse: parseFloat(data[i][j]['rmse']),
-                        isShow: Math.random() < 0.1 ? 1 : 0,
+                        isShow: Math.random() < 0.05 ? 1 : 0,
                         id_cnt: id_cnt,
                         class_name: className
                     });
@@ -412,8 +413,8 @@ export default {
             legend
                 .scale(heatScale)
                 .size(120)
-                .x(100)
-                .y(400)
+                .x(450)
+                .y(40)
                 .vtitle("RMSE")
                 .utitle("Corr.");
             select('#legend_g_s').append('g')
@@ -508,8 +509,18 @@ export default {
         let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35];
         this.dataSet = dataSet;
 
-        this.dot_data = this.calcScatter(dataSet);
-        this.tableData = this.calcTableData(dataSet, 1);
+        // this.dot_data = this.calcScatter(dataSet);
+        // this.tableData = this.calcTableData(dataSet, 1);
+
+
+        const importData = import.meta.globEager('../assets/multivarData/*.csv');
+        let multiDataSet = []
+        for (let i in importData) {
+            multiDataSet.push(importData[i]['default'])
+            console.log(importData[i], i)
+        }
+        this.dot_data = this.calcScatter(multiDataSet);
+        this.tableData = this.calcTableData(multiDataSet, 1);
 
         this.setupLasso();
     },
