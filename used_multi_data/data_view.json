@@ -1,0 +1,182 @@
+[
+{
+"dataset_name": "used_multi",
+"length": 26280,
+"skewness": 2.27773859409782,
+"kuriosis": 7.783730875128208,
+"stationary":{
+"bool": true,
+"p-value": "3.944547525335218e-20"
+},
+"periodicity":{
+    "recommend_lag1": 3,
+    "fft acf1":0.940516495932381,
+    "recommend_lag2": 6,
+    "fft acf2": 0.8702929370840564,
+    "recommend_lag3": 12,
+    "fft acf3": 0.7767197984988214,
+    "recommend_lag4": 24,
+    "fft acf4": 0.6722463141691237
+}
+},
+{
+"dataset_name": "multi_rolling3",
+"length": 26280,
+"skewness": 2.25079299428243,
+"kuriosis": 7.412867170083242,
+"stationary":{
+"bool": true,
+"p-value": "2.904340613075932e-20"
+},
+"periodicity":{
+    "recommend_lag1": 3,
+    "fft acf1":0.9528962481108,
+    "recommend_lag2": 6,
+    "fft acf2": 0.8836351841197256,
+    "recommend_lag3": 12,
+    "fft acf3": 0.7872565025677052,
+    "recommend_lag4": 24,
+    "fft acf4": 0.6786163654979627
+}
+},
+{
+    "dataset_name": "multi_rolling6",
+    "length": 26280,
+    "skewness": 2.2204604529731533,
+    "kuriosis": 7.0125753395634725,
+    "stationary":{
+    "bool": true,
+    "p-value": "2.135861938543623e-20"
+    },
+    "periodicity":{
+        "recommend_lag1": 3,
+        "fft acf1":0.9701180620710649,
+        "recommend_lag2": 6,
+        "fft acf2": 0.9092594000118761,
+        "recommend_lag3": 12,
+        "fft acf3": 0.8071315741572316,
+        "recommend_lag4": 24,
+        "fft acf4": 0.6889127977971164
+    }
+},
+{
+    "dataset_name": "multi_rolling12",
+    "length": 26280,
+    "skewness": 2.1777507537853285,
+    "kuriosis": 6.561911234638178,
+    "stationary":{
+    "bool": true,
+    "p-value": "4.7229460452131846e-20"
+    },
+    "periodicity":{
+        "recommend_lag1": 3,
+        "fft acf1":0.9856715171332854,
+        "recommend_lag2": 6,
+        "fft acf2": 0.9494412792185042,
+        "recommend_lag3": 12,
+        "fft acf3": 0.8534019338018105,
+        "recommend_lag4": 24,
+        "fft acf4": 0.7131291358741989
+    }
+},
+{
+    "dataset_name": "multi_rolling24",
+    "length": 26280,
+    "skewness": 2.0920135367838752,
+    "kuriosis": 5.829173637267203,
+    "stationary":{
+    "bool": true,
+    "p-value": "1.5506835966943617e-20"
+    },
+    "periodicity":{
+        "recommend_lag1": 3,
+        "fft acf1":0.9941549858855583,
+        "recommend_lag2": 6,
+        "fft acf2": 0.977980417508014,
+        "recommend_lag3": 12,
+        "fft acf3": 0.922563677766366,
+        "recommend_lag4": 24,
+        "fft acf4": 0.7743892919595733
+    }
+},
+{
+    "dataset_name": "multi_weighted3",
+    "length": 26280,
+    "skewness": 2.23971421219101,
+    "kuriosis": 7.258333915039804,
+    "stationary":{
+    "bool": true,
+    "p-value": "4.292441117229821e-20"
+    },
+    "periodicity":{
+        "recommend_lag1": 3,
+        "fft acf1":0.9592570015849189,
+        "recommend_lag2": 6,
+        "fft acf2": 0.8946022482022036,
+        "recommend_lag3": 12,
+        "fft acf3": 0.79635932698152,
+        "recommend_lag4": 24,
+        "fft acf4": 0.6832134595983109
+    }
+    },
+    {
+        "dataset_name": "multi_weighted6",
+        "length": 26280,
+        "skewness": 2.206008570965522,
+        "kuriosis": 6.854412130206436,
+        "stationary":{
+        "bool": true,
+        "p-value": "1.919756532550061e-19"
+        },
+        "periodicity":{
+            "recommend_lag1": 3,
+            "fft acf1":0.9741594476087548,
+            "recommend_lag2": 6,
+            "fft acf2": 0.9237948289954054,
+            "recommend_lag3": 12,
+            "fft acf3": 0.8276976547063379,
+            "recommend_lag4": 24,
+            "fft acf4": 0.7008463509397724
+        }
+    },
+    {
+        "dataset_name": "multi_weighted12",
+        "length": 26280,
+        "skewness": 2.1527408788567297,
+        "kuriosis": 6.331226049733761,
+        "stationary":{
+        "bool": true,
+        "p-value": "6.1190645445573665e-18"
+        },
+        "periodicity":{
+            "recommend_lag1": 3,
+            "fft acf1":0.9860328372735222,
+            "recommend_lag2": 6,
+            "fft acf2": 0.9542837724615902,
+            "recommend_lag3": 12,
+            "fft acf3": 0.8770186020338144,
+            "recommend_lag4": 24,
+            "fft acf4": 0.7411949586340388
+        }
+    },
+    {
+        "dataset_name": "multi_weighted24",
+        "length": 26280,
+        "skewness": 2.0684096004436796,
+        "kuriosis": 5.584287353298606,
+        "stationary":{
+        "bool": true,
+        "p-value": "1.2660609733450488e-15"
+        },
+        "periodicity":{
+            "recommend_lag1": 3,
+            "fft acf1":0.9932167234442464,
+            "recommend_lag2": 6,
+            "fft acf2": 0.9762166680786506,
+            "recommend_lag3": 12,
+            "fft acf3": 0.9266959622151875,
+            "recommend_lag4": 24,
+            "fft acf4": 0.8122836398356925
+        }
+}     
+]

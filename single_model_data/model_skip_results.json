@@ -1,7 +1,7 @@
 [
     {
         "dataset_name": "rawdata",
-        "epochs": 200,
+        "epochs": 100,
         "train_period":720,
         "test_period": 120,
         "ratio": 0.8,
@@ -12,8 +12,10 @@
                 "skip": 13,
                 "ACF":0.700504727111736,
                 "result numbers": 125,
-                "loss=mean_squared_error": 0.0093,
-                "val_loss=val_mse": 0.0218,
+                "train_MSE": 0.0102,
+                "train_MAPE": 62.0747,
+                "val_MSE": 0.0236,
+                "val_MAPE":  159.2044,
                 "file_name": "rawdata_skip13_0.8.csv"
             },
             {
@@ -22,8 +24,10 @@
                 "skip": 6,
                 "ACF": 0.8344299653220351,
                 "result numbers": 270,
-                "loss=mean_squared_error": 0.0078,
-                "val_loss=val_mse": 0.0277,
+                "train_MSE": 0.0072,
+                "train_MAPE": 42.3248,
+                "val_MSE": 0.0242,
+                "val_MAPE":  22858.3828,
                 "file_name": "rawdata_skip6_0.8.csv"
             },
             {
@@ -32,25 +36,29 @@
                 "skip": 3,
                 "ACF": 0.8713881847520814,
                 "result numbers": 540,
-                "loss=mean_squared_error": 0.0084,
-                "val_loss=val_mse": 0.0178,
+                "train_MSE": ,
+                "train_MAPE": ,
+                "val_MSE": ,
+                "val_MAPE":  ,
                 "file_name": "rawdata_skip3_0.8.csv"
             },
             {
                 "input_shape": "(1620,720,1)",
                 "output_shape": "(1620,120)",
                 "skip": 1,
-                "ACF": 0.9211889432000648,
+                "ACF": 0.9211889431000648,
                 "result numbers": 1620,
-                "loss=mean_squared_error": 0.0064,
-                "val_loss=val_mse": 0.0273,
+                "train_MSE": 0.0065,
+                "train_MAPE": 40.5947,
+                "val_MSE": 0.0329,
+                "val_MAPE":  145808.5,
                 "file_name": "rawdata_skip1_0.8.csv"
             }
         ]
     },
     {
         "dataset_name": "rolling3",
-        "epochs": 200,
+        "epochs": 100,
         "train_period":720,
         "test_period": 120,
         "ratio": 0.8,
@@ -61,8 +69,10 @@
                 "skip": 13,
                 "ACF":0.7474710031451508,
                 "result numbers": 125,
-                "loss=mean_squared_error": 0.0090,
-                "val_loss=val_mse": 0.0232,
+                "train_MSE": ,
+                "train_MAPE": ,
+                "val_MSE": ,
+                "val_MAPE":  ,
                 "file_name": "rolling3_skip13_0.8.csv"
             },
             {
@@ -71,8 +81,10 @@
                 "skip": 6,
                 "ACF":0.8861656528236849,
                 "result numbers": 270,
-                "loss=mean_squared_error": 0.0056,
-                "val_loss=val_mse": 0.0168,
+                "train_MSE": 0.0099,
+                "train_MAPE": 70.6520,
+                "val_MSE": 0.0330,
+                "val_MAPE":  386.3821,
                 "file_name": "rolling3_skip6_0.8.csv"
             },
             {
@@ -81,8 +93,10 @@
                 "skip": 3,
                 "ACF":0.9311669346776253,
                 "result numbers": 540,
-                "loss=mean_squared_error": 0.0059,
-                "val_loss=val_mse": 0.0246,
+                "train_MSE": 0.0052,
+                "train_MAPE": 55.1447,
+                "val_MSE": 0.0285,
+                "val_MAPE":  299.5331,
                 "file_name": "rolling3_skip3_0.8.csv"
             },
             {
@@ -91,15 +105,17 @@
                 "skip": 1,
                 "ACF":0.9847882309726123,
                 "result numbers": 1620,
-                "loss=mean_squared_error": 0.0040,
-                "val_loss=val_mse": 0.0427,
+                "train_MSE": 0.0093,
+                "train_MAPE": ,
+                "val_MSE": 0.0218,
+                "val_MAPE":  ,
                 "file_name": "rolling3_skip1_0.8.csv"
             }
         ]
     },
     {
         "dataset_name": "weighted3",
-        "epochs": 200,
+        "epochs": 100,
         "train_period":720,
         "test_period": 120,
         "ratio": 0.8,
@@ -110,8 +126,10 @@
                 "skip": 13,
                 "ACF":0.7520285837045965,
                 "result numbers": 125,
-                "loss=mean_squared_error": 0.0086,
-                "val_loss=val_mse": 0.0238,
+                "train_MSE": 0.0111,
+                "train_MAPE": 72.9394,
+                "val_MSE": 0.0271,
+                "val_MAPE":  291.5030,
                 "file_name": "weighted3_skip13_0.8.csv"
             },
             {
@@ -120,8 +138,10 @@
                 "skip": 6,
                 "ACF":0.8940974861460936,
                 "result numbers": 270,
-                "loss=mean_squared_error": 0.0067,
-                "val_loss=val_mse": 0.0410,
+                "train_MSE": 0.0071,
+                "train_MAPE": 59.6597,
+                "val_MSE": 0.0215,
+                "val_MAPE":  211.8121,
                 "file_name": "weighted3_skip6_0.8.csv"
             },
             {
@@ -130,8 +150,10 @@
                 "skip": 3,
                 "ACF":0.9407767893195543,
                 "result numbers": 540,
-                "loss=mean_squared_error": 0.0059,
-                "val_loss=val_mse": 0.0212,
+                "train_MSE": 0.0093,
+                "train_MAPE": ,
+                "val_MSE": 0.0218,
+                "val_MAPE":  ,
                 "file_name": "weighted3_skip3_0.8.csv"
             },
             {
@@ -140,15 +162,17 @@
                 "skip": 1,
                 "ACF":0.9816135704295131,
                 "result numbers": 1620,
-                "loss=mean_squared_error": 0.0069,
-                "val_loss=val_mse": 0.0249,
+                "train_MSE": 0.0093,
+                "train_MAPE": ,
+                "val_MSE": 0.0218,
+                "val_MAPE":  ,
                 "file_name": "weighted3_skip1_0.8.csv"
             }
         ]
     },
     {
         "dataset_name": "rolling6",
-        "epochs": 200,
+        "epochs": 100,
         "train_period":720,
         "test_period": 120,
         "ratio": 0.8,
@@ -159,8 +183,10 @@
                 "skip": 13,
                 "ACF":0.771176552405141,
                 "result numbers": 125,
-                "loss=mean_squared_error": 0.0083,
-                "val_loss=val_mse": 0.0198,
+                "train_MSE": 0.0093,
+                "train_MAPE": ,
+                "val_MSE": 0.0218,
+                "val_MAPE":  ,
                 "file_name": "rolling6_skip13_0.8.csv"
             },
             {
@@ -169,8 +195,10 @@
                 "skip": 6,
                 "ACF":0.9172716077713927,
                 "result numbers": 270,
-                "loss=mean_squared_error": 0.0048,
-                "val_loss=val_mse": 0.0329,
+                "train_MSE": 0.0093,
+                "train_MAPE": ,
+                "val_MSE": 0.0218,
+                "val_MAPE":  ,
                 "file_name": "rolling6_skip6_0.8.csv"
             },
             {
@@ -179,8 +207,10 @@
                 "skip": 3,
                 "ACF":0.9704254007332671,
                 "result numbers": 540,
-                "loss=mean_squared_error": 0.0037,
-                "val_loss=val_mse": 0.0303,
+                "train_MSE": 0.0093,
+                "train_MAPE": ,
+                "val_MSE": 0.0218,
+                "val_MAPE":  ,
                 "file_name": "rolling6_skip3_0.8.csv"
             },
             {
@@ -189,15 +219,17 @@
                 "skip": 1,
                 "ACF":0.9949026353338682,
                 "result numbers": 1620,
-                "loss=mean_squared_error": 0.0027,
-                "val_loss=val_mse": 0.0249,
+                "train_MSE": 0.0093,
+                "train_MAPE": ,
+                "val_MSE": 0.0218,
+                "val_MAPE":  ,
                 "file_name": "rolling6_skip1_0.8.csv"
             }
         ]
     },
     {
         "dataset_name": "weighted6",
-        "epochs": 200,
+        "epochs": 100,
         "train_period":720,
         "test_period": 120,
         "ratio": 0.8,
@@ -208,8 +240,10 @@
                 "skip": 13,
                 "ACF":0.7753901732307806,
                 "result numbers": 125,
-                "loss=mean_squared_error": 0.0074,
-                "val_loss=val_mse": 0.0240,
+                "train_MSE": 0.0103,
+                "train_MAPE": 73.3486,
+                "val_MSE": 0.0249,
+                "val_MAPE":  224.3539,
                 "file_name": "weighted6_skip13_0.8.csv"
             },
             {
@@ -218,8 +252,10 @@
                 "skip": 6,
                 "ACF":0.9246744240003153,
                 "result numbers": 270,
-                "loss=mean_squared_error": 0.0042,
-                "val_loss=val_mse": 0.0320,
+                "train_MSE": 0.0069,
+                "train_MAPE": 52.0196,
+                "val_MSE": 0.0347,
+                "val_MAPE": 279.1801,
                 "file_name": "weighted6_skip6_0.8.csv"
             },
             {
@@ -228,8 +264,10 @@
                 "skip": 3,
                 "ACF":0.9687709127716737,
                 "result numbers": 540,
-                "loss=mean_squared_error": 0.0044,
-                "val_loss=val_mse": 0.0323,
+                "train_MSE": 0.0093,
+                "train_MAPE": ,
+                "val_MSE": 0.0218,
+                "val_MAPE":  ,
                 "file_name": "weighted6_skip3_0.8.csv"
             },
             {
@@ -238,15 +276,17 @@
                 "skip": 1,
                 "ACF":0.9930819818868611,
                 "result numbers": 1620,
-                "loss=mean_squared_error": 0.0083,
-                "val_loss=val_mse": 0.0162,
+                "train_MSE": 0.0093,
+                "train_MAPE": ,
+                "val_MSE": 0.0218,
+                "val_MAPE":  ,
                 "file_name": "weighted6_skip1_0.8.csv"
             }
         ]
     },
     {
         "dataset_name": "rolling9",
-        "epochs": 200,
+        "epochs": 100,
         "train_period":720,
         "test_period": 120,
         "ratio": 0.8,
@@ -257,8 +297,10 @@
                 "skip": 13,
                 "ACF":0.7819362502510052,
                 "result numbers": 125,
-                "loss=mean_squared_error": 0.0107,
-                "val_loss=val_mse": 0.0252,
+                "train_MSE": 0.0093,
+                "train_MAPE": ,
+                "val_MSE": 0.0218,
+                "val_MAPE":  ,
                 "file_name": "rolling9_skip13_0.8.csv"
             },
             {
@@ -267,8 +309,10 @@
                 "skip": 6,
                 "ACF":0.9383748239638541,
                 "result numbers": 270,
-                "loss=mean_squared_error": 0.0059,
-                "val_loss=val_mse": 0.0223,
+                "train_MSE": 0.0093,
+                "train_MAPE": ,
+                "val_MSE": 0.0218,
+                "val_MAPE":  ,
                 "file_name": "rolling9_skip6_0.8.csv"
             },
             {
@@ -277,8 +321,10 @@
                 "skip": 3,
                 "ACF":0.9811155976932336,
                 "result numbers": 540,
-                "loss=mean_squared_error": 0.0036,
-                "val_loss=val_mse": 0.0294,
+                "train_MSE": 0.0093,
+                "train_MAPE": ,
+                "val_MSE": 0.0218,
+                "val_MAPE":  ,
                 "file_name": "rolling9_skip3_0.8.csv"
             },
             {
@@ -287,15 +333,17 @@
                 "skip": 1,
                 "ACF":0.9971150473426629,
                 "result numbers": 1620,
-                "loss=mean_squared_error": 0.0031,
-                "val_loss=val_mse": 0.0127,
+                "train_MSE": 0.0093,
+                "train_MAPE": ,
+                "val_MSE": 0.0218,
+                "val_MAPE":  ,
                 "file_name": "rolling9_skip1_0.8.csv"
             }
         ]
     },
     {
         "dataset_name": "weighted9",
-        "epochs": 200,
+        "epochs": 100,
         "train_period":720,
         "test_period": 120,
         "ratio": 0.8,
@@ -306,8 +354,10 @@
                 "skip": 13,
                 "ACF":0.7882072996749576,
                 "result numbers": 125,
-                "loss=mean_squared_error": 0.0084,
-                "val_loss=val_mse": 0.0320,
+                "train_MSE": 0.0107,
+                "train_MAPE": 58.8328,
+                "val_MSE": 0.0260,
+                "val_MAPE":  199.2803,
                 "file_name": "weighted9_skip13_0.8.csv"
             },
             {
@@ -316,8 +366,10 @@
                 "skip": 6,
                 "ACF":0.938042216312618,
                 "result numbers": 270,
-                "loss=mean_squared_error": 0.0158,
-                "val_loss=val_mse": 0.0199,
+                "train_MSE": 0.0074,
+                "train_MAPE": 48.3862,
+                "val_MSE": 0.0300,
+                "val_MAPE":  230.7777,
                 "file_name": "weighted9_skip6_0.8.csv"
             },
             {
@@ -326,8 +378,10 @@
                 "skip": 3,
                 "ACF":0.9780355561893779,
                 "result numbers": 540,
-                "loss=mean_squared_error": 0.0041,
-                "val_loss=val_mse": 0.0281,
+                "train_MSE": ,
+                "train_MAPE": ,
+                "val_MSE": ,
+                "val_MAPE":  ,
                 "file_name": "weighted9_skip3_0.8.csv"
             },
             {
@@ -336,15 +390,17 @@
                 "skip": 1,
                 "ACF":0.9959099469536865,
                 "result numbers": 1620,
-                "loss=mean_squared_error": 0.0035,
-                "val_loss=val_mse": 0.0218,
+                "train_MSE": ,
+                "train_MAPE": ,
+                "val_MSE": ,
+                "val_MAPE":  ,
                 "file_name": "weighted9_skip1_0.8.csv"
             }
         ]
     },
     {
         "dataset_name": "rolling13",
-        "epochs": 200,
+        "epochs": 100,
         "train_period":720,
         "test_period": 120,
         "ratio": 0.8,
@@ -355,8 +411,10 @@
                 "skip": 13,
                 "ACF":0.7915708226133303,
                 "result numbers": 125,
-                "loss=mean_squared_error": 0.0076,
-                "val_loss=val_mse": 0.0308,
+                "train_MSE": 0.0112,
+                "train_MAPE": 48.4890,
+                "val_MSE": 0.0218,
+                "val_MAPE":  160.8858,
                 "file_name": "rolling13_skip13_0.8.csv"
             },
             {
@@ -365,8 +423,10 @@
                 "skip": 6,
                 "ACF":0.9487958776684087,
                 "result numbers": 270,
-                "loss=mean_squared_error": 0.0044,
-                "val_loss=val_mse": 0.0244,
+                "train_MSE": 0.0093,
+                "train_MAPE": ,
+                "val_MSE": 0.0218,
+                "val_MAPE":  ,
                 "file_name": "rolling13_skip6_0.8.csv"
             },
             {
@@ -375,8 +435,10 @@
                 "skip": 3,
                 "ACF":0.9853547466350784,
                 "result numbers": 540,
-                "loss=mean_squared_error": 0.0044,
-                "val_loss=val_mse": 0.0344,
+                "train_MSE": 0.0093,
+                "train_MAPE": ,
+                "val_MSE": 0.0218,
+                "val_MAPE":  ,
                 "file_name": "rolling13_skip3_0.8.csv"
             },
             {
@@ -385,15 +447,17 @@
                 "skip": 1,
                 "ACF":0.9979403580009247,
                 "result numbers": 1620,
-                "loss=mean_squared_error": 0.0041,
-                "val_loss=val_mse": 0.0165,
+                "train_MSE": 0.0093,
+                "train_MAPE": ,
+                "val_MSE": 0.0218,
+                "val_MAPE":  ,
                 "file_name": "rolling13_skip1_0.8.csv"
             }
         ]
     },
     {
         "dataset_name": "weighted13",
-        "epochs": 200,
+        "epochs": 100,
         "train_period":720,
         "test_period": 120,
         "ratio": 0.8,
@@ -404,8 +468,10 @@
                 "skip": 13,
                 "ACF":0.800095877874192,
                 "result numbers": 125,
-                "loss=mean_squared_error": 0.0089,
-                "val_loss=val_mse": 0.0232,
+                "train_MSE": 0.0108,
+                "train_MAPE": 65.8944,
+                "val_MSE": 0.0344,
+                "val_MAPE":  217.7703,
                 "file_name": "weighted13_skip13_0.8.csv"
             },
             {
@@ -414,8 +480,10 @@
                 "skip": 6,
                 "ACF":0.9469003561173135,
                 "result numbers": 270,
-                "loss=mean_squared_error": 0.0044,
-                "val_loss=val_mse": 0.0349,
+                "train_MSE": 0.0085,
+                "train_MAPE": 45.6612,
+                "val_MSE": 0.0320,
+                "val_MAPE":  211.0761,
                 "file_name": "weighted13_skip6_0.8.csv"
             },
             {
@@ -424,8 +492,10 @@
                 "skip": 3,
                 "ACF":0.9831600363031376,
                 "result numbers": 540,
-                "loss=mean_squared_error": 0.0577,
-                "val_loss=val_mse": 0.0425,
+                "train_MSE": 0.0093,
+                "train_MAPE": ,
+                "val_MSE": 0.0218,
+                "val_MAPE":  ,
                 "file_name": "weighted13_skip3_0.8.csv"
             },
             {
@@ -434,99 +504,11 @@
                 "skip": 1,
                 "ACF":0.9972698644147994,
                 "result numbers": 1620,
-                "loss=mean_squared_error": 0.0017,
-                "val_loss=val_mse": 0.0444,
+                "train_MSE": 0.0093,
+                "train_MAPE": ,
+                "val_MSE": 0.0218,
+                "val_MAPE":  ,
                 "file_name": "weighted13_skip1_0.8.csv"
-            }
-        ]
-    },
-    {
-        "dataset_name": "rolling26",
-        "epochs": 200,
-        "train_period":720,
-        "test_period": 120,
-        "ratio": 0.8,
-        "predic_info":[
-            {
-                "input_shape": "(125,720,1)",
-                "output_shape": "(125,120)",
-                "skip": 13,
-                "result numbers": 125,
-                "loss=mean_squared_error": 0.0071,
-                "val_loss=val_mse": 0.0220,
-                "file_name": "rolling26_skip13_0.8.csv"
-            },
-            {
-                "input_shape": "(270,720,1)",
-                "output_shape": "(270,120)",
-                "skip": 6,
-                "result numbers": 270,
-                "loss=mean_squared_error": 0.0037,
-                "val_loss=val_mse": 0.0369,
-                "file_name": "rolling26_skip6_0.8.csv"
-            },
-            {
-                "input_shape": "(540,720,1)",
-                "output_shape": "(540,120)",
-                "skip": 3,
-                "result numbers": 540,
-                "loss=mean_squared_error": 0.0043,
-                "val_loss=val_mse": 0.0301,
-                "file_name": "rolling26_skip3_0.8.csv"
-            },
-            {
-                "input_shape": "(1620,720,1)",
-                "output_shape": "(1620,120)",
-                "skip": 1,
-                "result numbers": 1620,
-                "loss=mean_squared_error": 0.0130,
-                "val_loss=val_mse": 0.0234,
-                "file_name": "rolling26_skip1_0.8.csv"
-            }
-        ]
-    },
-    {
-        "dataset_name": "weighted26",
-        "epochs": 200,
-        "train_period":720,
-        "test_period": 120,
-        "ratio": 0.8,
-        "predic_info":[
-            {
-                "input_shape": "(125,720,1)",
-                "output_shape": "(125,120)",
-                "skip": 13,
-                "result numbers": 125,
-                "loss=mean_squared_error": 0.0108,
-                "val_loss=val_mse": 0.0237,
-                "file_name": "weighted26_skip13_0.8.csv"
-            },
-            {
-                "input_shape": "(270,720,1)",
-                "output_shape": "(270,120)",
-                "skip": 6,
-                "result numbers": 270,
-                "loss=mean_squared_error": 0.0041,
-                "val_loss=val_mse": 0.0283,
-                "file_name": "weighted26_skip6_0.8.csv"
-            },
-            {
-                "input_shape": "(540,720,1)",
-                "output_shape": "(540,120)",
-                "skip": 3,
-                "result numbers": 540,
-                "loss=mean_squared_error": 0.0028,
-                "val_loss=val_mse": 0.0304,
-                "file_name": "weighted26_skip3_0.8.csv"
-            },
-            {
-                "input_shape": "(1620,720,1)",
-                "output_shape": "(1620,120)",
-                "skip": 1,
-                "result numbers": 1620,
-                "loss=mean_squared_error": 0.0014,
-                "val_loss=val_mse": 0.0322,
-                "file_name": "weighted26_skip1_0.8.csv"
             }
         ]
     }
