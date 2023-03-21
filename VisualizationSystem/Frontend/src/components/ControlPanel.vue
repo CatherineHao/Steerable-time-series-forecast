@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-03-20 02:02:00
+ * @LastEditTime: 2023-03-20 02:00:52
 -->
 <template>
     <div class="frameworkTitle">
@@ -10,7 +10,7 @@
         <p class="titleTriangle"></p>
     </div>
     <div class="frameworkBody">
-        <div ref="ControlPanel" style="height: 30%; width: calc(100%); float: left; border: 0px solid blue; font-size: 16px;">
+        <div ref="ControlPanel" style="height: calc(30% - 10px); width: calc(100%); float: left; border: 0px solid blue; font-size: 16px;">
             <!-- <svg id="ControlPanel" height="100%" width="100%">
                             
                                         </svg> -->
@@ -25,69 +25,90 @@
                             </span>
             </div>
             <div style="height: calc(20% - 5px); margin-top: 5px;">
-                <span style="float: left; font-weight: normal; margin-top: 6px;">
+                <span style="float: left; font-weight: normal; margin-top: 0px;">
                                 Model:
                             </span>
-                <span style="width: 60%; float: right;">
-                                <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
+                <span style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
+                                <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
                                     <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
-                                </el-select>
+                                </el-select> -->
+                                Long Short Term Model
                             </span>
             </div>
-            <div style="height: calc(20% - 5px); margin-top: 5px;">
-                <span style="float: left; font-weight: normal; margin-top: 6px;">
+            <div style="height: calc(20% - 5px); margin-top: 0px;">
+                <span style="float: left; font-weight: normal; margin-top: 0px;">
                                 Variable Num:
                             </span>
-                <span style="width: 60%; float: right;">
-            
+                <span style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
+                                <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
+                                    <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
+                                </el-select> -->
+                                6
                             </span>
             </div>
-            <div style="height: calc(20% - 5px); margin-top: 5px;">
-                <span style="float: left; font-weight: normal; margin-top: 6px;">
+            <div style="height: calc(20% - 5px); margin-top: 0px;">
+                <span style="float: left; font-weight: normal; margin-top: 0px;">
                                 Stationary:
                             </span>
-                <span style="width: 60%; float: right; font-weight: normal; margin-top: 6px; text-align: left;">
+                <!-- <span style="width: 60%; float: right; font-weight: normal; margin-top: 6px; text-align: left;">
                                 {{ fileValue == null ? '' : (basicData[fileValue].stationary['bool'] + ' (' +
                                     basicData[fileValue].stationary['p-value'] + ')') }}
+                            </span> -->
+
+                <span style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
+                                <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
+                                    <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
+                                </el-select> -->
+                                Yes
                             </span>
             </div>
             <div style="height: calc(20% - 5px); margin-top: 5px;">
-                <span style="float: left; font-weight: normal; margin-top: 6px;">
+                <span style="float: left; font-weight: normal; margin-top: 0px;">
                                 Periodicity:
                             </span>
-                <span style="width: 60%; float: right; font-weight: normal; margin-top: 6px; text-align: left;">
+                <!-- <span style="width: 60%; float: right; font-weight: normal; margin-top: 6px; text-align: left;">
                                 {{ fileValue == null ? '' : ((basicData[fileValue].periodicity['recommend_lag']) + ' (' +
                                     (Math.round(basicData[fileValue].periodicity['fft acf'] * 10000) / 10000) + ')') }}
-                        </span>
+                        </span> -->
+
+                <span style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
+                                <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
+                                    <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
+                                </el-select> -->
+                                1, 3, 6, 13
+                            </span>
             </div>
     
         </div>
-        <div ref="resTable" style="height: 70%; width: calc(100%); float: right; overflow:auto; font-size: 18px;">
-            <el-table :data="tableData" style="width: calc(100% - 10px)" height="100%" :header-cell-style="{ 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }" :cell-style="{ 'font-size': '16px', 'height': '15px' }">
-                <el-table-column prop="smooth" label="Smooth" sortable width="90" />
-                <el-table-column prop="skip" label="Skip" sortable />
-                <el-table-column label="T_loss" :width="(elWidth - 160) / 3">
+        <div ref="resTable" style="height: calc(70% + 20px); width: calc(100%); float: right; overflow:auto; font-size: 18px; margin-top: -15px;">
+            <el-table :data="tableData" style="width: calc(100% - 10px)" height="100%" :header-cell-style="{ 'font-size': '16px', 'background-color': 'rgb(235, 235, 235)', 'height': '40px', 'text-algin': 'center'}" :cell-style="{ 'font-size': '14px', 'height': '15px' }" :row-style="{ 'height': '18px' }" border>
+                <el-table-column prop="smooth" label="Smooth" width="82" />
+                <el-table-column prop="skip" label="Skip" width="60"/>
+                <el-table-column label="Loss" :width="(elWidth - 160) / 3 + 10" sortable>
                     <template #default="scope">
-                        <svg width="100%" height="30">
-                            <rect :x="0" :y="0" :width="scope.row.train_bar.w" :height="30" :fill="'orange'"></rect>
+                        <svg width="100%" height="18">
+                            <rect :x="0" :y="3" :width="scope.row.train_bar.w" :height="15" :fill="'orange'" :fill-opacity="1"  :stroke="'rgb(200, 200, 200)'"> </rect>
+                            <text x="2" y="15" font-size="12">{{ scope.row.train_bar.v }}</text>
                         </svg>
                     </template>
                 </el-table-column>
 
-                <el-table-column label="Val" :width="(elWidth - 160) / 3">
+                <el-table-column label="Val." :width="(elWidth - 160) / 3" sortable>
                     <template #default="scope">
                     
-                        <svg width="100%" height="30">
-                            <rect :x="0" :y="0" :width="scope.row.test_bar.w" :height="30" :fill="'orange'"></rect>
+                        <svg width="100%" height="18">
+                            <rect :x="0" :y="3" :width="scope.row.test_bar.w" :height="15" :fill="'orange'" :stroke="'rgb(200, 200, 200)'" :fill-opacity="1" ></rect>
+                            <text x="2" y="15" font-size="12">{{ scope.row.test_bar.v }}</text>
                         </svg>
                     </template>
                 </el-table-column>
 
-                <el-table-column label="ACF" :width="(elWidth - 160) / 3">
+                <el-table-column label="ACF" :width="(elWidth - 160) / 3" sortable>
                     <template #default="scope">
                     
-                        <svg width="100%" height="30">
-                            <rect :x="0" :y="0" :width="scope.row.acf_bar.w" :height="30" :fill="'orange'"></rect>
+                        <svg width="100%" height="18" >
+                            <rect :x="0" :y="3" :width="scope.row.acf_bar.w" :height="15" :fill="'orange'"  :stroke="'rgb(200, 200, 200)'" :fill-opacity="1"></rect>
+                            <text x="2" y="15" font-size="12">{{ scope.row.acf_bar.v }}</text>
                         </svg>
                     </template>
                 </el-table-column>
@@ -225,15 +246,18 @@ export default {
             for (let i in tmpData) {
                 tmpData[i]['train_bar'] = {
                     x: 0,
-                    w: trainScale(tmpData[i]['train'])
+                    w: trainScale(tmpData[i]['train']),
+                    v: tmpData[i]['train'].toFixed(2)
                 };
                 tmpData[i]['test_bar'] = {
                     x: barS / 3,
-                    w: testScale(tmpData[i]['test'])
+                    w: testScale(tmpData[i]['test']),
+                    v: tmpData[i]['test'].toFixed(2)
                 };
                 tmpData[i]['acf_bar'] = {
                     x: barS * 2 / 3,
-                    w: acfScale(tmpData[i]['acf'])
+                    w: acfScale(tmpData[i]['acf']),
+                    v: tmpData[i]['acf'].toFixed(2)
                 };
             }
             console.log(tmpData);
@@ -268,20 +292,27 @@ export default {
     font-weight: bold;
 }
 
-.el-table tr {
+.el-input__wrapper {
+    height: 30px;
+}
+
+/* .el-table tr {
     height: 50px;
     font-size: 16px;
-}
+} */
 
 .el-table__cell {
     height: 15px;
 }
-td {
-    height: 25%;
-}
-
 .el-table .cell {
+    padding: 0px;
+}
+/* td {
+    height: 25%;
+} */
+
+/* .el-table .cell {
     padding-left: 3px;
     padding-right: 3px;
-}
+} */
 </style>

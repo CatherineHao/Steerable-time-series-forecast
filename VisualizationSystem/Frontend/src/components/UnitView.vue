@@ -2,14 +2,14 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-03-20 09:08:06
+ * @LastEditTime: 2023-03-21 15:45:06
 -->
 <template>
     <div class="frameworkTitle">
         <div class="title">Feature Inspector View</div>
         <p class="titleTriangle"></p>
-        <span style="position: absolute; top: 10px; right: 170px;">
-            Pm 2.5: &nbsp;<img style="position: absolute;" src="../assets/img/Blues.png" alt="" width="150" height="20">
+        <span style="position: absolute; top: 10px; right: 170px; font-size: 18px;">
+            Sunspot number: &nbsp;<img style="position: absolute;top:3px;" src="../assets/img/Blues.png" alt="" width="150" height="20">
         </span>
     </div>
     <div class="frameworkBody">
@@ -36,12 +36,12 @@
 
             <!-- <g>
                 <g>
-                        <text v-for="(o, i) in S_name" :key="'F_leg' + i" :x="0" :y="0" text-anchor="end"
+                        <text v-for="(o, i) in SS_name" :key="'F_leg' + i" :x="0" :y="0" text-anchor="end"
                             :transform="translate(40, 50 + i * (elHeight - 30) / S_name.length, -65)">{{
                                 (o).charAt(0).toUpperCase() + (o).slice(1) }}</text>
                     </g>
                     <g>
-                        <text v-for="(o, i) in S_name" :key="'F_leg' + i" :x="0" :y="0"
+                        <text v-for="(o, i) in SS_name" :key="'F_leg' + i" :x="0" :y="0"
                             :transform="translate(50 + (elWidth - 50) / S_name.length / 2 + (elWidth - 50) / S_name.length * i, (elHeight - 30) + 20, 0)"
                             font-weight="100" text-anchor="middle">{{ (o).charAt(0).toUpperCase() + (o).slice(1) }}</text>
                     </g>
@@ -112,6 +112,8 @@ export default {
             linePath: null,
             F_name: ['pm25', 'temp', 'rh', 'psfc', 'wnd_dir', 'wnd_spd'],
             S_name: ['raw', 'weight13', 'rolling13', 'weight3', 'rolling3', 'weight6', 'rolling6'],
+
+            SS_name: ['RAW', 'WMA-13', 'MA-13', 'WMA-3', 'MA-3', 'WMA-6', 'MA-6'],
             tfData: []
         }
     },
@@ -268,16 +270,16 @@ export default {
         let F_sparkBoxData = []
         let margin = { top: 15, left: 50, right: 5, bottom: 30 }
         // console.log(rolling13, weight13, SN_raw_data);
-        // for (let i in SN_raw_data) {
-        //     SN_raw_data[i]['weight13'] = sa13[i]['value'];
-        //     SN_raw_data[i]['rolling13'] = sr13[i]['value'];
-        //     SN_raw_data[i]['weight3'] = sa3[i]['value'];
-        //     SN_raw_data[i]['rolling3'] = sr3[i]['value'];
-        //     SN_raw_data[i]['weight6'] = sa6[i]['value'];
-        //     SN_raw_data[i]['rolling6'] = sr6[i]['value'];
-        //     SN_raw_data[i]['raw'] = SN_raw_data[i]['value'];
-        // }
-        // // console.log(SN_raw_data);
+        for (let i in SN_raw_data) {
+            SN_raw_data[i]['weight13'] = sa13[i]['value'];
+            SN_raw_data[i]['rolling13'] = sr13[i]['value'];
+            SN_raw_data[i]['weight3'] = sa3[i]['value'];
+            SN_raw_data[i]['rolling3'] = sr3[i]['value'];
+            SN_raw_data[i]['weight6'] = sa6[i]['value'];
+            SN_raw_data[i]['rolling6'] = sr6[i]['value'];
+            SN_raw_data[i]['raw'] = SN_raw_data[i]['value'];
+        }
+        // console.log(SN_raw_data);
 
         // for (let i = 0; i < this.S_name.length; ++i) {
         //     for (let j = 0; j < i + 1; ++j) {
