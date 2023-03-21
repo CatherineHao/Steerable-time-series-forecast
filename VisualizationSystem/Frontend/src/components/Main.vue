@@ -7,7 +7,7 @@
 <template>
     <div id="navBar">
         <img src="../assets/logo/logo.png" width="40" alt="">
-        <span style="font-weight: 800; padding-left: 10px; margin-bottom: 100px; position: absolute;">DataTransAnalyzer</span> 
+        <span style="font-weight: 800; padding-left: 10px; margin-bottom: 100px; position: absolute;">TimeTuner: Diagnosing Time Representations for Time-Series Forecasting with Counterfactual Explanations</span> 
     </div>
     <div style="height: calc(96vh - 0px); width: calc(100% - 0px);">
         <div class="framework" id="controlPanel"
@@ -21,7 +21,7 @@
         </div>
         <div class="framework" id="DataTransformation"
             style="position: absolute; right: 5px; top: calc((96vh - 10px) * .45 + 5px); height: calc((96vh - 10px) * .55 - 0px); width: calc(58vw - 5px);">
-            <TransformationCompare :timeData="timeData" :sliceData="sliceData"/>
+            <!-- <TransformationCompare :timeData="timeData" :sliceData="sliceData"/> -->
         </div>
         <div class="framework" id="ModelExplainer"
             style="position: absolute; left: calc(5px); top: calc(28vw + 10px); height: calc(96vh - 28vw - 15px); width: calc(42vw - 10px);">
@@ -142,7 +142,7 @@ export default {
     color: white;
     font-size: 28px;
     height: calc(4%);
-    padding-top: 0.3%;
+    padding-top: 0.2%;
     padding-bottom: 0.5%;
     padding-left: 10px;
     /* font-family: STHeiti; */

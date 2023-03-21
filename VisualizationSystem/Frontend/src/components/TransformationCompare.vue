@@ -1,6 +1,6 @@
 <!--
  * @Author: Qing Shi
- * @LastEditTime: 2023-03-20 09:31:42
+ * @LastEditTime: 2023-03-20 10:18:29
 -->
 <!--
  * @Description: 
@@ -864,7 +864,7 @@ export default {
                 let startPos = 0;
                 let tp = [];
                 for (let j in data[i]) {
-                    if (j > data[i].length / 2) break;
+                    if (j > data[i].length / 2.3) break;
                     // sdata.push({
                     //     id: i,
                     //     skip: this.skip_length[i],
@@ -959,6 +959,7 @@ export default {
                     HeatSumData[i][j].vsupColor2 = heatScale2((HeatSumData[i][j].rmse), HeatSumData[i][j].corr);
                     HeatSumData[i][j].colorMap = ['grey', 'grey', 'grey', HeatSumData[i][j].vsupColor2, HeatSumData[i][j].rmseColor, HeatSumData[i][j].corrColor];
                 }
+                // HeatSumData[i].sort((a, b) => a.v - b.v)
                 res_data.push({
                     h: height / allStrip,
                     heat: HeatSumData[i]
@@ -975,7 +976,7 @@ export default {
         this.elHeight = this.$refs.DataTransformation.offsetHeight;
         this.elWidth = this.$refs.DataTransformation.offsetWidth;
 
-        const importData = import.meta.globEager('../assets/multivarData/*.csv');
+        const importData = import.meta.globEager('../assets/15month_result/*.csv');
         // console.log(importData)
         let multiDataSet = []
         for (let i in importData) {
