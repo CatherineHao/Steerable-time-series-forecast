@@ -1,0 +1,369 @@
+[
+    {
+        "dataset_name": "rawdata",
+        "epochs": 50,
+        "train_period":24,
+        "test_period": 12,
+        "ratio": 0.8,
+        "predic_info":[
+            {
+                "length": 10885,
+                "skip": 1,
+                "result numbers": 10885,
+                "train_MSE": 0.0088,
+                "train_MAPE": 12712.7744,
+                "val_MSE": 0.0220,
+                "val_MAPE":  49.0284,
+                "file_name": "rawdata_skip1.csv"
+            },
+            {
+                "length":5443,
+                "skip": 2,
+                "result numbers": 0,
+                "train_MSE": 0.0092,
+                "train_MAPE": 10549.6670,
+                "val_MSE": 0.0257,
+                "val_MAPE": 49.3552,
+                "file_name": "rawdata_skip2.csv"
+            },
+            {
+                "length": 3629,
+                "skip": 3,
+                "result numbers": 0,
+                "train_MSE": 0.0098,
+                "train_MAPE": 12512.4033,
+                "val_MSE": 0.0276,
+                "val_MAPE": 51.1846,
+                "file_name": "rawdata_skip3.csv"
+            },
+            {
+                "length":1815,
+                "skip": 6,
+                "result numbers": 0,
+                "train_MSE": 0.0132,
+                "train_MAPE": 3806.7305,
+                "val_MSE": 0.0368,
+                "val_MAPE": 64.1464,
+                "file_name": "rawdata_skip6.csv"
+            }
+        ]
+    },
+    {
+        "dataset_name": "rolling3",
+        "epochs": 50,
+        "train_period":24,
+        "test_period": 12,
+        "ratio": 0.8,
+        "predic_info":[
+            {
+                "length": 10885,
+                "skip": 1,
+                "ACF":0,
+                "result numbers": 0,
+                "train_MSE": 0.0103,
+                "train_MAPE": 14370.6602,
+                "val_MSE": 0.0267,
+                "val_MAPE": 48.6228,
+                "file_name": "rolling3_skip1.csv"
+            },
+            {
+                "length":5443,
+                "skip": 2,
+                "ACF": 0,
+                "result numbers": 0,
+                "train_MSE": 0.0110,
+                "train_MAPE": 10887.3906,
+                "val_MSE": 0.0305,
+                "val_MAPE": 50.1721,
+                "file_name": "rolling3_skip2.csv"
+            },
+            {
+                "length":3629,
+                "skip": 3,
+                "ACF": 0,
+                "result numbers": 0,
+                "train_MSE": 0.0110,
+                "train_MAPE": 9679.9346,
+                "val_MSE": 0.0313,
+                "val_MAPE": 49.9929,
+                "file_name": "rolling3_skip3.csv"
+            },
+            {
+                "length":1815,
+                "skip": 6,
+                "ACF": 0,
+                "result numbers": 0,
+                "train_MSE": 0.0159,
+                "train_MAPE": 7031.1611,
+                "val_MSE": 0.0440,
+                "val_MAPE": 65.3647,
+                "file_name": "rolling3_skip6.csv"
+            }
+        ]
+    },
+    {
+        "dataset_name": "rolling6",
+        "epochs": 50,
+        "train_period":24,
+        "test_period": 12,
+        "ratio": 0.8,
+        "predic_info":[
+            {
+                "length": 10885,
+                "skip": 1,
+                "ACF":0,
+                "result numbers": 0,
+                "train_MSE": 0.135,
+                "train_MAPE": 15844.6875,
+                "val_MSE": 0.0346,
+                "val_MAPE": 47.4192,
+                "file_name": "rolling6_skip1.csv"
+            },
+            {
+                "length":5443,
+                "skip": 2,
+                "ACF": 0,
+                "result numbers": 0,
+                "train_MSE": 0.0145,
+                "train_MAPE": 14532.0830,
+                "val_MSE": 0.0401,
+                "val_MAPE": 48.6924,
+                "file_name": "rolling6_skip2.csv"
+            },
+            {
+                "length":3629,
+                "skip": 3,
+                "ACF": 0,
+                "result numbers": 0,
+                "train_MSE": 0.0151,
+                "train_MAPE": 14117.7627,
+                "val_MSE": 0.0427,
+                "val_MAPE": 49.8748,
+                "file_name": "rolling6_skip3.csv"
+            },
+            {
+                "length":1815,
+                "skip": 6,
+                "ACF": 0,
+                "result numbers": 0,
+                "train_MSE": 0.0230,
+                "train_MAPE": 7093.7363,
+                "val_MSE": 0.0629,
+                "val_MAPE": 69.8596,
+                "file_name": "rolling6_skip6.csv"
+            }
+        ]
+    },
+    {
+        "dataset_name": "rolling12",
+        "epochs": 50,
+        "train_period":24,
+        "test_period": 12,
+        "ratio": 0.8,
+        "predic_info":[
+            {
+                "length": 10885,
+                "skip": 1,
+                "ACF":0,
+                "result numbers": 0,
+                "train_MSE": 0.0173,
+                "train_MAPE": 18340.3203,
+                "val_MSE": 0.0453,
+                "val_MAPE": 47.1292,
+                "file_name": "rolling12_skip1.csv"
+            },
+            {
+                "length":5443,
+                "skip": 2,
+                "ACF": 0,
+                "result numbers": 0,
+                "train_MSE": 0.0178,
+                "train_MAPE": 15294.5391,
+                "val_MSE": 0.0507,
+                "val_MAPE": 47.5186,
+                "file_name": "rolling12_skip2.csv"
+            },
+            {
+                "length":3629,
+                "skip": 3,
+                "ACF": 0,
+                "result numbers": 0,
+                "train_MSE": 0.0191,
+                "train_MAPE": 13999.6514,
+                "val_MSE": 0.0554,
+                "val_MAPE": 49.7821,
+                "file_name": "rolling12_skip3.csv"
+            },
+            {
+                "length":1815,
+                "skip": 6,
+                "ACF": 0,
+                "result numbers": 0,
+                "train_MSE": 0.0259,
+                "train_MAPE": 9657.6689,
+                "val_MSE": 0.0739,
+                "val_MAPE": 63.3854,
+                "file_name": "rolling12_skip6.csv"
+            }
+        ]
+    },
+    {
+        "dataset_name": "weighted3",
+        "epochs": 50,
+        "train_period":24,
+        "test_period": 12,
+        "ratio": 0.8,
+        "predic_info":[
+            {
+                "length": 10885,
+                "skip": 1,
+                "ACF":0,
+                "result numbers": 0,
+                "train_MSE": 0.0104,
+                "train_MAPE": 14263.0625,
+                "val_MSE": 0.0269,
+                "val_MAPE": 47.7580,
+                "file_name": "weighted3_skip1.csv"
+            },
+            {
+                "length":5443,
+                "skip": 2,
+                "ACF": 0,
+                "result numbers": 0,
+                "train_MSE": 0.0109,
+                "train_MAPE": 10759.2051,
+                "val_MSE": 0.0304,
+                "val_MAPE": 48.9510,
+                "file_name": "weighted3_skip2.csv"
+            },
+            {
+                "length":3629,
+                "skip": 3,
+                "ACF": 0,
+                "result numbers": 0,
+                "train_MSE": 0.0186,
+                "train_MAPE":6514.5669 ,
+                "val_MSE": 0.0491,
+                "val_MAPE": 72.4888,
+                "file_name": "weighted3_skip3.csv"
+            },
+            {
+                "length":1815,
+                "skip": 6,
+                "ACF": 0,
+                "result numbers": 0,
+                "train_MSE": 0.0201,
+                "train_MAPE": 2038.5792,
+                "val_MSE": 0.0528,
+                "val_MAPE": 77.9728,
+                "file_name": "weighted3_skip6.csv"
+            }
+        ]
+    },
+    {
+        "dataset_name": "weighted6",
+        "epochs": 50,
+        "train_period":24,
+        "test_period": 12,
+        "ratio": 0.8,
+        "predic_info":[
+            {
+                "length": 10885,
+                "skip": 1,
+                "ACF":0,
+                "result numbers": 0,
+                "train_MSE": 0.0127,
+                "train_MAPE": 15947.6514,
+                "val_MSE": 0.0332,
+                "val_MAPE": 47.5311,
+                "file_name": "weighted6_skip1.csv"
+            },
+            {
+                "length":5443,
+                "skip": 2,
+                "ACF": 0,
+                "result numbers": 0,
+                "train_MSE": 0.0137,
+                "train_MAPE": 12307.1211,
+                "val_MSE": 0.0383,
+                "val_MAPE": 48.7662,
+                "file_name": "weighted6_skip2.csv"
+            },
+            {
+                "length":3629,
+                "skip": 3,
+                "ACF": 0,
+                "result numbers": 0,
+                "train_MSE": 0.0141,
+                "train_MAPE": 12059.2197,
+                "val_MSE": 0.0405,
+                "val_MAPE": 49.7313,
+                "file_name": "weighted6_skip3.csv"
+            },
+            {
+                "length":1815,
+                "skip": 6,
+                "ACF": 0,
+                "result numbers": 0,
+                "train_MSE": 0.0196,
+                "train_MAPE": 7306.6025,
+                "val_MSE": 0.0550,
+                "val_MAPE": 64.7090,
+                "file_name": "weighted6_skip6.csv"
+            }
+        ]
+    },
+    {
+        "dataset_name": "weighted12",
+        "epochs": 50,
+        "train_period":24,
+        "test_period": 12,
+        "ratio": 0.8,
+        "predic_info":[
+            {
+                "length": 10885,
+                "skip": 1,
+                "ACF":0,
+                "result numbers": 0,
+                "train_MSE": 0.0152,
+                "train_MAPE": 17802.6777,
+                "val_MSE": 0.0396,
+                "val_MAPE": 46.3875,
+                "file_name": "weighted12_skip1.csv"
+            },
+            {
+                "length":5443,
+                "skip": 2,
+                "ACF": 0,
+                "result numbers": 0,
+                "train_MSE": 0.0161,
+                "train_MAPE": 15249.9766,
+                "val_MSE": 0.0460,
+                "val_MAPE": 47.9997,
+                "file_name": "weighted12_skip2.csv"
+            },
+            {
+                "length":3629,
+                "skip": 3,
+                "ACF": 0,
+                "result numbers": 0,
+                "train_MSE": 0.0171,
+                "train_MAPE": 11248.0977,
+                "val_MSE": 0.0494,
+                "val_MAPE": 49.6745,
+                "file_name": "weighted12_skip3.csv"
+            },
+            {
+                "length":1815,
+                "skip": 6,
+                "ACF": 0,
+                "result numbers": 0,
+                "train_MSE": 0.0231,
+                "train_MAPE": 7085.7197,
+                "val_MSE": 0.0662,
+                "val_MAPE": 64.1656,
+                "file_name": "weighted12_skip6.csv"
+            }
+        ]
+    }
+]

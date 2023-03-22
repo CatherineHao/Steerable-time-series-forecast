@@ -8,12 +8,6 @@
     <div class="frameworkTitle" style="padding-right: 10px;">
         <div class="title">Temporal View</div>
         <p class="titleTriangle"></p>
-        <div style="float: right; margin-top: 3px;">
-            <span>Metric: </span>
-            <el-select v-model="heatTag" class="m-2" placeholder="Select" style="width: 150px;">
-                <el-option v-for="(item, i) in heatOptions" :key="item" :label="item" :value="i" />
-            </el-select>
-        </div>
     </div>
     <div class="frameworkBody">
     

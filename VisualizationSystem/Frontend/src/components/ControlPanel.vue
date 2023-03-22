@@ -11,9 +11,6 @@
     </div>
     <div class="frameworkBody">
         <div ref="ControlPanel" style="height: calc(30% - 10px); width: calc(100%); float: left; border: 0px solid blue; font-size: 16px;">
-            <!-- <svg id="ControlPanel" height="100%" width="100%">
-                            
-                                        </svg> -->
             <div style="height: calc(20% - 5px);">
                 <span style="float: left; font-weight: normal; margin-top: 6px;">
                                 DataSet:
@@ -32,7 +29,7 @@
                                 <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
                                     <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
                                 </el-select> -->
-                                Long Short Term Model
+                                Long Short Term Memory
                             </span>
             </div>
             <div style="height: calc(20% - 5px); margin-top: 0px;">
@@ -80,11 +77,11 @@
             </div>
     
         </div>
-        <div ref="resTable" style="height: calc(70% + 20px); width: calc(100%); float: right; overflow:auto; font-size: 18px; margin-top: -15px;">
-            <el-table :data="tableData" style="width: calc(100% - 10px)" height="100%" :header-cell-style="{ 'font-size': '16px', 'background-color': 'rgb(235, 235, 235)', 'height': '40px', 'text-algin': 'center'}" :cell-style="{ 'font-size': '14px', 'height': '15px' }" :row-style="{ 'height': '18px' }" border>
+        <div ref="resTable" style="height: calc(70% + 25px); width: calc(100%); float: right; overflow:auto; font-size: 18px; margin-top: -15px;">
+            <el-table :data="tableData" style="width: calc(100% - 0px)" height="100%" :header-cell-style="{ 'font-size': '16px', 'background-color': 'rgb(235, 235, 235)', 'height': '40px', 'text-algin': 'center'}" :cell-style="{ 'font-size': '14px', 'height': '15px' }" :row-style="{ 'height': '18px' }" border>
                 <el-table-column prop="smooth" label="Smooth" width="82" />
-                <el-table-column prop="skip" label="Skip" width="60"/>
-                <el-table-column label="Loss" :width="(elWidth - 160) / 3 + 10" sortable>
+                <el-table-column prop="skip" label="Skip" width="62"/>
+                <el-table-column label="Loss" :width="(elWidth - 142) / 3" sortable>
                     <template #default="scope">
                         <svg width="100%" height="18">
                             <rect :x="0" :y="3" :width="scope.row.train_bar.w" :height="15" :fill="'orange'" :fill-opacity="1"  :stroke="'rgb(200, 200, 200)'"> </rect>
@@ -93,7 +90,7 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column label="Val." :width="(elWidth - 160) / 3" sortable>
+                <el-table-column label="Val." :width="(elWidth - 142) / 3" sortable>
                     <template #default="scope">
                     
                         <svg width="100%" height="18">
@@ -103,7 +100,7 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column label="ACF" :width="(elWidth - 160) / 3" sortable>
+                <el-table-column label="ACF" :width="(elWidth - 142) / 3" sortable>
                     <template #default="scope">
                     
                         <svg width="100%" height="18" >
@@ -114,34 +111,14 @@
                 </el-table-column>
                 <!-- <el-table-column prop="address" label="Address" :formatter="formatter" /> -->
             </el-table>
-            <!-- <svg width="100%" height="1000">
-                    <rect v-for="(item, i) in tableData" :key="'table_rect' + i" :transform="translate(0, i * 1000 / 36, 0)"
-                        :x="item.train_bar.x" :width="item.train_bar.w" :height="1000 / 36 - 3" :y="0" :fill="'orange'">
-                    </rect>
-                    <rect v-for="(item, i) in tableData" :key="'table_rect' + i" :transform="translate(0, i * 1000 / 36, 0)"
-                        :x="item.test_bar.x" :width="item.test_bar.w" :height="1000 / 36 - 3" :y="0" :fill="'orange'">
-                    </rect>
-                <rect v-for="(item, i) in tableData" :key="'table_rect' + i" :transform="translate(0, i * 1000 / 36, 0)"
-                    :x="item.acf_bar.x" :width="item.acf_bar.w" :height="1000 / 36 - 3" :y="0" :fill="'orange'">
-                </rect>
-            </svg> -->
         </div>
-        <!-- <div ref="ControlTable" style="height: 100%; width: calc(70% - 7.5px); float: right; background-color: green;">
-                <el-table :data="tableData" stripe border style="width: 100%; height: 100%;" :header-cell-style="{'text-align':'center', 'background-color': 'rgb(250, 250, 250)'}" :cell-style="{'text-align':'center'}">
-                    <el-table-column prop="slice_number" label="Slice number" width="120" />
-                    <el-table-column prop="train length" label="Train length" width="120" />
-                                    <el-table-column prop="skip length" label="Skip length" width="120" />
-                                    <el-table-column prop="remaining data" label="Remaining data" width="140" />
-                                    <el-table-column prop="test length" label="Test length" />
-                                </el-table>
-    
-                            </div> -->
     </div>
 </template>
 
 <script>
 import { scaleLinear } from 'd3-scale';
-import res_data from '../assets/model_skip_results.json';
+import multi_res_data from '../assets/allData/multivariate_data/model_results.json';
+import uni_res_data from '../assets/allData/univariate_data/model_results.json';
 import { useDataStore } from "../stores/counter";
 export default {
     name: 'ControlPanelView',
@@ -202,9 +179,13 @@ export default {
             let max_train = 0,
                 max_test = 0,
                 max_acf = 0
-            for (let i = 0; i < 9; ++i) {
+            // for (let i = 0; i < 9; ++i) {
+                for (let i in data) {
                 for (const j in data[i].predic_info) {
                     let d = data[i].predic_info[j];
+                    if (typeof(d['ACF']) == 'undefined') {
+                        d['ACF'] = 0;
+                    }
                     let tmp = new Object();
                     tmp['dataset_name'] = data[i].dataset_name;
                     let smooth_name = '';
@@ -219,7 +200,7 @@ export default {
                         // console.log(typeof(data[i].dataset_name));
                         let stcnt = data[i].dataset_name;
                         let cnt = stcnt.substring(stcnt.length - 2);
-                        if (cnt == '13') {
+                        if (!isNaN(Number(cnt))) {
                             smooth_name += cnt;
                         } else {
                             smooth_name += cnt[1];
@@ -228,12 +209,12 @@ export default {
                     tmp['smooth'] = smooth_name;
                     tmp['skip'] = d.skip;
                     // console.log(d.skip);
-                    tmp['train'] = (d['loss=mean_squared_error']);
-                    tmp['test'] = (d['val_loss=val_mse']);
+                    tmp['train'] = (d['train_MSE']);
+                    tmp['test'] = (d['val_MSE']);
                     tmp['acf'] = (d['ACF']);
                     max_acf = Math.max(max_acf, parseFloat(data[i].predic_info[j]['ACF']));
-                    max_train = Math.max(max_train, parseFloat(data[i].predic_info[j]['loss=mean_squared_error']));
-                    max_test = Math.max(max_test, parseFloat(data[i].predic_info[j]['val_loss=val_mse']));
+                    max_train = Math.max(max_train, parseFloat(data[i].predic_info[j]['train_MSE']));
+                    max_test = Math.max(max_test, parseFloat(data[i].predic_info[j]['val_MSE']));
                     tmpData.push(tmp);
                 }
             }
@@ -242,31 +223,39 @@ export default {
             let trainScale = scaleLinear([0, max_train], [0, ((barS) / 3) * 0.9]);
             let testScale = scaleLinear([0, max_test], [0, ((barS) / 3) * 0.9]);
             let acfScale = scaleLinear([0, max_acf], [0, ((barS) / 3) * 0.9]);
-            // console.log(tmpData);
+            console.log(tmpData);
             for (let i in tmpData) {
                 tmpData[i]['train_bar'] = {
                     x: 0,
                     w: trainScale(tmpData[i]['train']),
-                    v: tmpData[i]['train'].toFixed(2)
+                    v:( tmpData[i]['train'].toFixed(4)).toString().slice(1)
                 };
                 tmpData[i]['test_bar'] = {
                     x: barS / 3,
                     w: testScale(tmpData[i]['test']),
-                    v: tmpData[i]['test'].toFixed(2)
+                    v: (tmpData[i]['test'].toFixed(4)).toString().slice(1)
                 };
                 tmpData[i]['acf_bar'] = {
                     x: barS * 2 / 3,
                     w: acfScale(tmpData[i]['acf']),
-                    v: tmpData[i]['acf'].toFixed(2)
+                    v: (tmpData[i]['acf'].toFixed(4)).toString().slice(1)
                 };
             }
-            console.log(tmpData);
+            // console.log(tmpData);
             return tmpData;
         }
     },
     watch: {
         fileValue() {
-            this.tableData = this.basicData[this.fileValue]['slice'];
+            // this.tableData = this.basicData[this.fileValue]['slice'];
+            const dataStore = useDataStore();
+            dataStore.dataSelect = this.fileValue;
+            if (this.fileValue == 'sunspots') {
+                this.tableData = this.calcTable(uni_res_data);
+            } else if (this.fileValue == 'pm') {
+                this.tableData = this.calcTable(multi_res_data);
+
+            }
 
         },
         modelValue() {
@@ -279,8 +268,8 @@ export default {
         this.elHeight = this.$refs.ControlPanel.offsetHeight;
         this.elWidth = this.$refs.ControlPanel.offsetWidth;
         // console.log(this.basicData)
-        this.tableData = this.calcTable(res_data);
-        console.log(this.tableData);
+        // this.tableData = this.calcTable(multi_res_data);
+        // console.log(this.tableData);
     },
 }
 </script>
@@ -301,11 +290,12 @@ export default {
     font-size: 16px;
 } */
 
-.el-table__cell {
+/* .el-table__cell {
     height: 15px;
-}
+} */
 .el-table .cell {
     padding: 0px;
+    text-align: center;
 }
 /* td {
     height: 25%;

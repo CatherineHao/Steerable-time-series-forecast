@@ -21,112 +21,7 @@
     </div>
     <div class="frameworkBody">
 
-    <!--<div ref="timeline" style="height: calc(45% - 15px); width: 100%; margin-top: 0px;">
-        <svg id="timeline" height="100%" width="100%">
-            <g :transform="translate(0, 0, 0)" id="timeline_g">
-                <g id="raw_line_g" :transform="translate(0, 0, 0)">
-                    <!~~ <g v-for="(item, i) in sparkboxData" :key="'box' + i">
-                            <rect :x="item.rect1.x" :y="item.rect1.y" :width="item.rect1.w" :height="item.rect1.h"
-                                                fill="#f2f5fa"></rect>
-                                            <rect :x="item.rect2.x" :y="item.rect2.y" :width="item.rect2.w" :height="item.rect2.h"
-                                                fill="#dce3f3"></rect>
-                                            <path :d="'M ' + item.line.x1 + ' ' + item.line.y + ' L ' + item.line.x2 + ' ' + item.line.y"
-                                                :fill="'none'" :stroke="'#6d70b6'" stroke-width="3"></path>
-                                        </g> ~~>
-                        <defs>
-                            <clipPath id="clipPath">
-                                <rect :x="50" :y="20" :width="tlWidth - 70" :height="tlHeight - 50"></rect>
-                        </clipPath>
-                    </defs>
-                    <g id="brush_path_g" clip-path="url(#clipPath)">
-                        <!~~ <path :d="rawTimeLineData" stroke="#777" :fill="'none'"></path> ~~>
-                    </g>
-                    <!~~                        <g :transform="translate(0, tlHeight - 130, 0)">
-                            <path :d="'M ' + 50 + ' 0 ' + 'L ' + (tlWidth - 0) + ' 0'" :fill="'none'" stroke="black">
-                            </path>
-                                            <!~~ <g v-for="(item, i) in timeAxis" :key="'xa' + i">
-                                                <path :d="'M ' + item.x + ' 0 ' + 'L ' + item.x + ' 5'" :fill="'none'" stroke="black">
-                                                </path>
-                                            <text :x="item.x" y="20" font-size="12" text-anchor="middle">{{ item.text }}</text>
-                                        </g> ~~>
-                                        </g>~~>
-                        <g>
-                            <path :d="smoothTimeLineData" stroke="red" :fill="'none'"></path>
-                    </g>
-                </g>
-                <g :transform="translate(0, 440, 0)" id="focusLine_g">
-                    <path :d="brushTimeLineData" stroke="#777" :fill="'none'"></path>
-                    <g id="brush_path_line"></g>
-                    <!~~ <g id="" :transform="translate(0, 100, 0)">
-                            
-                                                    <g v-for="(item, i) in brushTimeAxis" :key="'xa' + i">
-                                                        <path :d="'M ' + item.x + ' 0 ' + 'L ' + item.x + ' 5'" :fill="'none'" stroke="black">
-                                                        </path>
-                                                        <text :x="item.x" y="20" font-size="12" text-anchor="middle">{{ item.text }}</text>
-                                                    </g>
-                                                </g> ~~>
-                    </g>
-
-                <g id="brush_g" :transform="translate(0, 440, 0)"></g>
-            </g>
-        </svg>
-    </div>-->
     <div ref="DataTransformation" style="height: calc(100%); width: 100%; margin-top: 0px;">
-        <!-- <el-table :data="tableData" style="width: 100%" height="100%"
-                                                                                                                                :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
-                                                                                                                                :cell-style="{ 'text-align': 'center', 'backgro und-color': 'rgba(250, 250, 250, 1)', 'font-size': '16px' }">
-                                                                                                                                <el-table-column type="expand">
-                                                                                                                                    <template #default="props">
-                                                                                                                                        <div m="4">
-                                                                                                                                            <el-table :data="props.row['bar_data']" stripe style="width: 100%; float: right;"
-                                                                                                                                                :table-layout="'auto'" :header-cell-style="{ 'text-align': 'center' }"
-                                                                                                                                                :cell-style="{ 'text-align': 'center' }">
-                                                                                                                                                <el-table-column label="ID" prop="id" width="50" />
-                                                                                                                                                <el-table-column label="BEGIN" prop="startTime" width="120" />
-                                                                                                                                                <el-table-column label="END" prop="endTime" width="110" />
-                                                                                                                                                <el-table-column label="TIME SLICE">
-                                                                                                                                                    <template #default="d">
-                                                                                                                                                        <svg height="30" width="100%">
-                                                                                                                                                            <rect :x="d.row.train.x" :y="5" :height="20" :width="d.row.train.w"
-                                                                                                                                                                :fill="d.row.train.fill" :opacity="0.3">
-                                                                                                                                                            </rect>
-                                                                                                                                                            <path
-                                                                                                                                                                :d="'M ' + d.row.test.x1 + ' 5 L ' + d.row.test.x1 + ' 25 L ' + d.row.test.x2 + ' 20 L ' + d.row.test.x2 + ' 10 Z'"
-                                                                                                                                                                :fill="d.row.test.fill" :stroke="'black'"></path>
-                                                                                                                                                        </svg>
-                                                                                                                                                    </template>
-                                                                                                                                                </el-table-column>
-                                                                                                                                            </el-table>
-                                                                                                                                        </div>
-                                                                                                                                    </template>
-                                                                                                                                </el-table-column>
-                                                                                                                                <el-table-column label="Slice number" prop="slice" width="120" />
-                                                                                                                                <el-table-column label="Smooth" prop="smooth" width="110" />
-                                                                                                                                <el-table-column label="Heatmap" prop="heat_data">
-                                                                                                                                    <template #default="scope">
-                                                                                                                                        <svg height="30" width="100%">
-                                                                                                                                            <rect v-for="(item, item_i) in scope.row.bar_data" :key="'heat_' + item_i"
-                                                                                                                                                :x="(elWidth - 250) / scope.row.slice_num * item_i" :y="8"
-                                                                                                                                                                                    :width="(elWidth - 250) / scope.row.slice_num" :height="20" :fill="item.test.fill">
-                                                                                                                                                                                </rect>
-                                                                                                                                        </svg>
-                                                                                                                                    </template>
-                                                                                                                                </el-table-column>
-                                                                                                                            </el-table> -->
-
-        <!-- <el-table :data="heatRectData" style="width: 100%" border height="100%"
-                                                                                                                            :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }"
-                                                                                                                            :cell-style="{ 'text-align': 'center', 'background-color': 'rgba(250, 250, 250, 1)', 'font-size': '16px' }">
-                                                                                                                            <el-table-column label="Heatmap" prop="heat_data">
-                                                                                                                                <template #default="scope">
-                                                                                                                                    <svg height="30" width="100%">
-                                                                                                                                        <rect v-for="(item, item_i) in scope.row['heat']" :key="'heat_' + item_i" :x="item.x" :y="0"
-                                                                                                                                                                                :width="item.w" :height="50" :fill="item.color">
-                                                                                                                                                                            </rect>
-                                                                                                                                                                        </svg>
-                                                                                                                                                                    </template>
-                                                                                                                            </el-table-column>
-                                                                                                                        </el-table> -->
 
 
         <svg height="100%" width="100%" transform="translate(0, 0)">
@@ -193,42 +88,42 @@ import sa13 from '../assets/data/SN_weighted_moving_average13_tot.csv';
 import sa26 from '../assets/data/SN_weighted_moving_average26_tot.csv';
 
 // import uni variable data
-import d0 from '../assets/0316/rawdata_skip13_0.8.csv';
-import d1 from '../assets/0316/rawdata_skip1_0.8.csv';
-import d2 from '../assets/0316/rawdata_skip3_0.8.csv';
-import d3 from '../assets/0316/rawdata_skip6_0.8.csv';
-import d4 from '../assets/0316/rolling13_skip13_0.8.csv';
-import d5 from '../assets/0316/rolling13_skip1_0.8.csv';
-import d6 from '../assets/0316/rolling13_skip3_0.8.csv';
-import d7 from '../assets/0316/rolling13_skip6_0.8.csv';
-import d8 from '../assets/0316/rolling3_skip13_0.8.csv';
-import d9 from '../assets/0316/rolling3_skip1_0.8.csv';
-import d10 from '../assets/0316/rolling3_skip3_0.8.csv';
-import d11 from '../assets/0316/rolling3_skip6_0.8.csv';
-import d12 from '../assets/0316/rolling6_skip13_0.8.csv';
-import d13 from '../assets/0316/rolling6_skip1_0.8.csv';
-import d14 from '../assets/0316/rolling6_skip3_0.8.csv';
-import d15 from '../assets/0316/rolling6_skip6_0.8.csv';
-import d16 from '../assets/0316/rolling9_skip13_0.8.csv';
-import d17 from '../assets/0316/rolling9_skip1_0.8.csv';
-import d18 from '../assets/0316/rolling9_skip3_0.8.csv';
-import d19 from '../assets/0316/rolling9_skip6_0.8.csv';
-import d20 from '../assets/0316/weighted13_skip13_0.8.csv';
-import d21 from '../assets/0316/weighted13_skip1_0.8.csv';
-import d22 from '../assets/0316/weighted13_skip3_0.8.csv';
-import d23 from '../assets/0316/weighted13_skip6_0.8.csv';
-import d24 from '../assets/0316/weighted3_skip13_0.8.csv';
-import d25 from '../assets/0316/weighted3_skip1_0.8.csv';
-import d26 from '../assets/0316/weighted3_skip3_0.8.csv';
-import d27 from '../assets/0316/weighted3_skip6_0.8.csv';
-import d28 from '../assets/0316/weighted6_skip13_0.8.csv';
-import d29 from '../assets/0316/weighted6_skip1_0.8.csv';
-import d30 from '../assets/0316/weighted6_skip3_0.8.csv';
-import d31 from '../assets/0316/weighted6_skip6_0.8.csv';
-import d32 from '../assets/0316/weighted9_skip13_0.8.csv';
-import d33 from '../assets/0316/weighted9_skip1_0.8.csv';
-import d34 from '../assets/0316/weighted9_skip3_0.8.csv';
-import d35 from '../assets/0316/weighted9_skip6_0.8.csv';
+import d0 from '../assets/single_used_data/rawdata_skip13_0.8.csv';
+import d1 from '../assets/single_used_data/rawdata_skip1_0.8.csv';
+import d2 from '../assets/single_used_data/rawdata_skip3_0.8.csv';
+import d3 from '../assets/single_used_data/rawdata_skip6_0.8.csv';
+import d4 from '../assets/single_used_data/rolling13_skip13_0.8.csv';
+import d5 from '../assets/single_used_data/rolling13_skip1_0.8.csv';
+import d6 from '../assets/single_used_data/rolling13_skip3_0.8.csv';
+import d7 from '../assets/single_used_data/rolling13_skip6_0.8.csv';
+import d8 from '../assets/single_used_data/rolling3_skip13_0.8.csv';
+import d9 from '../assets/single_used_data/rolling3_skip1_0.8.csv';
+import d10 from '../assets/single_used_data/rolling3_skip3_0.8.csv';
+import d11 from '../assets/single_used_data/rolling3_skip6_0.8.csv';
+import d12 from '../assets/single_used_data/rolling6_skip13_0.8.csv';
+import d13 from '../assets/single_used_data/rolling6_skip1_0.8.csv';
+import d14 from '../assets/single_used_data/rolling6_skip3_0.8.csv';
+import d15 from '../assets/single_used_data/rolling6_skip6_0.8.csv';
+import d16 from '../assets/single_used_data/rolling9_skip13_0.8.csv';
+import d17 from '../assets/single_used_data/rolling9_skip1_0.8.csv';
+import d18 from '../assets/single_used_data/rolling9_skip3_0.8.csv';
+import d19 from '../assets/single_used_data/rolling9_skip6_0.8.csv';
+import d20 from '../assets/single_used_data/weighted13_skip13_0.8.csv';
+import d21 from '../assets/single_used_data/weighted13_skip1_0.8.csv';
+import d22 from '../assets/single_used_data/weighted13_skip3_0.8.csv';
+import d23 from '../assets/single_used_data/weighted13_skip6_0.8.csv';
+import d24 from '../assets/single_used_data/weighted3_skip13_0.8.csv';
+import d25 from '../assets/single_used_data/weighted3_skip1_0.8.csv';
+import d26 from '../assets/single_used_data/weighted3_skip3_0.8.csv';
+import d27 from '../assets/single_used_data/weighted3_skip6_0.8.csv';
+import d28 from '../assets/single_used_data/weighted6_skip13_0.8.csv';
+import d29 from '../assets/single_used_data/weighted6_skip1_0.8.csv';
+import d30 from '../assets/single_used_data/weighted6_skip3_0.8.csv';
+import d31 from '../assets/single_used_data/weighted6_skip6_0.8.csv';
+import d32 from '../assets/single_used_data/weighted9_skip13_0.8.csv';
+import d33 from '../assets/single_used_data/weighted9_skip1_0.8.csv';
+import d34 from '../assets/single_used_data/weighted9_skip3_0.8.csv';
+import d35 from '../assets/single_used_data/weighted9_skip6_0.8.csv';
 // import d0 from '../assets/explaindata/rawdata_skip13_0.8.csv';
 // import d1 from '../assets/explaindata/rawdata_skip1_0.8.csv';
 // import d2 from '../assets/explaindata/rawdata_skip3_0.8.csv';
@@ -784,7 +679,7 @@ export default {
 
             return res_data;
         },
-        calcRMSEHeatMultiVariable (data, raw_data, width, height) {
+        calcRMSEHeatMultiVariable (data, width, height) {
             let margin = ({ top: 20, right: 20, bottom: 30, left: 50 });
             // let sdata = [];
             let allStrip = data.length;
@@ -981,14 +876,14 @@ export default {
         let multiDataSet = []
         for (let i in importData) {
             multiDataSet.push(importData[i]['default'])
-            console.log(importData[i], i)
+            // console.log(importData[i], i)
         }
         let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35];
         let smoothDataSet = [SN_raw_data, SN_raw_data, SN_raw_data, SN_raw_data, sr13, sr13, sr13, sr13, sr3, sr3, sr3, sr3, sr6, sr6, sr6, sr6, sr9, sr9, sr9, sr9, sa13, sa13, sa13, sa13, sa3, sa3, sa3, sa3, sa6, sa6, sa6, sa6, sa9, sa9, sa9, sa9];
 
-        this.heatRectData = this.calcRMSEHeatMultiVariable(multiDataSet, SN_raw_data, this.elWidth, this.elHeight - 20);
+        this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight - 20);
 
-        // this.heatRectData = this.calcRMSEHeat(dataSet, smoothDataSet, SN_raw_data, this.elWidth, this.elHeight - 20);
+        // this.heatRectData = this.calcRMSEHeat(dataSet, smoothDataSet, SN_raw_data, this.elWidth, this.elHeight - 0);
 
 
         const dataStore = useDataStore();
