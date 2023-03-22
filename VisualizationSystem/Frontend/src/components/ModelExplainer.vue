@@ -36,7 +36,7 @@
                 }">
             <el-table :data="tableData" style="width: 100%" height="100%" :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }" :cell-style="{ 'text-align': 'center', 'font-size': '16px', 'height': '15px' }" @row-click="selectPredict"
                 :row-style="{ 'height': '18px' }">
-                <el-table-column label="ID" prop="id" sortable />
+                <el-table-column label="Datum" prop="id" sortable />
                 <el-table-column label="Smooth" prop="smooth" />
                 <el-table-column label="Skip" prop="skip" sortable />
                 <el-table-column label="RMSE" prop="rmse" sortable />
