@@ -36,10 +36,10 @@
                 "skip": 3,
                 "ACF": 0.8713881847520814,
                 "result numbers": 540,
-                "train_MSE": ,
-                "train_MAPE": ,
-                "val_MSE": ,
-                "val_MAPE":  ,
+                "train_MSE": 0.0042,
+                "train_MAPE": 34.6787,
+                "val_MSE": 0.0277,
+                "val_MAPE":  60069.6406,
                 "file_name": "rawdata_skip3_0.8.csv"
             },
             {
@@ -69,10 +69,10 @@
                 "skip": 13,
                 "ACF":0.7474710031451508,
                 "result numbers": 125,
-                "train_MSE": ,
-                "train_MAPE": ,
-                "val_MSE": ,
-                "val_MAPE":  ,
+                "train_MSE": 0.0126,
+                "train_MAPE": 78.7331,
+                "val_MSE": 0.0287,
+                "val_MAPE":  364.2646,
                 "file_name": "rolling3_skip13_0.8.csv"
             },
             {
@@ -105,10 +105,10 @@
                 "skip": 1,
                 "ACF":0.9847882309726123,
                 "result numbers": 1620,
-                "train_MSE": 0.0093,
-                "train_MAPE": ,
-                "val_MSE": 0.0218,
-                "val_MAPE":  ,
+                "train_MSE": 0.0048,
+                "train_MAPE": 45.0984,
+                "val_MSE": 0.0212,
+                "val_MAPE":  236.3981,
                 "file_name": "rolling3_skip1_0.8.csv"
             }
         ]
@@ -150,10 +150,10 @@
                 "skip": 3,
                 "ACF":0.9407767893195543,
                 "result numbers": 540,
-                "train_MSE": 0.0093,
-                "train_MAPE": ,
-                "val_MSE": 0.0218,
-                "val_MAPE":  ,
+                "train_MSE": 0.0062,
+                "train_MAPE": 56.1526,
+                "val_MSE": 0.0240,
+                "val_MAPE":  256.1591,
                 "file_name": "weighted3_skip3_0.8.csv"
             },
             {
@@ -162,10 +162,10 @@
                 "skip": 1,
                 "ACF":0.9816135704295131,
                 "result numbers": 1620,
-                "train_MSE": 0.0093,
-                "train_MAPE": ,
-                "val_MSE": 0.0218,
-                "val_MAPE":  ,
+                "train_MSE": 0.0042,
+                "train_MAPE": 42.4094,
+                "val_MSE": 0.0298,
+                "val_MAPE":  254.6210,
                 "file_name": "weighted3_skip1_0.8.csv"
             }
         ]
@@ -183,10 +183,10 @@
                 "skip": 13,
                 "ACF":0.771176552405141,
                 "result numbers": 125,
-                "train_MSE": 0.0093,
-                "train_MAPE": ,
-                "val_MSE": 0.0218,
-                "val_MAPE":  ,
+                "train_MSE": 0.0102,
+                "train_MAPE": 80.4220,
+                "val_MSE": 0.0273,
+                "val_MAPE":  261.4068,
                 "file_name": "rolling6_skip13_0.8.csv"
             },
             {
@@ -195,10 +195,10 @@
                 "skip": 6,
                 "ACF":0.9172716077713927,
                 "result numbers": 270,
-                "train_MSE": 0.0093,
-                "train_MAPE": ,
-                "val_MSE": 0.0218,
-                "val_MAPE":  ,
+                "train_MSE": 0.0067,
+                "train_MAPE": 48.0366,
+                "val_MSE": 0.0305,
+                "val_MAPE":  248.1047,
                 "file_name": "rolling6_skip6_0.8.csv"
             },
             {
@@ -207,10 +207,10 @@
                 "skip": 3,
                 "ACF":0.9704254007332671,
                 "result numbers": 540,
-                "train_MSE": 0.0093,
-                "train_MAPE": ,
-                "val_MSE": 0.0218,
-                "val_MAPE":  ,
+                "train_MSE": 0.0057,
+                "train_MAPE": 46.0252,
+                "val_MSE": 0.0115,
+                "val_MAPE":  105.9829,
                 "file_name": "rolling6_skip3_0.8.csv"
             },
             {
@@ -219,10 +219,10 @@
                 "skip": 1,
                 "ACF":0.9949026353338682,
                 "result numbers": 1620,
-                "train_MSE": 0.0093,
-                "train_MAPE": ,
-                "val_MSE": 0.0218,
-                "val_MAPE":  ,
+                "train_MSE": 0.0059,
+                "train_MAPE": 50.2410,
+                "val_MSE": 0.0379,
+                "val_MAPE":  300.4255,
                 "file_name": "rolling6_skip1_0.8.csv"
             }
         ]
@@ -264,10 +264,10 @@
                 "skip": 3,
                 "ACF":0.9687709127716737,
                 "result numbers": 540,
-                "train_MSE": 0.0093,
-                "train_MAPE": ,
-                "val_MSE": 0.0218,
-                "val_MAPE":  ,
+                "train_MSE": 0.0049,
+                "train_MAPE": 42.0031,
+                "val_MSE": 0.0275,
+                "val_MAPE":  207.1358,
                 "file_name": "weighted6_skip3_0.8.csv"
             },
             {
@@ -276,10 +276,10 @@
                 "skip": 1,
                 "ACF":0.9930819818868611,
                 "result numbers": 1620,
-                "train_MSE": 0.0093,
-                "train_MAPE": ,
-                "val_MSE": 0.0218,
-                "val_MAPE":  ,
+                "train_MSE": 0.0037,
+                "train_MAPE": 37.0473,
+                "val_MSE": 0.0202,
+                "val_MAPE":  191.0613,
                 "file_name": "weighted6_skip1_0.8.csv"
             }
         ]
@@ -297,10 +297,10 @@
                 "skip": 13,
                 "ACF":0.7819362502510052,
                 "result numbers": 125,
-                "train_MSE": 0.0093,
-                "train_MAPE": ,
-                "val_MSE": 0.0218,
-                "val_MAPE":  ,
+                "train_MSE": 0.0119,
+                "train_MAPE": 77.5901,
+                "val_MSE": 0.0250,
+                "val_MAPE":  230.0023,
                 "file_name": "rolling9_skip13_0.8.csv"
             },
             {
@@ -309,10 +309,10 @@
                 "skip": 6,
                 "ACF":0.9383748239638541,
                 "result numbers": 270,
-                "train_MSE": 0.0093,
-                "train_MAPE": ,
-                "val_MSE": 0.0218,
-                "val_MAPE":  ,
+                "train_MSE": 0.0070,
+                "train_MAPE": 52.4839,
+                "val_MSE": 0.0314,
+                "val_MAPE":  229.6008,
                 "file_name": "rolling9_skip6_0.8.csv"
             },
             {
@@ -321,10 +321,10 @@
                 "skip": 3,
                 "ACF":0.9811155976932336,
                 "result numbers": 540,
-                "train_MSE": 0.0093,
-                "train_MAPE": ,
-                "val_MSE": 0.0218,
-                "val_MAPE":  ,
+                "train_MSE": 0.0055,
+                "train_MAPE": 43.9368,
+                "val_MSE": 0.0294,
+                "val_MAPE":  216.4765,
                 "file_name": "rolling9_skip3_0.8.csv"
             },
             {
@@ -333,10 +333,10 @@
                 "skip": 1,
                 "ACF":0.9971150473426629,
                 "result numbers": 1620,
-                "train_MSE": 0.0093,
-                "train_MAPE": ,
-                "val_MSE": 0.0218,
-                "val_MAPE":  ,
+                "train_MSE": 0.0063,
+                "train_MAPE": 43.5326,
+                "val_MSE": 0.0329,
+                "val_MAPE":  265.1441,
                 "file_name": "rolling9_skip1_0.8.csv"
             }
         ]
@@ -378,10 +378,10 @@
                 "skip": 3,
                 "ACF":0.9780355561893779,
                 "result numbers": 540,
-                "train_MSE": ,
-                "train_MAPE": ,
-                "val_MSE": ,
-                "val_MAPE":  ,
+                "train_MSE": 0.0043,
+                "train_MAPE": 34.9196,
+                "val_MSE": 0.0259,
+                "val_MAPE":  196.9514,
                 "file_name": "weighted9_skip3_0.8.csv"
             },
             {
@@ -390,10 +390,10 @@
                 "skip": 1,
                 "ACF":0.9959099469536865,
                 "result numbers": 1620,
-                "train_MSE": ,
-                "train_MAPE": ,
-                "val_MSE": ,
-                "val_MAPE":  ,
+                "train_MSE": 0.0081,
+                "train_MAPE": 50.1493,
+                "val_MSE": 0.0284,
+                "val_MAPE":  214.1163,
                 "file_name": "weighted9_skip1_0.8.csv"
             }
         ]
@@ -411,10 +411,10 @@
                 "skip": 13,
                 "ACF":0.7915708226133303,
                 "result numbers": 125,
-                "train_MSE": 0.0112,
-                "train_MAPE": 48.4890,
-                "val_MSE": 0.0218,
-                "val_MAPE":  160.8858,
+                "train_MSE": 0.0117,
+                "train_MAPE": 61.2415,
+                "val_MSE": 0.0236,
+                "val_MAPE":  186.2779,
                 "file_name": "rolling13_skip13_0.8.csv"
             },
             {
@@ -423,10 +423,10 @@
                 "skip": 6,
                 "ACF":0.9487958776684087,
                 "result numbers": 270,
-                "train_MSE": 0.0093,
-                "train_MAPE": ,
-                "val_MSE": 0.0218,
-                "val_MAPE":  ,
+                "train_MSE": 0.0066,
+                "train_MAPE": 45.2099,
+                "val_MSE":0.0242,
+                "val_MAPE":  164.3774,
                 "file_name": "rolling13_skip6_0.8.csv"
             },
             {
@@ -435,10 +435,10 @@
                 "skip": 3,
                 "ACF":0.9853547466350784,
                 "result numbers": 540,
-                "train_MSE": 0.0093,
-                "train_MAPE": ,
-                "val_MSE": 0.0218,
-                "val_MAPE":  ,
+                "train_MSE": 0.0054,
+                "train_MAPE": 40.5686,
+                "val_MSE": 0.0221,
+                "val_MAPE":  168.6115,
                 "file_name": "rolling13_skip3_0.8.csv"
             },
             {
@@ -447,10 +447,10 @@
                 "skip": 1,
                 "ACF":0.9979403580009247,
                 "result numbers": 1620,
-                "train_MSE": 0.0093,
-                "train_MAPE": ,
-                "val_MSE": 0.0218,
-                "val_MAPE":  ,
+                "train_MSE": 0.0025,
+                "train_MAPE": 28.9866,
+                "val_MSE": 0.0480,
+                "val_MAPE":  235.4709,
                 "file_name": "rolling13_skip1_0.8.csv"
             }
         ]
@@ -492,10 +492,10 @@
                 "skip": 3,
                 "ACF":0.9831600363031376,
                 "result numbers": 540,
-                "train_MSE": 0.0093,
-                "train_MAPE": ,
-                "val_MSE": 0.0218,
-                "val_MAPE":  ,
+                "train_MSE": 0.0050,
+                "train_MAPE": 34.1236,
+                "val_MSE": 0.0274,
+                "val_MAPE":  172.9740,
                 "file_name": "weighted13_skip3_0.8.csv"
             },
             {
@@ -504,10 +504,10 @@
                 "skip": 1,
                 "ACF":0.9972698644147994,
                 "result numbers": 1620,
-                "train_MSE": 0.0093,
-                "train_MAPE": ,
-                "val_MSE": 0.0218,
-                "val_MAPE":  ,
+                "train_MSE": 0.0059,
+                "train_MAPE": 40.3346,
+                "val_MSE": 0.0357,
+                "val_MAPE":  191.0306,
                 "file_name": "weighted13_skip1_0.8.csv"
             }
         ]
