@@ -9,6 +9,7 @@
             {
                 "length": 10885,
                 "skip": 1,
+                "ACF":0.9867358038292029,
                 "result numbers": 10885,
                 "train_MSE": 0.0088,
                 "train_MAPE": 12712.7744,
@@ -19,6 +20,7 @@
             {
                 "length":5443,
                 "skip": 2,
+                "ACF":0.9653943769236593,
                 "result numbers": 0,
                 "train_MSE": 0.0092,
                 "train_MAPE": 10549.6670,
@@ -29,6 +31,7 @@
             {
                 "length": 3629,
                 "skip": 3,
+                "ACF":0.9383258844586391,
                 "result numbers": 0,
                 "train_MSE": 0.0098,
                 "train_MAPE": 12512.4033,
@@ -39,6 +42,7 @@
             {
                 "length":1815,
                 "skip": 6,
+                "ACF":0.8646794942859183,
                 "result numbers": 0,
                 "train_MSE": 0.0132,
                 "train_MAPE": 3806.7305,
@@ -58,7 +62,7 @@
             {
                 "length": 10885,
                 "skip": 1,
-                "ACF":0,
+                "ACF":0.9930373639475152,
                 "result numbers": 0,
                 "train_MSE": 0.0103,
                 "train_MAPE": 14370.6602,
@@ -69,7 +73,7 @@
             {
                 "length":5443,
                 "skip": 2,
-                "ACF": 0,
+                "ACF": 0.9753228559975096,
                 "result numbers": 0,
                 "train_MSE": 0.0110,
                 "train_MAPE": 10887.3906,
@@ -80,7 +84,7 @@
             {
                 "length":3629,
                 "skip": 3,
-                "ACF": 0,
+                "ACF": 0.9511758024900953,
                 "result numbers": 0,
                 "train_MSE": 0.0110,
                 "train_MAPE": 9679.9346,
@@ -91,7 +95,7 @@
             {
                 "length":1815,
                 "skip": 6,
-                "ACF": 0,
+                "ACF": 0.8784252323863796,
                 "result numbers": 0,
                 "train_MSE": 0.0159,
                 "train_MAPE": 7031.1611,
@@ -111,7 +115,7 @@
             {
                 "length": 10885,
                 "skip": 1,
-                "ACF":0,
+                "ACF":0.9960743028286806,
                 "result numbers": 0,
                 "train_MSE": 0.135,
                 "train_MAPE": 15844.6875,
@@ -122,7 +126,7 @@
             {
                 "length":5443,
                 "skip": 2,
-                "ACF": 0,
+                "ACF": 0.9851940564470045,
                 "result numbers": 0,
                 "train_MSE": 0.0145,
                 "train_MAPE": 14532.0830,
@@ -133,7 +137,7 @@
             {
                 "length":3629,
                 "skip": 3,
-                "ACF": 0,
+                "ACF": 0.9688131316164375,
                 "result numbers": 0,
                 "train_MSE": 0.0151,
                 "train_MAPE": 14117.7627,
@@ -144,7 +148,7 @@
             {
                 "length":1815,
                 "skip": 6,
-                "ACF": 0,
+                "ACF": 0.9046965289868439,
                 "result numbers": 0,
                 "train_MSE": 0.0230,
                 "train_MAPE": 7093.7363,
@@ -164,7 +168,7 @@
             {
                 "length": 10885,
                 "skip": 1,
-                "ACF":0,
+                "ACF":0.9981967867164883,
                 "result numbers": 0,
                 "train_MSE": 0.0173,
                 "train_MAPE": 18340.3203,
@@ -175,7 +179,7 @@
             {
                 "length":5443,
                 "skip": 2,
-                "ACF": 0,
+                "ACF": 0.9930468865931041,
                 "result numbers": 0,
                 "train_MSE": 0.0178,
                 "train_MAPE": 15294.5391,
@@ -186,7 +190,7 @@
             {
                 "length":3629,
                 "skip": 3,
-                "ACF": 0,
+                "ACF": 0.9848895186492548,
                 "result numbers": 0,
                 "train_MSE": 0.0191,
                 "train_MAPE": 13999.6514,
@@ -197,7 +201,7 @@
             {
                 "length":1815,
                 "skip": 6,
-                "ACF": 0,
+                "ACF": 0.9467150912984869,
                 "result numbers": 0,
                 "train_MSE": 0.0259,
                 "train_MAPE": 9657.6689,
@@ -217,7 +221,7 @@
             {
                 "length": 10885,
                 "skip": 1,
-                "ACF":0,
+                "ACF":0.9936985442212679,
                 "result numbers": 0,
                 "train_MSE": 0.0104,
                 "train_MAPE": 14263.0625,
@@ -228,7 +232,7 @@
             {
                 "length":5443,
                 "skip": 2,
-                "ACF": 0,
+                "ACF": 0.9784904303488309,
                 "result numbers": 0,
                 "train_MSE": 0.0109,
                 "train_MAPE": 10759.2051,
@@ -239,7 +243,7 @@
             {
                 "length":3629,
                 "skip": 3,
-                "ACF": 0,
+                "ACF": 0.95770961361097,
                 "result numbers": 0,
                 "train_MSE": 0.0186,
                 "train_MAPE":6514.5669 ,
@@ -250,7 +254,7 @@
             {
                 "length":1815,
                 "skip": 6,
-                "ACF": 0,
+                "ACF": 0.8897442426190623,
                 "result numbers": 0,
                 "train_MSE": 0.0201,
                 "train_MAPE": 2038.5792,
@@ -270,7 +274,7 @@
             {
                 "length": 10885,
                 "skip": 1,
-                "ACF":0,
+                "ACF":0.9964242327485497,
                 "result numbers": 0,
                 "train_MSE": 0.0127,
                 "train_MAPE": 15947.6514,
@@ -281,7 +285,7 @@
             {
                 "length":5443,
                 "skip": 2,
-                "ACF": 0,
+                "ACF": 0.9869486310205099,
                 "result numbers": 0,
                 "train_MSE": 0.0137,
                 "train_MAPE": 12307.1211,
@@ -292,7 +296,7 @@
             {
                 "length":3629,
                 "skip": 3,
-                "ACF": 0,
+                "ACF": 0.9730804039878705,
                 "result numbers": 0,
                 "train_MSE": 0.0141,
                 "train_MAPE": 12059.2197,
@@ -303,7 +307,7 @@
             {
                 "length":1815,
                 "skip": 6,
-                "ACF": 0,
+                "ACF": 0.9200895549371121,
                 "result numbers": 0,
                 "train_MSE": 0.0196,
                 "train_MAPE": 7306.6025,
@@ -323,7 +327,7 @@
             {
                 "length": 10885,
                 "skip": 1,
-                "ACF":0,
+                "ACF":0.9981828517368059,
                 "result numbers": 0,
                 "train_MSE": 0.0152,
                 "train_MAPE": 17802.6777,
@@ -334,7 +338,7 @@
             {
                 "length":5443,
                 "skip": 2,
-                "ACF": 0,
+                "ACF": 0.9931525596311668,
                 "result numbers": 0,
                 "train_MSE": 0.0161,
                 "train_MAPE": 15249.9766,
@@ -345,7 +349,7 @@
             {
                 "length":3629,
                 "skip": 3,
-                "ACF": 0,
+                "ACF": 0.9854415999796042,
                 "result numbers": 0,
                 "train_MSE": 0.0171,
                 "train_MAPE": 11248.0977,
@@ -356,7 +360,7 @@
             {
                 "length":1815,
                 "skip": 6,
-                "ACF": 0,
+                "ACF": 0.9521685989352374,
                 "result numbers": 0,
                 "train_MSE": 0.0231,
                 "train_MAPE": 7085.7197,
