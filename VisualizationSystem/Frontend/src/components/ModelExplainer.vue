@@ -5,38 +5,56 @@
  * @LastEditTime: 2023-03-20 10:19:39
 -->
 <template>
-    <div class="frameworkTitle">
+    <div class="frameworkTitle" style="padding-right: 10px;">
         <div class="title">Sample Comparator View</div>
         <p class="titleTriangle"></p>
+    
+        <div style="float: right; margin-top: 3px;">
+    
+            <span style="margin-right: 20px;">
+                                    <span>X-Axis: </span>
+            <el-select v-model="xAxisValue" class="m-2" placeholder="Select" style="width: 100px;">
+                <el-option v-for="(item, i) in xAxisOption" :key="item" :label="item.label" :value="item.value" />
+            </el-select>
+            </span>
+            <span>
+                                    <span>Y-Axis: </span>
+            <el-select v-model="yAxisValue" class="m-2" placeholder="Select" style="width: 100px;">
+                <el-option v-for="(item, i) in yAxisOption" :key="item" :label="item.label" :value="item.value" />
+            </el-select>
+            </span>
+        </div>
     </div>
     <div class="frameworkBody">
         <div ref="modelExplainer" :style="{
-                    height: '100%',
-                    width: elHeight + 'px',
-                    float: 'right'
-                }">
+                                            height: '100%',
+                                            width: elHeight + 'px',
+                                            float: 'right'
+                                        }">
             <svg id="modelExplainer" height="100%" width="100%">
-                    <g id="axis_g">
-                            <g id="x_axis_g" :transform="translate(0, elHeight - 18, 0)"></g>
-                            <g id="y_axis_g" :transform="translate(30, 0, 0)"></g>
-                        </g>
-                        <g id="scatter">
-                            <!-- <circle v-for="(o, i) in dot_data" :key="'cir' + i" class="corr_cir" :id="'corr_cir' + o.id" :cx="o.x" :cy="o.y" :r="1"
-                                                    fill="orange"></circle> -->
-                        </g>
-                        <g id="legend_g_s"></g>
-                    </svg>
+                                            <g id="axis_g">
+                                                    <g id="x_axis_g" :transform="translate(0, elHeight - 18, 0)"></g>
+                                                    <g id="y_axis_g" :transform="translate(30, 0, 0)"></g>
+                                                </g>
+                                                <g id="scatter">
+                                                    <!-- <circle v-for="(o, i) in dot_data" :key="'cir' + i" class="corr_cir" :id="'corr_cir' + o.id" :cx="o.x" :cy="o.y" :r="1"
+                                                                            fill="orange"></circle> -->
+                                                </g>
+                                                <g id="legend_g_s"></g>
+                                            </svg>
         </div>
         <div ref="modelTable" :style="{
-                    height: '100%',
-                    width: `calc(100% - ${elHeight}px - 10px)`,
-                    float: 'left',
-                    overflow: 'auto',
-                    'font-size': '18px'
-                }">
-            <el-table :data="tableData" style="width: 100%" height="100%" :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }" :cell-style="{ 'text-align': 'center', 'font-size': '16px', 'height': '15px' }" @row-click="selectPredict"
-                :row-style="{ 'height': '18px' }">
-                <el-table-column label="Datum" prop="id" sortable />
+                                            height: '100%',
+                                            width: `calc(100% - ${elHeight}px - 10px)`,
+                                            float: 'left',
+                                            overflow: 'auto',
+                                            'font-size': '18px'
+                                        }">
+            <!-- <el-table :data="tableData" style="width: 100%" height="100%" :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }" :cell-style="{ 'text-align': 'center', 'font-size': '16px', 'height': '15px' }" -->
+    
+            <el-table :data="tableData" style="width: calc(100% - 0px)" height="100%" :header-cell-style="{ 'font-size': '16px', 'background-color': 'rgb(235, 235, 235)', 'height': '40px', 'text-algin': 'center'}" :cell-style="{ 'font-size': '14px', 'height': '15px' }"
+                @row-click="selectPredict" :row-style="{ 'height': '18px' }" border>
+                <el-table-column label="Datum" prop="id" />
                 <el-table-column label="Smooth" prop="smooth" />
                 <el-table-column label="Skip" prop="skip" sortable />
                 <el-table-column label="RMSE" prop="rmse" sortable />
@@ -50,56 +68,85 @@
 <script>
 import { scaleLinear } from 'd3-scale';
 import { useDataStore } from "../stores/counter";
-import average6Data from "../assets/average6_slice_info.json";
 import { max, min } from 'd3-array';
-import res_data from '../assets/data/model_skip_results.json'
 
-// data import
-import d0 from '../assets/0316/rawdata_skip13_0.8.csv';
-import d1 from '../assets/0316/rawdata_skip1_0.8.csv';
-import d2 from '../assets/0316/rawdata_skip3_0.8.csv';
-import d3 from '../assets/0316/rawdata_skip6_0.8.csv';
-import d4 from '../assets/0316/rolling13_skip13_0.8.csv';
-import d5 from '../assets/0316/rolling13_skip1_0.8.csv';
-import d6 from '../assets/0316/rolling13_skip3_0.8.csv';
-import d7 from '../assets/0316/rolling13_skip6_0.8.csv';
-import d8 from '../assets/0316/rolling3_skip13_0.8.csv';
-import d9 from '../assets/0316/rolling3_skip1_0.8.csv';
-import d10 from '../assets/0316/rolling3_skip3_0.8.csv';
-import d11 from '../assets/0316/rolling3_skip6_0.8.csv';
-import d12 from '../assets/0316/rolling6_skip13_0.8.csv';
-import d13 from '../assets/0316/rolling6_skip1_0.8.csv';
-import d14 from '../assets/0316/rolling6_skip3_0.8.csv';
-import d15 from '../assets/0316/rolling6_skip6_0.8.csv';
-import d16 from '../assets/0316/rolling9_skip13_0.8.csv';
-import d17 from '../assets/0316/rolling9_skip1_0.8.csv';
-import d18 from '../assets/0316/rolling9_skip3_0.8.csv';
-import d19 from '../assets/0316/rolling9_skip6_0.8.csv';
-import d20 from '../assets/0316/weighted13_skip13_0.8.csv';
-import d21 from '../assets/0316/weighted13_skip1_0.8.csv';
-import d22 from '../assets/0316/weighted13_skip3_0.8.csv';
-import d23 from '../assets/0316/weighted13_skip6_0.8.csv';
-import d24 from '../assets/0316/weighted3_skip13_0.8.csv';
-import d25 from '../assets/0316/weighted3_skip1_0.8.csv';
-import d26 from '../assets/0316/weighted3_skip3_0.8.csv';
-import d27 from '../assets/0316/weighted3_skip6_0.8.csv';
-import d28 from '../assets/0316/weighted6_skip13_0.8.csv';
-import d29 from '../assets/0316/weighted6_skip1_0.8.csv';
-import d30 from '../assets/0316/weighted6_skip3_0.8.csv';
-import d31 from '../assets/0316/weighted6_skip6_0.8.csv';
-import d32 from '../assets/0316/weighted9_skip13_0.8.csv';
-import d33 from '../assets/0316/weighted9_skip1_0.8.csv';
-import d34 from '../assets/0316/weighted9_skip3_0.8.csv';
-import d35 from '../assets/0316/weighted9_skip6_0.8.csv';
 import { axisBottom, axisLeft } from 'd3-axis';
 // import time from 'd3-scale/src/time';
 import { select, selectAll } from 'd3-selection';
 import { line } from 'd3-shape';
 import { drag } from 'd3-drag';
 import { polygonContains } from 'd3-polygon';
-
 import * as vsup from 'vsup';
 import { interpolateYlOrRd } from 'd3-scale-chromatic';
+
+// univariate
+import d0 from '../assets/allData/univariate_data/result_data/rawdata_skip13_0.8.csv';
+import d1 from '../assets/allData/univariate_data/result_data/rawdata_skip1_0.8.csv';
+import d2 from '../assets/allData/univariate_data/result_data/rawdata_skip3_0.8.csv';
+import d3 from '../assets/allData/univariate_data/result_data/rawdata_skip6_0.8.csv';
+import d4 from '../assets/allData/univariate_data/result_data/rolling13_skip13_0.8.csv';
+import d5 from '../assets/allData/univariate_data/result_data/rolling13_skip1_0.8.csv';
+import d6 from '../assets/allData/univariate_data/result_data/rolling13_skip3_0.8.csv';
+import d7 from '../assets/allData/univariate_data/result_data/rolling13_skip6_0.8.csv';
+import d8 from '../assets/allData/univariate_data/result_data/rolling3_skip13_0.8.csv';
+import d9 from '../assets/allData/univariate_data/result_data/rolling3_skip1_0.8.csv';
+import d10 from '../assets/allData/univariate_data/result_data/rolling3_skip3_0.8.csv';
+import d11 from '../assets/allData/univariate_data/result_data/rolling3_skip6_0.8.csv';
+import d12 from '../assets/allData/univariate_data/result_data/rolling6_skip13_0.8.csv';
+import d13 from '../assets/allData/univariate_data/result_data/rolling6_skip1_0.8.csv';
+import d14 from '../assets/allData/univariate_data/result_data/rolling6_skip3_0.8.csv';
+import d15 from '../assets/allData/univariate_data/result_data/rolling6_skip6_0.8.csv';
+import d16 from '../assets/allData/univariate_data/result_data/rolling9_skip13_0.8.csv';
+import d17 from '../assets/allData/univariate_data/result_data/rolling9_skip1_0.8.csv';
+import d18 from '../assets/allData/univariate_data/result_data/rolling9_skip3_0.8.csv';
+import d19 from '../assets/allData/univariate_data/result_data/rolling9_skip6_0.8.csv';
+import d20 from '../assets/allData/univariate_data/result_data/weighted13_skip13_0.8.csv';
+import d21 from '../assets/allData/univariate_data/result_data/weighted13_skip1_0.8.csv';
+import d22 from '../assets/allData/univariate_data/result_data/weighted13_skip3_0.8.csv';
+import d23 from '../assets/allData/univariate_data/result_data/weighted13_skip6_0.8.csv';
+import d24 from '../assets/allData/univariate_data/result_data/weighted3_skip13_0.8.csv';
+import d25 from '../assets/allData/univariate_data/result_data/weighted3_skip1_0.8.csv';
+import d26 from '../assets/allData/univariate_data/result_data/weighted3_skip3_0.8.csv';
+import d27 from '../assets/allData/univariate_data/result_data/weighted3_skip6_0.8.csv';
+import d28 from '../assets/allData/univariate_data/result_data/weighted6_skip13_0.8.csv';
+import d29 from '../assets/allData/univariate_data/result_data/weighted6_skip1_0.8.csv';
+import d30 from '../assets/allData/univariate_data/result_data/weighted6_skip3_0.8.csv';
+import d31 from '../assets/allData/univariate_data/result_data/weighted6_skip6_0.8.csv';
+import d32 from '../assets/allData/univariate_data/result_data/weighted9_skip13_0.8.csv';
+import d33 from '../assets/allData/univariate_data/result_data/weighted9_skip1_0.8.csv';
+import d34 from '../assets/allData/univariate_data/result_data/weighted9_skip3_0.8.csv';
+import d35 from '../assets/allData/univariate_data/result_data/weighted9_skip6_0.8.csv';
+
+// multivariate
+import m0 from '../assets/allData/multivariate_data/result_data/raw_skip2.csv';
+import m1 from '../assets/allData/multivariate_data/result_data/raw_skip3.csv';
+import m2 from '../assets/allData/multivariate_data/result_data/weighted6_skip1.csv';
+import m3 from '../assets/allData/multivariate_data/result_data/weighted6_skip3.csv';
+import m4 from '../assets/allData/multivariate_data/result_data/raw_skip1.csv';
+import m5 from '../assets/allData/multivariate_data/result_data/rolling6_skip6.csv';
+import m6 from '../assets/allData/multivariate_data/result_data/weighted6_skip2.csv';
+import m7 from '../assets/allData/multivariate_data/result_data/weighted6_skip6.csv';
+import m8 from '../assets/allData/multivariate_data/result_data/rolling6_skip2.csv';
+import m9 from '../assets/allData/multivariate_data/result_data/rolling6_skip3.csv';
+import m10 from '../assets/allData/multivariate_data/result_data/rolling6_skip1.csv';
+import m11 from '../assets/allData/multivariate_data/result_data/raw_skip6.csv';
+import m12 from '../assets/allData/multivariate_data/result_data/rolling12_skip1.csv';
+import m13 from '../assets/allData/multivariate_data/result_data/rolling12_skip2.csv';
+import m14 from '../assets/allData/multivariate_data/result_data/rolling12_skip3.csv';
+import m15 from '../assets/allData/multivariate_data/result_data/rolling12_skip6.csv';
+import m16 from '../assets/allData/multivariate_data/result_data/rolling3_skip2.csv';
+import m17 from '../assets/allData/multivariate_data/result_data/weighted3_skip6.csv';
+import m18 from '../assets/allData/multivariate_data/result_data/weighted12_skip3.csv';
+import m19 from '../assets/allData/multivariate_data/result_data/weighted12_skip2.csv';
+import m20 from '../assets/allData/multivariate_data/result_data/rolling3_skip3.csv';
+import m21 from '../assets/allData/multivariate_data/result_data/rolling3_skip1.csv';
+import m22 from '../assets/allData/multivariate_data/result_data/weighted12_skip1.csv';
+import m23 from '../assets/allData/multivariate_data/result_data/weighted3_skip1.csv';
+import m24 from '../assets/allData/multivariate_data/result_data/weighted3_skip3.csv';
+import m25 from '../assets/allData/multivariate_data/result_data/weighted12_skip6.csv';
+import m26 from '../assets/allData/multivariate_data/result_data/weighted3_skip2.csv';
+import m27 from '../assets/allData/multivariate_data/result_data/rolling3_skip6.csv';
+
 export default {
     name: 'modelExplainerView',
     props: ['sliceData'],
@@ -110,6 +157,22 @@ export default {
             skip_length: [13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6],
             dot_data: [],
             tableData: [],
+            xAxisValue: 1,
+            yAxisValue: 0,
+            xAxisOption: [{
+                label: 'RMSE',
+                value: 0
+            }, {
+                label: 'Corr.',
+                value: 1
+            }],
+            yAxisOption: [{
+                label: 'RMSE',
+                value: 0
+            }, {
+                label: 'Corr.',
+                value: 1
+            }]
         }
     },
     methods: {
@@ -290,7 +353,7 @@ export default {
                 //     continue;
                 for (let j in data[i]) {
                     // console.log(data[i][j])
-                    if (select_dot == 1 &&  j > 1000) break;
+                    if (select_dot == 1 && j > 1000) break;
                     if (parseFloat(data[i][j]['norm_corr']) == 0)
                         continue;
 
@@ -308,19 +371,20 @@ export default {
                         } else if (predict_data[k][predict_data[k].length - 1] == ']') {
                             // console.log(predict_data[k].slice(0, -1))
                             pre_data.push(parseFloat(predict_data[k].slice(0, -1)));
-                        } else if (predict_data[k][predict_data[k].length -1] == '\n') {
+                        } else if (predict_data[k][predict_data[k].length - 1] == '\n') {
                             // console.log(predict_data[k])
                             pre_data.push(parseFloat(predict_data[k].slice(0, -1)));
                         } else {
                             pre_data.push(parseFloat(predict_data[k]));
                         }
                     }
-                        // console.log(pre_data)
+                    // console.log(pre_data)
                     // console.log(Array.from(data[i][j]['predict_data']))
-                    if (select_dot != 1){
-                    if (select_dot[id_cnt] != 1) {
-                        continue;
-                    }}
+                    if (select_dot != 1) {
+                        if (select_dot[id_cnt] != 1) {
+                            continue;
+                        }
+                    }
                     // console.log(id_cnt);
                     sdata.push({
                         id: id_cnt,
@@ -354,8 +418,9 @@ export default {
 
             return sdata;
         },
-        calcScatter(data) {
+        calcScatter(data, xAxisData, yAxisData) {
             // console.log(data)
+            // if (xAxisData == '')
             let sdata = [];
             let maxRmse = -999999;
             let minRmse = 999999;
@@ -430,7 +495,7 @@ export default {
                 .attr("fill", "currentColor")
                 .attr("text-anchor", "middle")
                 .attr('font-size', '14px')
-                .text('Corr.'));
+                .text(d => d));
             select("#y_axis_g").call(yAxis).call(g => g.selectAll(".title").data(['RMSE']).join("text")
                 .attr("class", "title")
                 .attr("x", 20)
@@ -438,7 +503,7 @@ export default {
                 .attr("fill", "currentColor")
                 .attr("text-anchor", "middle")
                 .attr('font-size', '14px')
-                .text('RMSE'));
+                .text(d => d));
             for (let i in sdata) {
                 sdata[i].x = normScale(sdata[i].norm_corr);
                 sdata[i].y = rmseScale(sdata[i].rmse);
@@ -506,11 +571,49 @@ export default {
         this.elWidth = this.elHeight;
         // console.log(dataX);
 
-        let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35];
-        this.dataSet = dataSet;
+        // this.dataSet = dataSet;
 
-        this.dot_data = this.calcScatter(dataSet);
-        this.tableData = this.calcTableData(dataSet, 1);
+        // this.dot_data = this.calcScatter(dataSet);
+        // this.tableData = this.calcTableData(dataSet, 1);
+        const dataStore = useDataStore();
+        dataStore.$subscribe((mutations, state) => {
+            // console.log(mutations, state);
+            console.log(111);
+            if (dataStore.dataSelect == 'sunspots') {
+                // const importData =
+                //     import.meta.globEager('../assets/allData/univariate_data/result_data/*.csv');
+                // let dataSet = [];
+
+                let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35];
+
+                // for (let i in importData) {
+                //     dataSet.push(importData[i]['default']);
+                // }
+
+                this.dataSet = dataSet;
+
+                this.dot_data = this.calcScatter(dataSet);
+                this.tableData = this.calcTableData(dataSet, 1);
+
+                this.setupLasso();
+            } else if (dataStore.dataSelect == 'pm') {
+                // const importData =
+                //     import.meta.globEager('../assets/allData/multivariate_data/result_data/*.csv');
+                let dataSet = [m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27];
+
+                // for (let i in importData) {
+                //     dataSet.push(importData[i]['default']);
+                // }
+
+                this.dataSet = dataSet;
+
+                this.dot_data = this.calcScatter(dataSet);
+                this.tableData = this.calcTableData(dataSet, 1);
+
+                this.setupLasso();
+
+            }
+        })
 
 
         // const importData = import.meta.globEager('../assets/multivarData/*.csv');
@@ -522,7 +625,6 @@ export default {
         // this.dot_data = this.calcScatter(multiDataSet);
         // this.tableData = this.calcTableData(multiDataSet, 1);
 
-        this.setupLasso();
     },
     watch: {
 
@@ -563,8 +665,9 @@ export default {
     fill-opacity: 0.5;
 }
 
-.el-table__cell {
-    height: 15px;
+.el-table .cell {
+    padding: 0px;
+    text-align: center;
 }
 
 /*chrome--------------------------------------------start*/

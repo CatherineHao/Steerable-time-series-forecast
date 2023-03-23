@@ -21,7 +21,7 @@
         </div>
         <div class="framework" id="DataTransformation"
             style="position: absolute; right: 5px; top: calc((96vh - 10px) * .45 + 5px); height: calc((96vh - 10px) * .55 - 0px); width: calc(58vw - 5px);">
-            <!-- <TransformationCompare :timeData="timeData" :sliceData="sliceData"/> -->
+            <TransformationCompare :timeData="timeData" :sliceData="sliceData"/>
         </div>
         <div class="framework" id="ModelExplainer"
             style="position: absolute; left: calc(5px); top: calc(28vw + 10px); height: calc(96vh - 28vw - 15px); width: calc(42vw - 10px);">
@@ -108,11 +108,11 @@ export default {
     background-color: rgb(105, 119, 122);
     /* margin-top: 7px;
     margin-left: 10px; */
-    height: 40px;
+    height: 35px;
     /* widows: auto; */
 
     font-weight: bold;
-    font-size: 24px;
+    font-size: 20px;
     color: white;
     padding-left: 10px;
     padding-right: 3px;
@@ -128,7 +128,7 @@ export default {
     width: 0;
     height: 0;
     border-color: transparent rgb(105, 119, 122);
-    border-width: 0px 0px 40px 35px;
+    border-width: 0px 0px 35px 35px;
     border-style: solid;
 }
 
