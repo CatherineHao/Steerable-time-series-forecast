@@ -20,54 +20,54 @@
         </div>
     </div>
     <div class="frameworkBody">
-
-    <div ref="DataTransformation" style="height: calc(100%); width: 100%; margin-top: 0px;">
-
-
-        <svg height="100%" width="100%" transform="translate(0, 0)">
-                <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)"
-                    @mouseenter="selectFile(i)" @mouseout="cancelFile(i)" @click="clickFile(i)">
-                    <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
-                        :width="item_h.w" :height="item_h.h" :fill="item_h.colorMap[heatTag]" :id="'tsr' + item_h.id_cnt"
-                        :class="'wsr' + i" :fill-opacity="1">
-                    </rect>
-                    <rect v-for="(item_h, item_i) in item['res']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
-                        :width="item_h.w" :height="item_h.h" :fill="'orange'" :id="'tsr' + item_i"
-                        :fill-opacity="item_h.fill_opacity">
-                    </rect>
-
-                    <!--<text font-size="14" font-family="Arial" text-anchor="start" dx="0em" dy="1em">{{
-                        // filename[i].substring(0, filename[i].length - 8)
-                        filename_type[i].substring(0, filename_type[i].indexOf('_'))
-                    }}</text>
-
-                    <text font-size="14" font-family="Arial" text-anchor="middle" dx="7em" dy="1em">{{
-                        // filename[i].substring(0, filename[i].length - 8)
-                        filename_type[i].substring(filename_type[i].indexOf('_') + 1, filename[i].length)
-                    }}</text>-->
+    
+        <div ref="DataTransformation" style="height: calc(100%); width: 100%; margin-top: 0px;">
+    
+    
+            <svg height="100%" width="100%" transform="translate(0, 0)">
+                    <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)"
+                        @mouseenter="selectFile(i)" @mouseout="cancelFile(i)" @click="clickFile(i)">
+                        <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
+                            :width="item_h.w" :height="item_h.h" :fill="item_h.colorMap[heatTag]" :id="'tsr' + item_h.id_cnt"
+                            :class="'wsr' + i" :fill-opacity="1">
+                        </rect>
+                        <rect v-for="(item_h, item_i) in item['res']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
+                            :width="item_h.w" :height="item_h.h" :fill="'orange'" :id="'tsr' + item_i"
+                            :fill-opacity="item_h.fill_opacity">
+                        </rect>
+    
+                        <!--<text font-size="14" font-family="Arial" text-anchor="start" dx="0em" dy="1em">{{
+                            // filename[i].substring(0, filename[i].length - 8)
+                            filename_type[i].substring(0, filename_type[i].indexOf('_'))
+                        }}</text>
+    
+                        <text font-size="14" font-family="Arial" text-anchor="middle" dx="7em" dy="1em">{{
+                            // filename[i].substring(0, filename[i].length - 8)
+                            filename_type[i].substring(filename_type[i].indexOf('_') + 1, filename[i].length)
+                        }}</text>-->
+                    </g>
+                    <g id="legend_g"></g>
+                    <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)">
+                        <rect :id="'rst' + i" class="rst" :x="item['heat'][0].x" :y="0" :width="elWidth - 0 - item['heat'][0].x"
+                            :height="item['heat'][0].h" fill="none" stroke="orange" stroke-width="0"></rect>
+                    </g>
+                    <g v-for="(item, i) in coverRect" :key="'heat_g' + i"
+                        :transform="translate(0, ((elHeight - 20) / 36) * (parseInt(item.cnt.substring(item.cnt.length - 1, item.cnt.length))) + 20, 0)">
+                        <rect :id="'rst' + i" class="rst" :x="item.x" :y="0" :width="item.w" :height="item.h" :fill="item.fill"
+                            stroke="none" stroke-width="0"></rect>
+                    </g>
+                    <g v-for="(item, i) in groupPath" :key="'group_g' + i" :transform="translate(0, 0, 0)">
+                        <path :d="'M ' + item.x1 + ' ' + item.y1 + ' L ' + item.x2 + ' ' + item.y2" fill="none" stroke="black">
+                        </path>
                 </g>
-                <g id="legend_g"></g>
-                <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)">
-                    <rect :id="'rst' + i" class="rst" :x="item['heat'][0].x" :y="0" :width="elWidth - 0 - item['heat'][0].x"
-                        :height="item['heat'][0].h" fill="none" stroke="orange" stroke-width="0"></rect>
-                </g>
-                <g v-for="(item, i) in coverRect" :key="'heat_g' + i"
-                    :transform="translate(0, ((elHeight - 20) / 36) * (parseInt(item.cnt.substring(item.cnt.length - 1, item.cnt.length))) + 20, 0)">
-                    <rect :id="'rst' + i" class="rst" :x="item.x" :y="0" :width="item.w" :height="item.h" :fill="item.fill"
-                        stroke="none" stroke-width="0"></rect>
-                </g>
-                <g v-for="(item, i) in groupPath" :key="'group_g' + i" :transform="translate(0, 0, 0)">
-                    <path :d="'M ' + item.x1 + ' ' + item.y1 + ' L ' + item.x2 + ' ' + item.y2" fill="none" stroke="black">
-                    </path>
-            </g>
-
-        </svg>
-
+    
+            </svg>
+    
         </div>
     </div>
 </template>
-<script>
 
+<script>
 import res_data from '../assets/model_skip_results.json';
 
 import { arc, curveBumpY, line } from 'd3-shape';
@@ -76,99 +76,84 @@ import { axisLeft, axisBottom } from 'd3-axis';
 import { interpolateRdBu, interpolateYlOrRd, schemeYlOrRd } from 'd3-scale-chromatic';
 import { useDataStore } from "../stores/counter";
 import SN_raw_data from "../assets/SN_m_tot_V2.0.csv";
-import sr3 from '../assets/data/SN_rolling3_tot.csv';
-import sr6 from '../assets/data/SN_rolling6_tot.csv';
-import sr9 from '../assets/data/SN_rolling9_tot.csv';
-import sr13 from '../assets/data/SN_rolling13_tot.csv';
-import sr26 from '../assets/data/SN_rolling26_tot.csv';
-import sa3 from '../assets/data/SN_weighted_moving_average3_tot.csv';
-import sa6 from '../assets/data/SN_weighted_moving_average6_tot.csv';
-import sa9 from '../assets/data/SN_weighted_moving_average9_tot.csv';
-import sa13 from '../assets/data/SN_weighted_moving_average13_tot.csv';
-import sa26 from '../assets/data/SN_weighted_moving_average26_tot.csv';
-
-// import uni variable data
-import d0 from '../assets/single_used_data/rawdata_skip13_0.8.csv';
-import d1 from '../assets/single_used_data/rawdata_skip1_0.8.csv';
-import d2 from '../assets/single_used_data/rawdata_skip3_0.8.csv';
-import d3 from '../assets/single_used_data/rawdata_skip6_0.8.csv';
-import d4 from '../assets/single_used_data/rolling13_skip13_0.8.csv';
-import d5 from '../assets/single_used_data/rolling13_skip1_0.8.csv';
-import d6 from '../assets/single_used_data/rolling13_skip3_0.8.csv';
-import d7 from '../assets/single_used_data/rolling13_skip6_0.8.csv';
-import d8 from '../assets/single_used_data/rolling3_skip13_0.8.csv';
-import d9 from '../assets/single_used_data/rolling3_skip1_0.8.csv';
-import d10 from '../assets/single_used_data/rolling3_skip3_0.8.csv';
-import d11 from '../assets/single_used_data/rolling3_skip6_0.8.csv';
-import d12 from '../assets/single_used_data/rolling6_skip13_0.8.csv';
-import d13 from '../assets/single_used_data/rolling6_skip1_0.8.csv';
-import d14 from '../assets/single_used_data/rolling6_skip3_0.8.csv';
-import d15 from '../assets/single_used_data/rolling6_skip6_0.8.csv';
-import d16 from '../assets/single_used_data/rolling9_skip13_0.8.csv';
-import d17 from '../assets/single_used_data/rolling9_skip1_0.8.csv';
-import d18 from '../assets/single_used_data/rolling9_skip3_0.8.csv';
-import d19 from '../assets/single_used_data/rolling9_skip6_0.8.csv';
-import d20 from '../assets/single_used_data/weighted13_skip13_0.8.csv';
-import d21 from '../assets/single_used_data/weighted13_skip1_0.8.csv';
-import d22 from '../assets/single_used_data/weighted13_skip3_0.8.csv';
-import d23 from '../assets/single_used_data/weighted13_skip6_0.8.csv';
-import d24 from '../assets/single_used_data/weighted3_skip13_0.8.csv';
-import d25 from '../assets/single_used_data/weighted3_skip1_0.8.csv';
-import d26 from '../assets/single_used_data/weighted3_skip3_0.8.csv';
-import d27 from '../assets/single_used_data/weighted3_skip6_0.8.csv';
-import d28 from '../assets/single_used_data/weighted6_skip13_0.8.csv';
-import d29 from '../assets/single_used_data/weighted6_skip1_0.8.csv';
-import d30 from '../assets/single_used_data/weighted6_skip3_0.8.csv';
-import d31 from '../assets/single_used_data/weighted6_skip6_0.8.csv';
-import d32 from '../assets/single_used_data/weighted9_skip13_0.8.csv';
-import d33 from '../assets/single_used_data/weighted9_skip1_0.8.csv';
-import d34 from '../assets/single_used_data/weighted9_skip3_0.8.csv';
-import d35 from '../assets/single_used_data/weighted9_skip6_0.8.csv';
-// import d0 from '../assets/explaindata/rawdata_skip13_0.8.csv';
-// import d1 from '../assets/explaindata/rawdata_skip1_0.8.csv';
-// import d2 from '../assets/explaindata/rawdata_skip3_0.8.csv';
-// import d3 from '../assets/explaindata/rawdata_skip6_0.8.csv';
-// import d4 from '../assets/explaindata/rolling13_skip13_0.8.csv';
-// import d5 from '../assets/explaindata/rolling13_skip1_0.8.csv';
-// import d6 from '../assets/explaindata/rolling13_skip3_0.8.csv';
-// import d7 from '../assets/explaindata/rolling13_skip6_0.8.csv';
-// import d8 from '../assets/explaindata/rolling3_skip13_0.8.csv';
-// import d9 from '../assets/explaindata/rolling3_skip1_0.8.csv';
-// import d10 from '../assets/explaindata/rolling3_skip3_0.8.csv';
-// import d11 from '../assets/explaindata/rolling3_skip6_0.8.csv';
-// import d12 from '../assets/explaindata/rolling6_skip13_0.8.csv';
-// import d13 from '../assets/explaindata/rolling6_skip1_0.8.csv';
-// import d14 from '../assets/explaindata/rolling6_skip3_0.8.csv';
-// import d15 from '../assets/explaindata/rolling6_skip6_0.8.csv';
-// import d16 from '../assets/explaindata/rolling9_skip13_0.8.csv';
-// import d17 from '../assets/explaindata/rolling9_skip1_0.8.csv';
-// import d18 from '../assets/explaindata/rolling9_skip3_0.8.csv';
-// import d19 from '../assets/explaindata/rolling9_skip6_0.8.csv';
-// import d20 from '../assets/explaindata/weighted13_skip13_0.8.csv';
-// import d21 from '../assets/explaindata/weighted13_skip1_0.8.csv';
-// import d22 from '../assets/explaindata/weighted13_skip3_0.8.csv';
-// import d23 from '../assets/explaindata/weighted13_skip6_0.8.csv';
-// import d24 from '../assets/explaindata/weighted3_skip13_0.8.csv';
-// import d25 from '../assets/explaindata/weighted3_skip1_0.8.csv';
-// import d26 from '../assets/explaindata/weighted3_skip3_0.8.csv';
-// import d27 from '../assets/explaindata/weighted3_skip6_0.8.csv';
-// import d28 from '../assets/explaindata/weighted6_skip13_0.8.csv';
-// import d29 from '../assets/explaindata/weighted6_skip1_0.8.csv';
-// import d30 from '../assets/explaindata/weighted6_skip3_0.8.csv';
-// import d31 from '../assets/explaindata/weighted6_skip6_0.8.csv';
-// import d32 from '../assets/explaindata/weighted9_skip13_0.8.csv';
-// import d33 from '../assets/explaindata/weighted9_skip1_0.8.csv';
-// import d34 from '../assets/explaindata/weighted9_skip3_0.8.csv';
-// import d35 from '../assets/explaindata/weighted9_skip6_0.8.csv';
-
 import { select, selectAll } from 'd3-selection';
 import { extent, max, min, sum } from 'd3-array';
 import { brushX } from 'd3-brush';
 import * as vsup from 'vsup';
+
+
+// univariate
+import d0 from '../assets/allData/univariate_data/result_data/rawdata_skip13_0.8.csv';
+import d1 from '../assets/allData/univariate_data/result_data/rawdata_skip1_0.8.csv';
+import d2 from '../assets/allData/univariate_data/result_data/rawdata_skip3_0.8.csv';
+import d3 from '../assets/allData/univariate_data/result_data/rawdata_skip6_0.8.csv';
+import d4 from '../assets/allData/univariate_data/result_data/rolling13_skip13_0.8.csv';
+import d5 from '../assets/allData/univariate_data/result_data/rolling13_skip1_0.8.csv';
+import d6 from '../assets/allData/univariate_data/result_data/rolling13_skip3_0.8.csv';
+import d7 from '../assets/allData/univariate_data/result_data/rolling13_skip6_0.8.csv';
+import d8 from '../assets/allData/univariate_data/result_data/rolling3_skip13_0.8.csv';
+import d9 from '../assets/allData/univariate_data/result_data/rolling3_skip1_0.8.csv';
+import d10 from '../assets/allData/univariate_data/result_data/rolling3_skip3_0.8.csv';
+import d11 from '../assets/allData/univariate_data/result_data/rolling3_skip6_0.8.csv';
+import d12 from '../assets/allData/univariate_data/result_data/rolling6_skip13_0.8.csv';
+import d13 from '../assets/allData/univariate_data/result_data/rolling6_skip1_0.8.csv';
+import d14 from '../assets/allData/univariate_data/result_data/rolling6_skip3_0.8.csv';
+import d15 from '../assets/allData/univariate_data/result_data/rolling6_skip6_0.8.csv';
+import d16 from '../assets/allData/univariate_data/result_data/rolling9_skip13_0.8.csv';
+import d17 from '../assets/allData/univariate_data/result_data/rolling9_skip1_0.8.csv';
+import d18 from '../assets/allData/univariate_data/result_data/rolling9_skip3_0.8.csv';
+import d19 from '../assets/allData/univariate_data/result_data/rolling9_skip6_0.8.csv';
+import d20 from '../assets/allData/univariate_data/result_data/weighted13_skip13_0.8.csv';
+import d21 from '../assets/allData/univariate_data/result_data/weighted13_skip1_0.8.csv';
+import d22 from '../assets/allData/univariate_data/result_data/weighted13_skip3_0.8.csv';
+import d23 from '../assets/allData/univariate_data/result_data/weighted13_skip6_0.8.csv';
+import d24 from '../assets/allData/univariate_data/result_data/weighted3_skip13_0.8.csv';
+import d25 from '../assets/allData/univariate_data/result_data/weighted3_skip1_0.8.csv';
+import d26 from '../assets/allData/univariate_data/result_data/weighted3_skip3_0.8.csv';
+import d27 from '../assets/allData/univariate_data/result_data/weighted3_skip6_0.8.csv';
+import d28 from '../assets/allData/univariate_data/result_data/weighted6_skip13_0.8.csv';
+import d29 from '../assets/allData/univariate_data/result_data/weighted6_skip1_0.8.csv';
+import d30 from '../assets/allData/univariate_data/result_data/weighted6_skip3_0.8.csv';
+import d31 from '../assets/allData/univariate_data/result_data/weighted6_skip6_0.8.csv';
+import d32 from '../assets/allData/univariate_data/result_data/weighted9_skip13_0.8.csv';
+import d33 from '../assets/allData/univariate_data/result_data/weighted9_skip1_0.8.csv';
+import d34 from '../assets/allData/univariate_data/result_data/weighted9_skip3_0.8.csv';
+import d35 from '../assets/allData/univariate_data/result_data/weighted9_skip6_0.8.csv';
+
+// multivariate
+import m0 from '../assets/allData/multivariate_data/result_data/raw_skip2.csv';
+import m1 from '../assets/allData/multivariate_data/result_data/raw_skip3.csv';
+import m2 from '../assets/allData/multivariate_data/result_data/weighted6_skip1.csv';
+import m3 from '../assets/allData/multivariate_data/result_data/weighted6_skip3.csv';
+import m4 from '../assets/allData/multivariate_data/result_data/raw_skip1.csv';
+import m5 from '../assets/allData/multivariate_data/result_data/rolling6_skip6.csv';
+import m6 from '../assets/allData/multivariate_data/result_data/weighted6_skip2.csv';
+import m7 from '../assets/allData/multivariate_data/result_data/weighted6_skip6.csv';
+import m8 from '../assets/allData/multivariate_data/result_data/rolling6_skip2.csv';
+import m9 from '../assets/allData/multivariate_data/result_data/rolling6_skip3.csv';
+import m10 from '../assets/allData/multivariate_data/result_data/rolling6_skip1.csv';
+import m11 from '../assets/allData/multivariate_data/result_data/raw_skip6.csv';
+import m12 from '../assets/allData/multivariate_data/result_data/rolling12_skip1.csv';
+import m13 from '../assets/allData/multivariate_data/result_data/rolling12_skip2.csv';
+import m14 from '../assets/allData/multivariate_data/result_data/rolling12_skip3.csv';
+import m15 from '../assets/allData/multivariate_data/result_data/rolling12_skip6.csv';
+import m16 from '../assets/allData/multivariate_data/result_data/rolling3_skip2.csv';
+import m17 from '../assets/allData/multivariate_data/result_data/weighted3_skip6.csv';
+import m18 from '../assets/allData/multivariate_data/result_data/weighted12_skip3.csv';
+import m19 from '../assets/allData/multivariate_data/result_data/weighted12_skip2.csv';
+import m20 from '../assets/allData/multivariate_data/result_data/rolling3_skip3.csv';
+import m21 from '../assets/allData/multivariate_data/result_data/rolling3_skip1.csv';
+import m22 from '../assets/allData/multivariate_data/result_data/weighted12_skip1.csv';
+import m23 from '../assets/allData/multivariate_data/result_data/weighted3_skip1.csv';
+import m24 from '../assets/allData/multivariate_data/result_data/weighted3_skip3.csv';
+import m25 from '../assets/allData/multivariate_data/result_data/weighted12_skip6.csv';
+import m26 from '../assets/allData/multivariate_data/result_data/weighted3_skip2.csv';
+import m27 from '../assets/allData/multivariate_data/result_data/rolling3_skip6.csv';
+
 export default {
     name: 'DataTransformationView',
     props: ['timeData', 'sliceData'],
-    data () {
+    data() {
         return {
             elHeight: 1000,
             elWidth: 1000,
@@ -245,7 +230,8 @@ export default {
                 'weighted9_skip13_0.8.csv',
                 'weighted9_skip1_0.8.csv',
                 'weighted9_skip3_0.8.csv',
-                'weighted9_skip6_0.8.csv'],
+                'weighted9_skip6_0.8.csv'
+            ],
             filename_type: ['RAW_13',
                 'RAW_1',
                 'RAW_3',
@@ -281,7 +267,8 @@ export default {
                 'WMA-9_3',
                 'WMA-9_13',
                 'WMA-9_1',
-                'WMA-9_6'],
+                'WMA-9_6'
+            ],
             smoothTag: 0,
             timeLinePath: null,
             linePathTag: 0,
@@ -289,7 +276,7 @@ export default {
         }
     },
     methods: {
-        selectFile (num) {
+        selectFile(num) {
 
             select('#rst' + num).attr('stroke-width', 3)
             // .attr('fill', '#777').attr('fill-opacity', 0.5);
@@ -297,14 +284,14 @@ export default {
                 return d.id == num ? 1 : 0;
             })
         },
-        clickFile (num) {
+        clickFile(num) {
             let tdata = []
             selectAll('.corr_cir').attr('opacity', (d, i) => {
                 if (d.class_name == this.filename[num].substring(0, this.filename[num].length - 8)) {
                     tdata.push(d);
                     // return 0.5;
                 }
-                return d.isShow? 0 : 0.5;
+                return d.isShow ? 0 : 0.5;
             }).attr('fill', (d, i) => {
                 // if (d.class_name == this.filename[num].substring(0, this.filename[num].length - 8)) return 'orange';
                 // else 
@@ -327,7 +314,7 @@ export default {
                 .attr('stroke', 'black')
                 .attr('fill', d => d.fill)
         },
-        cancelFile (num) {
+        cancelFile(num) {
             select('#rst' + num).attr('stroke-width', 0);
             selectAll('.p_x').attr('opacity', 1)
             // selectAll('.corr_cir').attr('opacity', (d, i) => {
@@ -337,16 +324,19 @@ export default {
             //     return 1;
             // })
         },
-        translate (x, y, deg) {
+        translate(x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
         },
-        setupBrush: function (data) {
+        setupBrush: function(data) {
             let width = this.tlWidth;
             let height = this.tlHeight;
             let focusHeight = 100;
             let margin = ({ top: 20, right: 20, bottom: 30, left: 50 });
             const timeBrush = brushX()
-                .extent([[margin.left, margin.top], [width - margin.right, focusHeight]])
+                .extent([
+                    [margin.left, margin.top],
+                    [width - margin.right, focusHeight]
+                ])
                 .on('start', brushStart)
                 .on('brush', brushed)
                 .on('end', brushEnd);
@@ -366,20 +356,22 @@ export default {
                 .data([{ type: "w" }, { type: "e" }])
                 .join(
                     enter => enter.append("path")
-                        .attr("class", "handle--custom")
-                        .attr("fill", "white")
-                        .attr("opacity", 1)
-                        .attr("stroke", "#777")
-                        .attr("stroke-width", 1)
-                        .attr("cursor", "ew-resize")
-                        .attr("d", 'M -5 ' + (-focusHeight / 2 + 30) + ' L -5 ' + (focusHeight / 2 - 30) + 'L 5 ' + (focusHeight / 2 - 30) + ' L 5 ' + (-focusHeight / 2 + 30) + ' Z'),
+                    .attr("class", "handle--custom")
+                    .attr("fill", "white")
+                    .attr("opacity", 1)
+                    .attr("stroke", "#777")
+                    .attr("stroke-width", 1)
+                    .attr("cursor", "ew-resize")
+                    .attr("d", 'M -5 ' + (-focusHeight / 2 + 30) + ' L -5 ' + (focusHeight / 2 - 30) + 'L 5 ' + (focusHeight / 2 - 30) + ' L 5 ' + (-focusHeight / 2 + 30) + ' Z'),
                 )
                 .attr("display", s === null ? "none" : null)
                 .attr("transform", s === null ? null : (d, i) => `translate(${s[i]},${radius + margin.top})`)
-            function brushStart () {
+
+            function brushStart() {
                 selectAll('.sparkbox').remove();
             }
-            function brushEnd ({ selection }) {
+
+            function brushEnd({ selection }) {
                 _this.calcSparkBox(SN_raw_data, _this.tlHeight, _this.tlWidth);
                 let timeStep = [parseInt(_this.rxScale(selection[0])), parseInt(_this.rxScale(selection[1]))];
                 // let maxY = max(data, (d, i) => {
@@ -432,7 +424,8 @@ export default {
                     select('#time_path_selected').attr('d', lineGenerate(_this.smoothLineData));
                 }
             }
-            function brushed ({ selection }) {
+
+            function brushed({ selection }) {
                 // console.log(selection);
                 let timeStep = [parseInt(_this.rxScale(selection[0])), parseInt(_this.rxScale(selection[1]))];
                 // let maxY = max(data, (d, i) => {
@@ -499,7 +492,7 @@ export default {
                 .call(timeBrush.move, [x(988), x(1760)]);
 
         },
-        calcRMSEHeat (data, smooth_dataSet, raw_data, width, height) {
+        calcRMSEHeat(data, smooth_dataSet, raw_data, width, height) {
             let margin = ({ top: 20, right: 20, bottom: 30, left: 50 });
             // let sdata = [];
             let maxRmse = -999999;
@@ -560,8 +553,8 @@ export default {
                         id: parseInt(kk),
                         fill_opacity: 1,
                         id_cnt: id_cnt++
-                        // x: x(parseInt(raw_data[i].id)),
-                        // w: Math.abs(x(parseInt(raw_data[i + ((i + skipLength < raw_data.length) ? skipLength : (raw_data.length - 1 - i))].id)) - x(parseInt(raw_data[i].id))),
+                            // x: x(parseInt(raw_data[i].id)),
+                            // w: Math.abs(x(parseInt(raw_data[i + ((i + skipLength < raw_data.length) ? skipLength : (raw_data.length - 1 - i))].id)) - x(parseInt(raw_data[i].id))),
                     });
                     maxError = Math.max(maxError, Math.abs(rawSum / rawTempValue.length - smoothSum / smoothTempValue.length));
                     minError = Math.min(minError, Math.abs(rawSum / rawTempValue.length - smoothSum / smoothTempValue.length));
@@ -679,7 +672,7 @@ export default {
 
             return res_data;
         },
-        calcRMSEHeatMultiVariable (data, width, height) {
+        calcRMSEHeatMultiVariable(data, width, height) {
             let margin = ({ top: 20, right: 20, bottom: 30, left: 50 });
             // let sdata = [];
             let allStrip = data.length;
@@ -695,63 +688,6 @@ export default {
             let heatDataSet = [];
             let heatBeforeDataSet = [];
             let id_cnt = 0;
-            // for (let kk in data) {
-            //     let heat_data = [];
-            //     let heatBefore_data = [];
-            //     // let smooth_data = smooth_dataSet[kk];
-            //     let skipLength = this.skip_length[parseInt(kk)];
-            //     // console.log(smooth_data, skipLength);
-            //     for (let i = 0; i < 840; i += (i == 0 && 840 % skipLength != 0 ? 840 % skipLength : skipLength)) {
-            //         let skp = (i == 0 && 840 % skipLength != 0 ? 840 % skipLength : skipLength);
-            //         let rawTempValue = raw_data.slice(i, i + skp).map(d => parseFloat(d.value)).sort((a, b) => a - b)
-            //         let rawSum = sum(rawTempValue);
-            //         // let smoothTempValue = smooth_data.slice(i, i + skp).map(d => parseFloat(d.value)).sort((a, b) => a - b)
-            //         // let smoothSum = sum(smoothTempValue);
-            //         heatBefore_data.push({
-            //             // rawData: smoothSum / smoothTempValue.length,
-            //             // errorData: Math.abs(rawSum / rawTempValue.length - smoothSum / smoothTempValue.length),
-            //             time: i,
-            //             rmse: 0,
-            //             corr: 0,
-            //             skip: skp,
-            //             id: parseInt(kk),
-            //             fill_opacity: 0,
-            //             id_cnt: '_1'
-            //             // x: x(parseInt(raw_data[i].id)),
-            //             // w: Math.abs(x(parseInt(raw_data[i + ((i + skipLength < raw_data.length) ? skipLength : (raw_data.length - 1 - i))].id)) - x(parseInt(raw_data[i].id))),
-            //         });
-            //         // maxError = Math.max(maxError, Math.abs(rawSum / rawTempValue.length - smoothSum / smoothTempValue.length));
-            //         // minError = Math.min(minError, Math.abs(rawSum / rawTempValue.length - smoothSum / smoothTempValue.length));
-            //         // maxRaw = Math.max(maxRaw, smoothSum / smoothTempValue.length);
-            //         // minRaw = Math.min(minRaw, smoothSum / smoothTempValue.length);
-            //     }
-            //     heatBeforeDataSet.push(heatBefore_data);
-            //     for (let i = 840; i < raw_data.length; i += skipLength) {
-            //         // let rawTempValue = raw_data.slice(i, i + skipLength).map(d => parseFloat(d.value)).sort((a, b) => a - b)
-            //         // let rawSum = sum(rawTempValue);
-            //         // let smoothTempValue = smooth_data.slice(i, i + skipLength).map(d => parseFloat(d.value)).sort((a, b) => a - b)
-            //         // let smoothSum = sum(smoothTempValue);
-            //         heat_data.push({
-            //             // rawData: smoothSum / smoothTempValue.length,
-            //             // errorData: Math.abs(rawSum / rawTempValue.length - smoothSum / smoothTempValue.length),
-            //             time: i,
-            //             rmse: 0,
-            //             corr: 0,
-            //             skip: skipLength,
-            //             id: parseInt(kk),
-            //             fill_opacity: 1,
-            //             id_cnt: id_cnt++
-            //             // x: x(parseInt(raw_data[i].id)),
-            //             // w: Math.abs(x(parseInt(raw_data[i + ((i + skipLength < raw_data.length) ? skipLength : (raw_data.length - 1 - i))].id)) - x(parseInt(raw_data[i].id))),
-            //         });
-            //         // maxError = Math.max(maxError, Math.abs(rawSum / rawTempValue.length - smoothSum / smoothTempValue.length));
-            //         // minError = Math.min(minError, Math.abs(rawSum / rawTempValue.length - smoothSum / smoothTempValue.length));
-            //         // maxRaw = Math.max(maxRaw, smoothSum / smoothTempValue.length);
-            //         // minRaw = Math.min(minRaw, smoothSum / smoothTempValue.length);
-            //     }
-            //     heatDataSet.push(heat_data);
-            // }
-            // console.log(heatBeforeDataSet);
 
             let lineData = [];
             let cnt_id_cnt = 0;
@@ -759,7 +695,7 @@ export default {
                 let startPos = 0;
                 let tp = [];
                 for (let j in data[i]) {
-                    if (j > data[i].length / 2.3) break;
+                    // if (j > data[i].length / 2.3) break;
                     // sdata.push({
                     //     id: i,
                     //     skip: this.skip_length[i],
@@ -865,23 +801,18 @@ export default {
             return res_data;
         }
     },
-    created () {
-    },
-    mounted () {
+    created() {},
+    mounted() {
         this.elHeight = this.$refs.DataTransformation.offsetHeight;
         this.elWidth = this.$refs.DataTransformation.offsetWidth;
 
-        const importData = import.meta.globEager('../assets/15month_result/*.csv');
+        // const importData = import.meta.globEager('../assets/allData/multivariate_data/result_data/*.csv');
         // console.log(importData)
-        let multiDataSet = []
-        for (let i in importData) {
-            multiDataSet.push(importData[i]['default'])
-            // console.log(importData[i], i)
-        }
-        let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35];
-        let smoothDataSet = [SN_raw_data, SN_raw_data, SN_raw_data, SN_raw_data, sr13, sr13, sr13, sr13, sr3, sr3, sr3, sr3, sr6, sr6, sr6, sr6, sr9, sr9, sr9, sr9, sa13, sa13, sa13, sa13, sa3, sa3, sa3, sa3, sa6, sa6, sa6, sa6, sa9, sa9, sa9, sa9];
-
-        this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight - 20);
+        // let multiDataSet = []
+        // // for (let i in importData) {
+        // //     multiDataSet.push(importData[i]['default'])
+        // // }
+        // console.log(multiDataSet)
 
         // this.heatRectData = this.calcRMSEHeat(dataSet, smoothDataSet, SN_raw_data, this.elWidth, this.elHeight - 0);
 
@@ -890,35 +821,45 @@ export default {
         let _this = this;
 
         dataStore.$subscribe((mutation, state) => {
-            // console.log(dataStore.selectDot, _this.heatRectData);
-            selectAll('#tsr_1').attr('opacity', 0);
-            let coverRect = [];
-            for (let i in _this.heatRectData) {
-                for (let j in _this.heatRectData[i].heat) {
-                    // console.log(_this.heatRectData[i][j])
-
-                    if (dataStore.selectDot[this.heatRectData[i].heat[j].id_cnt] == 1) {
-                        // select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('opacity', 1).attr('stroke', 'blue').attr('stroke-width', 0);
-                        coverRect.push({
-                            x: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('x'),
-                            y: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('y'),
-                            w: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('width'),
-                            h: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('height'),
-                            fill: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('fill'),
-                            cnt: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('class'),
-                        })
-                    }
-                    // else select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('opacity', 0)
-                    // .attr('fill', '#d9d9d9');
-                }
+            // console.log(dataStore.dataSelect)
+            if (dataStore.dataSelect == 'sunspots') {
+                let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35];
+                // console.log(dataSet);
+                this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight);
+            } else {
+                let dataSet = [m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27];
+                // console.log(dataSet);
+                this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight);
             }
-            console.log(coverRect);
-            this.coverRect = coverRect;
+            //     selectAll('#tsr_1').attr('opacity', 0);
+            //     let coverRect = [];
+            //     for (let i in _this.heatRectData) {
+            //         for (let j in _this.heatRectData[i].heat) {
+            //             // console.log(_this.heatRectData[i][j])
+
+            //             if (dataStore.selectDot[this.heatRectData[i].heat[j].id_cnt] == 1) {
+            //                 // select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('opacity', 1).attr('stroke', 'blue').attr('stroke-width', 0);
+            //                 coverRect.push({
+            //                     x: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('x'),
+            //                     y: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('y'),
+            //                     w: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('width'),
+            //                     h: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('height'),
+            //                     fill: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('fill'),
+            //                     cnt: select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('class'),
+            //                 })
+            //             }
+            //             // else select('#tsr' + this.heatRectData[i].heat[j].id_cnt).attr('opacity', 0)
+            //             // .attr('fill', '#d9d9d9');
+            //         }
+            //     }
+            //     console.log(coverRect);
+            //     this.coverRect = coverRect;
         })
 
     },
 }
 </script>
+
 <style>
 *,
 *::before,

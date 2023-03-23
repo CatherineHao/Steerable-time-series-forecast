@@ -272,6 +272,7 @@ export default {
         const dataStore = useDataStore();
 
         dataStore.$subscribe((mutations, state) => {
+            console.log(222);
             let F_sparkBoxData = []
             let margin = { top: 15, left: 50, right: 5, bottom: 30 }
             if (dataStore.dataSelect == 'sunspots') {

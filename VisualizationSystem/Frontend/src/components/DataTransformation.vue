@@ -30,6 +30,10 @@
                                 <path :d="item.d" :stroke="'none'" :fill="item.fill[3]"></path>
                                 <text x="10" y="18">{{ item.feature }}</text>
                             </g>
+
+                            <g>
+                                
+                            </g>
                         </svg>
                     </div>
                 </div>
