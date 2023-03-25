@@ -13,101 +13,121 @@
         <div ref="ControlPanel" style="height: calc(30% - 10px); width: calc(100%); float: left; border: 0px solid blue; font-size: 16px;">
             <div style="height: calc(20% - 5px);">
                 <span style="float: left; font-weight: normal; margin-top: 6px;">
-                                DataSet:
-                            </span>
+                                        DataSet:
+                                    </span>
                 <span style="width: 60%; float: right;">
-                                <el-select v-model="fileValue" class="m-2" placeholder="Select" size="large">
-                                    <el-option v-for="item in fileOptions" :key="item.value" :label="item.label" :value="item.value" />
-                                </el-select>
-                            </span>
+                                        <el-select v-model="fileValue" class="m-2" placeholder="Select" size="large">
+                                            <el-option v-for="item in fileOptions" :key="item.value" :label="item.label" :value="item.value" />
+                                        </el-select>
+                                    </span>
             </div>
             <div style="height: calc(20% - 5px); margin-top: 5px;">
                 <span style="float: left; font-weight: normal; margin-top: 0px;">
-                                Model:
-                            </span>
+                                        Model:
+                                    </span>
                 <span style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
-                                <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
-                                    <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
-                                </el-select> -->
-                                Long Short Term Memory
-                            </span>
+                                        <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
+                                            <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
+                                        </el-select> -->
+                                        Long Short Term Memory
+                                    </span>
             </div>
             <div style="height: calc(20% - 5px); margin-top: 0px;">
                 <span style="float: left; font-weight: normal; margin-top: 0px;">
-                                Variable Num:
-                            </span>
+                                        Variable Num:
+                                    </span>
                 <span style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
-                                <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
-                                    <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
-                                </el-select> -->
-                                6
-                            </span>
+                                        <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
+                                            <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
+                                        </el-select> -->
+                                        6
+                                    </span>
             </div>
             <div style="height: calc(20% - 5px); margin-top: 0px;">
                 <span style="float: left; font-weight: normal; margin-top: 0px;">
-                                Stationary:
-                            </span>
+                                        Stationary:
+                                    </span>
                 <!-- <span style="width: 60%; float: right; font-weight: normal; margin-top: 6px; text-align: left;">
-                                {{ fileValue == null ? '' : (basicData[fileValue].stationary['bool'] + ' (' +
-                                    basicData[fileValue].stationary['p-value'] + ')') }}
-                            </span> -->
-
+                                        {{ fileValue == null ? '' : (basicData[fileValue].stationary['bool'] + ' (' +
+                                            basicData[fileValue].stationary['p-value'] + ')') }}
+                                    </span> -->
+    
                 <span style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
-                                <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
-                                    <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
-                                </el-select> -->
-                                Yes
-                            </span>
+                                        <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
+                                            <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
+                                        </el-select> -->
+                                        Yes
+                                    </span>
             </div>
             <div style="height: calc(20% - 5px); margin-top: 5px;">
                 <span style="float: left; font-weight: normal; margin-top: 0px;">
-                                Periodicity:
-                            </span>
+                                        Periodicity:
+                                        1, 3, 6
+                                    </span>
                 <!-- <span style="width: 60%; float: right; font-weight: normal; margin-top: 6px; text-align: left;">
-                                {{ fileValue == null ? '' : ((basicData[fileValue].periodicity['recommend_lag']) + ' (' +
-                                    (Math.round(basicData[fileValue].periodicity['fft acf'] * 10000) / 10000) + ')') }}
-                        </span> -->
+                                        {{ fileValue == null ? '' : ((basicData[fileValue].periodicity['recommend_lag']) + ' (' +
+                                            (Math.round(basicData[fileValue].periodicity['fft acf'] * 10000) / 10000) + ')') }}
+                                </span> -->
+    
+                <span style="width: 30%; float: right; margin-top: -2px; text-align: end; margin-right: 10px;">
+                                        <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
+                                            <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
+                                        </el-select> -->
+                                        <!-- 1, 3, 6, 13 -->
+                                        <!-- <span>Add: </span> -->
+                            <el-input
+                                v-model="periodInput"
+                                placeholder="Please input"
+                                class="input-with-select"
+                                >
+                                <!-- <template #prepend>
+                                    <el-select v-model="select" placeholder="Select" style="width: 115px">
+                                    <el-option label="Restaurant" value="1" />
+                                    <el-option label="Order No." value="2" />
+                                    <el-option label="Tel" value="3" />
+                                    </el-select>
+                        </template> -->
 
-                <span style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
-                                <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
-                                    <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
-                                </el-select> -->
-                                1, 3, 6, 13
-                            </span>
+                        <template #append>
+                            <el-button style="height: 30px;">
+                                <svg t="1679668190464" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1926" width="18" height="18"><path d="M512 832a32 32 0 0 0 32-32v-256h256a32 32 0 0 0 0-64h-256V224a32 32 0 0 0-64 0v256H224a32 32 0 0 0 0 64h256v256a32 32 0 0 0 32 32" fill="#3E3A39" p-id="1927"></path></svg>
+                                </el-button>
+                        </template>
+                            </el-input>
+                                </span>
             </div>
     
         </div>
         <div ref="resTable" style="height: calc(70% + 25px); width: calc(100%); float: right; overflow:auto; font-size: 18px; margin-top: -15px;">
-            <el-table :data="tableData" style="width: calc(100% - 0px)" height="100%" :header-cell-style="{ 'font-size': '16px', 'background-color': 'rgb(235, 235, 235)', 'height': '40px', 'text-algin': 'center'}" :cell-style="{ 'font-size': '14px', 'height': '15px' }" :row-style="{ 'height': '18px' }" border>
+            <el-table :data="tableData" style="width: calc(100% - 0px)" height="100%" :header-cell-style="{ 'font-size': '16px', 'background-color': 'rgb(235, 235, 235)', 'height': '40px', 'text-algin': 'center'}" :cell-style="{ 'font-size': '14px', 'height': '15px' }"
+                :row-style="{ 'height': '18px' }" border>
                 <el-table-column prop="smooth" label="Smooth" width="82" />
-                <el-table-column prop="skip" label="Skip" width="62"/>
+                <el-table-column prop="skip" label="Skip" width="62" />
                 <el-table-column label="Loss" :width="(elWidth - 142) / 3" sortable>
-                    <template #default="scope">
-                        <svg width="100%" height="18">
-                            <rect :x="0" :y="3" :width="scope.row.train_bar.w" :height="15" :fill="'orange'" :fill-opacity="1"  :stroke="'rgb(200, 200, 200)'"> </rect>
-                            <text x="2" y="15" font-size="12">{{ scope.row.train_bar.v }}</text>
-                        </svg>
-                    </template>
+<template #default="scope">
+    <svg width="100%" height="18">
+                                    <rect :x="0" :y="3" :width="scope.row.train_bar.w" :height="15" :fill="'orange'" :fill-opacity="1"  :stroke="'rgb(200, 200, 200)'"> </rect>
+                                    <text x="2" y="15" font-size="12">{{ scope.row.train_bar.v }}</text>
+                                </svg>
+</template>
                 </el-table-column>
 
                 <el-table-column label="Val." :width="(elWidth - 142) / 3" sortable>
-                    <template #default="scope">
-                    
-                        <svg width="100%" height="18">
-                            <rect :x="0" :y="3" :width="scope.row.test_bar.w" :height="15" :fill="'orange'" :stroke="'rgb(200, 200, 200)'" :fill-opacity="1" ></rect>
-                            <text x="2" y="15" font-size="12">{{ scope.row.test_bar.v }}</text>
-                        </svg>
-                    </template>
+<template #default="scope">
+    <svg width="100%" height="18">
+                                    <rect :x="0" :y="3" :width="scope.row.test_bar.w" :height="15" :fill="'orange'" :stroke="'rgb(200, 200, 200)'" :fill-opacity="1" ></rect>
+                                    <text x="2" y="15" font-size="12">{{ scope.row.test_bar.v }}</text>
+                                </svg>
+</template>
                 </el-table-column>
 
                 <el-table-column label="ACF" :width="(elWidth - 142) / 3" sortable>
-                    <template #default="scope">
-                    
-                        <svg width="100%" height="18" >
-                            <rect :x="0" :y="3" :width="scope.row.acf_bar.w" :height="15" :fill="'orange'"  :stroke="'rgb(200, 200, 200)'" :fill-opacity="1"></rect>
-                            <text x="2" y="15" font-size="12">{{ scope.row.acf_bar.v }}</text>
-                        </svg>
-                    </template>
+<template #default="scope">
+    <svg width="100%" height="18">
+                                    <rect :x="0" :y="3" :width="scope.row.acf_bar.w" :height="15" :fill="'orange'"  :stroke="'rgb(200, 200, 200)'" :fill-opacity="1"></rect>
+                                    <text x="2" y="15" font-size="12">{{ scope.row.acf_bar.v }}</text>
+                                </svg>
+</template>
                 </el-table-column>
                 <!-- <el-table-column prop="address" label="Address" :formatter="formatter" /> -->
             </el-table>
@@ -127,6 +147,7 @@ export default {
         return {
             elHeight: 0,
             elWidth: 0,
+            periodInput: '',
             fileValue: null,
             tableData: [],
             fileOptions: [{
@@ -180,7 +201,8 @@ export default {
                 max_test = 0,
                 max_acf = 0
             // for (let i = 0; i < 9; ++i) {
-                for (let i in data) {
+            let file_cnt = 0;
+            for (let i in data) {
                 for (const j in data[i].predic_info) {
                     let d = data[i].predic_info[j];
                     if (typeof(d['ACF']) == 'undefined') {
@@ -188,6 +210,10 @@ export default {
                     }
                     let tmp = new Object();
                     tmp['dataset_name'] = data[i].dataset_name;
+                    // console.log(`import d${file_cnt} from '../assets/allData/univariate_data/result_data/${tmp['dataset_name'] + '_skip_' + d.skip}_0.8.csv';`)
+
+                    file_cnt++;
+                    // console.log(tmp['dataset_name'])
                     let smooth_name = '';
                     if (data[i].dataset_name[1] == 'a') {
                         smooth_name = 'RAW';
@@ -201,11 +227,12 @@ export default {
                         let stcnt = data[i].dataset_name;
                         let cnt = stcnt.substring(stcnt.length - 2);
                         if (!isNaN(Number(cnt))) {
-                            smooth_name += cnt;
+                            smooth_name = smooth_name + cnt;
                         } else {
-                            smooth_name += cnt[1];
+                            smooth_name = smooth_name + cnt[1];
                         }
                     }
+                    // console.log(`{smooth: '${smooth_name}', skip: '${d.skip}'}`);
                     tmp['smooth'] = smooth_name;
                     tmp['skip'] = d.skip;
                     // console.log(d.skip);
@@ -223,12 +250,12 @@ export default {
             let trainScale = scaleLinear([0, max_train], [0, ((barS) / 3) * 0.9]);
             let testScale = scaleLinear([0, max_test], [0, ((barS) / 3) * 0.9]);
             let acfScale = scaleLinear([0, max_acf], [0, ((barS) / 3) * 0.9]);
-            console.log(tmpData);
+            // console.log(tmpData);
             for (let i in tmpData) {
                 tmpData[i]['train_bar'] = {
                     x: 0,
                     w: trainScale(tmpData[i]['train']),
-                    v:( tmpData[i]['train'].toFixed(4)).toString().slice(1)
+                    v: (tmpData[i]['train'].toFixed(4)).toString().slice(1)
                 };
                 tmpData[i]['test_bar'] = {
                     x: barS / 3,
@@ -254,9 +281,7 @@ export default {
                 this.tableData = this.calcTable(uni_res_data);
             } else if (this.fileValue == 'pm') {
                 this.tableData = this.calcTable(multi_res_data);
-
             }
-
         },
         modelValue() {
             const dataStore = useDataStore();
@@ -267,6 +292,7 @@ export default {
     mounted() {
         this.elHeight = this.$refs.ControlPanel.offsetHeight;
         this.elWidth = this.$refs.ControlPanel.offsetWidth;
+        this.tableData = this.calcTable(uni_res_data);
         // console.log(this.basicData)
         // this.tableData = this.calcTable(multi_res_data);
         // console.log(this.tableData);
@@ -280,7 +306,10 @@ export default {
 *::after {
     font-weight: bold;
 }
-
+.el-button {
+    padding: 0px;
+    padding-top: 2px;
+}
 .el-input__wrapper {
     height: 30px;
 }
@@ -293,10 +322,12 @@ export default {
 /* .el-table__cell {
     height: 15px;
 } */
+
 .el-table .cell {
     padding: 0px;
     text-align: center;
 }
+
 /* td {
     height: 25%;
 } */

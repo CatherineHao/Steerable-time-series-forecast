@@ -87,13 +87,13 @@ export default {
 
 .framework .frameworkTitle {
     /* background-color: rgb(151, 196, 208); */
-    height: 50px;
+    height: 40px;
     /* width: 100%; */
 }
 
 .framework .frameworkBody {
     /* background-color: #000; */
-    height: calc(100% - 60px);
+    height: calc(100% - 50px);
     /* width: 100%; */
     /* background-color: #4C87EC; */
     padding: 0px 10px 0px 10px;
