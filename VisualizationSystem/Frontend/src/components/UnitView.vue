@@ -6,7 +6,7 @@
 -->
 <template>
     <div class="frameworkTitle">
-        <div class="title">Feature Inspector View</div>
+        <div class="title">Variable Inspector View</div>
         <p class="titleTriangle"></p>
         <span v-if="dataName != ''" style="position: absolute; top: 5px; right: 20px; font-size: 18px; font-size: 15px;">
                         {{ dataName }} <span v-if="dataName == 'PM 2.5'">(mg/m<sup>3</sup>)</span> : &nbsp; <span style="position: absolute; top: 20px; left: 100px;">{{ valueRange[0] }}</span> <img src="../assets/img/blues2.png" alt="" width="150" height="16"><span style="position: absolute; top: 20px; left: 245px;">{{ valueRange[1] }}</span>
@@ -69,7 +69,15 @@
                                         <rect v-for="(oo, r_i) in o.boxData" :key="'fsbr' + r_i" :x="oo.x" :y="oo.y" :width="oo.w"
                                             :height="oo.h" :fill="oo.fillColor" :opacity="oo.fill" stroke="white"></rect>
                                     </g>
-                                    <rect :x="o.rx" :y="o.ry" :width="o.w" :height="o.h" fill="none" stroke="black"></rect>
+                                    <rect :x="o.rx" :y="o.ry" :width="o.w" :height="o.h" fill="black" stroke="black" fill-opacity="0" @mouseenter="mouseoverFeature(o.boxData)" @mouseout="mouseoutFeature()"></rect>
+                                </g>
+                            </g>
+                            <g>
+                                <g :transform="translate(elWidth * 2 / 3 - 25, 15 , 0)" id="mouseRect" :opacity="selectTag == 1 ? 1 : 0">
+                                    <rect :x="0" :y="0" :width="elWidth / 3 + 20" :height="elWidth / 3 + 20" :fill="'none'" stroke="black"></rect>
+
+                                    <rect v-for="(oo, r_i) in selectRect" :key="'fsbr' + r_i" :x="oo.mouseX" :y="oo.mouseY" :width="oo.mouseW"
+                                            :height="oo.mouseH" :fill="oo.fillColor" :opacity="oo.fill" stroke="white"></rect>
                                 </g>
                             </g>
                         </svg>
@@ -81,7 +89,7 @@
 import { max, min, sum } from "d3-array";
 import { axisBottom, axisLeft } from "d3-axis";
 import { scaleLinear, scaleOrdinal } from "d3-scale";
-import { select } from "d3-selection";
+import { select, selectAll } from "d3-selection";
 import { line } from "d3-shape";
 // import SN_raw_data from "../assets/SN_m_tot_V2.0.csv";
 // import weight13 from '../assets/data/SN_weighted_moving_average13_tot.csv';
@@ -115,16 +123,39 @@ export default {
             F_name: ['pm25', 'temp', 'rh', 'psfc', 'wnd_dir', 'wnd_spd'],
             S_name: ['raw', 'weight13', 'rolling13', 'weight3', 'rolling3', 'weight6', 'rolling6'],
 
-            SS_name: ['RAW', '13-WMA', '13-MA', '3-WMA', '3-MA', '6-WMA', '6-MA'],
+            SS_name: ['RAW', 'WMA-13', 'MA-13', 'WMA-3', 'MA-3', 'WMA-6', 'MA-6'],
             show_name: [],
             tfData: [],
             dataName: '',
-            valueRange: []
+            valueRange: [],
+            selectRect: [],
+            selectTag: 0
         }
     },
     methods: {
         translate(x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
+        },
+        mouseoverFeature(data) {
+            // console.log(data);
+            this.selectTag = 1;
+            let xScale = scaleLinear(data[0].xRange, [0, this.elWidth / 3 + 20]);
+            let yScale = scaleLinear(data[0].yRange, [this.elWidth / 3 + 20, 0]);
+            let x = scaleLinear(data[0].xDomain, [0, this.elWidth / 3 + 20]);
+            let y = scaleLinear(data[0].yDomain, [this.elWidth / 3 + 20, 0]);
+            selectAll('#feature_axis_g').remove();
+            select('#mouseRect').append('g').attr('id', 'feature_axis_g').attr('transform', `translate(0, ${this.elWidth / 3 + 20})`).call(axisBottom(x).ticks(4).tickSizeOuter(0));
+            select('#mouseRect').append('g').attr('id', 'feature_axis_g').call(axisLeft(y).ticks(4).tickSizeOuter(0));
+            for (let i in data) {
+                data[i].mouseX = xScale(data[i].x);
+                data[i].mouseY = yScale(data[i].y);
+                data[i].mouseW = xScale(data[i].w);
+                data[i].mouseH = yScale(data[i].h);
+            }
+            this.selectRect = data;
+        },
+        mouseoutFeature: function() {
+            this.selectTag = 0;
         },
 
         calcSparkBox(data, height, width) {
@@ -237,16 +268,23 @@ export default {
                 for (let j in timeGap[i]) {
                     // console.log(timeGap[i][j]);
                     let vSumData = sum(timeGap[i][j], d => parseFloat(d[Val_name]));
+                    
+                    let xMax = max(timeGap[i][j], d => parseFloat(d[F1_name]));
+                    let xMin = min(timeGap[i][j], d => parseFloat(d[F1_name]));
                     let yMax = max(timeGap[i][j], d => parseFloat(d[F2_name]));
                     let yMin = min(timeGap[i][j], d => parseFloat(d[F2_name]));
                     minV = Math.min(minV, vSumData / timeGap[i][j].length);
                     maxV = Math.max(maxV, vSumData / timeGap[i][j].length);
                     sparkBoxData.push({
-                        x: xx(i),
-                        w: xx(1) - xx(0),
+                        x: x(xMin),
+                        w: x(xMax) - x(xMin),
                         y: y(yMax),
                         h: y(yMin) - y(yMax),
-                        v: vSumData / timeGap[i][j].length
+                        v: vSumData / timeGap[i][j].length,
+                        xRange: x.range(),
+                        yRange: y.range(),
+                        xDomain: x.domain(),
+                        yDomain: y.domain()
                     })
                 }
             }
@@ -279,51 +317,51 @@ export default {
         let margin = { top: 15, left: 50, right: 5, bottom: 30 }
         // if (dataStore.dataSelect == 'sunspots') {
         // console.log(rolling13, weight13, SN_raw_data);
-        for (let i in SN_raw_data) {
-            SN_raw_data[i]['weight13'] = sa13[i]['value'];
-            SN_raw_data[i]['rolling13'] = sr13[i]['value'];
-            SN_raw_data[i]['weight3'] = sa3[i]['value'];
-            SN_raw_data[i]['rolling3'] = sr3[i]['value'];
-            SN_raw_data[i]['weight6'] = sa6[i]['value'];
-            SN_raw_data[i]['rolling6'] = sr6[i]['value'];
-            SN_raw_data[i]['raw'] = SN_raw_data[i]['value'];
-        }
-        for (let i = 0; i < this.S_name.length; ++i) {
-            for (let j = 0; j < i + 1; ++j) {
-                // console.log(this.S_name[i], this.S_name[j]);
-                F_sparkBoxData.push({
-                    x: j,
-                    y: i,
-                    tx: (this.elWidth - margin.left - margin.right) / this.S_name.length * j,
-                    rx: margin.left,
-                    w: (this.elWidth - margin.left - margin.right) / this.S_name.length,
-                    ty: (this.elHeight - margin.bottom - margin.top) / this.S_name.length * i,
-                    ry: margin.top,
-                    h: (this.elHeight - margin.bottom - margin.top) / this.S_name.length,
-                    boxData: this.calcDisSparkBox(SN_raw_data, (this.elHeight - margin.bottom - margin.top) / this.S_name.length, (this.elWidth - margin.left - margin.right) / this.S_name.length, 8, this.S_name[i], this.S_name[j], 'value')
-                })
-            }
-        }
-        this.show_name = this.SS_name;
-        this.dataName = 'Sunspot number'
-        // } else if (dataStore.dataSelect == 'pm') {
-        // for (let i = 0; i < this.F_name.length; ++i) {
+        // for (let i in SN_raw_data) {
+        //     SN_raw_data[i]['weight13'] = sa13[i]['value'];
+        //     SN_raw_data[i]['rolling13'] = sr13[i]['value'];
+        //     SN_raw_data[i]['weight3'] = sa3[i]['value'];
+        //     SN_raw_data[i]['rolling3'] = sr3[i]['value'];
+        //     SN_raw_data[i]['weight6'] = sa6[i]['value'];
+        //     SN_raw_data[i]['rolling6'] = sr6[i]['value'];
+        //     SN_raw_data[i]['raw'] = SN_raw_data[i]['value'];
+        // }
+        // for (let i = 0; i < this.S_name.length; ++i) {
         //     for (let j = 0; j < i + 1; ++j) {
+        //         // console.log(this.S_name[i], this.S_name[j]);
         //         F_sparkBoxData.push({
         //             x: j,
         //             y: i,
-        //             tx: (this.elWidth - margin.left - margin.right) / this.F_name.length * j,
+        //             tx: (this.elWidth - margin.left - margin.right) / this.S_name.length * j,
         //             rx: margin.left,
-        //             w: (this.elWidth - margin.left - margin.right) / this.F_name.length,
-        //             ty: (this.elHeight - margin.bottom - margin.top) / this.F_name.length * i,
+        //             w: (this.elWidth - margin.left - margin.right) / this.S_name.length,
+        //             ty: (this.elHeight - margin.bottom - margin.top) / this.S_name.length * i,
         //             ry: margin.top,
-        //             h: (this.elHeight - margin.bottom - margin.top) / this.F_name.length,
-        //             boxData: this.calcDisSparkBox(multi_data, (this.elHeight - margin.bottom - margin.top) / this.F_name.length, (this.elWidth - margin.left - margin.right) / this.F_name.length, 8, this.F_name[i], this.F_name[j], 'pm25')
+        //             h: (this.elHeight - margin.bottom - margin.top) / this.S_name.length,
+        //             boxData: this.calcDisSparkBox(SN_raw_data, (this.elHeight - margin.bottom - margin.top) / this.S_name.length, (this.elWidth - margin.left - margin.right) / this.S_name.length, 8, this.S_name[i], this.S_name[j], 'value')
         //         })
         //     }
         // }
-        // this.show_name = this.F_name;
-        // this.dataName = 'PM 2.5'
+        // this.show_name = this.SS_name;
+        // this.dataName = 'Sunspot number'
+        // } else if (dataStore.dataSelect == 'pm') {
+        for (let i = 0; i < this.F_name.length; ++i) {
+            for (let j = 0; j < i + 1; ++j) {
+                F_sparkBoxData.push({
+                    x: j,
+                    y: i,
+                    tx: (this.elWidth - margin.left - margin.right) / this.F_name.length * j,
+                    rx: margin.left,
+                    w: (this.elWidth - margin.left - margin.right) / this.F_name.length,
+                    ty: (this.elHeight - margin.bottom - margin.top) / this.F_name.length * i,
+                    ry: margin.top,
+                    h: (this.elHeight - margin.bottom - margin.top) / this.F_name.length,
+                    boxData: this.calcDisSparkBox(multi_data, (this.elHeight - margin.bottom - margin.top) / this.F_name.length, (this.elWidth - margin.left - margin.right) / this.F_name.length, 8, this.F_name[i], this.F_name[j], 'pm25')
+                })
+            }
+        }
+        this.show_name = this.F_name;
+        this.dataName = 'PM 2.5'
         // }
         this.F_sparkBoxData = F_sparkBoxData;
         // })
