@@ -11,46 +11,36 @@
     </div>
     <div class="frameworkBody">
     
-        <div style="height: calc(100%); width: 100%; margin-top: 0px;">
+        <div style="height: calc(100%); width: 100%; margin-top: 0px; overflow-y: auto;">
             <!-- <div style="height: 1000px;">
-                            
-                                        </div> -->
-            <div style="height: 95%; width: 100%;" ref="timeline">
+                    
+                                </div> -->
+            <div style="height: 95%; overflow-y: auto; width: 100%;" ref="timeline">
                 <div v-for="(item, i) in overview_line_data" :key="'overview_line_' + i">
                     <div :style="{
-                                    'background-color': 'white',
-                                    'margin-top': '3px',
-                                    'height': item.rowHeight + 'px',
-                                    }" @click="showDetail(i, '#time_line_legend' + i)">
+                            'background-color': 'white',
+                            'margin-top': '3px',
+                            'height': item.rowHeight + 'px',
+                            }" @click="showDetail(i, '#time_line_legend' + i)">
                         <svg width="100%" :height="item.rowHeight">
-                                        <clipPath id="clipPathHorizon">
-                                                            <rect :x="0" :y="0" :width="tlWidth" :height="30"></rect>
-                                                    </clipPath>
-                                        
-                                                    <clipPath id="clipPathLine">
-                                                            <rect :x="50" :y="0" :width="tlWidth - 50 - 10" :height="item.rowHeight - 30"></rect>
-                                                    </clipPath>
-                                        <g clip-path="url(#clipPathHorizon)" :id="'brush_area' + i" :transform="translate(0, item.rowHeight - 30, 0)">
-                                            <path :d="item.d" :stroke="'none'" :fill="item.fill[0]" :transform="translate(0, -item.height * 3, 0)"></path>
-                                            <path :d="item.d" :stroke="'none'" :fill="item.fill[1]" :transform="translate(0, -item.height * 2, 0)"></path>
-                                            <path :d="item.d" :stroke="'none'" :fill="item.fill[2]"  :transform="translate(0, -item.height * 1, 0)"></path>
-                                            <path :d="item.d" :stroke="'none'" :fill="item.fill[3]"></path>
-                                            <text x="10" y="18">{{ item.feature }}</text>
-                                        </g>
-                                        <g :id="'time_line_legend' + i" :transform="translate(0, 0, 0)"></g>
-            
-                                        <g :id="'time_line' + i" :transform="translate(0, 0, 0)" clip-path="url(#clipPathLine)">
-                                            <path :id="'time_path_raw' + i" :d="timeLinePath" :fill="'none'" :stroke="'grey'"></path>
-                                        </g>
-                                    </svg>
+                                <clipPath id="clipPathHorizon">
+                                                    <rect :x="0" :y="0" :width="tlWidth" :height="30"></rect>
+                                            </clipPath>
+                                <g clip-path="url(#clipPathHorizon)" :id="'brush_area' + i">
+                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[0]" :transform="translate(0, -item.height * 3, 0)"></path>
+                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[1]" :transform="translate(0, -item.height * 2, 0)"></path>
+                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[2]"  :transform="translate(0, -item.height * 1, 0)"></path>
+                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[3]"></path>
+                                    <text x="10" y="18">{{ item.feature }}</text>
+                                </g>
+                                <g :id="'time_line_legend' + i" :transform="translate(0, tlHeight - featureSet.length * 30, 0)"></g>
+    
+                                <g :id="'time_line' + i" :transform="translate(0, tlHeight - featureSet.length * 30, 0)">
+                                    <path :id="'time_path_raw' + i" :d="timeLinePath" :fill="'none'" :stroke="'grey'"></path>
+                                </g>
+                            </svg>
                     </div>
                 </div>
-            </div>
-    
-            <div style="height: 4%;">
-                <svg width="100%" height="100%">
-                    <g id="global_time_axis"></g>
-                </svg>
             </div>
         </div>
     
@@ -59,14 +49,13 @@
 
 <script>
 import { axisBottom, axisLeft } from 'd3-axis';
-import { scaleLinear, scaleOrdinal, scaleUtc } from 'd3-scale';
+import { scaleLinear, scaleOrdinal } from 'd3-scale';
 import { arc, area, line } from 'd3-shape';
 import SN_raw_data from "../assets/SN_m_tot_V2.0.csv";
 import multi_var_data from "../assets/15month_result/raw_15month.csv";
 import { extent, max, min, sum } from 'd3-array';
 import { brushX } from 'd3-brush';
 import { select, selectAll, selectorAll } from 'd3-selection';
-import { scale } from 'vsup';
 export default {
     name: 'DataTransformationView',
     props: ['timeData', 'sliceData'],
@@ -76,7 +65,7 @@ export default {
             elHeight: 1000,
             elWidth: 1000,
             tlHeight: 100,
-            tlWidth: 300,
+            tlWidth: 100,
             featureSet: [],
             showTag: '',
             heatHeight: 0,
@@ -124,66 +113,26 @@ export default {
             predict_tag: 0,
             overview_line_data: [],
             horizon_color: ['#c7dbee', '#a1cadf', '#4892c3', '#0e4591'],
-            dataSet: [],
-            dataSelect: 'sunspots',
-            timeScaleGlobal: null,
-            brushMoveData: {
-                'sunspots': ['1900-01-01', '1930-01-01'],
-                'pm': ['2013-05-01', '2013-08-01']
-            }
+            dataSet: []
         }
     },
     methods: {
-        timeFormat: function(time, type) {
-            // console.log(time);
-            let timeFormatRes = '';
-            if (type == 'sunspots') {
-                let year = time.slice(0, 4);
-                let month = time.slice(-2);
-                let day = '01';
-                timeFormatRes = year + '-' + month + '-' + day;
-            } else {
-                let [date, detail] = time.split(' ');
-                let year = date.slice(0, 4);
-                let month = detail.slice(4, 6);
-                let day = detail.slice(-2);
-                timeFormatRes = year + '-' + month + '-' + day + ' ' + detail;
-            }
-            return new Date(timeFormatRes);
-        },
-        calcTimeScale: function(data, type) {
-            // console.log(data);
-            let margin = ({ top: 30, right: 15, bottom: 50, left: 50 });
-            let timeData = [];
-            for (let i in data) {
-                if (type == 'sunspots') {
-                    timeData.push(this.timeFormat(data[i]['timestamp'], type));
-                }else {
-                    timeData.push(this.timeFormat(data[i]['date'], type));
-                }
-            }
-            let timeScale = scaleUtc(extent(timeData), [margin.left, this.tlWidth - margin.right]);
-            this.timeScaleGlobal = timeScale;
-            select('#global_time_axis').append('g').attr('id', 'global_time_axis_g')
-                .call(axisBottom(timeScale).ticks((this.elWidth - margin.left - margin.right) / 40).tickSizeOuter(0))
-            // if 
-        },
         showDetail(cnt, id) {
-            // console.log(id);
+            console.log(id);
             for (let i in this.overview_line_data) {
                 if (i == cnt)
-                    this.overview_line_data[i].rowHeight = this.tlHeight - (this.featureSet.length - 1) * 30 - 10;
+                    this.overview_line_data[i].rowHeight = this.tlHeight - this.featureSet.length * 30;
                 else
                     this.overview_line_data[i].rowHeight = 30;
             }
-            this.calcTimeLine(this.dataSet[this.featureSet[cnt]], this.tlHeight - this.featureSet.length * 30 - 30, this.tlWidth, id);
-            this.setupBrush(this.dataSet[this.featureSet[cnt]], '#brush_area' + cnt, this.tlWidth, this.tlHeight - this.featureSet.length * 30 - 30, cnt)
+            this.calcTimeLine(this.dataSet[this.featureSet[cnt]], this.tlHeight - this.tlHeight - this.featureSet.length * 30 - 40, this.tlWidth, id);
+            this.setupBrush(this.dataSet[this.featureSet[cnt]], '#brush_area' + cnt, this.tlWidth, cnt)
         },
         translate(x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
         },
         calcSparkBox(data, height) {
-            let margin = ({ top: 20, right: 15, bottom: 30, left: 50 });
+            let margin = ({ top: 20, right: 20, bottom: 30, left: 50 });
             // let height = 440;
             // let width = 1000;
             let focusHeight = 100;
@@ -238,13 +187,13 @@ export default {
             }
             selectAll('.sparkbox').remove();
             selectAll('#time_path_raw').remove();
-            // select('#brush_path_g').append('g').attr('class', 'sparkbox').selectAll('#sparkRect').attr('id', 'sparkRect').data(sBData).enter().append('rect').attr('x', d => d.x).attr('y', d => d.y).attr('width', d => d.w).attr('height', d => d.h).attr('fill', (d, i) => {
-            //     if (i % 3 == 0) {
-            //         return '#f2f5fa';
-            //     } else if (i % 3 == 1) {
-            //         return '#dce3f3'
-            //     } else return '#6d70b6';
-            // });
+            select('#brush_path_g').append('g').attr('class', 'sparkbox').selectAll('#sparkRect').attr('id', 'sparkRect').data(sBData).enter().append('rect').attr('x', d => d.x).attr('y', d => d.y).attr('width', d => d.w).attr('height', d => d.h).attr('fill', (d, i) => {
+                if (i % 3 == 0) {
+                    return '#f2f5fa';
+                } else if (i % 3 == 1) {
+                    return '#dce3f3'
+                } else return '#6d70b6';
+            });
             select('#brush_path_g')
                 .append('path')
                 .attr('id', 'time_path_raw')
@@ -259,10 +208,9 @@ export default {
             // console.log(sparkboxData)
             // return sparkboxData;
         },
-        setupBrush: function(data, id, width, height, cnt) {
-            // console.log('brush')
-            let focusHeight = 30;
-            let margin = ({ top: -20, right: 15, bottom: 50, left: 50 });
+        setupBrush: function(data, id, width, cnt) {
+            let focusHeight = 100;
+            let margin = ({ top: -20, right: 20, bottom: 50, left: 50 });
             const timeBrush = brushX()
                 .extent([
                     [margin.left, 0],
@@ -271,12 +219,10 @@ export default {
                 .on('start', brushStart)
                 .on('brush', brushed)
                 .on('end', brushEnd);
-            // console.log('brush_0')
             this.timeBrush = timeBrush;
-            // let x = scaleLinear()
-            //     .domain([0, data.length - 1])
-            //     .range([margin.left, width - margin.right])
-            let x = scaleUtc(extent(data, d => this.timeFormat(d.date, this.dataSelect)), [margin.left, width - margin.right]);
+            let x = scaleLinear()
+                .domain([0, data.length - 1])
+                .range([margin.left, width - margin.right])
             this.allTimeScale = x;
 
             let _this = this;
@@ -291,26 +237,24 @@ export default {
                     .attr("fill", "white")
                     .attr("opacity", 1)
                     .attr("stroke", "#777")
-                    .attr("stroke-width", 3)
+                    .attr("stroke-width", 1)
                     .attr("cursor", "ew-resize")
-                    .attr("d", 'M -5 ' + (focusHeight / 2 + 30) + ' L -5 ' + (focusHeight / 2 + 0) + 'L 5 ' + (focusHeight / 2 + 0) + ' L 5 ' + (focusHeight / 2 + 30) + ' Z'),
+                    .attr("d", 'M -5 ' + (-focusHeight / 2 + 30) + ' L -5 ' + (focusHeight / 2 - 30) + 'L 5 ' + (focusHeight / 2 - 30) + ' L 5 ' + (-focusHeight / 2 + 30) + ' Z'),
                 )
                 .attr("display", s === null ? "none" : null)
                 .attr("transform", s === null ? null : (d, i) => `translate(${s[i]},${radius + margin.top})`)
 
             function brushStart() {
-                // console.log(222)
+                console.log(222)
                 selectAll('.sparkbox').remove();
             }
 
             function brushEnd({ selection }) {
-                // console.log(111)
-                // _this.calcSparkBox(SN_raw_data, _this.tlHeight, _this.tlWidth);
-                let timeStep = [_this.timeScaleGlobal.invert(selection[0]), _this.timeScaleGlobal.invert(selection[1])];
-                // console.log(timeStep)
-                
+                console.log(111)
+                _this.calcSparkBox(SN_raw_data, _this.tlHeight, _this.tlWidth);
+                let timeStep = [parseInt(_this.rxScale(selection[0])), parseInt(_this.rxScale(selection[1]))];
+
                 _this.xScale.domain(timeStep);
-                // console.log(_this.xScale.domain(), _this.xScale.range());
                 // _this.yScale.domain([0, maxY]);
                 // let xAxis = [];
                 // let timeRange = [];
@@ -335,15 +279,13 @@ export default {
                 // }
                 // let tScale = scaleOrdinal(timeRange, lenRange)
                 // // console.log(timeRange, lenRange);
-
-            let marginX = ({ top: 30, right: 15, bottom: 20, left: 50 });
-                selectAll('#axsg').remove();
-                select('#time_line_legend' + cnt).append('g').attr('id', 'axsg').attr("transform", `translate(0, ${height - marginX.bottom})`).call(axisBottom(_this.xScale).ticks((_this.elWidth - marginX.left - marginX.right) / 80).tickSizeOuter(0));
+                // selectAll('#axsg').remove();
+                // select('#focusLine_g').append('g').attr('id', 'axsg').attr("transform", `translate(0, ${-30})`).call(axisBottom(tScale));
 
                 // _this.timeAxis = xAxis;
 
                 let lineGenerate = line()
-                    .x((d) => _this.xScale(_this.timeFormat(d.date, _this.dataSelect)))
+                    .x((d) => _this.xScale(d.id))
                     .y(d => _this.yScale(d.value));
 
                 // _this.select_time_step = timeStep;
@@ -356,11 +298,8 @@ export default {
             }
 
             function brushed({ selection }) {
-                // console.log(selection);
-                // let timeStep = [parseInt(_this.rxScale(selection[0])), parseInt(_this.rxScale(selection[1]))];
-
-                let timeStep = [_this.timeScaleGlobal.invert(selection[0]), _this.timeScaleGlobal.invert(selection[1])];
-                // console.log(timeStep)
+                console.log(selection);
+                let timeStep = [parseInt(_this.rxScale(selection[0])), parseInt(_this.rxScale(selection[1]))];
                 _this.xScale.domain(timeStep);
                 // _this.yScale.domain([0, maxY]);
                 let xAxis = [];
@@ -387,15 +326,13 @@ export default {
                 // }
                 // let tScale = scaleOrdinal(timeRange, lenRange)
                 // // console.log(timeRange, lenRange);
-            let marginX = ({ top: 30, right: 15, bottom: 20, left: 50 });
-                selectAll('#axsg').remove();
-                select('#time_line_legend' + cnt).append('g').attr('id', 'axsg').attr("transform", `translate(0, ${height - marginX.bottom})`).call(axisBottom(_this.xScale).ticks((_this.elWidth - marginX.left - marginX.right) / 80).tickSizeOuter(0));
-                // console.log('#time_line_legend' + cnt);
+                // selectAll('#axsg').remove();
+                // select('#focusLine_g').append('g').attr('id', 'axsg').attr("transform", "translate(0, -25)").call(axisBottom(tScale));
 
                 // // _this.timeAxis = xAxis;
 
                 let lineGenerate = line()
-                    .x((d) => _this.xScale(_this.timeFormat(d.date, _this.dataSelect)))
+                    .x((d) => _this.xScale(d.id))
                     .y(d => _this.yScale(d.value));
 
                 // _this.select_time_step = timeStep;
@@ -411,39 +348,30 @@ export default {
 
                 // console.log(timeStep);
                 // _this.calcTimeLineCompare(data, [], _this.tlHeight, _this.tlWidth, _this.select_time_step)
-                // let d = _this.calcTimeLineCompare(SN_raw_data, [], _this.tlHeight, _this.tlWidth, _this.select_time_step); 
+                // let d = _this.calcTimeLineCompare(SN_raw_data, [], _this.tlHeight, _this.tlWidth, _this.select_time_step);
 
                 // _this.rawTimeLineData = d[0];
                 // _this.smoothTimeLineData = d[1];
             }
-            // console.log(select(id))
             select(id).call(timeBrush)
-                .call(timeBrush.move, [x(new Date(_this.brushMoveData[_this.dataSelect][0])), x(new Date(_this.brushMoveData[_this.dataSelect][1]))]);
+                .call(timeBrush.move, [x(988), x(1760)]);
 
         },
         calcTimeLine(data, height, width, id) {
             console.log(data)
-            let margin = ({ top: 30, right: 15, bottom: 20, left: 50 });
+            let margin = ({ top: -20, right: 20, bottom: 50, left: 50 });
             let focusHeight = 100;
 
             let y = scaleLinear()
                 .domain([min(data, d => parseFloat(d.value)), max(data, d => parseFloat(d.value))])
-                .range([height - margin.bottom, margin.top])
-                // for (let i in data) {
-                //     console.log(data[i])
-                // }
-            // let x = scaleLinear()
-            //     .domain([0, max(data, d => parseInt(d.id))])
-            //     .range([margin.left, width - margin.right])
-            let x = scaleUtc().domain(extent(data, d => this.timeFormat(d.date, this.dataSelect))).range([margin.left, width - margin.right]);
-            // console.log(extent(data, d => this.timeFormat(d.date, this.dataSelect)))
+                .range([margin.top, height - margin.bottom])
+            let x = scaleLinear()
+                .domain([0, max(data, d => parseInt(d.id))])
+                .range([margin.left, width - margin.right])
             // let x = scaleLinear([0, data.length - 1], [margin.left, width - margin.right]);
-            // const rx = scaleLinear()
-            //     .domain([margin.left, width - margin.right])
-            //     .range([0, max(data, d => parseInt(d.id))]);
             const rx = scaleLinear()
                 .domain([margin.left, width - margin.right])
-                .range(extent(data, d => this.timeFormat(d.date, this.dataSelect)));
+                .range([0, max(data, d => parseInt(d.id))]);
 
             this.xScale = x;
             this.yScale = y;
@@ -456,9 +384,7 @@ export default {
             //     .y0(y(0))
             //     .y1(d => y(d.value))
             let lineGenerate = line()
-                .x((d, i) => {
-                    // console.log(d, d.date, (this.timeFormat(d.date, this.dataSelect)), x(this.timeFormat(d.date, this.dataSelect)))
-                    return x(this.timeFormat(d.date, this.dataSelect))})
+                .x((d, i) => x(d.id))
                 .y(d => y(d.value));
             this.lineGenerateFunc = lineGenerate;
 
@@ -469,16 +395,16 @@ export default {
                 .call(g => g.selectAll(".title").data([title]).join("text")
                     .attr("class", "title")
                     .attr("x", 0)
-                    .attr("y", 20)
+                    .attr("y", 12)
                     .attr("fill", "currentColor")
                     .attr("text-anchor", "middle")
                     .attr('font-size', '14px')
                     .text(title));
-            selectAll('#yAxis_g').remove();
-            // console.log(id)
+            selectAll('yAxis_g').remove();
+            console.log(id)
             select(id).append('g').attr('id', 'yAxis_g').call(yAxis, y, 'Value');
             this.timeLinePath = lineGenerate(data);
-            // console.log(data)
+
             this.lineData = data;
             // console.log(this.timeLinePath)
         },
@@ -498,7 +424,7 @@ export default {
             return line_data;
         },
         calcFeatureArea(data, width, height) {
-            let margin = { left: 50, right: 15, top: 0, bottom: 0 };
+            let margin = { left: 50, right: 20, top: 0, bottom: 0 };
 
             let xScale = scaleLinear([0, data.length - 1], [margin.left, width - margin.right]);
             let vRange = extent(data, d => parseFloat(d.value));
@@ -509,18 +435,15 @@ export default {
             return area_data;
         },
         calcOverviewTimeLine(data) {
-            // console.log(data);
+            console.log(data);
             let featureSet = [];
             let allData = {};
             for (let i in data[0]) {
                 if (i == 'date' || i == 'id' || i == 'timestamp')
                     continue;
-                if (i != 'value' && this.dataSelect == 'sunspots')
-                    continue
                 featureSet.push(i);
                 allData[i] = [];
             }
-            // console.log(featureSet);
             // featureSet = ['raw']
             // allData['raw'] = []
             for (let i in data) {
@@ -528,20 +451,15 @@ export default {
                     // console.log(data[i][j])
                     let v = parseFloat(data[i][j]);
                     if (j == 'wnd_dir')
-                        v = (v / 45).toFixed(0);
-                    let date;
-                    if (this.dataSelect == 'sunspots')
-                    date = data[i]['timestamp']
-                    else
-                    date = data[i]['date']
+                        v = (v / 45).toFixed(0)
                     allData[j].push({
-                        date: date,
+                        date: data[i]['id'],
                         value: v,
                         id: parseInt(i)
                     });
                 }
             }
-            // console.log(allData);
+            console.log(allData);
             let result_data = new Array();
             // for (let i in allData) {
             //     result_data.push({
@@ -572,20 +490,12 @@ export default {
         this.tlWidth = this.$refs.timeline.offsetWidth;
         // console.log(SN_raw_data)
         // this.dataSet = multi_var_data;
-        // this.dataSelect = 'sunspots'q
 
 
         [this.overview_line_data, this.featureSet, this.dataSet] = this.calcOverviewTimeLine(SN_raw_data);
-        console.log(this.overview_line_data, this.featureSet, this.dataSet);
-        this.calcTimeScale(SN_raw_data, this.dataSelect);
         // console.log(this.dataSet);
-
-        // this.setupBrush(SN_raw_data, '#brush_area0', this.tlWidth, 0)
-    },
-    updated() {
-
         this.showDetail(0, '#time_line_legend0')
-    }
+    },
 }
 </script>
 

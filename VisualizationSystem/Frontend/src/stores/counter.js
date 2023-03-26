@@ -23,9 +23,13 @@ export const useDataStore = defineStore("dataStore", {
     return {
       msg: 'Hello, Vue SQ',
       model: null,
-      selectDot: [],
+      selectDot: {tag: 0,data: []},
       select_row: null,
-      dataSelect: 0
+      dataSelect: 0,
+      selectRepresentation: { 
+        tag: 0,
+        data: []
+      }
     }
   },
   actions: {

@@ -8,71 +8,71 @@
     <div class="frameworkTitle">
         <div class="title">Feature Inspector View</div>
         <p class="titleTriangle"></p>
-        <span v-if="dataName != ''" style="position: absolute; top: 10px; right: 170px; font-size: 18px;">
-                    {{ dataName }}: &nbsp;<img style="position: absolute;top:3px;" src="../assets/img/Blues.png" alt="" width="150" height="20">
-                </span>
+        <span v-if="dataName != ''" style="position: absolute; top: 5px; right: 20px; font-size: 18px; font-size: 15px;">
+                        {{ dataName }} <span v-if="dataName == 'PM 2.5'">(mg/m<sup>3</sup>)</span> : &nbsp; <span style="position: absolute; top: 20px; left: 100px;">{{ valueRange[0] }}</span> <img src="../assets/img/blues2.png" alt="" width="150" height="16"><span style="position: absolute; top: 20px; left: 245px;">{{ valueRange[1] }}</span>
+                    </span>
     </div>
     <div class="frameworkBody">
         <div ref="DistributionView" style="height: 100%; width: 100%;">
             <!-- <img src="../assets/img/a.png" alt="" style="height: 100%;"> -->
     
             <svg id="distributionSVG" height="100%" width="100%">
+                            <!-- <g>
+                                <g v-for="(item, i) in sparkBoxData" :key="'box' + i">
+                                    <rect x="10" y="10" fill="red"></rect>
+                                    <rect :x="item.rect1.x" :y="item.rect1.y" :width="item.rect1.w" :height="item.rect1.h"
+                                        fill="#f2f5fa">
+                                    </rect>
+                                    <rect :x="item.rect2.x" :y="item.rect2.y" :width="item.rect2.w" :height="item.rect2.h"
+                                        fill="#dce3f3">
+                                    </rect>
+                                    <path :d="'M ' + item.line.x1 + ' ' + item.line.y + ' L ' + item.line.x2 + ' ' + item.line.y"
+                                        :fill="'none'" :stroke="'#6d70b6'" stroke-width="3"></path>
+                                </g>
+                            <g>
+                                <path :d="linePath" stroke="steelblue" fill="none"></path>
+                            </g>
+                        </g> -->
+            
                         <!-- <g>
-                            <g v-for="(item, i) in sparkBoxData" :key="'box' + i">
-                                <rect x="10" y="10" fill="red"></rect>
-                                <rect :x="item.rect1.x" :y="item.rect1.y" :width="item.rect1.w" :height="item.rect1.h"
-                                    fill="#f2f5fa">
-                                </rect>
-                                <rect :x="item.rect2.x" :y="item.rect2.y" :width="item.rect2.w" :height="item.rect2.h"
-                                    fill="#dce3f3">
-                                </rect>
-                                <path :d="'M ' + item.line.x1 + ' ' + item.line.y + ' L ' + item.line.x2 + ' ' + item.line.y"
-                                    :fill="'none'" :stroke="'#6d70b6'" stroke-width="3"></path>
-                            </g>
-                        <g>
-                            <path :d="linePath" stroke="steelblue" fill="none"></path>
-                        </g>
-                    </g> -->
-        
-                    <!-- <g>
-                        <g>
-                                <text v-for="(o, i) in SS_name" :key="'F_leg' + i" :x="0" :y="0" text-anchor="end"
-                                    :transform="translate(40, 50 + i * (elHeight - 30) / S_name.length, -65)">{{
-                                        (o).charAt(0).toUpperCase() + (o).slice(1) }}</text>
-                            </g>
                             <g>
-                                <text v-for="(o, i) in SS_name" :key="'F_leg' + i" :x="0" :y="0"
-                                    :transform="translate(50 + (elWidth - 50) / S_name.length / 2 + (elWidth - 50) / S_name.length * i, (elHeight - 30) + 20, 0)"
-                                    font-weight="100" text-anchor="middle">{{ (o).charAt(0).toUpperCase() + (o).slice(1) }}</text>
-                            </g>
-                            <g v-for="(o, i) in F_sparkBoxData" :key="'fsb' + i" :transform="translate(o.tx, o.ty, 0)">
-                                <g :transform="translate(50, 15, 0)">
-                                    <rect v-for="(oo, r_i) in o.boxData" :key="'fsbr' + r_i" :x="oo.x" :y="oo.y" :width="oo.w"
-                                        :height="oo.h" :fill="oo.fillColor" :opacity="oo.fill" stroke="white"></rect>
+                                    <text v-for="(o, i) in SS_name" :key="'F_leg' + i" :x="0" :y="0" text-anchor="end"
+                                        :transform="translate(40, 50 + i * (elHeight - 30) / S_name.length, -65)">{{
+                                            (o).charAt(0).toUpperCase() + (o).slice(1) }}</text>
                                 </g>
-                                <rect :x="o.rx" :y="o.ry" :width="o.w" :height="o.h" fill="none" stroke="black"></rect>
-                            </g>
-                            </g> -->
-                        <g>
-                            <g>
-                                <text v-for="(o, i) in show_name" :key="'F_leg' + i" :x="0" :y="0" text-anchor="end"
-                                    :transform="translate(40, 50 + i * (elHeight - 30) / show_name.length, -65)">{{
-                                        (o).charAt(0).toUpperCase() + (o).slice(1) }}</text>
-                            </g>
-                            <g>
-                                <text v-for="(o, i) in show_name" :key="'F_leg' + i" :x="0" :y="0"
-                                    :transform="translate(50 + (elWidth - 50) / show_name.length / 2 + (elWidth - 50) / show_name.length * i, (elHeight - 30) + 20, 0)"
-                                    font-weight="100" text-anchor="middle">{{ (o).charAt(0).toUpperCase() + (o).slice(1) }}</text>
-                            </g>
-                            <g v-for="(o, i) in F_sparkBoxData" :key="'fsb' + i" :transform="translate(o.tx, o.ty, 0)">
-                                <g :transform="translate(50, 15, 0)">
-                                    <rect v-for="(oo, r_i) in o.boxData" :key="'fsbr' + r_i" :x="oo.x" :y="oo.y" :width="oo.w"
-                                        :height="oo.h" :fill="oo.fillColor" :opacity="oo.fill" stroke="white"></rect>
+                                <g>
+                                    <text v-for="(o, i) in SS_name" :key="'F_leg' + i" :x="0" :y="0"
+                                        :transform="translate(50 + (elWidth - 50) / S_name.length / 2 + (elWidth - 50) / S_name.length * i, (elHeight - 30) + 20, 0)"
+                                        font-weight="100" text-anchor="middle">{{ (o).charAt(0).toUpperCase() + (o).slice(1) }}</text>
                                 </g>
-                                <rect :x="o.rx" :y="o.ry" :width="o.w" :height="o.h" fill="none" stroke="black"></rect>
+                                <g v-for="(o, i) in F_sparkBoxData" :key="'fsb' + i" :transform="translate(o.tx, o.ty, 0)">
+                                    <g :transform="translate(50, 15, 0)">
+                                        <rect v-for="(oo, r_i) in o.boxData" :key="'fsbr' + r_i" :x="oo.x" :y="oo.y" :width="oo.w"
+                                            :height="oo.h" :fill="oo.fillColor" :opacity="oo.fill" stroke="white"></rect>
+                                    </g>
+                                    <rect :x="o.rx" :y="o.ry" :width="o.w" :height="o.h" fill="none" stroke="black"></rect>
+                                </g>
+                                </g> -->
+                            <g>
+                                <g>
+                                    <text v-for="(o, i) in show_name" :key="'F_leg' + i" :x="0" :y="0" text-anchor="end"
+                                        :transform="translate(40, 50 + i * (elHeight - 30) / show_name.length, -65)">{{
+                                            (o).charAt(0).toUpperCase() + (o).slice(1) }}</text>
+                                </g>
+                                <g>
+                                    <text v-for="(o, i) in show_name" :key="'F_leg' + i" :x="0" :y="0"
+                                        :transform="translate(50 + (elWidth - 50) / show_name.length / 2 + (elWidth - 50) / show_name.length * i, (elHeight - 30) + 20, 0)"
+                                        font-weight="100" text-anchor="middle">{{ (o).charAt(0).toUpperCase() + (o).slice(1) }}</text>
+                                </g>
+                                <g v-for="(o, i) in F_sparkBoxData" :key="'fsb' + i" :transform="translate(o.tx, o.ty, 0)">
+                                    <g :transform="translate(50, 15, 0)">
+                                        <rect v-for="(oo, r_i) in o.boxData" :key="'fsbr' + r_i" :x="oo.x" :y="oo.y" :width="oo.w"
+                                            :height="oo.h" :fill="oo.fillColor" :opacity="oo.fill" stroke="white"></rect>
+                                    </g>
+                                    <rect :x="o.rx" :y="o.ry" :width="o.w" :height="o.h" fill="none" stroke="black"></rect>
+                                </g>
                             </g>
-                        </g>
-                    </svg>
+                        </svg>
         </div>
     </div>
 </template>
@@ -115,10 +115,11 @@ export default {
             F_name: ['pm25', 'temp', 'rh', 'psfc', 'wnd_dir', 'wnd_spd'],
             S_name: ['raw', 'weight13', 'rolling13', 'weight3', 'rolling3', 'weight6', 'rolling6'],
 
-            SS_name: ['RAW', 'WMA-13', 'MA-13', 'WMA-3', 'MA-3', 'WMA-6', 'MA-6'],
+            SS_name: ['RAW', '13-WMA', '13-MA', '3-WMA', '3-MA', '6-WMA', '6-MA'],
             show_name: [],
             tfData: [],
-            dataName: ''
+            dataName: '',
+            valueRange: []
         }
     },
     methods: {
@@ -255,6 +256,7 @@ export default {
             let vScale = scaleLinear()
                 .domain([minV, maxV])
                 .range([0.3, 1]);
+            this.valueRange = [minV.toFixed(2), maxV.toFixed(2)]
 
 
             for (let i in sparkBoxData) {
@@ -271,60 +273,60 @@ export default {
         // [this.sparkBoxData, this.linePath] = this.calcSparkBox(SN_raw_data, this.elHeight, this.elWidth);
         const dataStore = useDataStore();
 
-        dataStore.$subscribe((mutations, state) => {
-            console.log(222);
-            let F_sparkBoxData = []
-            let margin = { top: 15, left: 50, right: 5, bottom: 30 }
-            if (dataStore.dataSelect == 'sunspots') {
-                // console.log(rolling13, weight13, SN_raw_data);
-                for (let i in SN_raw_data) {
-                    SN_raw_data[i]['weight13'] = sa13[i]['value'];
-                    SN_raw_data[i]['rolling13'] = sr13[i]['value'];
-                    SN_raw_data[i]['weight3'] = sa3[i]['value'];
-                    SN_raw_data[i]['rolling3'] = sr3[i]['value'];
-                    SN_raw_data[i]['weight6'] = sa6[i]['value'];
-                    SN_raw_data[i]['rolling6'] = sr6[i]['value'];
-                    SN_raw_data[i]['raw'] = SN_raw_data[i]['value'];
-                }
-                for (let i = 0; i < this.S_name.length; ++i) {
-                    for (let j = 0; j < i + 1; ++j) {
-                        // console.log(this.S_name[i], this.S_name[j]);
-                        F_sparkBoxData.push({
-                            x: j,
-                            y: i,
-                            tx: (this.elWidth - margin.left - margin.right) / this.S_name.length * j,
-                            rx: margin.left,
-                            w: (this.elWidth - margin.left - margin.right) / this.S_name.length,
-                            ty: (this.elHeight - margin.bottom - margin.top) / this.S_name.length * i,
-                            ry: margin.top,
-                            h: (this.elHeight - margin.bottom - margin.top) / this.S_name.length,
-                            boxData: this.calcDisSparkBox(SN_raw_data, (this.elHeight - margin.bottom - margin.top) / this.S_name.length, (this.elWidth - margin.left - margin.right) / this.S_name.length, 8, this.S_name[i], this.S_name[j], 'value')
-                        })
-                    }
-                }
-                this.show_name = this.SS_name;
-                this.dataName = 'Sunspot number'
-            } else if (dataStore.dataSelect == 'pm') {
-                for (let i = 0; i < this.F_name.length; ++i) {
-                    for (let j = 0; j < i + 1; ++j) {
-                        F_sparkBoxData.push({
-                            x: j,
-                            y: i,
-                            tx: (this.elWidth - margin.left - margin.right) / this.F_name.length * j,
-                            rx: margin.left,
-                            w: (this.elWidth - margin.left - margin.right) / this.F_name.length,
-                            ty: (this.elHeight - margin.bottom - margin.top) / this.F_name.length * i,
-                            ry: margin.top,
-                            h: (this.elHeight - margin.bottom - margin.top) / this.F_name.length,
-                            boxData: this.calcDisSparkBox(multi_data, (this.elHeight - margin.bottom - margin.top) / this.F_name.length, (this.elWidth - margin.left - margin.right) / this.F_name.length, 8, this.F_name[i], this.F_name[j], 'pm25')
-                        })
-                    }
-                }
-                this.show_name = this.F_name;
-                this.dataName = 'PM 2.5'
+        // dataStore.$subscribe((mutations, state) => {
+        // console.log(222);
+        let F_sparkBoxData = []
+        let margin = { top: 15, left: 50, right: 5, bottom: 30 }
+        // if (dataStore.dataSelect == 'sunspots') {
+        // console.log(rolling13, weight13, SN_raw_data);
+        for (let i in SN_raw_data) {
+            SN_raw_data[i]['weight13'] = sa13[i]['value'];
+            SN_raw_data[i]['rolling13'] = sr13[i]['value'];
+            SN_raw_data[i]['weight3'] = sa3[i]['value'];
+            SN_raw_data[i]['rolling3'] = sr3[i]['value'];
+            SN_raw_data[i]['weight6'] = sa6[i]['value'];
+            SN_raw_data[i]['rolling6'] = sr6[i]['value'];
+            SN_raw_data[i]['raw'] = SN_raw_data[i]['value'];
+        }
+        for (let i = 0; i < this.S_name.length; ++i) {
+            for (let j = 0; j < i + 1; ++j) {
+                // console.log(this.S_name[i], this.S_name[j]);
+                F_sparkBoxData.push({
+                    x: j,
+                    y: i,
+                    tx: (this.elWidth - margin.left - margin.right) / this.S_name.length * j,
+                    rx: margin.left,
+                    w: (this.elWidth - margin.left - margin.right) / this.S_name.length,
+                    ty: (this.elHeight - margin.bottom - margin.top) / this.S_name.length * i,
+                    ry: margin.top,
+                    h: (this.elHeight - margin.bottom - margin.top) / this.S_name.length,
+                    boxData: this.calcDisSparkBox(SN_raw_data, (this.elHeight - margin.bottom - margin.top) / this.S_name.length, (this.elWidth - margin.left - margin.right) / this.S_name.length, 8, this.S_name[i], this.S_name[j], 'value')
+                })
             }
+        }
+        this.show_name = this.SS_name;
+        this.dataName = 'Sunspot number'
+        // } else if (dataStore.dataSelect == 'pm') {
+        // for (let i = 0; i < this.F_name.length; ++i) {
+        //     for (let j = 0; j < i + 1; ++j) {
+        //         F_sparkBoxData.push({
+        //             x: j,
+        //             y: i,
+        //             tx: (this.elWidth - margin.left - margin.right) / this.F_name.length * j,
+        //             rx: margin.left,
+        //             w: (this.elWidth - margin.left - margin.right) / this.F_name.length,
+        //             ty: (this.elHeight - margin.bottom - margin.top) / this.F_name.length * i,
+        //             ry: margin.top,
+        //             h: (this.elHeight - margin.bottom - margin.top) / this.F_name.length,
+        //             boxData: this.calcDisSparkBox(multi_data, (this.elHeight - margin.bottom - margin.top) / this.F_name.length, (this.elWidth - margin.left - margin.right) / this.F_name.length, 8, this.F_name[i], this.F_name[j], 'pm25')
+        //         })
+        //     }
+        // }
+        // this.show_name = this.F_name;
+        // this.dataName = 'PM 2.5'
+        // }
         this.F_sparkBoxData = F_sparkBoxData;
-        })
+        // })
 
 
         // console.log(SN_raw_data);
