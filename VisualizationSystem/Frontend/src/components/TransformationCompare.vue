@@ -1,6 +1,6 @@
 <!--
  * @Author: Qing Shi
- * @LastEditTime: 2023-03-20 10:18:29
+ * @LastEditTime: 2023-03-26 19:18:38
 -->
 <!--
  * @Description: 
@@ -13,6 +13,11 @@
         <div class="title">Representation View</div>
         <p class="titleTriangle"></p>
         <div style="float: right; margin-top: 3px;">
+            <span style="margin-right: 20px; margin-top: 0px;">
+                            <el-button style="height: 30px; width: 30px;" @click="refresh()">
+                                <svg t="1679773906391" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2762" width="20" height="20"><path d="M512 0C229.230208 0 0 229.230208 0 512 0 794.769792 229.230208 1024 512 1024 761.325865 1024 973.201958 844.559514 1016.153097 601.764678 1018.151127 590.470182 1019.771663 579.089182 1021.010022 567.635639 1022.492753 553.921916 1012.577574 541.602754 998.863851 540.120021 985.150125 538.637291 972.830963 548.552469 971.348233 562.266193 970.230573 572.603369 968.768273 582.873092 966.965602 593.063262 928.217702 812.097967 736.992706 974.048781 512 974.048781 256.817504 974.048781 49.951219 767.182496 49.951219 512 49.951219 256.817504 256.817504 49.951219 512 49.951219 698.044361 49.951219 863.703281 160.916567 936.293348 328.7543 941.768939 341.414579 956.470965 347.238921 969.131243 341.763332 981.791522 336.287742 987.615863 321.585717 982.140273 308.925438 901.710383 122.961007 718.143277 0 512 0Z" fill="#979797" p-id="2763"></path><path d="M958.442797 350.246554 983.418406 325.270944 724.292683 325.270944C710.499034 325.270944 699.317073 336.452907 699.317073 350.246554 699.317073 364.040203 710.499034 375.222163 724.292683 375.222163L983.418406 375.222163C997.212055 375.222163 1008.394016 364.040203 1008.394016 350.246554L1008.394016 74.926829C1008.394016 61.133181 997.212055 49.951219 983.418406 49.951219 969.624757 49.951219 958.442797 61.133181 958.442797 74.926829L958.442797 350.246554Z" fill="#979797" p-id="2764"></path></svg>
+                            </el-button>
+                        </span>
             <span>Metric: </span>
             <el-select v-model="heatTag" class="m-2" placeholder="Select" style="width: 150px;">
                 <el-option v-for="(item, i) in heatOptions" :key="item" :label="item" :value="i" />
@@ -33,16 +38,16 @@
                                             :fill-opacity="item_h.fill_opacity">
                                         </rect>
                     
-                                        <text font-size="14" font-family="Arial" text-anchor="start" dx="0em" dy="1em">{{
+                                        <text font-size="14" text-anchor="start" dx="0em" dy="1em">{{
                                             // filename[i].substring(0, filename[i].length - 8)
-                                            filename[i].smooth + '/Skip:' + filename[i].skip
+                                            filename[dataSelect][i].smooth + '/Skip-' + filename[dataSelect][i].skip
                                         }}</text>
                                     </g>
                                     <g id="legend_g"></g>
-                                    <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)">
+                                    <!-- <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)">
                                         <rect :id="'rst' + i" class="rst" :x="item['heat'][0].x" :y="0" :width="elWidth - 10 - item['heat'][0].x"
-                                            :height="item['heat'][0].h" :fill="checkSelectStatus(i) == 2 ? '#bbb' : 'none'" stroke="black" :stroke-width="checkSelectStatus(i) == 1 ? 3 : 0" :fill-opacity="checkSelectStatus(i) == 2 ? 0.5 : 0"></rect>
-                                    </g>
+                                            :height="item['heat'][0].h" :fill="checkSelectStatus(i) == 2 ? '#c0c0c0' : 'none'" stroke="black" :stroke-width="checkSelectStatus(i) == 1 ? 3 : 0" :fill-opacity="checkSelectStatus(i) == 2 ? 0 : 0"></rect>
+                                    </g> -->
                                     <g v-for="(item, i) in coverRect" :key="'heat_g' + i"
                                         :transform="translate(0, item.realH, 0)">
                                         <rect :id="'rst' + i" class="rst" :x="item.x" :y="0" :width="item.w" :height="item.h" :fill="item.colorMap[heatTag]"
@@ -156,6 +161,12 @@ import m25 from '../assets/allData/multivariate_data/result_data/weighted12_skip
 import m26 from '../assets/allData/multivariate_data/result_data/weighted3_skip2.csv';
 import m27 from '../assets/allData/multivariate_data/result_data/rolling3_skip6.csv';
 
+import rs1 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip1.csv';
+import rs2 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip6.csv'
+import rs3 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip8.csv'
+import rs4 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip12.csv'
+import rs5 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip24.csv'
+
 export default {
     name: 'DataTransformationView',
     props: ['timeData', 'sliceData'],
@@ -166,7 +177,7 @@ export default {
             tlHeight: 100,
             tlWidth: 100,
             heatHeight: 0,
-            heatTag: 3,
+            heatTag: 4,
             clickFileTag: 0,
             heatOptions: ['Raw + Difference', 'Raw', 'Difference', 'RMSE + Corr.', 'RMSE', 'Corr.'],
             sample: ['10-slice', '7-slice', '3-slice'],
@@ -177,7 +188,7 @@ export default {
             smoothLineData: [],
             skiplength: [13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6],
             columnData: ['Smooth', 'Skip', 'Train-Loss', 'Test-Loss', 'ACF', 'Window Performance'],
-            filename: [{ smooth: 'RAW', skip: '13' },
+            filename: {'sunspots': [{ smooth: 'RAW', skip: '13' },
                 { smooth: 'RAW', skip: '6' },
                 { smooth: 'RAW', skip: '3' },
                 { smooth: 'RAW', skip: '1' },
@@ -213,7 +224,35 @@ export default {
                 { smooth: 'WMA-13', skip: '6' },
                 { smooth: 'WMA-13', skip: '3' },
                 { smooth: 'WMA-13', skip: '1' }
-            ],
+            ], 'pm': [{ smooth: 'RAW', skip: '2' },
+                { smooth: 'RAW', skip: '3' },
+                { smooth: 'WMA-6', skip: '1' },
+                { smooth: 'WMA-6', skip: '3' },
+                { smooth: 'RAW', skip: '1' },
+                { smooth: 'MA-6', skip: '6' },
+                { smooth: 'WMA-6', skip: '2' },
+                { smooth: 'WMA-6', skip: '6' },
+                { smooth: 'MA-6', skip: '2' },
+                { smooth: 'MA-6', skip: '3' },
+                { smooth: 'MA-6', skip: '1' },
+                { smooth: 'RAW', skip: '6' },
+                { smooth: 'MA-12', skip: '1' },
+                { smooth: 'MA-12', skip: '2' },
+                { smooth: 'MA-12', skip: '3' },
+                { smooth: 'MA-12', skip: '6' },
+                { smooth: 'MA-3', skip: '2' },
+                { smooth: 'WMA-3', skip: '6' },
+                { smooth: 'WMA-12', skip: '3' },
+                { smooth: 'WMA-12', skip: '2' },
+                { smooth: 'MA-3', skip: '3' },
+                { smooth: 'MA-3', skip: '1' },
+                { smooth: 'WMA-12', skip: '1' },
+                { smooth: 'WMA-3', skip: '1' },
+                { smooth: 'WMA-3', skip: '1' },
+                { smooth: 'WMA-12', skip: '6' },
+                { smooth: 'WMA-3', skip: '2' },
+                { smooth: 'MA-3', skip: '6' }
+            ]},
             coverRect: [],
             dataSelect: 'sunspots',
             allTimeScale: {
@@ -243,6 +282,22 @@ export default {
         }
     },
     methods: {
+        refresh() {
+            this.selectRepresentationRow[this.dataSelect].tag = 0;
+            this.coverRect = [];
+            const dataStore = useDataStore();
+            dataStore.selectRepresentation.data = {};
+            dataStore.selectRepresentation.tag = !dataStore.selectRepresentation.tag;
+
+            selectAll('.corr_cir_out').remove();
+            selectAll('.corr_cir').attr('opacity', (d, i) => {
+                return d.isShow ? 0 : 1;
+            }).attr('fill', (d, i) => {
+                // if (d.class_name == this.filename[num].substring(0, this.filename[num].length - 8)) return 'orange';
+                // else 
+                return d.fill;
+            })
+        },
         checkSelectStatus: function(num) {
             if (this.selectRepresentationRow[this.dataSelect].tag == 0)
             return 0;
@@ -898,7 +953,7 @@ export default {
 
         const dataStore = useDataStore();
         let _this = this;
-        let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35];
+        // let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35];
         // // console.log(dataSet);
         // this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight);
         // let dataSet = [m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27];
@@ -911,6 +966,7 @@ export default {
 
         // console.log(dataSet);
         // this.heatRectData = this.calcRMSETempHeatMultiVariate(dataSet, smooth_data, this.elWidth, this.elHeight);
+        let dataSet = [rs1, rs2, rs3, rs4, rs5]
 
         // console.log(this.heatRectData);
         this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight);
@@ -986,5 +1042,17 @@ export default {
 
 .selection {
     fill-opacity: 0.15;
+}
+
+.el-button {
+    border: 0px;
+}
+
+.representationTime_g {
+    font-size: 14px;
+}
+
+.tick {
+    font-size: 14px;
 }
 </style>

@@ -292,9 +292,9 @@ export default {
     mounted() {
         this.elHeight = this.$refs.ControlPanel.offsetHeight;
         this.elWidth = this.$refs.ControlPanel.offsetWidth;
-        this.tableData = this.calcTable(uni_res_data);
+        // this.tableData = this.calcTable(uni_res_data);
         // console.log(this.basicData)
-        // this.tableData = this.calcTable(multi_res_data);
+        this.tableData = this.calcTable(uni_res_data);
         // console.log(this.tableData);
     },
 }

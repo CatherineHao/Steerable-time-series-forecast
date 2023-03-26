@@ -8,6 +8,13 @@
     <div class="frameworkTitle" style="padding-right: 10px;">
         <div class="title">Temporal View</div>
         <p class="titleTriangle"></p>
+
+        <div style="float: right; margin-top: 3px;">
+            <svg width="155" height="30">
+                <text x="10" y="20" font-size="14">Level: </text>
+                <rect v-for="(o, i) in horizon_color" :key="'hor_' + i" :x="i * 25 + 55" :y="5" :width="20" height="20" :fill="o" stroke="black"></rect>
+            </svg>
+        </div>
     </div>
     <div class="frameworkBody">
     
@@ -35,8 +42,9 @@
                                             <path :d="item.d" :stroke="'none'" :fill="item.fill[1]" :transform="translate(0, -item.height * 2, 0)"></path>
                                             <path :d="item.d" :stroke="'none'" :fill="item.fill[2]"  :transform="translate(0, -item.height * 1, 0)"></path>
                                             <path :d="item.d" :stroke="'none'" :fill="item.fill[3]"></path>
-                                            <text x="10" y="18">{{ item.feature }}</text>
                                         </g>
+                                        <g :transform="translate(0, item.rowHeight - 30, 0)">
+                                            <text x="0" y="18" font-size="14">{{ item.feature }}</text></g>
                                         <g :id="'time_line_legend' + i" :transform="translate(0, 0, 0)"></g>
             
                                         <g :id="'time_line' + i" :transform="translate(0, 0, 0)" clip-path="url(#clipPathLine)">
@@ -61,12 +69,14 @@
 import { axisBottom, axisLeft } from 'd3-axis';
 import { scaleLinear, scaleOrdinal, scaleUtc } from 'd3-scale';
 import { arc, area, line } from 'd3-shape';
-import SN_raw_data from "../assets/SN_m_tot_V2.0.csv";
+// import SN_raw_data from "../assets/SN_m_tot_V2.0.csv";
+import uni_var_data from "../assets/allData/univariate_data/all_smooth_value.csv";
 import multi_var_data from "../assets/15month_result/raw_15month.csv";
 import { extent, max, min, sum } from 'd3-array';
 import { brushX } from 'd3-brush';
 import { select, selectAll, selectorAll } from 'd3-selection';
 import { scale } from 'vsup';
+// import { ConstantTypes } from '@vue/compiler-core';
 export default {
     name: 'DataTransformationView',
     props: ['timeData', 'sliceData'],
@@ -125,11 +135,24 @@ export default {
             overview_line_data: [],
             horizon_color: ['#c7dbee', '#a1cadf', '#4892c3', '#0e4591'],
             dataSet: [],
-            dataSelect: 'sunspots',
+            datasetSelect: 'pm',
             timeScaleGlobal: null,
             brushMoveData: {
                 'sunspots': ['1900-01-01', '1930-01-01'],
-                'pm': ['2013-05-01', '2013-08-01']
+                'pm': ['2013-11-24', '2014-2-16']
+            },
+            nameMap: {
+                'sunspots': {
+                    'raw': 'RAW',
+                    'rolling3': 'MA-3',
+                    'rolling6': 'MA-6',
+                    'rolling9': 'MA-9',
+                    'rolling13': 'MA-13',
+                    'weighted3': 'WMA-3',
+                    'weighted6': 'WMA-6',
+                    'weighted9': 'WMA-9',
+                    'weighted13': 'WMA-13',
+                }
             }
         }
     },
@@ -144,9 +167,10 @@ export default {
                 timeFormatRes = year + '-' + month + '-' + day;
             } else {
                 let [date, detail] = time.split(' ');
+                // console.log(date, detail);
                 let year = date.slice(0, 4);
-                let month = detail.slice(4, 6);
-                let day = detail.slice(-2);
+                let month = date.slice(4, 6);
+                let day = date.slice(-2);
                 timeFormatRes = year + '-' + month + '-' + day + ' ' + detail;
             }
             return new Date(timeFormatRes);
@@ -172,10 +196,11 @@ export default {
             // console.log(id);
             for (let i in this.overview_line_data) {
                 if (i == cnt)
-                    this.overview_line_data[i].rowHeight = this.tlHeight - (this.featureSet.length - 1) * 30 - 10;
+                    this.overview_line_data[i].rowHeight = this.tlHeight - (this.featureSet.length) * 30 + 0;
                 else
                     this.overview_line_data[i].rowHeight = 30;
             }
+            console.log(this.dataSet, this.featureSet[cnt], cnt);
             this.calcTimeLine(this.dataSet[this.featureSet[cnt]], this.tlHeight - this.featureSet.length * 30 - 30, this.tlWidth, id);
             this.setupBrush(this.dataSet[this.featureSet[cnt]], '#brush_area' + cnt, this.tlWidth, this.tlHeight - this.featureSet.length * 30 - 30, cnt)
         },
@@ -276,7 +301,7 @@ export default {
             // let x = scaleLinear()
             //     .domain([0, data.length - 1])
             //     .range([margin.left, width - margin.right])
-            let x = scaleUtc(extent(data, d => this.timeFormat(d.date, this.dataSelect)), [margin.left, width - margin.right]);
+            let x = scaleUtc(extent(data, d => this.timeFormat(d.date, this.datasetSelect)), [margin.left, width - margin.right]);
             this.allTimeScale = x;
 
             let _this = this;
@@ -343,7 +368,7 @@ export default {
                 // _this.timeAxis = xAxis;
 
                 let lineGenerate = line()
-                    .x((d) => _this.xScale(_this.timeFormat(d.date, _this.dataSelect)))
+                    .x((d) => _this.xScale(_this.timeFormat(d.date, _this.datasetSelect)))
                     .y(d => _this.yScale(d.value));
 
                 // _this.select_time_step = timeStep;
@@ -395,7 +420,7 @@ export default {
                 // // _this.timeAxis = xAxis;
 
                 let lineGenerate = line()
-                    .x((d) => _this.xScale(_this.timeFormat(d.date, _this.dataSelect)))
+                    .x((d) => _this.xScale(_this.timeFormat(d.date, _this.datasetSelect)))
                     .y(d => _this.yScale(d.value));
 
                 // _this.select_time_step = timeStep;
@@ -418,32 +443,36 @@ export default {
             }
             // console.log(select(id))
             select(id).call(timeBrush)
-                .call(timeBrush.move, [x(new Date(_this.brushMoveData[_this.dataSelect][0])), x(new Date(_this.brushMoveData[_this.dataSelect][1]))]);
+                .call(timeBrush.move, [x(new Date(_this.brushMoveData[_this.datasetSelect][0])), x(new Date(_this.brushMoveData[_this.datasetSelect][1]))]);
 
         },
         calcTimeLine(data, height, width, id) {
-            console.log(data)
-            let margin = ({ top: 30, right: 15, bottom: 20, left: 50 });
+            // console.log(data)
+            // data = data.slice(0, 1000)
+            let margin = ({ top: 10, right: 15, bottom: 20, left: 50 });
             let focusHeight = 100;
 
             let y = scaleLinear()
                 .domain([min(data, d => parseFloat(d.value)), max(data, d => parseFloat(d.value))])
                 .range([height - margin.bottom, margin.top])
+            // console.log(data);
+            // console.log();
+            // console.log(y.domain())
                 // for (let i in data) {
                 //     console.log(data[i])
                 // }
             // let x = scaleLinear()
             //     .domain([0, max(data, d => parseInt(d.id))])
             //     .range([margin.left, width - margin.right])
-            let x = scaleUtc().domain(extent(data, d => this.timeFormat(d.date, this.dataSelect))).range([margin.left, width - margin.right]);
-            // console.log(extent(data, d => this.timeFormat(d.date, this.dataSelect)))
+            let x = scaleUtc().domain(extent(data, d => this.timeFormat(d.date, this.datasetSelect))).range([margin.left, width - margin.right]);
+            // console.log(extent(data, d => this.timeFormat(d.date, this.datasetSelect)))
             // let x = scaleLinear([0, data.length - 1], [margin.left, width - margin.right]);
             // const rx = scaleLinear()
             //     .domain([margin.left, width - margin.right])
             //     .range([0, max(data, d => parseInt(d.id))]);
             const rx = scaleLinear()
                 .domain([margin.left, width - margin.right])
-                .range(extent(data, d => this.timeFormat(d.date, this.dataSelect)));
+                .range(extent(data, d => this.timeFormat(d.date, this.datasetSelect)));
 
             this.xScale = x;
             this.yScale = y;
@@ -457,9 +486,9 @@ export default {
             //     .y1(d => y(d.value))
             let lineGenerate = line()
                 .x((d, i) => {
-                    // console.log(d, d.date, (this.timeFormat(d.date, this.dataSelect)), x(this.timeFormat(d.date, this.dataSelect)))
-                    return x(this.timeFormat(d.date, this.dataSelect))})
-                .y(d => y(d.value));
+                    // console.log(d, d.date, (this.timeFormat(d.date, this.datasetSelect)), x(this.timeFormat(d.date, this.datasetSelect)))
+                    return x(this.timeFormat(d.date, this.datasetSelect))})
+                .y(d => y(parseFloat(d.value)));
             this.lineGenerateFunc = lineGenerate;
 
             let yAxis = (g, y, title) => g
@@ -502,6 +531,7 @@ export default {
 
             let xScale = scaleLinear([0, data.length - 1], [margin.left, width - margin.right]);
             let vRange = extent(data, d => parseFloat(d.value));
+            console.log(vRange);
             // vRange
             let yScale = scaleLinear(vRange, [this.horizon_level * (height - margin.bottom), margin.top]);
             let areaGenerate = area().x((d, i) => xScale(parseFloat(i))).y0(d => yScale(parseFloat(d.value))).y1(d => yScale(parseFloat(vRange[0])));
@@ -515,8 +545,8 @@ export default {
             for (let i in data[0]) {
                 if (i == 'date' || i == 'id' || i == 'timestamp')
                     continue;
-                if (i != 'value' && this.dataSelect == 'sunspots')
-                    continue
+                // if (i != 'value' && this.datasetSelect == 'sunspots')
+                //     continue
                 featureSet.push(i);
                 allData[i] = [];
             }
@@ -530,7 +560,7 @@ export default {
                     if (j == 'wnd_dir')
                         v = (v / 45).toFixed(0);
                     let date;
-                    if (this.dataSelect == 'sunspots')
+                    if (this.datasetSelect == 'sunspots')
                     date = data[i]['timestamp']
                     else
                     date = data[i]['date']
@@ -555,13 +585,16 @@ export default {
                 result_data.push({
                     d: this.calcFeatureArea(allData[i], this.tlWidth, 30),
                     raw: allData[i],
+                    // feature: this.nameMap[this.datasetSelect][i],
                     feature: i,
+                    featureName: i,
                     fill: this.horizon_color,
                     height: 30,
                     rowHeight: 30
                 })
             }
             // console.log(result_data);
+            console.log(allData);
 
             return [result_data, featureSet, allData];
         }
@@ -571,16 +604,15 @@ export default {
         this.tlHeight = this.$refs.timeline.offsetHeight * 1;
         this.tlWidth = this.$refs.timeline.offsetWidth;
         // console.log(SN_raw_data)
-        // this.dataSet = multi_var_data;
-        // this.dataSelect = 'sunspots'q
+        // this.dataSet = multi_var_data; 
 
 
-        [this.overview_line_data, this.featureSet, this.dataSet] = this.calcOverviewTimeLine(SN_raw_data);
-        console.log(this.overview_line_data, this.featureSet, this.dataSet);
-        this.calcTimeScale(SN_raw_data, this.dataSelect);
+        [this.overview_line_data, this.featureSet, this.dataSet] = this.calcOverviewTimeLine(multi_var_data);
+        // console.log(this.overview_line_data, this.featureSet, this.dataSet);
+        this.calcTimeScale(multi_var_data, this.datasetSelect);
         // console.log(this.dataSet);
 
-        // this.setupBrush(SN_raw_data, '#brush_area0', this.tlWidth, 0)
+        // this.setupBrush(uni_var_data, '#brush_area0', this.tlWidth, 0)
     },
     updated() {
 
