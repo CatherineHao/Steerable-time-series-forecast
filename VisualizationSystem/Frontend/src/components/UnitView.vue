@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-03-21 15:45:06
+ * @LastEditTime: 2023-03-27 04:46:06
 -->
 <template>
     <div class="frameworkTitle">
@@ -317,51 +317,51 @@ export default {
         let margin = { top: 15, left: 50, right: 5, bottom: 30 }
         // if (dataStore.dataSelect == 'sunspots') {
         // console.log(rolling13, weight13, SN_raw_data);
-        // for (let i in SN_raw_data) {
-        //     SN_raw_data[i]['weight13'] = sa13[i]['value'];
-        //     SN_raw_data[i]['rolling13'] = sr13[i]['value'];
-        //     SN_raw_data[i]['weight3'] = sa3[i]['value'];
-        //     SN_raw_data[i]['rolling3'] = sr3[i]['value'];
-        //     SN_raw_data[i]['weight6'] = sa6[i]['value'];
-        //     SN_raw_data[i]['rolling6'] = sr6[i]['value'];
-        //     SN_raw_data[i]['raw'] = SN_raw_data[i]['value'];
-        // }
-        // for (let i = 0; i < this.S_name.length; ++i) {
-        //     for (let j = 0; j < i + 1; ++j) {
-        //         // console.log(this.S_name[i], this.S_name[j]);
-        //         F_sparkBoxData.push({
-        //             x: j,
-        //             y: i,
-        //             tx: (this.elWidth - margin.left - margin.right) / this.S_name.length * j,
-        //             rx: margin.left,
-        //             w: (this.elWidth - margin.left - margin.right) / this.S_name.length,
-        //             ty: (this.elHeight - margin.bottom - margin.top) / this.S_name.length * i,
-        //             ry: margin.top,
-        //             h: (this.elHeight - margin.bottom - margin.top) / this.S_name.length,
-        //             boxData: this.calcDisSparkBox(SN_raw_data, (this.elHeight - margin.bottom - margin.top) / this.S_name.length, (this.elWidth - margin.left - margin.right) / this.S_name.length, 8, this.S_name[i], this.S_name[j], 'value')
-        //         })
-        //     }
-        // }
-        // this.show_name = this.SS_name;
-        // this.dataName = 'Sunspot number'
-        // } else if (dataStore.dataSelect == 'pm') {
-        for (let i = 0; i < this.F_name.length; ++i) {
+        for (let i in SN_raw_data) {
+            SN_raw_data[i]['weight13'] = sa13[i]['value'];
+            SN_raw_data[i]['rolling13'] = sr13[i]['value'];
+            SN_raw_data[i]['weight3'] = sa3[i]['value'];
+            SN_raw_data[i]['rolling3'] = sr3[i]['value'];
+            SN_raw_data[i]['weight6'] = sa6[i]['value'];
+            SN_raw_data[i]['rolling6'] = sr6[i]['value'];
+            SN_raw_data[i]['raw'] = SN_raw_data[i]['value'];
+        }
+        for (let i = 0; i < this.S_name.length; ++i) {
             for (let j = 0; j < i + 1; ++j) {
+                // console.log(this.S_name[i], this.S_name[j]);
                 F_sparkBoxData.push({
                     x: j,
                     y: i,
-                    tx: (this.elWidth - margin.left - margin.right) / this.F_name.length * j,
+                    tx: (this.elWidth - margin.left - margin.right) / this.S_name.length * j,
                     rx: margin.left,
-                    w: (this.elWidth - margin.left - margin.right) / this.F_name.length,
-                    ty: (this.elHeight - margin.bottom - margin.top) / this.F_name.length * i,
+                    w: (this.elWidth - margin.left - margin.right) / this.S_name.length,
+                    ty: (this.elHeight - margin.bottom - margin.top) / this.S_name.length * i,
                     ry: margin.top,
-                    h: (this.elHeight - margin.bottom - margin.top) / this.F_name.length,
-                    boxData: this.calcDisSparkBox(multi_data, (this.elHeight - margin.bottom - margin.top) / this.F_name.length, (this.elWidth - margin.left - margin.right) / this.F_name.length, 8, this.F_name[i], this.F_name[j], 'pm25')
+                    h: (this.elHeight - margin.bottom - margin.top) / this.S_name.length,
+                    boxData: this.calcDisSparkBox(SN_raw_data, (this.elHeight - margin.bottom - margin.top) / this.S_name.length, (this.elWidth - margin.left - margin.right) / this.S_name.length, 8, this.S_name[i], this.S_name[j], 'value')
                 })
             }
         }
-        this.show_name = this.F_name;
-        this.dataName = 'PM 2.5'
+        this.show_name = this.SS_name;
+        this.dataName = 'Sunspot number'
+        // } else if (dataStore.dataSelect == 'pm') {
+        // for (let i = 0; i < this.F_name.length; ++i) {
+        //     for (let j = 0; j < i + 1; ++j) {
+        //         F_sparkBoxData.push({
+        //             x: j,
+        //             y: i,
+        //             tx: (this.elWidth - margin.left - margin.right) / this.F_name.length * j,
+        //             rx: margin.left,
+        //             w: (this.elWidth - margin.left - margin.right) / this.F_name.length,
+        //             ty: (this.elHeight - margin.bottom - margin.top) / this.F_name.length * i,
+        //             ry: margin.top,
+        //             h: (this.elHeight - margin.bottom - margin.top) / this.F_name.length,
+        //             boxData: this.calcDisSparkBox(multi_data, (this.elHeight - margin.bottom - margin.top) / this.F_name.length, (this.elWidth - margin.left - margin.right) / this.F_name.length, 8, this.F_name[i], this.F_name[j], 'pm25')
+        //         })
+        //     }
+        // }
+        // this.show_name = this.F_name;
+        // this.dataName = 'PM 2.5'
         // }
         this.F_sparkBoxData = F_sparkBoxData;
         // })

@@ -2,63 +2,89 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-03-20 02:11:32
+ * @LastEditTime: 2023-03-27 04:48:50
 -->
 <template>
     <div class="frameworkTitle" style="padding-right: 10px;">
         <div class="title">Temporal View</div>
         <p class="titleTriangle"></p>
-
+    
         <div style="float: right; margin-top: 3px;">
             <svg width="155" height="30">
-                <text x="10" y="20" font-size="14">Level: </text>
-                <rect v-for="(o, i) in horizon_color" :key="'hor_' + i" :x="i * 25 + 55" :y="5" :width="20" height="20" :fill="o" stroke="black"></rect>
-            </svg>
+                        <text x="10" y="20" font-size="14">Layer: </text>
+                        <rect v-for="(o, i) in horizon_color" :key="'hor_' + i" :x="i * 25 + 55" :y="5" :width="20" height="20" :fill="o" stroke="black"></rect>
+                    </svg>
         </div>
     </div>
     <div class="frameworkBody">
     
         <div style="height: calc(100%); width: 100%; margin-top: 0px;">
             <!-- <div style="height: 1000px;">
-                            
-                                        </div> -->
-            <div style="height: 95%; width: 100%;" ref="timeline">
-                <div v-for="(item, i) in overview_line_data" :key="'overview_line_' + i">
-                    <div :style="{
-                                    'background-color': 'white',
-                                    'margin-top': '3px',
-                                    'height': item.rowHeight + 'px',
-                                    }" @click="showDetail(i, '#time_line_legend' + i)">
-                        <svg width="100%" :height="item.rowHeight">
-                                        <clipPath id="clipPathHorizon">
-                                                            <rect :x="0" :y="0" :width="tlWidth" :height="30"></rect>
-                                                    </clipPath>
-                                        
-                                                    <clipPath id="clipPathLine">
-                                                            <rect :x="50" :y="0" :width="tlWidth - 50 - 10" :height="item.rowHeight - 30"></rect>
-                                                    </clipPath>
-                                        <g clip-path="url(#clipPathHorizon)" :id="'brush_area' + i" :transform="translate(0, item.rowHeight - 30, 0)">
-                                            <path :d="item.d" :stroke="'none'" :fill="item.fill[0]" :transform="translate(0, -item.height * 3, 0)"></path>
-                                            <path :d="item.d" :stroke="'none'" :fill="item.fill[1]" :transform="translate(0, -item.height * 2, 0)"></path>
-                                            <path :d="item.d" :stroke="'none'" :fill="item.fill[2]"  :transform="translate(0, -item.height * 1, 0)"></path>
-                                            <path :d="item.d" :stroke="'none'" :fill="item.fill[3]"></path>
-                                        </g>
-                                        <g :transform="translate(0, item.rowHeight - 30, 0)">
-                                            <text x="0" y="18" font-size="14">{{ item.feature }}</text></g>
-                                        <g :id="'time_line_legend' + i" :transform="translate(0, 0, 0)"></g>
-            
-                                        <g :id="'time_line' + i" :transform="translate(0, 0, 0)" clip-path="url(#clipPathLine)">
-                                            <path :id="'time_path_raw' + i" :d="timeLinePath" :fill="'none'" :stroke="'grey'"></path>
-                                        </g>
-                                    </svg>
-                    </div>
-                </div>
+                                    
+                                                </div> -->
+            <div style="height: 96%; width: 100%;" ref="timeline">
+                <!-- <div v-for="(item, i) in overview_line_data" :key="'overview_line_' + i">
+                        <div :style="{
+                                            'background-color': 'white',
+                                            'margin-top': '3px',
+                                            'height': item.rowHeight + 'px',
+                                            }" @click="showDetail(i, '#time_line_legend' + i)">
+                            <svg width="100%" :height="item.rowHeight">
+                                                <clipPath id="clipPathHorizon">
+                                                                    <rect :x="0" :y="0" :width="tlWidth" :height="30"></rect>
+                                                            </clipPath>
+                                                
+                                                            <clipPath id="clipPathLine">
+                                                                    <rect :x="50" :y="0" :width="tlWidth - 50 - 10" :height="item.rowHeight - 30"></rect>
+                                                            </clipPath>
+                                                <g clip-path="url(#clipPathHorizon)" :id="'brush_area' + i" :transform="translate(0, item.rowHeight - 30, 0)">
+                                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[0]" :transform="translate(0, -item.height * 3, 0)"></path>
+                                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[1]" :transform="translate(0, -item.height * 2, 0)"></path>
+                                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[2]"  :transform="translate(0, -item.height * 1, 0)"></path>
+                                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[3]"></path>
+                                                </g>
+                                                <g :transform="translate(0, item.rowHeight - 30, 0)">
+                                                    <text x="0" y="18" font-size="14">{{ item.feature }}</text></g>
+                                                <g :id="'time_line_legend' + i" :transform="translate(0, 0, 0)"></g>
+                    
+                                                <g :id="'time_line' + i" :transform="translate(0, 0, 0)" clip-path="url(#clipPathLine)">
+                                                    <path :id="'time_path_raw' + i" :d="timeLinePath" :fill="'none'" :stroke="'grey'"></path>
+                                                </g>
+                                            </svg>
+                        </div>
+                    </div> -->
+                <!-- <div v-for="(item, i) in overview_line_data" :key="'overview_line_' + i"> -->
+                    <svg width="100%" height="100%">
+                        <g v-for="(item, i) in overview_line_data" :transform="translate(0, item.posHeight, 0)">
+                                                <clipPath id="clipPathHorizon">
+                                                    <rect :x="0" :y="0" :width="tlWidth" :height="30"></rect>
+                                                </clipPath>
+                                                
+                                                <clipPath id="clipPathLine">
+                                                    <rect :x="50" :y="0" :width="tlWidth - 50 - 10" :height="item.rowHeight - 30"></rect>
+                                                </clipPath>
+                                                <g clip-path="url(#clipPathHorizon)" :id="'brush_area' + i" :transform="translate(0, item.rowHeight - 30, 0)">
+                                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[0]" :transform="translate(0, -item.height * 3, 0)"></path>
+                                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[1]" :transform="translate(0, -item.height * 2, 0)"></path>
+                                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[2]"  :transform="translate(0, -item.height * 1, 0)"></path>
+                                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[3]"></path>
+                                                </g>
+                                                <g :transform="translate(0, item.rowHeight - 30, 0)">
+                                                    <text x="0" y="18" font-size="14">{{ item.feature }}</text></g>
+                            <g :id="'time_line_legend' + i" :transform="translate(0, 0, 0)"></g>
+                    
+                            <g :id="'time_line' + i" :transform="translate(0, 0, 0)" clip-path="url(#clipPathLine)">
+                                <path :id="'time_path_raw' + i" :d="timeLinePath" :fill="'none'" :stroke="'grey'"></path>
+                            </g>
+                        </g>
+                    </svg>
+                <!-- </div> -->
             </div>
     
             <div style="height: 4%;">
                 <svg width="100%" height="100%">
-                    <g id="global_time_axis"></g>
-                </svg>
+                            <g id="global_time_axis"></g>
+                        </svg>
             </div>
         </div>
     
@@ -71,7 +97,7 @@ import { scaleLinear, scaleOrdinal, scaleUtc } from 'd3-scale';
 import { arc, area, line } from 'd3-shape';
 // import SN_raw_data from "../assets/SN_m_tot_V2.0.csv";
 import uni_var_data from "../assets/allData/univariate_data/all_smooth_value.csv";
-import multi_var_data from "../assets/15month_result/raw_15month.csv";
+import multi_var_data from "../assets/allData/multivariate_data/smooth_data/raw_15month.csv";
 import { extent, max, min, sum } from 'd3-array';
 import { brushX } from 'd3-brush';
 import { select, selectAll, selectorAll } from 'd3-selection';
@@ -135,12 +161,13 @@ export default {
             overview_line_data: [],
             horizon_color: ['#c7dbee', '#a1cadf', '#4892c3', '#0e4591'],
             dataSet: [],
-            datasetSelect: 'pm',
+            sdData: '',
             timeScaleGlobal: null,
             brushMoveData: {
                 'sunspots': ['1900-01-01', '1930-01-01'],
                 'pm': ['2013-11-24', '2014-2-16']
             },
+            datasetSelect: 'sunspots',
             nameMap: {
                 'sunspots': {
                     'raw': 'RAW',
@@ -152,6 +179,14 @@ export default {
                     'weighted6': 'WMA-6',
                     'weighted9': 'WMA-9',
                     'weighted13': 'WMA-13',
+                },
+                'pm': {
+                    'pm25': 'PM2.5',
+                    'temp': 'temp',
+                    'rh': 'rh',
+                    'psfc': 'psfc',
+                    'wnd_dir': 'wnd_dir',
+                    'wnd_spd': 'wnd_spd'
                 }
             }
         }
@@ -182,7 +217,7 @@ export default {
             for (let i in data) {
                 if (type == 'sunspots') {
                     timeData.push(this.timeFormat(data[i]['timestamp'], type));
-                }else {
+                } else {
                     timeData.push(this.timeFormat(data[i]['date'], type));
                 }
             }
@@ -194,14 +229,17 @@ export default {
         },
         showDetail(cnt, id) {
             // console.log(id);
+            let sigHeight = 0;
             for (let i in this.overview_line_data) {
+                this.overview_line_data[i].posHeight = sigHeight;
                 if (i == cnt)
                     this.overview_line_data[i].rowHeight = this.tlHeight - (this.featureSet.length) * 30 + 0;
                 else
                     this.overview_line_data[i].rowHeight = 30;
+                sigHeight += this.overview_line_data[i].rowHeight;
             }
-            console.log(this.dataSet, this.featureSet[cnt], cnt);
-            this.calcTimeLine(this.dataSet[this.featureSet[cnt]], this.tlHeight - this.featureSet.length * 30 - 30, this.tlWidth, id);
+            // console.log(this.dataSet, this.featureSet[cnt], cnt);
+            this.calcTimeLine(this.dataSet[this.featureSet[cnt]], this.tlHeight - this.featureSet.length * 30 - 50, this.tlWidth, id);
             this.setupBrush(this.dataSet[this.featureSet[cnt]], '#brush_area' + cnt, this.tlWidth, this.tlHeight - this.featureSet.length * 30 - 30, cnt)
         },
         translate(x, y, deg) {
@@ -333,7 +371,7 @@ export default {
                 // _this.calcSparkBox(SN_raw_data, _this.tlHeight, _this.tlWidth);
                 let timeStep = [_this.timeScaleGlobal.invert(selection[0]), _this.timeScaleGlobal.invert(selection[1])];
                 // console.log(timeStep)
-                
+
                 _this.xScale.domain(timeStep);
                 // console.log(_this.xScale.domain(), _this.xScale.range());
                 // _this.yScale.domain([0, maxY]);
@@ -361,7 +399,7 @@ export default {
                 // let tScale = scaleOrdinal(timeRange, lenRange)
                 // // console.log(timeRange, lenRange);
 
-            let marginX = ({ top: 30, right: 15, bottom: 20, left: 50 });
+                let marginX = ({ top: 30, right: 15, bottom: 40, left: 50 });
                 selectAll('#axsg').remove();
                 select('#time_line_legend' + cnt).append('g').attr('id', 'axsg').attr("transform", `translate(0, ${height - marginX.bottom})`).call(axisBottom(_this.xScale).ticks((_this.elWidth - marginX.left - marginX.right) / 80).tickSizeOuter(0));
 
@@ -412,7 +450,7 @@ export default {
                 // }
                 // let tScale = scaleOrdinal(timeRange, lenRange)
                 // // console.log(timeRange, lenRange);
-            let marginX = ({ top: 30, right: 15, bottom: 20, left: 50 });
+                let marginX = ({ top: 30, right: 15, bottom: 40, left: 50 });
                 selectAll('#axsg').remove();
                 select('#time_line_legend' + cnt).append('g').attr('id', 'axsg').attr("transform", `translate(0, ${height - marginX.bottom})`).call(axisBottom(_this.xScale).ticks((_this.elWidth - marginX.left - marginX.right) / 80).tickSizeOuter(0));
                 // console.log('#time_line_legend' + cnt);
@@ -458,9 +496,9 @@ export default {
             // console.log(data);
             // console.log();
             // console.log(y.domain())
-                // for (let i in data) {
-                //     console.log(data[i])
-                // }
+            // for (let i in data) {
+            //     console.log(data[i])
+            // }
             // let x = scaleLinear()
             //     .domain([0, max(data, d => parseInt(d.id))])
             //     .range([margin.left, width - margin.right])
@@ -487,7 +525,8 @@ export default {
             let lineGenerate = line()
                 .x((d, i) => {
                     // console.log(d, d.date, (this.timeFormat(d.date, this.datasetSelect)), x(this.timeFormat(d.date, this.datasetSelect)))
-                    return x(this.timeFormat(d.date, this.datasetSelect))})
+                    return x(this.timeFormat(d.date, this.datasetSelect))
+                })
                 .y(d => y(parseFloat(d.value)));
             this.lineGenerateFunc = lineGenerate;
 
@@ -497,8 +536,8 @@ export default {
                 // .call(g => g.select(".domain").remove())
                 .call(g => g.selectAll(".title").data([title]).join("text")
                     .attr("class", "title")
-                    .attr("x", 0)
-                    .attr("y", 20)
+                    .attr("x", 20)
+                    .attr("y", 15)
                     .attr("fill", "currentColor")
                     .attr("text-anchor", "middle")
                     .attr('font-size', '14px')
@@ -543,7 +582,7 @@ export default {
             let featureSet = [];
             let allData = {};
             for (let i in data[0]) {
-                if (i == 'date' || i == 'id' || i == 'timestamp')
+                if (i == 'date' || i == 'id' || i == 'timestamp' || i == 'rolling9' || i == 'weighted9')
                     continue;
                 // if (i != 'value' && this.datasetSelect == 'sunspots')
                 //     continue
@@ -561,9 +600,9 @@ export default {
                         v = (v / 45).toFixed(0);
                     let date;
                     if (this.datasetSelect == 'sunspots')
-                    date = data[i]['timestamp']
+                        date = data[i]['timestamp']
                     else
-                    date = data[i]['date']
+                        date = data[i]['date']
                     allData[j].push({
                         date: date,
                         value: v,
@@ -580,21 +619,24 @@ export default {
             //         feature: i
             //     })
             // }
+            let cnt_h = 0
 
             for (let i in allData) {
                 result_data.push({
                     d: this.calcFeatureArea(allData[i], this.tlWidth, 30),
                     raw: allData[i],
-                    // feature: this.nameMap[this.datasetSelect][i],
-                    feature: i,
+                    feature: this.nameMap[this.datasetSelect][i],
+                    // feature: i,
                     featureName: i,
                     fill: this.horizon_color,
                     height: 30,
-                    rowHeight: 30
+                    rowHeight: 30,
+                    posHeight: cnt_h * 30
                 })
+                cnt_h++;
             }
             // console.log(result_data);
-            console.log(allData);
+            // console.log(allData);
 
             return [result_data, featureSet, allData];
         }
@@ -603,20 +645,22 @@ export default {
     mounted() {
         this.tlHeight = this.$refs.timeline.offsetHeight * 1;
         this.tlWidth = this.$refs.timeline.offsetWidth;
+        // this.tlHeight = 100;
         // console.log(SN_raw_data)
-        // this.dataSet = multi_var_data; 
+        // // this.dataSet = multi_var_data; 
+        // this.sdData = 1
 
 
-        [this.overview_line_data, this.featureSet, this.dataSet] = this.calcOverviewTimeLine(multi_var_data);
+        [this.overview_line_data, this.featureSet, this.dataSet] = this.calcOverviewTimeLine(uni_var_data);
         // console.log(this.overview_line_data, this.featureSet, this.dataSet);
-        this.calcTimeScale(multi_var_data, this.datasetSelect);
+        this.calcTimeScale(uni_var_data, this.datasetSelect);
         // console.log(this.dataSet);
 
         // this.setupBrush(uni_var_data, '#brush_area0', this.tlWidth, 0)
     },
     updated() {
+        // this.showDetail(0, '#time_line_legend0')
 
-        this.showDetail(0, '#time_line_legend0')
     }
 }
 </script>
@@ -639,5 +683,9 @@ export default {
 
 .selection {
     fill-opacity: 0.15;
+}
+
+.selection {
+    fill: black;
 }
 </style>

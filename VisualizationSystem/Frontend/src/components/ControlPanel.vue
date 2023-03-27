@@ -40,7 +40,7 @@
                                         <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
                                             <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
                                         </el-select> -->
-                                        6
+                                        1
                                     </span>
             </div>
             <div style="height: calc(20% - 5px); margin-top: 0px;">
@@ -56,13 +56,13 @@
                                         <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
                                             <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
                                         </el-select> -->
-                                        Yes
+                                        Yes (p-value: 9.7559e-17)
                                     </span>
             </div>
             <div style="height: calc(20% - 5px); margin-top: 5px;">
                 <span style="float: left; font-weight: normal; margin-top: 0px;">
-                                        Periodicity:
-                                        1, 3, 6
+                                        Periodicity: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        1, 3, 6, 13
                                     </span>
                 <!-- <span style="width: 60%; float: right; font-weight: normal; margin-top: 6px; text-align: left;">
                                         {{ fileValue == null ? '' : ((basicData[fileValue].periodicity['recommend_lag']) + ' (' +
@@ -148,7 +148,7 @@ export default {
             elHeight: 0,
             elWidth: 0,
             periodInput: '',
-            fileValue: null,
+            fileValue: 'Sunspots',
             tableData: [],
             fileOptions: [{
                     value: 'sunspots',
