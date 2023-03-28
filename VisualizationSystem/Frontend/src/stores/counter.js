@@ -29,7 +29,8 @@ export const useDataStore = defineStore("dataStore", {
       selectRepresentation: { 
         tag: 0,
         data: []
-      }
+      },
+      selectRowClass: ''
     }
   },
   actions: {

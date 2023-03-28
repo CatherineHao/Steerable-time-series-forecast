@@ -15,7 +15,8 @@
         <div style="float: right; margin-top: 3px;">
             <span style="margin-right: 20px; margin-top: 0px;">
                             <el-button style="height: 30px; width: 30px;" @click="refresh()">
-                                <svg t="1679864988600" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7931" width="25" height="25"><path d="M899.1 869.6l-53-305.6H864c14.4 0 26-11.6 26-26V346c0-14.4-11.6-26-26-26H618V138c0-14.4-11.6-26-26-26H432c-14.4 0-26 11.6-26 26v182H160c-14.4 0-26 11.6-26 26v192c0 14.4 11.6 26 26 26h17.9l-53 305.6c-0.3 1.5-0.4 3-0.4 4.4 0 14.4 11.6 26 26 26h723c1.5 0 3-0.1 4.4-0.4 14.2-2.4 23.7-15.9 21.2-30zM204 390h272V182h72v208h272v104H204V390z m468 440V674c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v156H416V674c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v156H202.8l45.1-260H776l45.1 260H672z" p-id="7932"></path></svg>
+                                <!-- <svg t="1679864988600" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7931" width="25" height="25"><path d="M899.1 869.6l-53-305.6H864c14.4 0 26-11.6 26-26V346c0-14.4-11.6-26-26-26H618V138c0-14.4-11.6-26-26-26H432c-14.4 0-26 11.6-26 26v182H160c-14.4 0-26 11.6-26 26v192c0 14.4 11.6 26 26 26h17.9l-53 305.6c-0.3 1.5-0.4 3-0.4 4.4 0 14.4 11.6 26 26 26h723c1.5 0 3-0.1 4.4-0.4 14.2-2.4 23.7-15.9 21.2-30zM204 390h272V182h72v208h272v104H204V390z m468 440V674c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v156H416V674c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v156H202.8l45.1-260H776l45.1 260H672z" p-id="7932"></path></svg> -->
+                                clear
                             </el-button>
                         </span>
             <span>Metric: </span>
@@ -28,10 +29,10 @@
         <div ref="DataTransformation" style="height: calc(97%); width: 100%; margin-top: 0px;">
             <svg height="100%" width="100%" transform="translate(0, 0)">
                                     <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)"
-                                        @mouseenter="selectFile(i)" @mouseout="cancelFile(i)" @click="clickFile(i, item.class_name)">
+                                        @mouseenter="selectFile(item.class_name)" @mouseout="cancelFile(item.class_name)" @click="clickFile(i, item.class_name)">
                                         <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
-                                            :width="item_h.w" :height="item_h.h" :fill="item_h.colorMap[heatTag]" :id="'tsr' + item_h.id_cnt"
-                                            :class="'wsr' + i" :fill-opacity="1">
+                                            :width="item_h.w" :height="item_h.h" :fill="item_h.colorMap[heatTag]" :id="item.uid"
+                                            :class="'representationSkipRect'" :fill-opacity="1">
                                         </rect>
                                         <rect v-for="(item_h, item_i) in item['res']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
                                             :width="item_h.w" :height="item_h.h" :fill="'orange'" :id="'tsr' + item_i"
@@ -44,10 +45,10 @@
                                         }}</text>
                                     </g>
                                     <g id="legend_g"></g>
-                                    <!-- <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)">
-                                        <rect :id="'rst' + i" class="rst" :x="item['heat'][0].x" :y="0" :width="elWidth - 10 - item['heat'][0].x"
-                                            :height="item['heat'][0].h" :fill="checkSelectStatus(i) == 2 ? '#c0c0c0' : 'none'" stroke="black" :stroke-width="checkSelectStatus(i) == 1 ? 3 : 0" :fill-opacity="checkSelectStatus(i) == 2 ? 0 : 0"></rect>
-                                    </g> -->
+                                    <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)">
+                                        <rect :id="item.class_name" class="black_select_row" :x="item['heat'][0].x" :y="0" :width="elWidth - 10 - item['heat'][0].x"
+                                            :height="item['heat'][0].h" :fill="checkSelectStatus(i) == 2 ? 'none' : 'none'" stroke="black" :stroke-width="checkSelectStatus(i) == 1 ? 3 : 0" :fill-opacity="checkSelectStatus(i) == 2 ? 0 : 0"></rect>
+                                    </g>
                                     <g v-for="(item, i) in coverRect" :key="'heat_g' + i"
                                         :transform="translate(0, item.realH, 0)">
                                         <rect :id="'rst' + i" class="rst" :x="item.x" :y="0" :width="item.w" :height="item.h" :fill="item.colorMap[heatTag]"
@@ -266,7 +267,7 @@ export default {
             allTimeScale: {
                 'sunspots': {
                     start: '1878-01-01',
-                    end: '2013-01-01'
+                    end: '2022-01-01'
                 },
                 'pm': {
                     start: '2013-01-02 00:00:00',
@@ -286,16 +287,28 @@ export default {
             selectDot: {
                 tag: 0,
                 data: []
-            }
+            },
+            cid_index: {}
         }
     },
     methods: {
         refresh() {
-            this.selectRepresentationRow[this.dataSelect].tag = 0;
+            this.selectRepresentationRow = {
+                'sunspots': {
+                    tag: 0,
+                    status: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                },
+                'pm': {
+                    tag: 0,
+                    status: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                }
+            };
             this.coverRect = [];
             const dataStore = useDataStore();
-            dataStore.selectRepresentation.data = {};
-            dataStore.selectRepresentation.tag = !dataStore.selectRepresentation.tag;
+            // dataStore.selectRepresentation.data = {};
+            // dataStore.selectRepresentation.tag = !dataStore.selectRepresentation.tag;
+
+            dataStore.selectRowClass = 1;
 
             selectAll('.corr_cir_out').remove();
             selectAll('.corr_cir').attr('opacity', (d, i) => {
@@ -315,9 +328,9 @@ export default {
                 return 2;
             }
         },
-        selectFile(num) {
+        selectFile(class_name) {
             if (this.clickFileTag) return;
-            select('#rst' + num).attr('stroke-width', 3)
+            select('#' + class_name).attr('stroke-width', 3)
             // .attr('fill', '#777').attr('fill-opacity', 0.5);
             selectAll('.p_x').attr('opacity', (d, i) => {
                 return d.id == num ? 1 : 0;
@@ -327,6 +340,7 @@ export default {
             let tdata = []
             this.clickFileTag = 1;
             // console.log(class_name );
+            selectAll('.' + 'black_select_row').attr('stroke-width', 0)
             this.selectRepresentationRow[this.dataSelect].status[num] = 1;
             this.selectRepresentationRow[this.dataSelect].tag = 1;
             selectAll('.corr_cir').attr('opacity', (d, i) => {
@@ -342,15 +356,16 @@ export default {
                 return '#d9d9d9';
             })
             // console.log(tdata)
-            let select_dot = {};
-            // console.log(this.heatRectData[num]);
-            for (let i in this.heatRectData[num].heat) {
-                select_dot[this.heatRectData[num].heat[i]['uid']] = 1;
-            }
+            // let select_dot = {};
+            // // console.log(this.heatRectData[num]);
+            // for (let i in this.heatRectData[num].heat) {
+            //     select_dot[this.heatRectData[num].heat[i]['uid']] = 1;
+            // }
             // console.log(select_dot);
             const dataStore = useDataStore();
-            dataStore.selectRepresentation.data = select_dot;
-            dataStore.selectRepresentation.tag = !dataStore.selectRepresentation.tag;
+            // dataStore.selectRepresentation.data = select_dot;
+            // dataStore.selectRepresentation.tag = !dataStore.selectRepresentation.tag;
+            dataStore.selectRowClass = class_name;
             selectAll('.corr_cir_out').remove();
             select('#scatter')
                 .append('g')
@@ -367,9 +382,9 @@ export default {
                 .attr('stroke', 'black')
                 .attr('fill', d => d.fill)
         },
-        cancelFile(num) {
+        cancelFile(class_name) {
             if (this.clickFileTag) return;
-            select('#rst' + num).attr('stroke-width', 0);
+            selectAll('.' + 'black_select_row').attr('stroke-width', 0)
             selectAll('.p_x').attr('opacity', 1)
             // selectAll('.corr_cir').attr('opacity', (d, i) => {
             //     // if (d.class_name == this.filename[num].substring(0, this.filename[num].length - 8)) {
@@ -814,7 +829,7 @@ export default {
                     h: height / allStrip,
                     heat: HeatSumData[i]
                 })
-
+                this.cid_index[HeatSumData[i][0].cid] = res_data.length - 1;
             }
             // console.log(res_data);
 
@@ -945,7 +960,7 @@ export default {
         this.elWidth = this.$refs.DataTransformation.offsetWidth;
         this.tlHeight = this.$refs.RepresentationTimeAxis.offsetHeight;
         this.tlWidth = this.$refs.RepresentationTimeAxis.offsetWidth;
-        this.dataSelect = 'pm'
+        this.dataSelect = 'sunspots'
 
         this.paintTimeScale(this.allTimeScale[this.dataSelect])
 
@@ -1006,6 +1021,9 @@ export default {
                     }
                     this.coverRect = coverRect;
                 }
+                // if (dataStore.selectRowClass != '') {
+                //     this.selectRepresentationRow
+                // }
             //     selectAll('#tsr_1').attr('opacity', 0);
             //     let coverRect = [];
             //     for (let i in _this.heatRectData) {
@@ -1052,11 +1070,13 @@ export default {
 }
 
 .selection {
-    fill-opacity: 0.15;
+    fill-opacity: 0.2;
 }
 
 .el-button {
-    border: 0px;
+    /* border: 0px; */
+    padding-left: 3px;
+    padding-right: 3px;
 }
 
 .representationTime_g {

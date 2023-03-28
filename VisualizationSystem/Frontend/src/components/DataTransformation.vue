@@ -11,80 +11,83 @@
     
         <div style="float: right; margin-top: 3px;">
             <svg width="155" height="30">
-                        <text x="10" y="20" font-size="14">Layer: </text>
-                        <rect v-for="(o, i) in horizon_color" :key="'hor_' + i" :x="i * 25 + 55" :y="5" :width="20" height="20" :fill="o" stroke="black"></rect>
-                    </svg>
+                            <text x="10" y="20" font-size="14">Layer: </text>
+                            <rect v-for="(o, i) in horizon_color" :key="'hor_' + i" :x="i * 25 + 55" :y="5" :width="20" height="20" :fill="o" stroke="black"></rect>
+                        </svg>
         </div>
     </div>
     <div class="frameworkBody">
     
         <div style="height: calc(100%); width: 100%; margin-top: 0px;">
             <!-- <div style="height: 1000px;">
-                                    
-                                                </div> -->
+                                        
+                                                    </div> -->
             <div style="height: 96%; width: 100%;" ref="timeline">
                 <!-- <div v-for="(item, i) in overview_line_data" :key="'overview_line_' + i">
-                        <div :style="{
-                                            'background-color': 'white',
-                                            'margin-top': '3px',
-                                            'height': item.rowHeight + 'px',
-                                            }" @click="showDetail(i, '#time_line_legend' + i)">
-                            <svg width="100%" :height="item.rowHeight">
-                                                <clipPath id="clipPathHorizon">
-                                                                    <rect :x="0" :y="0" :width="tlWidth" :height="30"></rect>
-                                                            </clipPath>
-                                                
-                                                            <clipPath id="clipPathLine">
-                                                                    <rect :x="50" :y="0" :width="tlWidth - 50 - 10" :height="item.rowHeight - 30"></rect>
-                                                            </clipPath>
-                                                <g clip-path="url(#clipPathHorizon)" :id="'brush_area' + i" :transform="translate(0, item.rowHeight - 30, 0)">
-                                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[0]" :transform="translate(0, -item.height * 3, 0)"></path>
-                                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[1]" :transform="translate(0, -item.height * 2, 0)"></path>
-                                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[2]"  :transform="translate(0, -item.height * 1, 0)"></path>
-                                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[3]"></path>
-                                                </g>
-                                                <g :transform="translate(0, item.rowHeight - 30, 0)">
-                                                    <text x="0" y="18" font-size="14">{{ item.feature }}</text></g>
-                                                <g :id="'time_line_legend' + i" :transform="translate(0, 0, 0)"></g>
-                    
-                                                <g :id="'time_line' + i" :transform="translate(0, 0, 0)" clip-path="url(#clipPathLine)">
-                                                    <path :id="'time_path_raw' + i" :d="timeLinePath" :fill="'none'" :stroke="'grey'"></path>
-                                                </g>
-                                            </svg>
-                        </div>
-                    </div> -->
+                            <div :style="{
+                                                'background-color': 'white',
+                                                'margin-top': '3px',
+                                                'height': item.rowHeight + 'px',
+                                                }" @click="showDetail(i, '#time_line_legend' + i)">
+                                <svg width="100%" :height="item.rowHeight">
+                                                    <clipPath id="clipPathHorizon">
+                                                                        <rect :x="0" :y="0" :width="tlWidth" :height="30"></rect>
+                                                                </clipPath>
+                                                    
+                                                                <clipPath id="clipPathLine">
+                                                                        <rect :x="50" :y="0" :width="tlWidth - 50 - 10" :height="item.rowHeight - 30"></rect>
+                                                                </clipPath>
+                                                    <g clip-path="url(#clipPathHorizon)" :id="'brush_area' + i" :transform="translate(0, item.rowHeight - 30, 0)">
+                                                        <path :d="item.d" :stroke="'none'" :fill="item.fill[0]" :transform="translate(0, -item.height * 3, 0)"></path>
+                                                        <path :d="item.d" :stroke="'none'" :fill="item.fill[1]" :transform="translate(0, -item.height * 2, 0)"></path>
+                                                        <path :d="item.d" :stroke="'none'" :fill="item.fill[2]"  :transform="translate(0, -item.height * 1, 0)"></path>
+                                                        <path :d="item.d" :stroke="'none'" :fill="item.fill[3]"></path>
+                                                    </g>
+                                                    <g :transform="translate(0, item.rowHeight - 30, 0)">
+                                                        <text x="0" y="18" font-size="14">{{ item.feature }}</text></g>
+                                                    <g :id="'time_line_legend' + i" :transform="translate(0, 0, 0)"></g>
+                        
+                                                    <g :id="'time_line' + i" :transform="translate(0, 0, 0)" clip-path="url(#clipPathLine)">
+                                                        <path :id="'time_path_raw' + i" :d="timeLinePath" :fill="'none'" :stroke="'grey'"></path>
+                                                    </g>
+                                                </svg>
+                            </div>
+                        </div> -->
                 <!-- <div v-for="(item, i) in overview_line_data" :key="'overview_line_' + i"> -->
-                    <svg width="100%" height="100%">
-                        <g v-for="(item, i) in overview_line_data" :transform="translate(0, item.posHeight, 0)">
-                                                <clipPath id="clipPathHorizon">
-                                                    <rect :x="0" :y="0" :width="tlWidth" :height="30"></rect>
-                                                </clipPath>
-                                                
-                                                <clipPath id="clipPathLine">
-                                                    <rect :x="50" :y="0" :width="tlWidth - 50 - 10" :height="item.rowHeight - 30"></rect>
-                                                </clipPath>
-                                                <g clip-path="url(#clipPathHorizon)" :id="'brush_area' + i" :transform="translate(0, item.rowHeight - 30, 0)">
-                                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[0]" :transform="translate(0, -item.height * 3, 0)"></path>
-                                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[1]" :transform="translate(0, -item.height * 2, 0)"></path>
-                                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[2]"  :transform="translate(0, -item.height * 1, 0)"></path>
-                                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[3]"></path>
-                                                </g>
-                                                <g :transform="translate(0, item.rowHeight - 30, 0)">
-                                                    <text x="0" y="18" font-size="14">{{ item.feature }}</text></g>
-                            <g :id="'time_line_legend' + i" :transform="translate(0, 0, 0)"></g>
-                    
-                            <g :id="'time_line' + i" :transform="translate(0, 0, 0)" clip-path="url(#clipPathLine)">
-                                <path :id="'time_path_raw' + i" :d="timeLinePath" :fill="'none'" :stroke="'grey'"></path>
-                            </g>
+                <svg width="100%" height="100%">
+                            <g v-for="(item, i) in overview_line_data" :transform="translate(0, item.posHeight, 0)">
+                                                    <clipPath id="clipPathHorizon">
+                                                        <rect :x="0" :y="0" :width="tlWidth" :height="30"></rect>
+                                                    </clipPath>
+                                                    
+                                                    <clipPath id="clipPathLine">
+                                                        <rect :x="50" :y="0" :width="tlWidth - 50 - 10" :height="item.rowHeight - 30"></rect>
+                                                    </clipPath>
+                                                    <g :opacity="item.rowHeight == 35 ? 0: 1">
+    
+                                <g :id="'time_line_legend' + i" :transform="translate(0, 0, 0)"></g>
+                        
+                        <g :id="'time_line' + i" :transform="translate(0, 0, 0)" clip-path="url(#clipPathLine)">
+                            <path :id="'time_path_raw' + i" :d="timeLinePath" :fill="'none'" :stroke="'grey'"></path>
                         </g>
-                    </svg>
+                                                    </g>
+                                                    <g clip-path="url(#clipPathHorizon)" :id="'brush_area' + i" :transform="translate(0, item.rowHeight - 30, 0)">
+                                                        <path :d="item.d" :stroke="'none'" :fill="item.fill[0]" :transform="translate(0, -item.height * 3, 0)"></path>
+                                                        <path :d="item.d" :stroke="'none'" :fill="item.fill[1]" :transform="translate(0, -item.height * 2, 0)"></path>
+                                                        <path :d="item.d" :stroke="'none'" :fill="item.fill[2]"  :transform="translate(0, -item.height * 1, 0)"></path>
+                                                        <path :d="item.d" :stroke="'none'" :fill="item.fill[3]"></path>
+                                                    </g>
+                                                    <g :transform="translate(0, item.rowHeight - 30, 0)" style="cursor: pointer;">
+                                                        <text x="0" y="18" font-size="14">{{ item.feature }}</text></g>
+                            </g>
+                        </svg>
                 <!-- </div> -->
             </div>
     
             <div style="height: 4%;">
                 <svg width="100%" height="100%">
-                            <g id="global_time_axis"></g>
-                        </svg>
+                                <g id="global_time_axis"></g>
+                            </svg>
             </div>
         </div>
     
@@ -233,9 +236,9 @@ export default {
             for (let i in this.overview_line_data) {
                 this.overview_line_data[i].posHeight = sigHeight;
                 if (i == cnt)
-                    this.overview_line_data[i].rowHeight = this.tlHeight - (this.featureSet.length) * 30 + 0;
+                    this.overview_line_data[i].rowHeight = this.tlHeight - (this.featureSet.length - 1) * 35 - 3;
                 else
-                    this.overview_line_data[i].rowHeight = 30;
+                    this.overview_line_data[i].rowHeight = 35;
                 sigHeight += this.overview_line_data[i].rowHeight;
             }
             // console.log(this.dataSet, this.featureSet[cnt], cnt);
@@ -570,7 +573,7 @@ export default {
 
             let xScale = scaleLinear([0, data.length - 1], [margin.left, width - margin.right]);
             let vRange = extent(data, d => parseFloat(d.value));
-            console.log(vRange);
+            // console.log(vRange);
             // vRange
             let yScale = scaleLinear(vRange, [this.horizon_level * (height - margin.bottom), margin.top]);
             let areaGenerate = area().x((d, i) => xScale(parseFloat(i))).y0(d => yScale(parseFloat(d.value))).y1(d => yScale(parseFloat(vRange[0])));
@@ -659,7 +662,7 @@ export default {
         // this.setupBrush(uni_var_data, '#brush_area0', this.tlWidth, 0)
     },
     updated() {
-        // this.showDetail(0, '#time_line_legend0')
+        this.showDetail(0, '#time_line_legend0')
 
     }
 }
