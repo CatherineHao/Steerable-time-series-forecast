@@ -1,6 +1,6 @@
 <!--
  * @Author: Qing Shi
- * @LastEditTime: 2023-03-26 19:18:38
+ * @LastEditTime: 2023-03-27 04:21:07
 -->
 <!--
  * @Description: 
@@ -15,7 +15,8 @@
         <div style="float: right; margin-top: 3px;">
             <span style="margin-right: 20px; margin-top: 0px;">
                             <el-button style="height: 30px; width: 30px;" @click="refresh()">
-                                <svg t="1679773906391" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2762" width="20" height="20"><path d="M512 0C229.230208 0 0 229.230208 0 512 0 794.769792 229.230208 1024 512 1024 761.325865 1024 973.201958 844.559514 1016.153097 601.764678 1018.151127 590.470182 1019.771663 579.089182 1021.010022 567.635639 1022.492753 553.921916 1012.577574 541.602754 998.863851 540.120021 985.150125 538.637291 972.830963 548.552469 971.348233 562.266193 970.230573 572.603369 968.768273 582.873092 966.965602 593.063262 928.217702 812.097967 736.992706 974.048781 512 974.048781 256.817504 974.048781 49.951219 767.182496 49.951219 512 49.951219 256.817504 256.817504 49.951219 512 49.951219 698.044361 49.951219 863.703281 160.916567 936.293348 328.7543 941.768939 341.414579 956.470965 347.238921 969.131243 341.763332 981.791522 336.287742 987.615863 321.585717 982.140273 308.925438 901.710383 122.961007 718.143277 0 512 0Z" fill="#979797" p-id="2763"></path><path d="M958.442797 350.246554 983.418406 325.270944 724.292683 325.270944C710.499034 325.270944 699.317073 336.452907 699.317073 350.246554 699.317073 364.040203 710.499034 375.222163 724.292683 375.222163L983.418406 375.222163C997.212055 375.222163 1008.394016 364.040203 1008.394016 350.246554L1008.394016 74.926829C1008.394016 61.133181 997.212055 49.951219 983.418406 49.951219 969.624757 49.951219 958.442797 61.133181 958.442797 74.926829L958.442797 350.246554Z" fill="#979797" p-id="2764"></path></svg>
+                                <!-- <svg t="1679864988600" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7931" width="25" height="25"><path d="M899.1 869.6l-53-305.6H864c14.4 0 26-11.6 26-26V346c0-14.4-11.6-26-26-26H618V138c0-14.4-11.6-26-26-26H432c-14.4 0-26 11.6-26 26v182H160c-14.4 0-26 11.6-26 26v192c0 14.4 11.6 26 26 26h17.9l-53 305.6c-0.3 1.5-0.4 3-0.4 4.4 0 14.4 11.6 26 26 26h723c1.5 0 3-0.1 4.4-0.4 14.2-2.4 23.7-15.9 21.2-30zM204 390h272V182h72v208h272v104H204V390z m468 440V674c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v156H416V674c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v156H202.8l45.1-260H776l45.1 260H672z" p-id="7932"></path></svg> -->
+                                clear
                             </el-button>
                         </span>
             <span>Metric: </span>
@@ -28,10 +29,10 @@
         <div ref="DataTransformation" style="height: calc(97%); width: 100%; margin-top: 0px;">
             <svg height="100%" width="100%" transform="translate(0, 0)">
                                     <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)"
-                                        @mouseenter="selectFile(i)" @mouseout="cancelFile(i)" @click="clickFile(i, item.class_name)">
+                                        @mouseenter="selectFile(item.class_name)" @mouseout="cancelFile(item.class_name)" @click="clickFile(i, item.class_name)">
                                         <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
-                                            :width="item_h.w" :height="item_h.h" :fill="item_h.colorMap[heatTag]" :id="'tsr' + item_h.id_cnt"
-                                            :class="'wsr' + i" :fill-opacity="1">
+                                            :width="item_h.w" :height="item_h.h" :fill="item_h.colorMap[heatTag]" :id="item.uid"
+                                            :class="'representationSkipRect'" :fill-opacity="1">
                                         </rect>
                                         <rect v-for="(item_h, item_i) in item['res']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
                                             :width="item_h.w" :height="item_h.h" :fill="'orange'" :id="'tsr' + item_i"
@@ -44,10 +45,10 @@
                                         }}</text>
                                     </g>
                                     <g id="legend_g"></g>
-                                    <!-- <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)">
-                                        <rect :id="'rst' + i" class="rst" :x="item['heat'][0].x" :y="0" :width="elWidth - 10 - item['heat'][0].x"
-                                            :height="item['heat'][0].h" :fill="checkSelectStatus(i) == 2 ? '#c0c0c0' : 'none'" stroke="black" :stroke-width="checkSelectStatus(i) == 1 ? 3 : 0" :fill-opacity="checkSelectStatus(i) == 2 ? 0 : 0"></rect>
-                                    </g> -->
+                                    <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)">
+                                        <rect :id="item.class_name" class="black_select_row" :x="item['heat'][0].x" :y="0" :width="elWidth - 10 - item['heat'][0].x"
+                                            :height="item['heat'][0].h" :fill="checkSelectStatus(i) == 2 ? 'none' : 'none'" stroke="black" :stroke-width="checkSelectStatus(i) == 1 ? 3 : 0" :fill-opacity="checkSelectStatus(i) == 2 ? 0 : 0"></rect>
+                                    </g>
                                     <g v-for="(item, i) in coverRect" :key="'heat_g' + i"
                                         :transform="translate(0, item.realH, 0)">
                                         <rect :id="'rst' + i" class="rst" :x="item.x" :y="0" :width="item.w" :height="item.h" :fill="item.colorMap[heatTag]"
@@ -85,87 +86,103 @@ import * as vsup from 'vsup';
 
 
 // univariate
-import d0 from '../assets/allData/univariate_data/result_data/rawdata_skip13_0.8.csv';
-import d1 from '../assets/allData/univariate_data/result_data/rawdata_skip6_0.8.csv';
-import d2 from '../assets/allData/univariate_data/result_data/rawdata_skip3_0.8.csv';
-import d3 from '../assets/allData/univariate_data/result_data/rawdata_skip1_0.8.csv';
-import d4 from '../assets/allData/univariate_data/result_data/rolling3_skip13_0.8.csv';
-import d5 from '../assets/allData/univariate_data/result_data/rolling3_skip6_0.8.csv';
-import d6 from '../assets/allData/univariate_data/result_data/rolling3_skip3_0.8.csv';
-import d7 from '../assets/allData/univariate_data/result_data/rolling3_skip1_0.8.csv';
-import d8 from '../assets/allData/univariate_data/result_data/weighted3_skip13_0.8.csv';
-import d9 from '../assets/allData/univariate_data/result_data/weighted3_skip6_0.8.csv';
-import d10 from '../assets/allData/univariate_data/result_data/weighted3_skip3_0.8.csv';
-import d11 from '../assets/allData/univariate_data/result_data/weighted3_skip1_0.8.csv';
-import d12 from '../assets/allData/univariate_data/result_data/rolling6_skip13_0.8.csv';
-import d13 from '../assets/allData/univariate_data/result_data/rolling6_skip6_0.8.csv';
-import d14 from '../assets/allData/univariate_data/result_data/rolling6_skip3_0.8.csv';
-import d15 from '../assets/allData/univariate_data/result_data/rolling6_skip1_0.8.csv';
-import d16 from '../assets/allData/univariate_data/result_data/weighted6_skip13_0.8.csv';
-import d17 from '../assets/allData/univariate_data/result_data/weighted6_skip6_0.8.csv';
-import d18 from '../assets/allData/univariate_data/result_data/weighted6_skip3_0.8.csv';
-import d19 from '../assets/allData/univariate_data/result_data/weighted6_skip1_0.8.csv';
-import d20 from '../assets/allData/univariate_data/result_data/rolling9_skip13_0.8.csv';
-import d21 from '../assets/allData/univariate_data/result_data/rolling9_skip6_0.8.csv';
-import d22 from '../assets/allData/univariate_data/result_data/rolling9_skip3_0.8.csv';
-import d23 from '../assets/allData/univariate_data/result_data/rolling9_skip1_0.8.csv';
-import d24 from '../assets/allData/univariate_data/result_data/weighted9_skip13_0.8.csv';
-import d25 from '../assets/allData/univariate_data/result_data/weighted9_skip6_0.8.csv';
-import d26 from '../assets/allData/univariate_data/result_data/weighted9_skip3_0.8.csv';
-import d27 from '../assets/allData/univariate_data/result_data/weighted9_skip1_0.8.csv';
-import d28 from '../assets/allData/univariate_data/result_data/rolling13_skip13_0.8.csv';
-import d29 from '../assets/allData/univariate_data/result_data/rolling13_skip6_0.8.csv';
-import d30 from '../assets/allData/univariate_data/result_data/rolling13_skip3_0.8.csv';
-import d31 from '../assets/allData/univariate_data/result_data/rolling13_skip1_0.8.csv';
-import d32 from '../assets/allData/univariate_data/result_data/weighted13_skip13_0.8.csv';
-import d33 from '../assets/allData/univariate_data/result_data/weighted13_skip6_0.8.csv';
-import d34 from '../assets/allData/univariate_data/result_data/weighted13_skip3_0.8.csv';
-import d35 from '../assets/allData/univariate_data/result_data/weighted13_skip1_0.8.csv';
+// import d0 from '../assets/allData/univariate_data/result_data/rawdata_skip13_0.8.csv';
+// import d1 from '../assets/allData/univariate_data/result_data/rawdata_skip6_0.8.csv';
+// import d2 from '../assets/allData/univariate_data/result_data/rawdata_skip3_0.8.csv';
+// import d3 from '../assets/allData/univariate_data/result_data/rawdata_skip1_0.8.csv';
+// import d4 from '../assets/allData/univariate_data/result_data/rolling3_skip13_0.8.csv';
+// import d5 from '../assets/allData/univariate_data/result_data/rolling3_skip6_0.8.csv';
+// import d6 from '../assets/allData/univariate_data/result_data/rolling3_skip3_0.8.csv';
+// import d7 from '../assets/allData/univariate_data/result_data/rolling3_skip1_0.8.csv';
+// import d8 from '../assets/allData/univariate_data/result_data/weighted3_skip13_0.8.csv';
+// import d9 from '../assets/allData/univariate_data/result_data/weighted3_skip6_0.8.csv';
+// import d10 from '../assets/allData/univariate_data/result_data/weighted3_skip3_0.8.csv';
+// import d11 from '../assets/allData/univariate_data/result_data/weighted3_skip1_0.8.csv';
+// import d12 from '../assets/allData/univariate_data/result_data/rolling6_skip13_0.8.csv';
+// import d13 from '../assets/allData/univariate_data/result_data/rolling6_skip6_0.8.csv';
+// import d14 from '../assets/allData/univariate_data/result_data/rolling6_skip3_0.8.csv';
+// import d15 from '../assets/allData/univariate_data/result_data/rolling6_skip1_0.8.csv';
+// import d16 from '../assets/allData/univariate_data/result_data/weighted6_skip13_0.8.csv';
+// import d17 from '../assets/allData/univariate_data/result_data/weighted6_skip6_0.8.csv';
+// import d18 from '../assets/allData/univariate_data/result_data/weighted6_skip3_0.8.csv';
+// import d19 from '../assets/allData/univariate_data/result_data/weighted6_skip1_0.8.csv';
+// import d20 from '../assets/allData/univariate_data/result_data/rolling9_skip13_0.8.csv';
+// import d21 from '../assets/allData/univariate_data/result_data/rolling9_skip6_0.8.csv';
+// import d22 from '../assets/allData/univariate_data/result_data/rolling9_skip3_0.8.csv';
+// import d23 from '../assets/allData/univariate_data/result_data/rolling9_skip1_0.8.csv';
+// import d24 from '../assets/allData/univariate_data/result_data/weighted9_skip13_0.8.csv';
+// import d25 from '../assets/allData/univariate_data/result_data/weighted9_skip6_0.8.csv';
+// import d26 from '../assets/allData/univariate_data/result_data/weighted9_skip3_0.8.csv';
+// import d27 from '../assets/allData/univariate_data/result_data/weighted9_skip1_0.8.csv';
+// import d28 from '../assets/allData/univariate_data/result_data/rolling13_skip13_0.8.csv';
+// import d29 from '../assets/allData/univariate_data/result_data/rolling13_skip6_0.8.csv';
+// import d30 from '../assets/allData/univariate_data/result_data/rolling13_skip3_0.8.csv';
+// import d31 from '../assets/allData/univariate_data/result_data/rolling13_skip1_0.8.csv';
+// import d32 from '../assets/allData/univariate_data/result_data/weighted13_skip13_0.8.csv';
+// import d33 from '../assets/allData/univariate_data/result_data/weighted13_skip6_0.8.csv';
+// import d34 from '../assets/allData/univariate_data/result_data/weighted13_skip3_0.8.csv';
+// import d35 from '../assets/allData/univariate_data/result_data/weighted13_skip1_0.8.csv';
 
-// multivariate smooth data
-import ms0 from '../assets/allData/multivariate_data/smooth_data/raw_15month.csv';
-import ms1 from '../assets/allData/multivariate_data/smooth_data/rolling12_15month.csv';
-import ms2 from '../assets/allData/multivariate_data/smooth_data/rolling3_15month.csv';
-import ms3 from '../assets/allData/multivariate_data/smooth_data/rolling6_15month.csv';
-import ms4 from '../assets/allData/multivariate_data/smooth_data/weighted12_15month.csv';
-import ms5 from '../assets/allData/multivariate_data/smooth_data/weighted3_15month.csv';
-import ms6 from '../assets/allData/multivariate_data/smooth_data/weighted6_15month.csv';
+import d0 from '../assets/allData/univariate_data/single27/rawdata_skip1_0.8.csv';
+import d1 from '../assets/allData/univariate_data/single27/rawdata_skip3_0.8.csv';
+import d2 from '../assets/allData/univariate_data/single27/rawdata_skip6_0.8.csv';
+import d3 from '../assets/allData/univariate_data/single27/rawdata_skip13_0.8.csv';
+import d4 from '../assets/allData/univariate_data/single27/rolling3_skip1_0.8.csv';
+import d5 from '../assets/allData/univariate_data/single27/rolling3_skip3_0.8.csv';
+import d6 from '../assets/allData/univariate_data/single27/rolling3_skip6_0.8.csv';
+import d7 from '../assets/allData/univariate_data/single27/rolling3_skip13_0.8.csv';
+import d8 from '../assets/allData/univariate_data/single27/rolling6_skip1_0.8.csv';
+import d9 from '../assets/allData/univariate_data/single27/rolling6_skip3_0.8.csv';
+import d10 from '../assets/allData/univariate_data/single27/rolling6_skip6_0.8.csv';
+import d11 from '../assets/allData/univariate_data/single27/rolling6_skip13_0.8.csv';
+import d12 from '../assets/allData/univariate_data/single27/rolling13_skip1_0.8.csv';
+import d13 from '../assets/allData/univariate_data/single27/rolling13_skip3_0.8.csv';
+import d14 from '../assets/allData/univariate_data/single27/rolling13_skip6_0.8.csv';
+import d15 from '../assets/allData/univariate_data/single27/rolling13_skip13_0.8.csv';
+import d16 from '../assets/allData/univariate_data/single27/weighted3_skip1_0.8.csv';
+import d17 from '../assets/allData/univariate_data/single27/weighted3_skip3_0.8.csv';
+import d18 from '../assets/allData/univariate_data/single27/weighted3_skip6_0.8.csv';
+import d19 from '../assets/allData/univariate_data/single27/weighted3_skip13_0.8.csv';
+import d20 from '../assets/allData/univariate_data/single27/weighted6_skip1_0.8.csv';
+import d21 from '../assets/allData/univariate_data/single27/weighted6_skip3_0.8.csv';
+import d22 from '../assets/allData/univariate_data/single27/weighted6_skip6_0.8.csv';
+import d23 from '../assets/allData/univariate_data/single27/weighted6_skip13_0.8.csv';
+import d24 from '../assets/allData/univariate_data/single27/weighted13_skip1_0.8.csv';
+import d25 from '../assets/allData/univariate_data/single27/weighted13_skip3_0.8.csv';
+import d26 from '../assets/allData/univariate_data/single27/weighted13_skip6_0.8.csv';
+import d27 from '../assets/allData/univariate_data/single27/weighted13_skip13_0.8.csv';
+
 
 // multivariate
-import m0 from '../assets/allData/multivariate_data/result_data/raw_skip2.csv';
-import m1 from '../assets/allData/multivariate_data/result_data/raw_skip3.csv';
-import m2 from '../assets/allData/multivariate_data/result_data/weighted6_skip1.csv';
-import m3 from '../assets/allData/multivariate_data/result_data/weighted6_skip3.csv';
-import m4 from '../assets/allData/multivariate_data/result_data/raw_skip1.csv';
-import m5 from '../assets/allData/multivariate_data/result_data/rolling6_skip6.csv';
-import m6 from '../assets/allData/multivariate_data/result_data/weighted6_skip2.csv';
-import m7 from '../assets/allData/multivariate_data/result_data/weighted6_skip6.csv';
-import m8 from '../assets/allData/multivariate_data/result_data/rolling6_skip2.csv';
-import m9 from '../assets/allData/multivariate_data/result_data/rolling6_skip3.csv';
-import m10 from '../assets/allData/multivariate_data/result_data/rolling6_skip1.csv';
-import m11 from '../assets/allData/multivariate_data/result_data/raw_skip6.csv';
-import m12 from '../assets/allData/multivariate_data/result_data/rolling12_skip1.csv';
-import m13 from '../assets/allData/multivariate_data/result_data/rolling12_skip2.csv';
-import m14 from '../assets/allData/multivariate_data/result_data/rolling12_skip3.csv';
-import m15 from '../assets/allData/multivariate_data/result_data/rolling12_skip6.csv';
-import m16 from '../assets/allData/multivariate_data/result_data/rolling3_skip2.csv';
-import m17 from '../assets/allData/multivariate_data/result_data/weighted3_skip6.csv';
-import m18 from '../assets/allData/multivariate_data/result_data/weighted12_skip3.csv';
-import m19 from '../assets/allData/multivariate_data/result_data/weighted12_skip2.csv';
-import m20 from '../assets/allData/multivariate_data/result_data/rolling3_skip3.csv';
-import m21 from '../assets/allData/multivariate_data/result_data/rolling3_skip1.csv';
-import m22 from '../assets/allData/multivariate_data/result_data/weighted12_skip1.csv';
-import m23 from '../assets/allData/multivariate_data/result_data/weighted3_skip1.csv';
-import m24 from '../assets/allData/multivariate_data/result_data/weighted3_skip3.csv';
-import m25 from '../assets/allData/multivariate_data/result_data/weighted12_skip6.csv';
-import m26 from '../assets/allData/multivariate_data/result_data/weighted3_skip2.csv';
-import m27 from '../assets/allData/multivariate_data/result_data/rolling3_skip6.csv';
+import m0 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip1.csv';
+import m1 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip6.csv';
+import m2 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip12.csv';
+import m3 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip24.csv';
+import m4 from '../assets/allData/multivariate_data/new_res_data/rolling6_skip1.csv';
+import m5 from '../assets/allData/multivariate_data/new_res_data/rolling6_skip6.csv';
+import m6 from '../assets/allData/multivariate_data/new_res_data/rolling6_skip12.csv';
+import m7 from '../assets/allData/multivariate_data/new_res_data/rolling6_skip24.csv';
+import m8 from '../assets/allData/multivariate_data/new_res_data/rolling12_skip1.csv';
+import m9 from '../assets/allData/multivariate_data/new_res_data/rolling12_skip6.csv';
+import m10 from '../assets/allData/multivariate_data/new_res_data/rolling12_skip12.csv';
+import m11 from '../assets/allData/multivariate_data/new_res_data/rolling12_skip24.csv';
+import m12 from '../assets/allData/multivariate_data/new_res_data/rolling24_skip1.csv';
+import m13 from '../assets/allData/multivariate_data/new_res_data/rolling24_skip6.csv';
+import m14 from '../assets/allData/multivariate_data/new_res_data/rolling24_skip12.csv';
+import m15 from '../assets/allData/multivariate_data/new_res_data/rolling24_skip24.csv';
+import m16 from '../assets/allData/multivariate_data/new_res_data/weighted6_skip1.csv';
+import m17 from '../assets/allData/multivariate_data/new_res_data/weighted6_skip6.csv';
+import m18 from '../assets/allData/multivariate_data/new_res_data/weighted6_skip12.csv';
+import m19 from '../assets/allData/multivariate_data/new_res_data/weighted6_skip24.csv';
+import m20 from '../assets/allData/multivariate_data/new_res_data/weighted12_skip1.csv';
+import m21 from '../assets/allData/multivariate_data/new_res_data/weighted12_skip6.csv';
+import m22 from '../assets/allData/multivariate_data/new_res_data/weighted12_skip12.csv';
+import m23 from '../assets/allData/multivariate_data/new_res_data/weighted12_skip24.csv';
+import m24 from '../assets/allData/multivariate_data/new_res_data/weighted24_skip1.csv';
+import m25 from '../assets/allData/multivariate_data/new_res_data/weighted24_skip6.csv';
+import m26 from '../assets/allData/multivariate_data/new_res_data/weighted24_skip12.csv';
+import m27 from '../assets/allData/multivariate_data/new_res_data/weighted24_skip24.csv';
 
-import rs1 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip1.csv';
-import rs2 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip6.csv'
-import rs3 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip8.csv'
-import rs4 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip12.csv'
-import rs5 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip24.csv'
 
 export default {
     name: 'DataTransformationView',
@@ -177,7 +194,7 @@ export default {
             tlHeight: 100,
             tlWidth: 100,
             heatHeight: 0,
-            heatTag: 4,
+            heatTag: 3,
             clickFileTag: 0,
             heatOptions: ['Raw + Difference', 'Raw', 'Difference', 'RMSE + Corr.', 'RMSE', 'Corr.'],
             sample: ['10-slice', '7-slice', '3-slice'],
@@ -188,77 +205,69 @@ export default {
             smoothLineData: [],
             skiplength: [13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6],
             columnData: ['Smooth', 'Skip', 'Train-Loss', 'Test-Loss', 'ACF', 'Window Performance'],
-            filename: {'sunspots': [{ smooth: 'RAW', skip: '13' },
-                { smooth: 'RAW', skip: '6' },
+            filename: {'sunspots': [{ smooth: 'RAW', skip: '1' },
                 { smooth: 'RAW', skip: '3' },
-                { smooth: 'RAW', skip: '1' },
-                { smooth: 'MA-3', skip: '13' },
+                { smooth: 'RAW', skip: '6' },
+                { smooth: 'RAW', skip: '13' },
+                { smooth: 'MA-3', skip: '1' },
+                { smooth: 'MA-3', skip: '3' },
                 { smooth: 'MA-3', skip: '6' },
-                { smooth: 'MA-3', skip: '3' },
-                { smooth: 'MA-3', skip: '1' },
-                { smooth: 'WMA-3', skip: '13' },
-                { smooth: 'WMA-3', skip: '6' },
-                { smooth: 'WMA-3', skip: '3' },
-                { smooth: 'WMA-3', skip: '1' },
+                { smooth: 'MA-3', skip: '13' },
+                { smooth: 'MA-6', skip: '1' },
+                { smooth: 'MA-6', skip: '3' },
+                { smooth: 'MA-6', skip: '6' },
                 { smooth: 'MA-6', skip: '13' },
-                { smooth: 'MA-6', skip: '6' },
-                { smooth: 'MA-6', skip: '3' },
-                { smooth: 'MA-6', skip: '1' },
-                { smooth: 'WMA-6', skip: '13' },
-                { smooth: 'WMA-6', skip: '6' },
-                { smooth: 'WMA-6', skip: '3' },
-                { smooth: 'WMA-6', skip: '1' },
-                { smooth: 'MA-9', skip: '13' },
-                { smooth: 'MA-9', skip: '6' },
-                { smooth: 'MA-9', skip: '3' },
-                { smooth: 'MA-9', skip: '1' },
-                { smooth: 'WMA-9', skip: '13' },
-                { smooth: 'WMA-9', skip: '6' },
-                { smooth: 'WMA-9', skip: '3' },
-                { smooth: 'WMA-9', skip: '1' },
-                { smooth: 'MA-13', skip: '13' },
-                { smooth: 'MA-13', skip: '6' },
-                { smooth: 'MA-13', skip: '3' },
                 { smooth: 'MA-13', skip: '1' },
-                { smooth: 'WMA-13', skip: '13' },
-                { smooth: 'WMA-13', skip: '6' },
-                { smooth: 'WMA-13', skip: '3' },
-                { smooth: 'WMA-13', skip: '1' }
-            ], 'pm': [{ smooth: 'RAW', skip: '2' },
-                { smooth: 'RAW', skip: '3' },
+                { smooth: 'MA-13', skip: '3' },
+                { smooth: 'MA-13', skip: '6' },
+                { smooth: 'MA-13', skip: '13' },
+                { smooth: 'WMA-3', skip: '1' },
+                { smooth: 'WMA-3', skip: '3' },
+                { smooth: 'WMA-3', skip: '6' },
+                { smooth: 'WMA-3', skip: '13' },
                 { smooth: 'WMA-6', skip: '1' },
                 { smooth: 'WMA-6', skip: '3' },
-                { smooth: 'RAW', skip: '1' },
-                { smooth: 'MA-6', skip: '6' },
-                { smooth: 'WMA-6', skip: '2' },
                 { smooth: 'WMA-6', skip: '6' },
-                { smooth: 'MA-6', skip: '2' },
-                { smooth: 'MA-6', skip: '3' },
-                { smooth: 'MA-6', skip: '1' },
+                { smooth: 'WMA-6', skip: '13' },
+                { smooth: 'WMA-13', skip: '1' },
+                { smooth: 'WMA-13', skip: '3' },
+                { smooth: 'WMA-13', skip: '6' },
+                { smooth: 'WMA-13', skip: '13' }
+            ], 'pm': [{ smooth: 'RAW', skip: '1' },
                 { smooth: 'RAW', skip: '6' },
+                { smooth: 'RAW', skip: '12' },
+                { smooth: 'RAW', skip: '24' },
+                { smooth: 'MA-6', skip: '1' },
+                { smooth: 'MA-6', skip: '6' },
+                { smooth: 'MA-6', skip: '12' },
+                { smooth: 'MA-6', skip: '24' },
                 { smooth: 'MA-12', skip: '1' },
-                { smooth: 'MA-12', skip: '2' },
-                { smooth: 'MA-12', skip: '3' },
                 { smooth: 'MA-12', skip: '6' },
-                { smooth: 'MA-3', skip: '2' },
-                { smooth: 'WMA-3', skip: '6' },
-                { smooth: 'WMA-12', skip: '3' },
-                { smooth: 'WMA-12', skip: '2' },
-                { smooth: 'MA-3', skip: '3' },
-                { smooth: 'MA-3', skip: '1' },
+                { smooth: 'MA-12', skip: '12' },
+                { smooth: 'MA-12', skip: '24' },
+                { smooth: 'MA-24', skip: '1' },
+                { smooth: 'MA-24', skip: '6' },
+                { smooth: 'MA-24', skip: '12' },
+                { smooth: 'MA-24', skip: '24' },
+                { smooth: 'WMA-6', skip: '1' },
+                { smooth: 'WMA-6', skip: '6' },
+                { smooth: 'WMA-6', skip: '12' },
+                { smooth: 'WMA-6', skip: '24' },
                 { smooth: 'WMA-12', skip: '1' },
-                { smooth: 'WMA-3', skip: '1' },
-                { smooth: 'WMA-3', skip: '1' },
                 { smooth: 'WMA-12', skip: '6' },
-                { smooth: 'WMA-3', skip: '2' },
-                { smooth: 'MA-3', skip: '6' }
+                { smooth: 'WMA-12', skip: '12' },
+                { smooth: 'WMA-12', skip: '24' },
+                { smooth: 'WMA-24', skip: '1' },
+                { smooth: 'WMA-24', skip: '6' },
+                { smooth: 'WMA-24', skip: '12' },
+                { smooth: 'WMA-24', skip: '24' }
             ]},
             coverRect: [],
             dataSelect: 'sunspots',
             allTimeScale: {
                 'sunspots': {
                     start: '1878-01-01',
-                    end: '2013-01-01'
+                    end: '2022-01-01'
                 },
                 'pm': {
                     start: '2013-01-02 00:00:00',
@@ -278,16 +287,28 @@ export default {
             selectDot: {
                 tag: 0,
                 data: []
-            }
+            },
+            cid_index: {}
         }
     },
     methods: {
         refresh() {
-            this.selectRepresentationRow[this.dataSelect].tag = 0;
+            this.selectRepresentationRow = {
+                'sunspots': {
+                    tag: 0,
+                    status: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                },
+                'pm': {
+                    tag: 0,
+                    status: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                }
+            };
             this.coverRect = [];
             const dataStore = useDataStore();
-            dataStore.selectRepresentation.data = {};
-            dataStore.selectRepresentation.tag = !dataStore.selectRepresentation.tag;
+            // dataStore.selectRepresentation.data = {};
+            // dataStore.selectRepresentation.tag = !dataStore.selectRepresentation.tag;
+
+            dataStore.selectRowClass = 1;
 
             selectAll('.corr_cir_out').remove();
             selectAll('.corr_cir').attr('opacity', (d, i) => {
@@ -307,9 +328,9 @@ export default {
                 return 2;
             }
         },
-        selectFile(num) {
+        selectFile(class_name) {
             if (this.clickFileTag) return;
-            select('#rst' + num).attr('stroke-width', 3)
+            select('#' + class_name).attr('stroke-width', 3)
             // .attr('fill', '#777').attr('fill-opacity', 0.5);
             selectAll('.p_x').attr('opacity', (d, i) => {
                 return d.id == num ? 1 : 0;
@@ -319,6 +340,7 @@ export default {
             let tdata = []
             this.clickFileTag = 1;
             // console.log(class_name );
+            selectAll('.' + 'black_select_row').attr('stroke-width', 0)
             this.selectRepresentationRow[this.dataSelect].status[num] = 1;
             this.selectRepresentationRow[this.dataSelect].tag = 1;
             selectAll('.corr_cir').attr('opacity', (d, i) => {
@@ -334,15 +356,16 @@ export default {
                 return '#d9d9d9';
             })
             // console.log(tdata)
-            let select_dot = {};
-            // console.log(this.heatRectData[num]);
-            for (let i in this.heatRectData[num].heat) {
-                select_dot[this.heatRectData[num].heat[i]['uid']] = 1;
-            }
+            // let select_dot = {};
+            // // console.log(this.heatRectData[num]);
+            // for (let i in this.heatRectData[num].heat) {
+            //     select_dot[this.heatRectData[num].heat[i]['uid']] = 1;
+            // }
             // console.log(select_dot);
             const dataStore = useDataStore();
-            dataStore.selectRepresentation.data = select_dot;
-            dataStore.selectRepresentation.tag = !dataStore.selectRepresentation.tag;
+            // dataStore.selectRepresentation.data = select_dot;
+            // dataStore.selectRepresentation.tag = !dataStore.selectRepresentation.tag;
+            dataStore.selectRowClass = class_name;
             selectAll('.corr_cir_out').remove();
             select('#scatter')
                 .append('g')
@@ -359,9 +382,9 @@ export default {
                 .attr('stroke', 'black')
                 .attr('fill', d => d.fill)
         },
-        cancelFile(num) {
+        cancelFile(class_name) {
             if (this.clickFileTag) return;
-            select('#rst' + num).attr('stroke-width', 0);
+            selectAll('.' + 'black_select_row').attr('stroke-width', 0)
             selectAll('.p_x').attr('opacity', 1)
             // selectAll('.corr_cir').attr('opacity', (d, i) => {
             //     // if (d.class_name == this.filename[num].substring(0, this.filename[num].length - 8)) {
@@ -806,7 +829,7 @@ export default {
                     h: height / allStrip,
                     heat: HeatSumData[i]
                 })
-
+                this.cid_index[HeatSumData[i][0].cid] = res_data.length - 1;
             }
             // console.log(res_data);
 
@@ -927,8 +950,8 @@ export default {
             timeData = [new Date(timestamp.start), new Date(timestamp.end)]
             let timeScale = scaleUtc(timeData, [margin.left, this.tlWidth - margin.right]);
             // this.timeScaleGlobal = timeScale;
-            select('#representationTime').append('g').attr('id', 'representationTime_g').attr('transform', 'translate(0, 5)')
-                .call(axisBottom(timeScale).ticks((this.tlWidth - margin.left - margin.right) / 40).tickSizeOuter(0))
+            select('#representationTime').append('g').attr('id', 'representationTime_g').attr('transform', 'translate(0, 2)')
+                .call(axisBottom(timeScale).ticks((this.tlWidth - margin.left - margin.right) / 80).tickSizeOuter(0))
         }
     },
     created() {},
@@ -937,6 +960,7 @@ export default {
         this.elWidth = this.$refs.DataTransformation.offsetWidth;
         this.tlHeight = this.$refs.RepresentationTimeAxis.offsetHeight;
         this.tlWidth = this.$refs.RepresentationTimeAxis.offsetWidth;
+        this.dataSelect = 'sunspots'
 
         this.paintTimeScale(this.allTimeScale[this.dataSelect])
 
@@ -954,9 +978,10 @@ export default {
         const dataStore = useDataStore();
         let _this = this;
         // let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35];
+        let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27];
         // // console.log(dataSet);
         // this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight);
-        // let dataSet = [m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27];
+        // let dataSet = [m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27, m28];
         // let multi_smooth_data = [ms0, ms1, ms2, ms3, ms4, ms5, ms6];
         // let smooth_map = [0, 0, 6, 6, 0, 3, 6, 6, 3, 3, 3, 0, 1, 1, 1, 1, 2, 5, 4, 4, 2, 2, 4, 5, 5, 4, 5, 2];
         // let smooth_data = [];
@@ -966,7 +991,8 @@ export default {
 
         // console.log(dataSet);
         // this.heatRectData = this.calcRMSETempHeatMultiVariate(dataSet, smooth_data, this.elWidth, this.elHeight);
-        let dataSet = [rs1, rs2, rs3, rs4, rs5]
+        // let dataSet = [rs1, rs2, rs3, rs4, rs5]
+        // let dataSet = [m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27];
 
         // console.log(this.heatRectData);
         this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight);
@@ -995,6 +1021,9 @@ export default {
                     }
                     this.coverRect = coverRect;
                 }
+                // if (dataStore.selectRowClass != '') {
+                //     this.selectRepresentationRow
+                // }
             //     selectAll('#tsr_1').attr('opacity', 0);
             //     let coverRect = [];
             //     for (let i in _this.heatRectData) {
@@ -1041,11 +1070,13 @@ export default {
 }
 
 .selection {
-    fill-opacity: 0.15;
+    fill-opacity: 0.2;
 }
 
 .el-button {
-    border: 0px;
+    /* border: 0px; */
+    padding-left: 3px;
+    padding-right: 3px;
 }
 
 .representationTime_g {
