@@ -72,7 +72,8 @@
                                                 :height="oo.h" :fill="oo.fillColor" :opacity="oo.fill" stroke="white"></rect>
                                         </g>
                                         <rect :x="o.rx" :y="o.ry" :width="o.w" :height="o.h" :class="'unitRect'"
-                                        :id="'unit' + i"  fill="black" stroke="black" fill-opacity="0" @mouseenter="mouseoverFeature(o.boxData, o.nameX, o.nameY, i)" @mouseout="mouseoutFeature()"></rect>
+                                        :id="'unit' + i"  fill="black" stroke="black" fill-opacity="0" @mouseenter="mouseoverFeature(o.boxData, o.nameX, o.nameY, o.nameXr, o.nameYr, i)" @mouseout="mouseoutFeature()"
+                                        @click="clickFeature(o.nameXr, o.nameYr)"></rect>
                                     </g>
                                 </g>
                                 <g>
@@ -98,22 +99,6 @@ import { axisBottom, axisLeft } from "d3-axis";
 import { scaleLinear, scaleOrdinal } from "d3-scale";
 import { select, selectAll } from "d3-selection";
 import { line } from "d3-shape";
-// import SN_raw_data from "../assets/SN_m_tot_V2.0.csv";
-// import weight13 from '../assets/data/SN_weighted_moving_average13_tot.csv';
-// import rolling13 from '../assets/data/SN_rolling13_tot.csv';
-
-
-// import SN_raw_data from "../assets/SN_m_tot_V2.0.csv";
-// import sr3 from '../assets/data/SN_rolling3_tot.csv';
-// import sr6 from '../assets/data/SN_rolling6_tot.csv';
-// import sr9 from '../assets/data/SN_rolling9_tot.csv';
-// import sr13 from '../assets/data/SN_rolling13_tot.csv';
-// import sr26 from '../assets/data/SN_rolling26_tot.csv';
-// import sa3 from '../assets/data/SN_weighted_moving_average3_tot.csv';
-// import sa6 from '../assets/data/SN_weighted_moving_average6_tot.csv';
-// import sa9 from '../assets/data/SN_weighted_moving_average9_tot.csv';
-// import sa13 from '../assets/data/SN_weighted_moving_average13_tot.csv';
-// import sa26 from '../assets/data/SN_weighted_moving_average26_tot.csv';
 import uni_data from "../assets/allData/univariate_data/all_smooth_value.csv";
 import multi_data from "../assets/used_multi.csv";
 import { interpolateYlGnBu } from "d3-scale-chromatic";
@@ -138,7 +123,7 @@ export default {
             valueRange: [],
             selectRect: [],
             selectTag: 0,
-            dataSelect: 'sunspots',
+            dataSelect: 'pm',
             nameMap: {
                 'sunspots': {
                     'raw': 'RAW',
@@ -163,10 +148,11 @@ export default {
         }
     },
     methods: {
+        
         translate(x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
         },
-        mouseoverFeature(data, nameX, nameY, num) {
+        mouseoverFeature(data, nameX, nameY, nameXr, nameYr, num) {
             // console.log(data);
             selectAll('.unitRect').attr('stroke-width', 1);
             select('#unit' + num).attr('stroke-width', 3);
@@ -186,7 +172,9 @@ export default {
             }
             this.selectRect = {data: data,
                                 nameX: nameX,
-                                nameY: nameY
+                                nameY: nameY,
+                                nameXr: nameXr,
+                                nameYr: nameYr
                 };
         },
         mouseoutFeature: function() {
@@ -194,7 +182,11 @@ export default {
 
             selectAll('.unitRect').attr('stroke-width', 1);
         },
-
+        clickFeature: function(nameXr, nameYr) {
+            const dataStore = useDataStore();
+            dataStore.rowSelectTag = 1;
+            dataStore.selectSmooth = [nameXr, nameYr];
+        },
         calcSparkBox(data, height, width) {
             let margin = ({ top: 10, right: 30, bottom: 20, left: 30 });
             // let height = 440;
@@ -359,7 +351,9 @@ export default {
                         h: (this.elHeight - margin.bottom - margin.top) / file_name.length,
                         boxData: this.calcDisSparkBox(data, (this.elHeight - margin.bottom - margin.top) / file_name.length, (this.elWidth - margin.left - margin.right) / file_name.length, 8, file_name[i], file_name[j], val_name),
                         nameX: this.nameMap[this.dataSelect][file_name[j]],
-                        nameY: this.nameMap[this.dataSelect][file_name[i]]
+                        nameY: this.nameMap[this.dataSelect][file_name[i]],
+                        nameXr: file_name[j],
+                        nameYr: file_name[i]
                     })
                 }
             }
@@ -371,7 +365,7 @@ export default {
             // this.dataName = 'Sunspot number'
             let dateName = 'Sunspot number';
             if (this.dataSelect != 'sunspots') {
-                dataName = 'PM 2.5'
+                dateName = 'PM 2.5'
             }
             return [F_sparkBoxData, show_name, dateName];
         }
@@ -382,30 +376,32 @@ export default {
         this.elWidth = this.$refs.DistributionView.offsetWidth;
         // [this.sparkBoxData, this.linePath] = this.calcSparkBox(SN_raw_data, this.elHeight, this.elWidth);
         const dataStore = useDataStore();
+            let margin = { top: 15, left: 50, right: 5, bottom: 30 }
 
         // dataStore.$subscribe((mutations, state) => {
         // console.log(222);
-
+            let F_sparkBoxData = []
         // } else if (dataStore.dataSelect == 'pm') {
-        // for (let i = 0; i < this.F_name.length; ++i) {
-        //     for (let j = 0; j < i + 1; ++j) {
-        //         F_sparkBoxData.push({
-        //             x: j,
-        //             y: i,
-        //             tx: (this.elWidth - margin.left - margin.right) / this.F_name.length * j,
-        //             rx: margin.left,
-        //             w: (this.elWidth - margin.left - margin.right) / this.F_name.length,
-        //             ty: (this.elHeight - margin.bottom - margin.top) / this.F_name.length * i,
-        //             ry: margin.top,
-        //             h: (this.elHeight - margin.bottom - margin.top) / this.F_name.length,
-        //             boxData: this.calcDisSparkBox(multi_data, (this.elHeight - margin.bottom - margin.top) / this.F_name.length, (this.elWidth - margin.left - margin.right) / this.F_name.length, 8, this.F_name[i], this.F_name[j], 'pm25')
-        //         })
-        //     }
+        for (let i = 0; i < this.F_name.length; ++i) {
+            for (let j = 0; j < i + 1; ++j) {
+                F_sparkBoxData.push({
+                    x: j,
+                    y: i,
+                    tx: (this.elWidth - margin.left - margin.right) / this.F_name.length * j,
+                    rx: margin.left,
+                    w: (this.elWidth - margin.left - margin.right) / this.F_name.length,
+                    ty: (this.elHeight - margin.bottom - margin.top) / this.F_name.length * i,
+                    ry: margin.top,
+                    h: (this.elHeight - margin.bottom - margin.top) / this.F_name.length,
+                    boxData: this.calcDisSparkBox(multi_data, (this.elHeight - margin.bottom - margin.top) / this.F_name.length, (this.elWidth - margin.left - margin.right) / this.F_name.length, 8, this.F_name[i], this.F_name[j], 'pm25')
+                })
+            }
+        }
+        this.show_name = this.F_name;
+        this.F_sparkBoxData = F_sparkBoxData;
+        this.dataName = 'PM 2.5'
         // }
-        // this.show_name = this.F_name;
-        // this.dataName = 'PM 2.5'
-        // }
-        [this.F_sparkBoxData, this.show_name, this.dataName] = this.mainData(uni_data, this.S_name, 'raw');
+        // [this.F_sparkBoxData, this.show_name, this.dataName] = this.mainData(multi_data, this.S_name, 'raw');
         // })
 
 
