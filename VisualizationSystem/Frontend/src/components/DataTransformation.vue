@@ -60,15 +60,15 @@
                                                         <rect :x="0" :y="0" :width="tlWidth" :height="30"></rect>
                                                     </clipPath>
                                                     
+                                                    <g v-if="item.rowHeight == 35 ? 0: 1">
+    
                                                     <clipPath id="clipPathLine">
                                                         <rect :x="50" :y="0" :width="tlWidth - 50 - 10" :height="item.rowHeight - 30"></rect>
                                                     </clipPath>
-                                                    <g :opacity="item.rowHeight == 35 ? 0: 1">
-    
                                 <g :id="'time_line_legend' + i" :transform="translate(0, 0, 0)"></g>
                         
                         <g :id="'time_line' + i" :transform="translate(0, 0, 0)" clip-path="url(#clipPathLine)">
-                            <path :id="'time_path_raw' + i" :d="timeLinePath" :fill="'none'" :stroke="'grey'"></path>
+                            <path :id="'time_path_raw' + i" :d="timeLinePath" :fill="'none'" :stroke="'#c0c0c0'" stroke-width="1.5"></path>
                         </g>
                                                     </g>
                                                     <g clip-path="url(#clipPathHorizon)" :id="'brush_area' + i" :transform="translate(0, item.rowHeight - 30, 0)">
@@ -77,7 +77,7 @@
                                                         <path :d="item.d" :stroke="'none'" :fill="item.fill[2]"  :transform="translate(0, -item.height * 1, 0)"></path>
                                                         <path :d="item.d" :stroke="'none'" :fill="item.fill[3]"></path>
                                                     </g>
-                                                    <g :transform="translate(0, item.rowHeight - 30, 0)" style="cursor: pointer;">
+                                                    <g :transform="translate(0, item.rowHeight - 30, 0)" style="cursor: pointer;" @click="clickAttribute(i)">
                                                         <text x="0" y="18" font-size="14">{{ item.feature }}</text></g>
                             </g>
                         </svg>
@@ -111,16 +111,18 @@ export default {
     props: ['timeData', 'sliceData'],
     data() {
         return {
+            color: ['#A50021', '#181CF7'],
             horizon_level: 4,
             elHeight: 1000,
             elWidth: 1000,
-            tlHeight: 100,
+            tlHeight: 1000,
             tlWidth: 300,
             featureSet: [],
             showTag: '',
             heatHeight: 0,
             heatTag: 3,
             timeBrush: null,
+            timeBrush_g: null,
             allTimeScale: null,
             heatOptions: ['Raw + Difference', 'Raw', 'Difference', 'RMSE + Corr.', 'RMSE', 'Corr.'],
             sample: ['10-slice', '7-slice', '3-slice'],
@@ -191,10 +193,16 @@ export default {
                     'wnd_dir': 'wnd_dir',
                     'wnd_spd': 'wnd_spd'
                 }
-            }
+            },
+            selectAttribute: 0
         }
     },
     methods: {
+        clickAttribute(num) {
+            console.log(num)
+            this.selectAttribute = num;
+            this.showDetail(this.selectAttribute, '#time_line_legend' + num)
+        },
         timeFormat: function(time, type) {
             // console.log(time);
             let timeFormatRes = '';
@@ -231,7 +239,7 @@ export default {
             // if 
         },
         showDetail(cnt, id) {
-            // console.log(id);
+            console.log(id);
             let sigHeight = 0;
             for (let i in this.overview_line_data) {
                 this.overview_line_data[i].posHeight = sigHeight;
@@ -338,6 +346,9 @@ export default {
                 .on('brush', brushed)
                 .on('end', brushEnd);
             // console.log('brush_0')
+            // if (this.timeBrush != null) {
+            //     this.timeBrush.remove()
+            // }
             this.timeBrush = timeBrush;
             // let x = scaleLinear()
             //     .domain([0, data.length - 1])
@@ -483,7 +494,10 @@ export default {
                 // _this.smoothTimeLineData = d[1];
             }
             // console.log(select(id))
-            select(id).call(timeBrush)
+            if (this.timeBrush_g != null) {
+                this.timeBrush_g.remove();
+            }
+            this.timeBrush_g = select(id).append('g').call(timeBrush)
                 .call(timeBrush.move, [x(new Date(_this.brushMoveData[_this.datasetSelect][0])), x(new Date(_this.brushMoveData[_this.datasetSelect][1]))]);
 
         },
@@ -662,7 +676,7 @@ export default {
         // this.setupBrush(uni_var_data, '#brush_area0', this.tlWidth, 0)
     },
     updated() {
-        this.showDetail(0, '#time_line_legend0')
+        this.showDetail(this.selectAttribute, '#time_line_legend' + this.selectAttribute)
 
     }
 }
