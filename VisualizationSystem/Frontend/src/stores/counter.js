@@ -30,7 +30,14 @@ export const useDataStore = defineStore("dataStore", {
         tag: 0,
         data: []
       },
-      selectRowClass: ''
+      selectRowClass: '',
+      selectSmooth: [],
+      selectResRow: {
+        time_index: 0,
+        smooth: '',
+        prediction_data: []
+      },
+      rowSelectTag: 0
     }
   },
   actions: {

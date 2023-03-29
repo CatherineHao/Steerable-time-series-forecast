@@ -13,16 +13,16 @@
         <div class="title">Representation View</div>
         <p class="titleTriangle"></p>
         <div style="float: right; margin-top: 3px;">
-            <span style="margin-right: 20px; margin-top: 0px;">
-                            <el-button style="height: 30px; width: 30px;" @click="refresh()">
-                                <!-- <svg t="1679864988600" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7931" width="25" height="25"><path d="M899.1 869.6l-53-305.6H864c14.4 0 26-11.6 26-26V346c0-14.4-11.6-26-26-26H618V138c0-14.4-11.6-26-26-26H432c-14.4 0-26 11.6-26 26v182H160c-14.4 0-26 11.6-26 26v192c0 14.4 11.6 26 26 26h17.9l-53 305.6c-0.3 1.5-0.4 3-0.4 4.4 0 14.4 11.6 26 26 26h723c1.5 0 3-0.1 4.4-0.4 14.2-2.4 23.7-15.9 21.2-30zM204 390h272V182h72v208h272v104H204V390z m468 440V674c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v156H416V674c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v156H202.8l45.1-260H776l45.1 260H672z" p-id="7932"></path></svg> -->
-                                clear
-                            </el-button>
-                        </span>
             <span>Metric: </span>
-            <el-select v-model="heatTag" class="m-2" placeholder="Select" style="width: 150px;">
+            <el-select v-model="heatTag" class="m-2" placeholder="Select" style="width: 150px; margin-right: 20px;">
                 <el-option v-for="(item, i) in heatOptions" :key="item" :label="item" :value="i" />
             </el-select>
+            <span style="margin-right: 0px; margin-top: 0px;">
+                            <el-button style="height: 30px;" @click="refresh()">
+                                
+                                <span>CLEAR</span>
+                            </el-button>
+                        </span>
         </div>
     </div>
     <div class="frameworkBody">
@@ -803,7 +803,8 @@ export default {
             let timeScale = scaleLinear([0, maxTime], [margin.left, width - margin.right]);
             let quantization2 = vsup.quantization().branching(2).layers(4).valueDomain([minRmse, maxRmse]).uncertaintyDomain([(maxCorr), minCorr]);
 
-            let heatColor = interpolateYlOrRd;
+            // let heatColor = interpolateYlOrRd;
+            let heatColor = interpolateYlOrRd
             let heatScale2 = vsup.scale().quantize(quantization2).range(heatColor);
 
             let res_data = [];
@@ -978,7 +979,7 @@ export default {
         const dataStore = useDataStore();
         let _this = this;
         // let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35];
-        let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27];
+        // let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27];
         // // console.log(dataSet);
         // this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight);
         // let dataSet = [m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27, m28];
@@ -992,7 +993,7 @@ export default {
         // console.log(dataSet);
         // this.heatRectData = this.calcRMSETempHeatMultiVariate(dataSet, smooth_data, this.elWidth, this.elHeight);
         // let dataSet = [rs1, rs2, rs3, rs4, rs5]
-        // let dataSet = [m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27];
+        let dataSet = [m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27];
 
         // console.log(this.heatRectData);
         this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight);

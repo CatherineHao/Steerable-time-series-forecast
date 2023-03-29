@@ -9,85 +9,80 @@
         <div class="title">Temporal View</div>
         <p class="titleTriangle"></p>
     
-        <div style="float: right; margin-top: 3px;">
-            <svg width="155" height="30">
-                            <text x="10" y="20" font-size="14">Layer: </text>
-                            <rect v-for="(o, i) in horizon_color" :key="'hor_' + i" :x="i * 25 + 55" :y="5" :width="20" height="20" :fill="o" stroke="black"></rect>
-                        </svg>
+        <div style="float: right; margin-top: 3px; height: 30px;">
+            <span>
+            <svg width="655" height="30" style="margin-right: 80px; margin-top: 3px;">
+                    <g transform="translate(100, 0)">
+                        <g transform="translate(300, 0)">
+                        <text x="0" y="20" font-size="14" text-anchor="end">{{ nameLine[0] }} </text>
+                        <path d="M10,15L70,15" stroke-width="1.5" :fill="'none'" :stroke="'#c0c0c0'"></path>
+                    </g>
+                    <g v-if="showLineLegend"> 
+                        <g transform="translate(0, 0)">
+                        <text x="10" y="20" font-size="14" text-anchor="end">{{ nameLine[1] }} </text>
+                        <path d="M20,15L80,15" stroke-width="1.5" :fill="'none'" :stroke="colorLine[0]"></path>
+                    </g>
+                    <g transform="translate(150, 0)">
+                        <text x="10" y="20" font-size="14" text-anchor="end">{{ nameLine[2] }} </text>
+                        <path d="M20,15L80,15" stroke-width="1.5" :fill="'none'" :stroke="colorLine[1]"></path>
+                    </g>
+                        </g>
+                    </g>
+                    <g transform="translate(500, 0)">
+                                <text x="10" y="20" font-size="14">Layer: </text>
+                                <rect v-for="(o, i) in horizon_color" :key="'hor_' + i" :x="i * 25 + 55" :y="5" :width="20" height="20" :fill="o" stroke="black"></rect>
+                            </g>
+                            </svg>
+</span>
+            <span style="margin-right: 0px; position: absolute; right: 5px;">
+                            <el-button style="height: 30px;" @click="refresh()">
+                                
+                                CLEAR
+                            </el-button>
+                        </span>
         </div>
     </div>
     <div class="frameworkBody">
     
         <div style="height: calc(100%); width: 100%; margin-top: 0px;">
-            <!-- <div style="height: 1000px;">
-                                        
-                                                    </div> -->
             <div style="height: 96%; width: 100%;" ref="timeline">
-                <!-- <div v-for="(item, i) in overview_line_data" :key="'overview_line_' + i">
-                            <div :style="{
-                                                'background-color': 'white',
-                                                'margin-top': '3px',
-                                                'height': item.rowHeight + 'px',
-                                                }" @click="showDetail(i, '#time_line_legend' + i)">
-                                <svg width="100%" :height="item.rowHeight">
-                                                    <clipPath id="clipPathHorizon">
-                                                                        <rect :x="0" :y="0" :width="tlWidth" :height="30"></rect>
-                                                                </clipPath>
-                                                    
-                                                                <clipPath id="clipPathLine">
-                                                                        <rect :x="50" :y="0" :width="tlWidth - 50 - 10" :height="item.rowHeight - 30"></rect>
-                                                                </clipPath>
-                                                    <g clip-path="url(#clipPathHorizon)" :id="'brush_area' + i" :transform="translate(0, item.rowHeight - 30, 0)">
-                                                        <path :d="item.d" :stroke="'none'" :fill="item.fill[0]" :transform="translate(0, -item.height * 3, 0)"></path>
-                                                        <path :d="item.d" :stroke="'none'" :fill="item.fill[1]" :transform="translate(0, -item.height * 2, 0)"></path>
-                                                        <path :d="item.d" :stroke="'none'" :fill="item.fill[2]"  :transform="translate(0, -item.height * 1, 0)"></path>
-                                                        <path :d="item.d" :stroke="'none'" :fill="item.fill[3]"></path>
-                                                    </g>
-                                                    <g :transform="translate(0, item.rowHeight - 30, 0)">
-                                                        <text x="0" y="18" font-size="14">{{ item.feature }}</text></g>
-                                                    <g :id="'time_line_legend' + i" :transform="translate(0, 0, 0)"></g>
-                        
-                                                    <g :id="'time_line' + i" :transform="translate(0, 0, 0)" clip-path="url(#clipPathLine)">
-                                                        <path :id="'time_path_raw' + i" :d="timeLinePath" :fill="'none'" :stroke="'grey'"></path>
-                                                    </g>
-                                                </svg>
-                            </div>
-                        </div> -->
-                <!-- <div v-for="(item, i) in overview_line_data" :key="'overview_line_' + i"> -->
                 <svg width="100%" height="100%">
-                            <g v-for="(item, i) in overview_line_data" :transform="translate(0, item.posHeight, 0)">
-                                                    <clipPath id="clipPathHorizon">
-                                                        <rect :x="0" :y="0" :width="tlWidth" :height="30"></rect>
-                                                    </clipPath>
-                                                    
-                                                    <g v-if="item.rowHeight == 35 ? 0: 1">
-    
-                                                    <clipPath id="clipPathLine">
-                                                        <rect :x="50" :y="0" :width="tlWidth - 50 - 10" :height="item.rowHeight - 30"></rect>
-                                                    </clipPath>
-                                <g :id="'time_line_legend' + i" :transform="translate(0, 0, 0)"></g>
-                        
-                        <g :id="'time_line' + i" :transform="translate(0, 0, 0)" clip-path="url(#clipPathLine)">
-                            <path :id="'time_path_raw' + i" :d="timeLinePath" :fill="'none'" :stroke="'#c0c0c0'" stroke-width="1.5"></path>
-                        </g>
-                                                    </g>
-                                                    <g clip-path="url(#clipPathHorizon)" :id="'brush_area' + i" :transform="translate(0, item.rowHeight - 30, 0)">
-                                                        <path :d="item.d" :stroke="'none'" :fill="item.fill[0]" :transform="translate(0, -item.height * 3, 0)"></path>
-                                                        <path :d="item.d" :stroke="'none'" :fill="item.fill[1]" :transform="translate(0, -item.height * 2, 0)"></path>
-                                                        <path :d="item.d" :stroke="'none'" :fill="item.fill[2]"  :transform="translate(0, -item.height * 1, 0)"></path>
-                                                        <path :d="item.d" :stroke="'none'" :fill="item.fill[3]"></path>
-                                                    </g>
-                                                    <g :transform="translate(0, item.rowHeight - 30, 0)" style="cursor: pointer;" @click="clickAttribute(i)">
-                                                        <text x="0" y="18" font-size="14">{{ item.feature }}</text></g>
+                                <g v-for="(item, i) in overview_line_data" :transform="translate(0, item.posHeight, 0)">
+                                                        <clipPath id="clipPathHorizon">
+                                                            <rect :x="0" :y="0" :width="tlWidth" :height="30"></rect>
+                                                        </clipPath>
+                                                        
+                                                        <g v-if="item.rowHeight == 35 ? 0: 1">
+        
+                                                        <clipPath id="clipPathLine">
+                                                            <rect :x="50" :y="0" :width="tlWidth - 50 - 10" :height="item.rowHeight - 30"></rect>
+                                                        </clipPath>
+                                    <g :id="'time_line_legend' + i" :transform="translate(0, 0, 0)"></g>
+                            
+                            <g :id="'time_line' + i" :transform="translate(0, 0, 0)" clip-path="url(#clipPathLine)">
+                                <path :id="'time_path_raw' + i" :d="timeLinePath" :fill="'none'" :stroke="'#c0c0c0'" stroke-width="1.5"></path>
+                                <g v-if="showLineLegend">
+                                    <path v-for="(pl, pi) in overLinePath" :key="'pl' + pi" :d="pl" :fill="'none'" :stroke="colorLine[pi]" :id="'plid' + pi"></path>
+                                </g>
                             </g>
-                        </svg>
+                                                        </g>
+                                                        <g clip-path="url(#clipPathHorizon)" :id="'brush_area' + i" :transform="translate(0, item.rowHeight - 30, 0)">
+                                                            <path :d="item.d" :stroke="'none'" :fill="item.fill[0]" :transform="translate(0, -item.height * 3, 0)"></path>
+                                                            <path :d="item.d" :stroke="'none'" :fill="item.fill[1]" :transform="translate(0, -item.height * 2, 0)"></path>
+                                                            <path :d="item.d" :stroke="'none'" :fill="item.fill[2]"  :transform="translate(0, -item.height * 1, 0)"></path>
+                                                            <path :d="item.d" :stroke="'none'" :fill="item.fill[3]"></path>
+                                                        </g>
+                                                        <g :transform="translate(0, item.rowHeight - 30, 0)" style="cursor: pointer;" @click="clickAttribute(i)">
+                                                            <text x="0" y="18" font-size="14">{{ item.feature }}</text></g>
+                                </g>
+                            </svg>
                 <!-- </div> -->
             </div>
     
             <div style="height: 4%;">
                 <svg width="100%" height="100%">
-                                <g id="global_time_axis"></g>
-                            </svg>
+                                    <g id="global_time_axis"></g>
+                                </svg>
             </div>
         </div>
     
@@ -106,12 +101,17 @@ import { brushX } from 'd3-brush';
 import { select, selectAll, selectorAll } from 'd3-selection';
 import { scale } from 'vsup';
 // import { ConstantTypes } from '@vue/compiler-core';
+import { useDataStore } from "../stores/counter";
 export default {
     name: 'DataTransformationView',
     props: ['timeData', 'sliceData'],
     data() {
         return {
-            color: ['#A50021', '#181CF7'],
+            showLineLegend: 0,
+            colorLine: ['#A50021', '#181CF7'],
+            overLinePath: [],
+            nameLine: ['', '', ''],
+            overLine: [],
             horizon_level: 4,
             elHeight: 1000,
             elWidth: 1000,
@@ -172,7 +172,9 @@ export default {
                 'sunspots': ['1900-01-01', '1930-01-01'],
                 'pm': ['2013-11-24', '2014-2-16']
             },
-            datasetSelect: 'sunspots',
+            brushDyMoveData: [],
+            brushTempMove: [],
+            datasetSelect: 'pm',
             nameMap: {
                 'sunspots': {
                     'raw': 'RAW',
@@ -194,12 +196,15 @@ export default {
                     'wnd_spd': 'wnd_spd'
                 }
             },
-            selectAttribute: 0
+            selectAttribute: 0,
+            selectSmooth: [],
+            timeMap: [],
+
         }
     },
     methods: {
         clickAttribute(num) {
-            console.log(num)
+            // console.log(num)
             this.selectAttribute = num;
             this.showDetail(this.selectAttribute, '#time_line_legend' + num)
         },
@@ -224,8 +229,10 @@ export default {
         calcTimeScale: function(data, type) {
             // console.log(data);
             let margin = ({ top: 30, right: 15, bottom: 50, left: 50 });
+            let raw_time_data = [];
             let timeData = [];
             for (let i in data) {
+                raw_time_data.push(data[i]['timestamp']);
                 if (type == 'sunspots') {
                     timeData.push(this.timeFormat(data[i]['timestamp'], type));
                 } else {
@@ -237,9 +244,12 @@ export default {
             select('#global_time_axis').append('g').attr('id', 'global_time_axis_g')
                 .call(axisBottom(timeScale).ticks((this.elWidth - margin.left - margin.right) / 40).tickSizeOuter(0))
             // if 
+            return raw_time_data;
         },
         showDetail(cnt, id) {
-            console.log(id);
+            // console.log(id);
+            this.brushDyMoveData = this.brushTempMove;
+            this.nameLine[0] = this.nameMap[this.datasetSelect][this.featureSet[cnt]] + ':';
             let sigHeight = 0;
             for (let i in this.overview_line_data) {
                 this.overview_line_data[i].posHeight = sigHeight;
@@ -251,7 +261,7 @@ export default {
             }
             // console.log(this.dataSet, this.featureSet[cnt], cnt);
             this.calcTimeLine(this.dataSet[this.featureSet[cnt]], this.tlHeight - this.featureSet.length * 30 - 50, this.tlWidth, id);
-            this.setupBrush(this.dataSet[this.featureSet[cnt]], '#brush_area' + cnt, this.tlWidth, this.tlHeight - this.featureSet.length * 30 - 30, cnt)
+            this.setupBrush(this.dataSet[this.featureSet[cnt]], '#brush_area' + cnt, this.tlWidth, this.tlHeight - this.featureSet.length * 30 - 30, cnt);
         },
         translate(x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
@@ -385,6 +395,7 @@ export default {
                 // _this.calcSparkBox(SN_raw_data, _this.tlHeight, _this.tlWidth);
                 let timeStep = [_this.timeScaleGlobal.invert(selection[0]), _this.timeScaleGlobal.invert(selection[1])];
                 // console.log(timeStep)
+                _this.brushTempMove = timeStep;
 
                 _this.xScale.domain(timeStep);
                 // console.log(_this.xScale.domain(), _this.xScale.range());
@@ -422,6 +433,7 @@ export default {
                 let lineGenerate = line()
                     .x((d) => _this.xScale(_this.timeFormat(d.date, _this.datasetSelect)))
                     .y(d => _this.yScale(d.value));
+                _this.lineGenerateFunc = lineGenerate;
 
                 // _this.select_time_step = timeStep;
 
@@ -430,6 +442,12 @@ export default {
 
                 //     select('#time_path_selected').attr('d', lineGenerate(_this.smoothLineData));
                 // }
+                if (_this.showLineLegend) {
+                    for (let i in _this.overLine) {
+
+                        select('#plid' + i).attr('d', lineGenerate(_this.overLine[i]));
+                    }
+                }
             }
 
             function brushed({ selection }) {
@@ -478,6 +496,14 @@ export default {
                 // _this.select_time_step = timeStep;
 
                 select('#time_path_raw' + cnt).attr('d', lineGenerate(_this.lineData));
+                // console.log(_this.showLineLegend)
+                if (_this.showLineLegend) {
+                    // console.log(1111, _this.overLine)
+                    for (let i in _this.overLine) {
+                        // console.log(lineGenerate(_this.overLine[i]));
+                        select('#plid' + i).attr('d', lineGenerate(_this.overLine[i]));
+                    }
+                }
                 // if (_this.predict_tag) {
 
                 //     select('#sel_predict_line').attr('d', lineGenerate(_this.predict_line));
@@ -498,7 +524,7 @@ export default {
                 this.timeBrush_g.remove();
             }
             this.timeBrush_g = select(id).append('g').call(timeBrush)
-                .call(timeBrush.move, [x(new Date(_this.brushMoveData[_this.datasetSelect][0])), x(new Date(_this.brushMoveData[_this.datasetSelect][1]))]);
+                .call(timeBrush.move, [x(new Date(_this.brushDyMoveData[0])), x(new Date(_this.brushDyMoveData[1]))]);
 
         },
         calcTimeLine(data, height, width, id) {
@@ -668,12 +694,49 @@ export default {
         // this.sdData = 1
 
 
-        [this.overview_line_data, this.featureSet, this.dataSet] = this.calcOverviewTimeLine(uni_var_data);
+        [this.overview_line_data, this.featureSet, this.dataSet] = this.calcOverviewTimeLine(multi_var_data);
         // console.log(this.overview_line_data, this.featureSet, this.dataSet);
-        this.calcTimeScale(uni_var_data, this.datasetSelect);
+        this.brushTempMove = this.brushMoveData[this.datasetSelect];
+        this.timeMap = this.calcTimeScale(multi_var_data, this.datasetSelect);
         // console.log(this.dataSet);
 
         // this.setupBrush(uni_var_data, '#brush_area0', this.tlWidth, 0)
+        const dataStore = useDataStore();
+        dataStore.$subscribe((mutations, state) => {
+            if (dataStore.selectSmooth.length > 0 && dataStore.rowSelectTag == 1) {
+                this.selectSmooth = dataStore.selectSmooth;
+                // console.log(this.selectSmooth);
+                // console.log(this.dataSet)
+                this.overLine = [this.dataSet[this.selectSmooth[0]], this.dataSet[this.selectSmooth[1]]];
+                this.overLinePath = [this.lineGenerateFunc(this.overLine[0]), this.lineGenerateFunc(this.overLine[1])];
+                this.nameLine[1] = this.nameMap[this.datasetSelect][this.selectSmooth[0]] + ':';
+                this.nameLine[2] = this.nameMap[this.datasetSelect][this.selectSmooth[1]] + ':';
+                this.showLineLegend = 1;
+            }
+            if (dataStore.rowSelectTag == 2) {
+                console.log(dataStore.selectResRow);
+                let st = dataStore.selectResRow.time_index;
+                let pre_data = dataStore.selectResRow.prediction_data;
+                let et = st + pre_data.length - 1;
+                this.brushTempMove = [this.timeFormat(this.timeMap[st], this.datasetSelect), this.timeFormat(this.timeMap[et], this.datasetSelect)];
+                let pre_line = []
+                for (let i = st; i <= et; ++i) {
+                    pre_line.push({
+                        date: this.timeMap[i],
+                        value: pre_data[i - st]
+                    })
+                }
+
+                this.overLine = [this.dataSet[dataStore.selectResRow.smooth], pre_line];
+                console.log()
+                this.overLinePath = [this.lineGenerateFunc(this.overLine[0]), , this.lineGenerateFunc(pre_line)];
+                // , this.lineGenerateFunc(pre_line)
+                // console.log(pre_line, this.overLine, this.overLinePath  , this.lineGenerateFunc(pre_line));
+                this.nameLine[1] = this.nameMap[this.datasetSelect][dataStore.selectResRow.smooth] + ':';
+                this.nameLine[2] = 'Predict:';
+                this.showLineLegend = 1;
+            }
+        })
     },
     updated() {
         this.showDetail(this.selectAttribute, '#time_line_legend' + this.selectAttribute)
