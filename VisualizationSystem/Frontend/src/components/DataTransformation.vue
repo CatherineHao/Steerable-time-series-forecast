@@ -174,7 +174,7 @@ export default {
             },
             brushDyMoveData: [],
             brushTempMove: [],
-            datasetSelect: 'pm',
+            datasetSelect: 'sunspots',
             nameMap: {
                 'sunspots': {
                     'raw': 'RAW',
@@ -694,10 +694,10 @@ export default {
         // this.sdData = 1
 
 
-        [this.overview_line_data, this.featureSet, this.dataSet] = this.calcOverviewTimeLine(multi_var_data);
+        [this.overview_line_data, this.featureSet, this.dataSet] = this.calcOverviewTimeLine(uni_var_data);
         // console.log(this.overview_line_data, this.featureSet, this.dataSet);
         this.brushTempMove = this.brushMoveData[this.datasetSelect];
-        this.timeMap = this.calcTimeScale(multi_var_data, this.datasetSelect);
+        this.timeMap = this.calcTimeScale(uni_var_data, this.datasetSelect);
         // console.log(this.dataSet);
 
         // this.setupBrush(uni_var_data, '#brush_area0', this.tlWidth, 0)
@@ -728,7 +728,7 @@ export default {
                 }
 
                 this.overLine = [this.dataSet[dataStore.selectResRow.smooth], pre_line];
-                console.log()
+                // console.log()
                 this.overLinePath = [this.lineGenerateFunc(this.overLine[0]), , this.lineGenerateFunc(pre_line)];
                 // , this.lineGenerateFunc(pre_line)
                 // console.log(pre_line, this.overLine, this.overLinePath  , this.lineGenerateFunc(pre_line));
