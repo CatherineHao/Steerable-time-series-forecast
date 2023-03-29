@@ -56,7 +56,7 @@
                                             <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
                                                 <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
                                             </el-select> -->
-                                            Yes (p-value: 9.7559e-17)
+                                            Yes (p-value: &lt;&lt; 0.01)
                                         </span>
             </div>
             <div style="height: calc(20% - 5px); margin-top: 5px;">
@@ -69,20 +69,20 @@
                                                 (Math.round(basicData[fileValue].periodicity['fft acf'] * 10000) / 10000) + ')') }}
                                     </span> -->
     
-                <span style="width: 30%; float: right; margin-top: -2px; text-align: end; margin-right: 10px;">
-                                            <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
+               <!-- <span style="width: 30%; float: right; margin-top: -2px; text-align: end; margin-right: 10px;">
+                                            <!~~ <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
                                                 <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
-                                            </el-select> -->
-                                            <!-- 1, 3, 6, 13 -->
-                                            <!-- <span>Add: </span> -->
+                                            </el-select> ~~>
+                                            <!~~ 1, 3, 6, 13 ~~>
+                                            <!~~ <span>Add: </span> ~~>
                 <el-input v-model="periodInput" placeholder="Please input" class="input-with-select">
-                    <!-- <template #prepend>
+                    <!~~ <template #prepend>
                                         <el-select v-model="select" placeholder="Select" style="width: 115px">
                                         <el-option label="Restaurant" value="1" />
                                         <el-option label="Order No." value="2" />
                                         <el-option label="Tel" value="3" />
                                         </el-select>
-</template>-->
+</template>~~>
 
 <template #append>
     <el-button style="height: 30px;">
@@ -90,7 +90,7 @@
     </el-button>
 </template>
                             </el-input>
-                                </span>
+                                </span>-->
             </div>
     
         </div>
@@ -251,9 +251,9 @@ export default {
             for (let i in data) {
                 for (const j in data[i].predic_info) {
                     let d = data[i].predic_info[j];
-                    if (typeof(d['ACF']) == 'undefined') {
-                        d['ACF'] = 0;
-                    }
+                    // if (typeof(d['ACF']) == 'undefined') {
+                    //     d['ACF'] = 0;
+                    // }
                     let tmp = new Object();
                     tmp['dataset_name'] = data[i].dataset_name;
                     // console.log(`import d${file_cnt} from '../assets/allData/univariate_data/result_data/${tmp['dataset_name'] + '_skip_' + d.skip}_0.8.csv';`)

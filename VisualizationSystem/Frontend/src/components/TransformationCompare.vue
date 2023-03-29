@@ -15,12 +15,12 @@
         <div style="float: right; margin-top: 3px;">
             <span>Metric: </span>
             <el-select v-model="heatTag" class="m-2" placeholder="Select" style="width: 150px; margin-right: 20px;">
-                <el-option v-for="(item, i) in heatOptions" :key="item" :label="item" :value="i" />
+                <el-option v-for="(item, i) in heatOptions" :key="item" :label="item.label" :value="item.value" />
             </el-select>
             <span style="margin-right: 0px; margin-top: 0px;">
                             <el-button style="height: 30px;" @click="refresh()">
                                 
-                                <span>CLEAR</span>
+                                <svg t="1680060651492" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2903" width="30" height="30"><path d="M810.666667 273.706667L750.293333 213.333333 512 451.626667 273.706667 213.333333 213.333333 273.706667 451.626667 512 213.333333 750.293333 273.706667 810.666667 512 572.373333 750.293333 810.666667 810.666667 750.293333 572.373333 512z" p-id="2904" fill="#606266"></path></svg>
                             </el-button>
                         </span>
         </div>
@@ -196,7 +196,7 @@ export default {
             heatHeight: 0,
             heatTag: 3,
             clickFileTag: 0,
-            heatOptions: ['Raw + Difference', 'Raw', 'Difference', 'RMSE + Corr.', 'RMSE', 'Corr.'],
+            heatOptions: [{label: 'RMSE + Corr.', value: 3}, {label: 'RMSE', value: 4}, {label: 'Corr.', value: 5}],
             sample: ['10-slice', '7-slice', '3-slice'],
             smooth: ['Raw Sequence', 'N-Average', 'EMA/Holt'],
             sparkboxData: [],

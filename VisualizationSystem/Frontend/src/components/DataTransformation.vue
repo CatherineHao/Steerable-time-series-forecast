@@ -11,20 +11,20 @@
     
         <div style="float: right; margin-top: 3px; height: 30px;">
             <span>
-            <svg width="655" height="30" style="margin-right: 80px; margin-top: 3px;">
+            <svg width="655" height="30" style="margin-right: 50px; margin-top: 3px;">
                     <g transform="translate(100, 0)">
                         <g transform="translate(300, 0)">
                         <text x="0" y="20" font-size="14" text-anchor="end">{{ nameLine[0] }} </text>
-                        <path d="M10,15L70,15" stroke-width="1.5" :fill="'none'" :stroke="'#c0c0c0'"></path>
+                        <path d="M10,15L70,15" stroke-width="5" :fill="'none'" :stroke="'#c0c0c0'"></path>
                     </g>
                     <g v-if="showLineLegend"> 
                         <g transform="translate(0, 0)">
                         <text x="10" y="20" font-size="14" text-anchor="end">{{ nameLine[1] }} </text>
-                        <path d="M20,15L80,15" stroke-width="1.5" :fill="'none'" :stroke="colorLine[0]"></path>
+                        <path d="M20,15L80,15" stroke-width="5" :fill="'none'" :stroke="colorLine[0]"></path>
                     </g>
                     <g transform="translate(150, 0)">
                         <text x="10" y="20" font-size="14" text-anchor="end">{{ nameLine[2] }} </text>
-                        <path d="M20,15L80,15" stroke-width="1.5" :fill="'none'" :stroke="colorLine[1]"></path>
+                        <path d="M20,15L80,15" stroke-width="5" :fill="'none'" :stroke="colorLine[1]"></path>
                     </g>
                         </g>
                     </g>
@@ -34,10 +34,10 @@
                             </g>
                             </svg>
 </span>
-            <span style="margin-right: 0px; position: absolute; right: 5px;">
+            <span style="margin-right: 0px; position: absolute; right: 0px;">
                             <el-button style="height: 30px;" @click="refresh()">
                                 
-                                CLEAR
+                                <svg t="1680060651492" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2903" width="30" height="30"><path d="M810.666667 273.706667L750.293333 213.333333 512 451.626667 273.706667 213.333333 213.333333 273.706667 451.626667 512 213.333333 750.293333 273.706667 810.666667 512 572.373333 750.293333 810.666667 810.666667 750.293333 572.373333 512z" p-id="2904" fill="#606266"></path></svg>
                             </el-button>
                         </span>
         </div>
@@ -60,7 +60,7 @@
                                     <g :id="'time_line_legend' + i" :transform="translate(0, 0, 0)"></g>
                             
                             <g :id="'time_line' + i" :transform="translate(0, 0, 0)" clip-path="url(#clipPathLine)">
-                                <path :id="'time_path_raw' + i" :d="timeLinePath" :fill="'none'" :stroke="'#c0c0c0'" stroke-width="1.5"></path>
+                                <path :id="'time_path_raw' + i" :d="timeLinePath" :fill="'none'" :stroke="'#c0c0c0'" stroke-width="3"></path>
                                 <g v-if="showLineLegend">
                                     <path v-for="(pl, pi) in overLinePath" :key="'pl' + pi" :d="pl" :fill="'none'" :stroke="colorLine[pi]" :id="'plid' + pi"></path>
                                 </g>
