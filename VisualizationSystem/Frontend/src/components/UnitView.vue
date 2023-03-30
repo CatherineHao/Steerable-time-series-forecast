@@ -123,7 +123,7 @@ export default {
             valueRange: [],
             selectRect: [],
             selectTag: 0,
-            dataSelect: 'pm',
+            dataSelect: 'sunspots',
             nameMap: {
                 'sunspots': {
                     'raw': 'RAW',
@@ -337,9 +337,11 @@ export default {
             let margin = { top: 15, left: 50, right: 5, bottom: 30 }
             // if (dataStore.dataSelect == 'sunspots') {
             // console.log(rolling13, weight13, SN_raw_data);
+            // console.log(file_name, data)
             for (let i = 0; i < file_name.length; ++i) {
                 for (let j = 0; j < i + 1; ++j) {
                     // console.log(this.S_name[i], this.S_name[j]);
+                    // console.log(i, j)
                     F_sparkBoxData.push({
                         x: j,
                         y: i,
@@ -367,6 +369,8 @@ export default {
             if (this.dataSelect != 'sunspots') {
                 dateName = 'PM 2.5'
             }
+            // console.log(show_name)
+            // console.log(F_sparkBoxData, show_name, dateName)
             return [F_sparkBoxData, show_name, dateName];
         }
     },
@@ -375,33 +379,34 @@ export default {
         this.elHeight = this.$refs.DistributionView.offsetHeight;
         this.elWidth = this.$refs.DistributionView.offsetWidth;
         // [this.sparkBoxData, this.linePath] = this.calcSparkBox(SN_raw_data, this.elHeight, this.elWidth);
-        const dataStore = useDataStore();
-            let margin = { top: 15, left: 50, right: 5, bottom: 30 }
+        // const dataStore = useDataStore();
+        //     let margin = { top: 15, left: 50, right: 5, bottom: 30 }
 
         // dataStore.$subscribe((mutations, state) => {
         // console.log(222);
-            let F_sparkBoxData = []
+            // let F_sparkBoxData = []
         // } else if (dataStore.dataSelect == 'pm') {
-        for (let i = 0; i < this.F_name.length; ++i) {
-            for (let j = 0; j < i + 1; ++j) {
-                F_sparkBoxData.push({
-                    x: j,
-                    y: i,
-                    tx: (this.elWidth - margin.left - margin.right) / this.F_name.length * j,
-                    rx: margin.left,
-                    w: (this.elWidth - margin.left - margin.right) / this.F_name.length,
-                    ty: (this.elHeight - margin.bottom - margin.top) / this.F_name.length * i,
-                    ry: margin.top,
-                    h: (this.elHeight - margin.bottom - margin.top) / this.F_name.length,
-                    boxData: this.calcDisSparkBox(multi_data, (this.elHeight - margin.bottom - margin.top) / this.F_name.length, (this.elWidth - margin.left - margin.right) / this.F_name.length, 8, this.F_name[i], this.F_name[j], 'pm25')
-                })
-            }
-        }
-        this.show_name = this.F_name;
-        this.F_sparkBoxData = F_sparkBoxData;
-        this.dataName = 'PM 2.5'
+        // for (let i = 0; i < this.F_name.length; ++i) {
+        //     for (let j = 0; j < i + 1; ++j) {
+        //         F_sparkBoxData.push({
+        //             x: j,
+        //             y: i,
+        //             tx: (this.elWidth - margin.left - margin.right) / this.F_name.length * j,
+        //             rx: margin.left,
+        //             w: (this.elWidth - margin.left - margin.right) / this.F_name.length,
+        //             ty: (this.elHeight - margin.bottom - margin.top) / this.F_name.length * i,
+        //             ry: margin.top,
+        //             h: (this.elHeight - margin.bottom - margin.top) / this.F_name.length,
+        //             boxData: this.calcDisSparkBox(multi_data, (this.elHeight - margin.bottom - margin.top) / this.F_name.length, (this.elWidth - margin.left - margin.right) / this.F_name.length, 8, this.F_name[i], this.F_name[j], 'pm25')
+        //         })
+        //     }
         // }
-        // [this.F_sparkBoxData, this.show_name, this.dataName] = this.mainData(multi_data, this.S_name, 'raw');
+        // this.show_name = this.F_name;
+        // this.F_sparkBoxData = F_sparkBoxData;
+        // this.dataName = 'PM 2.5'
+        // }
+        [this.F_sparkBoxData, this.show_name, this.dataName] = this.mainData(uni_data, this.S_name, 'raw');
+        console.log(this.F_sparkBoxData, this.show_name, this.dataName)
         // })
 
 

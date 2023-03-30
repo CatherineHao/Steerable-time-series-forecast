@@ -25,7 +25,7 @@ export const useDataStore = defineStore("dataStore", {
       model: null,
       selectDot: {tag: 0,data: []},
       select_row: null,
-      dataSelect: 0,
+      dataSelect: 'pm',
       selectRepresentation: { 
         tag: 0,
         data: []

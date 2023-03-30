@@ -21,12 +21,17 @@
                 <el-option v-for="(item, i) in xAxisOption" :key="item" :label="item.label" :value="item.value" />
             </el-select>
             </span>
-            <span>
+            <span style="margin-right: 20px;">
                                                                             <span>Y-Axis: </span>
             <el-select v-model="yAxisValue" class="m-2" placeholder="Select" style="width: 100px;">
                 <el-option v-for="(item, i) in yAxisOption" :key="item" :label="item.label" :value="item.value" />
             </el-select>
             </span>
+
+            <el-button style="height: 30px;" @click="refresh()">
+                                
+                                <svg t="1680060651492" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2903" width="30" height="30"><path d="M810.666667 273.706667L750.293333 213.333333 512 451.626667 273.706667 213.333333 213.333333 273.706667 451.626667 512 213.333333 750.293333 273.706667 810.666667 512 572.373333 750.293333 810.666667 810.666667 750.293333 572.373333 512z" p-id="2904" fill="#606266"></path></svg>
+                            </el-button>
         </div>
     </div>
     <div class="frameworkBody">
@@ -37,15 +42,17 @@
                                                                                     cursor: 'crosshair'
                                                                                 }">
             <svg id="modelExplainer" height="100%" width="100%">
-                                                                                    <g id="axis_g">
-                                                                                            <g id="x_axis_g" :transform="translate(0, elHeight - 20, 0)"></g>
-                                                                                            <g id="y_axis_g" :transform="translate(30, 0, 0)"></g>
-                                                                                        </g>
+                                                                                    
                                                                                         <g id="scatter">
                                                                                             <!-- <circle v-for="(o, i) in dot_data" :key="'cir' + i" class="corr_cir" :id="'corr_cir' + o.id" :cx="o.x" :cy="o.y" :r="1"
                                                                                                                     fill="orange"></circle> -->
                                                                                         </g>
                                                                                         <g id="legend_g_s"></g>
+
+                                                                                        <g id="axis_g">
+                                                                                            <g id="x_axis_g" :transform="translate(0, 0, 0)"></g>
+                                                                                            <g id="y_axis_g" :transform="translate(0, 0, 0)"></g>
+                                                                                        </g>
                                                                                     </svg>
         </div>
         <div ref="modelTable" :style="{
@@ -596,22 +603,7 @@ export default {
             let timeScale = scaleLinear([840, maxTime], [30, this.elWidth - 20]);
             let xAxis = axisBottom(xAxisData == 1 ? shapScale : normScale).ticks(10);
             let yAxis = axisLeft(rmseScale).ticks(10);
-            select("#x_axis_g").call(xAxis).call(g => g.selectAll(".title").data([xAxisData == 1 ? 'SHAP.' : 'Corr.']).join("text")
-                .attr("class", "title")
-                .attr("x", this.elWidth - 20)
-                .attr("y", 16)
-                .attr("fill", "currentColor")
-                .attr("text-anchor", "middle")
-                .attr('font-size', '14px')
-                .text(d => d));
-            select("#y_axis_g").call(yAxis).call(g => g.selectAll(".title").data(['RMSE']).join("text")
-                .attr("class", "title")
-                .attr("x", 20)
-                .attr("y", 12)
-                .attr("fill", "currentColor")
-                .attr("text-anchor", "middle")
-                .attr('font-size', '14px')
-                .text(d => d));
+            
             for (let i in sdata) {
                 sdata[i].x = xAxisData == 1 ? shapScale(sdata[i].shap) : normScale(sdata[i].norm_corr);
                 sdata[i].y = rmseScale(sdata[i].rmse);
@@ -644,31 +636,52 @@ export default {
                 .on('mouseout', (e, d) => {
                     select('#corr_c' + d.id_cnt).attr('r', 2);
                 })
-                .on('click', (e, d) => {
-                    // console.log()
-                    let select_dot = [];
-                    // select_dot[d.id_cnt] = 1;
-                    for (let i = 0; i < id_cnt; ++i) {
-                        select_dot.push(0);
-                        if (i == d.id_cnt) {
-                            console.log(d.id_cnt)
-                            select_dot[i] = 1;
-                        }
-                    }
-                    const dataStore = useDataStore();
-                    dataStore.selectDot = select_dot;
+            //     .on('click', (e, d) => {
+            //         // console.log()
+            //         let select_dot = [];
+            //         // select_dot[d.id_cnt] = 1;
+            //         for (let i = 0; i < id_cnt; ++i) {
+            //             select_dot.push(0);
+            //             if (i == d.id_cnt) {
+            //                 console.log(d.id_cnt)
+            //                 select_dot[i] = 1;
+            //             }
+            //         }
+            //         const dataStore = useDataStore();
+            //         dataStore.selectDot = select_dot;
 
-                    // console.log(select_dot);
-                    _this.tableData = _this.calcTableData(_this.dataSet, select_dot);
-                    console.log(_this.tableData);
-                    selectAll('.corr_cir').attr('opacity', (d, i) => {
-                        if (select_dot[i] == 1) return 1;
-                        else return d.isShow == 0 ? 0 : 0.5;
-                    }).attr('fill', (d, i) => {
-                        if (select_dot[i] == 1) return 'orange';
-                        else return '#d9d9d9';
-                    })
-                })
+            //         // console.log(select_dot);
+            //         _this.tableData = _this.calcTableData(_this.dataSet, select_dot);
+            //         console.log(_this.tableData);
+            //         selectAll('.corr_cir').attr('opacity', (d, i) => {
+            //             if (select_dot[i] == 1) return 1;
+            //             else return d.isShow == 0 ? 0 : 0.5;
+            //         }).attr('fill', (d, i) => {
+            //             if (select_dot[i] == 1) return 'orange';
+            //             else return '#d9d9d9';
+            //         })
+            //     })
+
+            selectAll('#dotAxis_g').remove();
+            select("#x_axis_g").append('g').attr('id', 'dotAxis_g')
+            .attr('transform', `translate(0, ${this.elHeight - 20})`).call(xAxis).call(g => g.selectAll(".title").data([xAxisData == 1 ? 'SHAP.' : 'Corr.']).join("text")
+                .attr("class", "title")
+                .attr("x", this.elWidth - 20)
+                .attr("y", 16)
+                .attr("fill", "currentColor")
+                .attr("text-anchor", "middle")
+                .attr('font-size', '14px')
+                .text(d => d));
+            select("#y_axis_g").append('g').attr('id', 'dotAxis_g')
+            .attr('transform', `translate(${xAxisData == 1 ? shapScale(0) : 30}, 0)`)
+            .call(yAxis).call(g => g.selectAll(".title").data(['RMSE']).join("text")
+                .attr("class", "title")
+                .attr("x", 20)
+                .attr("y", 12)
+                .attr("fill", "currentColor")
+                .attr("text-anchor", "middle")
+                .attr('font-size', '14px')
+                .text(d => d));
 
             return sdata;
         }
@@ -724,13 +737,13 @@ export default {
         //         //     import.meta.globEager('../assets/allData/univariate_data/result_data/*.csv');
         //         // let dataSet = [];
 
-        // let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27];
+        let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27];
 
         // let dataSet = [d3];
         // for (let i in importData) {
         //     dataSet.push(importData[i]['default']);
         // }
-        let dataSet = [m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27];
+        // let dataSet = [m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27];
 
         this.dataSet = dataSet;
 
