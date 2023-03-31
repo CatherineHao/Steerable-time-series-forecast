@@ -13,81 +13,81 @@
         <div ref="ControlPanel" style="height: calc(30% - 10px); width: calc(100%); float: left; border: 0px solid blue; font-size: 16px;">
             <div style="height: calc(20% - 5px);">
                 <span style="float: left; font-weight: normal; margin-top: 6px;">
-                                            DataSet:
-                                        </span>
+                                                DataSet:
+                                            </span>
                 <span style="width: 60%; float: right;">
-                                            <el-select v-model="fileValue" class="m-2" placeholder="Select" size="large">
-                                                <el-option v-for="item in fileOptions" :key="item.value" :label="item.label" :value="item.value" />
-                                            </el-select>
-                                        </span>
+                                                <el-select v-model="fileValue" class="m-2" placeholder="Select" size="large">
+                                                    <el-option v-for="item in fileOptions" :key="item.value" :label="item.label" :value="item.value" />
+                                                </el-select>
+                                            </span>
             </div>
             <div style="height: calc(20% - 5px); margin-top: 5px;">
                 <span style="float: left; font-weight: normal; margin-top: 0px;">
-                                            Model:
-                                        </span>
-                <span style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
-                                            <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
-                                                <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
-                                            </el-select> -->
-                                            Long Short Term Memory
-                                        </span>
+                                                Model:
+                                            </span>
+                <span v-if="fileValue != ''" style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
+                                                <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
+                                                    <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
+                                                </el-select> -->
+                                                Long Short Term Memory
+                                            </span>
             </div>
             <div style="height: calc(20% - 5px); margin-top: 0px;">
                 <span style="float: left; font-weight: normal; margin-top: 0px;">
-                                            Variable Num:
-                                        </span>
-                <span style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
-                                            <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
-                                                <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
-                                            </el-select> -->
-                                            1
-                                        </span>
+                                                Variable Num:
+                                            </span>
+                <span v-if="fileValue != ''" style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
+                                                <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
+                                                    <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
+                                                </el-select> -->
+                                                1
+                                            </span>
             </div>
             <div style="height: calc(20% - 5px); margin-top: 0px;">
                 <span style="float: left; font-weight: normal; margin-top: 0px;">
-                                            Stationary:
-                                        </span>
+                                                Stationary:
+                                            </span>
                 <!-- <span style="width: 60%; float: right; font-weight: normal; margin-top: 6px; text-align: left;">
-                                            {{ fileValue == null ? '' : (basicData[fileValue].stationary['bool'] + ' (' +
-                                                basicData[fileValue].stationary['p-value'] + ')') }}
+                                                {{ fileValue == null ? '' : (basicData[fileValue].stationary['bool'] + ' (' +
+                                                    basicData[fileValue].stationary['p-value'] + ')') }}
+                                            </span> -->
+    
+                <span v-if="fileValue != ''" style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
+                                                <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
+                                                    <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
+                                                </el-select> -->
+                                                Yes (p-value &lt;&lt; 0.01)
+                                            </span>
+            </div>
+            <div style="height: calc(20% - 5px); margin-top: 5px;">
+                <span style="float: left; font-weight: normal; margin-top: 0px;">
+                                                Periodicity:
+                                                
+                                            </span>
+                <span v-if="fileValue != ''" style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
+                                                <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
+                                                    <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
+                                                </el-select> -->
+                                                {{ periodicity_sel[fileValue] }}
+                                            </span>
+                <!-- <span style="width: 60%; float: right; font-weight: normal; margin-top: 6px; text-align: left;">
+                                                {{ fileValue == null ? '' : ((basicData[fileValue].periodicity['recommend_lag']) + ' (' +
+                                                    (Math.round(basicData[fileValue].periodicity['fft acf'] * 10000) / 10000) + ')') }}
                                         </span> -->
     
-                <span style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
-                                            <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
-                                                <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
-                                            </el-select> -->
-                                            Yes (p-value: &lt;&lt; 0.01)
-                                        </span>
-            </div>
-            <div style="height: calc(20% - 5px); margin-top: 5px;">
-                <span style="float: left; font-weight: normal; margin-top: 0px;">
-                                            Periodicity:
-                                            
-                                        </span>
-                                        <span style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
-                                            <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
-                                                <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
-                                            </el-select> -->
-                                            1, 3, 6, 13
-                                        </span>
-                <!-- <span style="width: 60%; float: right; font-weight: normal; margin-top: 6px; text-align: left;">
-                                            {{ fileValue == null ? '' : ((basicData[fileValue].periodicity['recommend_lag']) + ' (' +
-                                                (Math.round(basicData[fileValue].periodicity['fft acf'] * 10000) / 10000) + ')') }}
-                                    </span> -->
-    
-               <!-- <span style="width: 30%; float: right; margin-top: -2px; text-align: end; margin-right: 10px;">
-                                            <!~~ <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
-                                                <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
-                                            </el-select> ~~>
-                                            <!~~ 1, 3, 6, 13 ~~>
-                                            <!~~ <span>Add: </span> ~~>
-                <el-input v-model="periodInput" placeholder="Please input" class="input-with-select">
-                    <!~~ <template #prepend>
-                                        <el-select v-model="select" placeholder="Select" style="width: 115px">
-                                        <el-option label="Restaurant" value="1" />
-                                        <el-option label="Order No." value="2" />
-                                        <el-option label="Tel" value="3" />
-                                        </el-select>
+                <!-- <span style="width: 30%; float: right; margin-top: -2px; text-align: end; margin-right: 10px;">
+                                                <!~~ <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
+                                                    <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
+                                                </el-select> ~~>
+                                                <!~~ 1, 3, 6, 13 ~~>
+                                                <!~~ <span>Add: </span> ~~>
+                    <el-input v-model="periodInput" placeholder="Please input" class="input-with-select">
+                        <!~~ <template #prepend>
+                                            <el-select v-model="select" placeholder="Select" style="width: 115px">
+                                            <el-option label="Restaurant" value="1" />
+                                            <el-option label="Order No." value="2" />
+                                            <el-option label="Tel" value="3" />
+                                            </el-select>
 </template>~~>
 
 <template #append>
@@ -102,33 +102,33 @@
         </div>
         <div ref="resTable" style="height: calc(70% + 25px); width: calc(100%); float: right; overflow:auto; font-size: 18px; margin-top: -15px;">
             <el-table :data="tableData" style="width: calc(100% - 0px)" height="100%" :header-cell-style="{ 'font-size': '16px', 'background-color': 'rgb(235, 235, 235)', 'height': '40px', 'text-algin': 'left'}" :cell-style="{ 'font-size': '14px', 'height': '15px' }"
-                :row-style="{ 'height': '18px' }" border @row-click="rowClick">
+                :row-class-name="selectRowStyle" border @row-click="rowClick">
                 <el-table-column prop="smooth" label="Smooth" width="82" />
                 <el-table-column prop="skip" label="Skip" width="62" />
                 <el-table-column label="Train" :width="(elWidth - 142) / 3" sortable :sort-by="'train'">
 <template #default="scope">
     <svg width="100%" height="18">
-                                        <rect :x="0" :y="3" :width="scope.row.train_bar.w" :height="15" :fill="'orange'" :fill-opacity="1"  :stroke="'rgb(200, 200, 200)'"> </rect>
-                                        <text x="2" y="15" font-size="12">{{ scope.row.train_bar.v }}</text>
-                                    </svg>
+                                            <rect :x="0" :y="3" :width="scope.row.train_bar.w" :height="15" :fill="'orange'" :fill-opacity="1"  :stroke="'rgb(200, 200, 200)'"> </rect>
+                                            <text x="2" y="15" font-size="12">{{ scope.row.train_bar.v }}</text>
+                                        </svg>
 </template>
                 </el-table-column>
 
                 <el-table-column label="Val." :width="(elWidth - 142) / 3" sortable :sort-by="'test'">
 <template #default="scope">
     <svg width="100%" height="18">
-                                        <rect :x="0" :y="3" :width="scope.row.test_bar.w" :height="15" :fill="'orange'" :stroke="'rgb(200, 200, 200)'" :fill-opacity="1" ></rect>
-                                        <text x="2" y="15" font-size="12">{{ scope.row.test_bar.v }}</text>
-                                    </svg>
+                                            <rect :x="0" :y="3" :width="scope.row.test_bar.w" :height="15" :fill="'orange'" :stroke="'rgb(200, 200, 200)'" :fill-opacity="1" ></rect>
+                                            <text x="2" y="15" font-size="12">{{ scope.row.test_bar.v }}</text>
+                                        </svg>
 </template>
                 </el-table-column>
 
                 <el-table-column label="ACF" :width="(elWidth - 142) / 3" sortable :sort-by="'acf'">
 <template #default="scope">
     <svg width="100%" height="18">
-                                        <rect :x="0" :y="3" :width="scope.row.acf_bar.w" :height="15" :fill="'orange'"  :stroke="'rgb(200, 200, 200)'" :fill-opacity="1"></rect>
-                                        <text x="2" y="15" font-size="12">{{ scope.row.acf_bar.v }}</text>
-                                    </svg>
+                                            <rect :x="0" :y="3" :width="scope.row.acf_bar.w" :height="15" :fill="'orange'"  :stroke="'rgb(200, 200, 200)'" :fill-opacity="1"></rect>
+                                            <text x="2" y="15" font-size="12">{{ scope.row.acf_bar.v }}</text>
+                                        </svg>
 </template>
                 </el-table-column>
                 <!-- <el-table-column prop="address" label="Address" :formatter="formatter" /> -->
@@ -151,7 +151,7 @@ export default {
             elHeight: 0,
             elWidth: 0,
             periodInput: '',
-            fileValue: 'Sunspots',
+            fileValue: '',
             tableData: [],
             fileOptions: [{
                     value: 'sunspots',
@@ -168,17 +168,40 @@ export default {
                 value: 'LSTM',
                 label: 'LSTM',
             }],
+            periodicity_sel: {
+                sunspots: '1, 3, 6, 13',
+                pm: '1, 6, 12, 24'
+            },
             tableData: [],
+            selectRowClass: ''
         }
     },
     methods: {
         // sortACF(a, b) {
         //     return 
         // },
+        cellClassName({ row, column, rowIndex, columnIndex }) {
+            // console.log(columnIndex);
+            if (columnIndex == 0) {
+                return { 'padding': '0px' }
+                // return ''
+            }
+        },
+        selectRowStyle(data) {
+            // console.log(data.row, this.selectRowClass)
+
+            if (data.row.class_name == this.selectRowClass)
+                return 'warning-row';
+            return '';
+        },
+        // selectRowStyle({row}) {},
+
         rowClick(row, event, column) {
             // console.log(row, event, column);
             let tdata = [];
-            let class_name = row['dataset_name'] + '_' + row['skip']
+            let class_name = (row['dataset_name'] == 'rawdata' ? 'raw' : row['dataset_name']) + '_' + row['skip']
+            this.selectRowClass = class_name;
+            console.log(class_name);
             selectAll('.corr_cir').attr('opacity', (d, i) => {
 
                 if (d.class_name == class_name) {
@@ -195,7 +218,7 @@ export default {
             dataStore.selectRowClass = class_name;
             selectAll('.' + 'black_select_row').attr('stroke-width', 0)
             select('#' + class_name).attr('stroke-width', 3)
-            // console.log(tdata)
+            console.log(tdata)
             // let select_dot = {};
             // // console.log(this.heatRectData[num]);
             // for (let i in this.heatRectData[num].heat) {
@@ -215,11 +238,52 @@ export default {
                 .append('circle')
                 .attr('cx', d => d.x)
                 .attr('cy', d => d.y)
-                .attr('id', (d, i) => 'corr_c' + d.id_cnt)
+                .attr('id', (d, i) => 'corr_c' + d.uid)
                 .attr('class', 'corr_cir_out')
                 .attr('r', 3)
                 .attr('stroke', 'black')
                 .attr('fill', d => d.fill)
+                .attr('cursor', 'pointer')
+                .on('click', (e, d) => {
+                    console.log(d)
+                    let select_dot = {};
+                    select_dot[d.uid] = 1;
+                    selectAll('.representationSkipRect').attr('opacity', 0.15).attr('stroke-width', 0);
+
+                    for (let i in select_dot) {
+                        // console.log(i);
+                        select("#representation_" + i).attr('opacity', 1)
+                        // .attr('stroke', 'black').attr('stroke-width', 3);
+                    }
+                    let _this = this;
+                    // _this.tableData = _this.calcTableData(_this.dataSet, select_dot);
+                    // _this.tableData = []
+                    // console.log(_this.tableData);
+                    let t_data = [{
+                        x: d.x,
+                        y: d.y,
+                        fill: d.fill,
+                        uid: d.uid
+                    }];
+                    selectAll('.corr_cir_single').remove();
+                    console.log(d.uid)
+
+                    select('#scatter')
+                        .append('g')
+                        .selectAll('#res_c')
+                        .attr('id', 'res_c')
+                        .data(t_data)
+                        .enter()
+                        .append('circle')
+                        .attr('cx', dd => dd.x)
+                        .attr('cy', dd => dd.y)
+                        .attr('id', (dd, i) => 'corr_cir_single' + dd.uid)
+                        .attr('class', 'corr_cir_single')
+                        .attr('r', 7)
+                        .attr('stroke', 'black')
+                        .attr('stroke-width', 2)
+                        .attr('fill', dd => dd.fill)
+                })
         },
 
         formatNum(num) {
@@ -267,21 +331,27 @@ export default {
                     file_cnt++;
                     // console.log(tmp['dataset_name'])
                     let smooth_name = '';
+                    let raw_smooth_name = '';
                     if (data[i].dataset_name[1] == 'a') {
                         smooth_name = 'RAW';
+                        raw_smooth_name = 'raw';
                     } else {
                         if (data[i].dataset_name[1] == 'o') {
                             smooth_name = 'MA-';
+                            raw_smooth_name = 'rolling';
                         } else if (data[i].dataset_name[1] == 'e') {
                             smooth_name = 'WMA-';
+                            raw_smooth_name = 'weighted';
                         }
                         // console.log(typeof(data[i].dataset_name));
                         let stcnt = data[i].dataset_name;
                         let cnt = stcnt.substring(stcnt.length - 2);
                         if (!isNaN(Number(cnt))) {
                             smooth_name = smooth_name + cnt;
+                            raw_smooth_name = raw_smooth_name + cnt;
                         } else {
                             smooth_name = smooth_name + cnt[1];
+                            raw_smooth_name = raw_smooth_name + cnt[1];
                         }
                     }
                     // console.log(`{smooth: '${smooth_name}', skip: '${d.skip}'}`);
@@ -291,6 +361,7 @@ export default {
                     tmp['train'] = (d['train_MSE']);
                     tmp['test'] = (d['val_MSE']);
                     tmp['acf'] = (d['ACF']);
+                    tmp['class_name'] = data[i].dataset_name + '_' + d['skip'];
                     max_acf = Math.max(max_acf, parseFloat(data[i].predic_info[j]['ACF']));
                     max_train = Math.max(max_train, parseFloat(data[i].predic_info[j]['train_MSE']));
                     max_test = Math.max(max_test, parseFloat(data[i].predic_info[j]['val_MSE']));
@@ -321,7 +392,7 @@ export default {
                     v: (tmpData[i]['acf'].toFixed(4)).toString().slice(1)
                 };
             }
-            console.log(tmpData);
+            // console.log(tmpData);
             return tmpData;
         }
     },
@@ -330,6 +401,7 @@ export default {
             // this.tableData = this.basicData[this.fileValue]['slice'];
             const dataStore = useDataStore();
             dataStore.dataSelect = this.fileValue;
+            // dataStore.changeTag = 'DataSet';
             if (this.fileValue == 'sunspots') {
                 this.tableData = this.calcTable(uni_res_data);
             } else if (this.fileValue == 'pm') {
@@ -347,8 +419,15 @@ export default {
         this.elWidth = this.$refs.ControlPanel.offsetWidth;
         // this.tableData = this.calcTable(uni_res_data);
         // console.log(this.basicData)
-        this.tableData = this.calcTable(uni_res_data);
+
+        // this.tableData = this.calcTable(uni_res_data);
+
         // console.log(this.tableData);
+        const dataStore = useDataStore()
+        dataStore.$subscribe((mutations, state) => {
+            console.log(mutations, state)
+            this.selectRowClass = dataStore.selectRowClass;
+        })
     },
 }
 </script>
@@ -367,6 +446,10 @@ export default {
 
 .el-input__wrapper {
     height: 30px;
+}
+
+.el-table .warning-row {
+    background-color: #ebebeb;
 }
 
 /* .el-table tr {

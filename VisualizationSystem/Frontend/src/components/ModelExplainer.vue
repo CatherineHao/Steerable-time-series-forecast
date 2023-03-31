@@ -41,13 +41,13 @@
                 <img src="../assets/img/colorLegend.png" alt="" width="20" height="20">
             </el-button>
             <span style="margin-right: 20px;">
-                                                                                <span>X-Axis: </span>
+                                                                                    <span>X-Axis: </span>
             <el-select v-model="xAxisValue" class="m-2" placeholder="Select" style="width: 100px;">
                 <el-option v-for="(item, i) in xAxisOption" :key="item" :label="item.label" :value="item.value" />
             </el-select>
             </span>
             <span style="margin-right: 20px;">
-                                                                                <span>Y-Axis: </span>
+                                                                                    <span>Y-Axis: </span>
             <el-select v-model="yAxisValue" class="m-2" placeholder="Select" style="width: 100px;">
                 <el-option v-for="(item, i) in yAxisOption" :key="item" :label="item.label" :value="item.value" />
             </el-select>
@@ -61,49 +61,47 @@
     </div>
     <div class="frameworkBody">
         <div ref="modelExplainer" :style="{
-                                                                                        height: '100%',
-                                                                                        width: elHeight + 'px',
-                                                                                        float: 'right',
-                                                                                        cursor: 'crosshair'
-                                                                                    }">
+                                                                                            height: '100%',
+                                                                                            width: elHeight + 'px',
+                                                                                            float: 'right',
+                                                                                            cursor: 'crosshair'
+                                                                                        }">
             <svg id="modelExplainer" height="100%" width="100%">
-                    <g id="scatter"></g>
-                    <g id="legend_g_s" :opacity="legendTag == 0? 0 : 1"></g>
-                    <g id="axis_g">
-                        <g id="x_axis_g" :transform="translate(0, 0, 0)"></g>
-                        <g id="y_axis_g" :transform="translate(0, 0, 0)"></g>
-                    </g>
-                </svg>
+                        <g id="scatter"></g>
+                        <g id="legend_g_s" :opacity="legendTag == 0? 0 : 1"></g>
+                        <g id="axis_g">
+                            <g id="x_axis_g" :transform="translate(0, 0, 0)"></g>
+                            <g id="y_axis_g" :transform="translate(0, 0, 0)"></g>
+                        </g>
+                    </svg>
         </div>
-        <div ref="modelTable" :style="{
-                                                                                        height: '100%',
-                                                                                        width: `calc(100% - ${elHeight}px - 10px)`,
-                                                                                        float: 'left',
-                                                                                        overflow: 'auto',
-                                                                                        'font-size': '18px'
-                                                                                    }">
+        <div ref="modelTable" :style="{height: '100%',width: `calc(35% - 15px)`,
+                                                                                            float: 'left',
+                                                                                            overflow: 'auto',
+                                                                                            'font-size': '18px'
+                                                                                        }">
             <!-- <el-table :data="tableData" style="width: 100%" height="100%" :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }" :cell-style="{ 'text-align': 'center', 'font-size': '16px', 'height': '15px' }" -->
     
             <el-table :data="tableData" style="width: calc(100% - 0px)" height="100%" :header-cell-style="{ 'font-size': '16px', 'background-color': 'rgb(235, 235, 235)', 'height': '40px', 'text-algin': 'start'}" :cell-style="{ 'font-size': '14px', 'height': '15px' }"
-                @row-click="selectPredict" :row-style="{ 'height': '18px' }" border>
+                :row-class-name="selectRowStyle" @row-click="selectPredict" :row-style="{ 'height': '18px' }" border>
                 <!-- <el-table-column label="Datum" prop="id" width="60" /> -->
                 <el-table-column label="Smooth" prop="smooth_name" width="82" />
                 <el-table-column label="Skip" prop="skip" width="62" />
                 <el-table-column label="RMSE" prop="rmse" sortable>
     
                     <template #default="scope">
-                                                            <svg width="100%" height="18">
-                                                                <rect :x="0" :y="3" :width="scope.row.d1.w < 0 ? 0 : scope.row.d1.w" :height="15" :fill="'orange'" :fill-opacity="1"  :stroke="'rgb(200, 200, 200)'"> </rect>
-                                                                <text x="2" y="15" font-size="12">{{ scope.row.d1.v }}</text>
-                                                            </svg>
+                                                                <svg width="100%" height="18">
+                                                                    <rect :x="0" :y="3" :width="scope.row.d1.w < 0 ? 0 : scope.row.d1.w" :height="15" :fill="'orange'" :fill-opacity="1"  :stroke="'rgb(200, 200, 200)'"> </rect>
+                                                                    <text x="2" y="15" font-size="12">{{ scope.row.d1.v }}</text>
+                                                                </svg>
 </template>
                 </el-table-column>
                 <el-table-column :label="xAxisValue == 0 ? 'CORR.' : 'SHAP'" :prop="xAxisValue == 0 ? 'norm_corr' : 'shap'" sortable >
 <template #default="scope">
     <svg width="100%" height="18">
-                                                                <rect :x="0" :y="3" :width="scope.row[xAxisValue == 0 ? 'd2' : 'd3'].w < 0 ? 0 : scope.row[xAxisValue == 0 ? 'd2' : 'd3'].w" :height="15" :fill="'orange'" :fill-opacity="1"  :stroke="'rgb(200, 200, 200)'"> </rect>
-                                                                <text x="2" y="15" font-size="12">{{ scope.row[xAxisValue == 0 ? 'd2' : 'd3'].v }}</text>
-                                                            </svg>
+                                                                    <rect :x="scope.row[xAxisValue == 0 ? 'd2' : 'd3']['x']" :y="3" :width="scope.row[xAxisValue == 0 ? 'd2' : 'd3'].w < 0 ? 0 : scope.row[xAxisValue == 0 ? 'd2' : 'd3'].w" :height="15" :fill="scope.row[xAxisValue == 0 ? 'd2' : 'd3']['fill']" :fill-opacity="1"  :stroke="'rgb(200, 200, 200)'"> </rect>
+                                                                    <text x="2" y="15" font-size="12">{{ scope.row[xAxisValue == 0 ? 'd2' : 'd3'].v }}</text>
+                                                                </svg>
 </template>
                 </el-table-column>
                 </el-table>
@@ -226,10 +224,29 @@ export default {
             },
             dtSelect: 'sunspots',
             selectRowClass: '',
+            localRowClass: '',
             legendTag: 0
         }
     },
     methods: {
+        refresh() {
+
+            selectAll('.lasso').remove();
+            selectAll('.corr_cir_out').remove();
+            selectAll('.corr_cir_single').remove();
+            selectAll('.representationSkipRect').attr('opacity', 1).attr('stroke-width', 0);
+            this.localRowClass = ''
+            this.tableData = this.calcTableData(this.dataSet, 1);
+            selectAll('.corr_cir').attr('opacity', (d, i) => {
+                return d.isShow ? 0 : 1;
+            }).attr('fill', (d, i) => {
+                // if (d.class_name == this.filename[num].substring(0, this.filename[num].length - 8)) return 'orange';
+                // else 
+                return d.fill;
+            })
+            const dataStore = useDataStore();
+            dataStore.selectRowClass = '';
+        },
         legendStatus() {
             if (this.legendTag == 0) {
                 this.legendTag = 1;
@@ -238,8 +255,9 @@ export default {
             }
         },
         selectPredict(row) {
-            console.log(row);
+            // console.log(row);
             let td = row;
+            this.localRowClass = td.uid;
             // let st = td.time;
             // let ts = []
             // // for (let i = 0; i < td.predict_data.length; i++) {
@@ -258,6 +276,52 @@ export default {
                 prediction_data: td.predict_data
             };
             dataStore.rowSelectTag = 2;
+            let select_dot = {};
+            select_dot[td.uid] = 1;
+            selectAll('.representationSkipRect').attr('opacity', 0.15).attr('stroke-width', 0);
+
+            for (let i in select_dot) {
+                // console.log(i);
+                select("#representation_" + i).attr('opacity', 1)
+                // .attr('stroke', 'black').attr('stroke-width', 3);
+            }
+            let _this = this;
+            // _this.tableData = _this.calcTableData(_this.dataSet, select_dot);
+            // _this.tableData = []
+            // console.log(_this.tableData);
+            let tdata = [{
+                x: select('#corr_c' + td.uid).attr('cx'),
+                y: select('#corr_c' + td.uid).attr('cy'),
+                fill: select('#corr_c' + td.uid).attr('fill'),
+                uid: select('#corr_c' + td.uid).attr('uid')
+            }];
+            selectAll('.corr_cir_single').remove();
+
+            select('#scatter')
+                .append('g')
+                .selectAll('#res_c')
+                .attr('id', 'res_c')
+                .data(tdata)
+                .enter()
+                .append('circle')
+                .attr('cx', d => d.x)
+                .attr('cy', d => d.y)
+                .attr('id', (d, i) => 'corr_cir_single' + d.uid)
+                .attr('class', 'corr_cir_single')
+                .attr('r', 7)
+                .attr('stroke', 'black')
+                .attr('stroke-width', 2)
+                .attr('fill', d => d.fill)
+
+        },
+
+
+        selectRowStyle(data) {
+            // console.log(data.row, this.selectRowClass)
+
+            if (data.row.uid == this.localRowClass)
+                return 'warning-row';
+            return '';
         },
 
         setupLasso() {
@@ -473,19 +537,19 @@ export default {
                         if (predict_data[k] == '' || predict_data[k] == '[' || predict_data[k] == ']') {
                             continue;
                         }
-                        // console.log(predict_data[k])
-                        if (predict_data[k][0] == '[') {
-                            // console.log(predict_data[k].slice(1, -1))
-                            pre_data.push(parseFloat(predict_data[k].slice(1, -1)));
-                        } else if (predict_data[k][predict_data[k].length - 1] == ']') {
-                            // console.log(predict_data[k].slice(0, -1))
-                            pre_data.push(parseFloat(predict_data[k].slice(0, -1)));
-                        } else if (predict_data[k][predict_data[k].length - 1] == '\n') {
-                            // console.log(predict_data[k])
-                            pre_data.push(parseFloat(predict_data[k].slice(0, -1)));
-                        } else {
-                            pre_data.push(parseFloat(predict_data[k]));
-                        }
+                        // // console.log(predict_data[k])
+                        // if (predict_data[k][0] == '[') {
+                        //     // console.log(predict_data[k].slice(1, -1))
+                        //     pre_data.push(parseFloat(predict_data[k].slice(1, -1)));
+                        // } else if (predict_data[k][predict_data[k].length - 1] == ']') {
+                        //     // console.log(predict_data[k].slice(0, -1))
+                        //     pre_data.push(parseFloat(predict_data[k].slice(0, -1)));
+                        // } else if (predict_data[k][predict_data[k].length - 1] == '\n') {
+                        //     // console.log(predict_data[k])
+                        //     pre_data.push(parseFloat(predict_data[k].slice(0, -1)));
+                        // } else {
+                        pre_data.push(parseFloat(predict_data[k]) >= 0 ? parseFloat(predict_data[k]) : 0);
+                        // }
                     }
                     // console.log(pre_data)
                     // console.log(Array.from(data[i][j]['predict_data']))
@@ -516,8 +580,8 @@ export default {
                             smooth_name = smooth_name + cnt[1];
                         }
                     }
-                    let shap_tag= (parseFloat(data[i][j]['shap']) < 0) ? ' (-)' : '';
-                    console.log(shap_tag);
+                    let shap_tag = (parseFloat(data[i][j]['shap']) < 0) ? ' (-)' : '';
+                    // console.log(shap_tag);
                     sdata.push({
                         id: id_cnt,
                         predict_data: pre_data,
@@ -555,28 +619,33 @@ export default {
 
                 // lineData.push(tp);
             }
-            let barS = (this.tbWidth - 60 - 82 - 62);
+            let barS = (this.tbWidth - 82 - 62);
+
             // console.log(this.tbWidth, [min_corr, max_corr], [min_rmse, max_rmse])
-            let scale1 = scaleLinear([min_rmse, max_rmse], [0, (barS / 2) * 0.15])
-            let scale2 = scaleLinear([min_corr, max_corr], [0, (barS / 2) * 0.15])
-            let scale3 = scaleLinear([0, 1], [0, (barS / 2) * 0.15])
+            let scale1 = scaleLinear([min_rmse, max_rmse], [0, (barS / 2 - 5)])
+            let scale2 = scaleLinear([min_corr, max_corr], [0, (barS / 2 - 5)])
+            let scale3 = scaleLinear([0, 1], [0, (barS / 2 - 5) / 2])
             for (let i in sdata) {
                 sdata[i]['d1'] = {
                     x: 0,
                     w: scale1(sdata[i]['rmse']),
                     v: (sdata[i]['rmse']),
+                    fill: 'orange'
                 }
                 let v2 = (sdata[i]['norm_corr']).toString().slice(1)
                 sdata[i]['d2'] = {
                     x: 0,
                     w: scale2(sdata[i]['norm_corr']),
-                    v: v2
+                    v: v2,
+                    fill: 'orange'
                 }
-                let v3 = (sdata[i]['shap']).toString().slice(1) + sdata[i]['shap_tag'];
+                let v3 = (sdata[i]['shap']).toString().slice(1);
+                // console.log(sdata[i]['shap_tag'] == ' (-)' ? 100 - scale3(Math.abs(sdata[i]['shap'])) : 100);
                 sdata[i]['d3'] = {
-                    x: 0,
-                    w: scale3(Math.abs(sdata[i]['shap'])) ,
-                    v: v3
+                    x: sdata[i]['shap_tag'] == ' (-)' ? (barS / 2 - 5) / 2 - scale3(Math.abs(sdata[i]['shap'])) : (barS / 2 - 5) / 2,
+                    w: scale3(Math.abs(sdata[i]['shap'])),
+                    v: (sdata[i]['shap_tag'] == ' (-)' ? '-' : '') + v3,
+                    fill: sdata[i]['shap_tag'] == ' (-)' ? '#3e539b' : 'orange'
                 }
             }
             // sdata.sort((a, b) => {
@@ -615,7 +684,7 @@ export default {
                         if (data[i][j]['shap'] > 1 || data[i][j]['shap'] < -1)
                             continue;
                     }
-                    if (data[i][j]['result_corr'] < 0)
+                    if (data[i][j]['result_corr'] < 0 && this.dtSelect == 'sunspots')
                         continue;
                     let className = data[i][j]['smooth'] + '_' + data[i][j]['skip'];
                     sdata.push({
@@ -624,7 +693,7 @@ export default {
                         norm_corr: parseFloat(data[i][j]['result_corr']),
                         rmse: parseFloat(data[i][j]['rmse']),
                         shap: parseFloat(data[i][j]['shap']),
-                        isShow: Math.random() < 0.2 ? 1 : 0,
+                        isShow: Math.random() < (this.dtSelect == 'sunspots' ? 0.2 : 0.05) ? 1 : 0,
                         id_cnt: id_cnt,
                         uid: data[i][j]['smooth'] + '_' + data[i][j]['skip'] + '_' + j,
                         cid: data[i][j]['smooth'] + '_' + data[i][j]['skip'],
@@ -655,7 +724,7 @@ export default {
             // console.log(minNorm, maxNorm);
 
             let rmseScale = scaleLinear([minRmse, maxRmse], [this.elHeight - 20, 10]);
-            let normScale = scaleLinear([minNorm, maxNorm], [30, this.elWidth - 20]);
+            let normScale = scaleLinear([minNorm > 0 ? 0 : minNorm, maxNorm], [30, this.elWidth - 20]);
             let shapScale = scaleLinear([minShap, maxShap], [30, this.elWidth - 20]);
             var legend = vsup.legend.arcmapLegend();
             let legendPos = {
@@ -704,7 +773,7 @@ export default {
                 .append('circle')
                 .attr('cx', d => d.x)
                 .attr('cy', d => d.y)
-                .attr('id', (d, i) => 'corr_c' + d.id_cnt)
+                .attr('id', (d, i) => 'corr_c' + d.uid)
                 .attr('class', 'corr_cir')
                 .attr('r', 2)
                 // .attr('stroke', '#bbb')
@@ -754,7 +823,7 @@ export default {
                     .attr('font-size', '14px')
                     .text(d => d));
             select("#y_axis_g").append('g').attr('id', 'dotAxis_g')
-                .attr('transform', `translate(${xAxisData == 1 ? shapScale(0) : 30}, 0)`)
+                .attr('transform', `translate(${xAxisData == 1 ? shapScale(0) : normScale(0)}, 0)`)
                 .call(yAxis).call(g => g.selectAll(".title").data(['RMSE']).join("text")
                     .attr("class", "title")
                     .attr("x", 20)
@@ -824,18 +893,40 @@ export default {
         // for (let i in importData) {
         //     dataSet.push(importData[i]['default']);
         // }
-        // let dataSet = [m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27];
+        let dataSet2 = [m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27];
 
-        this.dataSet = dataSet;
+        // this.dataSet = dataSet;
 
-        this.dot_data = this.calcScatter(dataSet, this.xAxisValue, 0);
-        this.tableData = this.calcTableData(dataSet, 1);
+        // this.dot_data = this.calcScatter(dataSet, this.xAxisValue, 0);
+        // this.tableData = this.calcTableData(dataSet, 1);
 
         this.setupLasso();
 
         const dataStore = useDataStore();
         let _this = this;
         dataStore.$subscribe((mutations, state) => {
+            if (mutations.events.key == 'dataSelect') {
+
+                if (dataStore.dataSelect == 'sunspots') {
+
+                    this.dtSelect = 'sunspots';
+                    this.dataSet = dataSet;
+
+this.dot_data = this.calcScatter(dataSet, this.xAxisValue, 0);
+this.tableData = this.calcTableData(dataSet, 1);
+
+                } else {
+
+        this.dataSet = dataSet2;
+                    this.dtSelect = 'pm'
+this.dot_data = this.calcScatter(dataSet2, this.xAxisValue, 0);
+this.tableData = this.calcTableData(dataSet2, 1);
+
+                }
+
+        this.setupLasso();
+
+            }else {
             if (dataStore.selectRowClass != this.selectRowClass) {
                 this.selectRowClass = dataStore.selectRowClass;
                 if (dataStore.selectRowClass != 1) {
@@ -852,6 +943,7 @@ export default {
 
                 }
             }
+        }
         })
         // dataStore
         //     } else if (dataStore.dataSelect == 'pm') {

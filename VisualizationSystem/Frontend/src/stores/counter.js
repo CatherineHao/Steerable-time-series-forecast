@@ -37,7 +37,8 @@ export const useDataStore = defineStore("dataStore", {
         smooth: '',
         prediction_data: []
       },
-      rowSelectTag: 0
+      rowSelectTag: 0,
+      changeTag: ''
     }
   },
   actions: {

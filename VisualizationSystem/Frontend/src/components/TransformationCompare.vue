@@ -398,6 +398,46 @@ export default {
                 .attr('stroke', '#777')
                 .attr('stroke-width', 0.5)
                 .attr('fill', d => d.fill)
+                .on('click', (e, d) => {
+                    console.log(d)
+                    let select_dot = {};
+                    select_dot[d.uid] = 1;
+                    selectAll('.representationSkipRect').attr('opacity', 0.15).attr('stroke-width', 0);
+
+                    for (let i in select_dot) {
+                        // console.log(i);
+                        select("#representation_" + i).attr('opacity', 1)
+                        // .attr('stroke', 'black').attr('stroke-width', 3);
+                    }
+                    let _this = this;
+                    // _this.tableData = _this.calcTableData(_this.dataSet, select_dot);
+                    // _this.tableData = []
+                    // console.log(_this.tableData);
+                    let t_data = [{
+                        x: d.x,
+                        y: d.y,
+                        fill: d.fill,
+                        uid: d.uid
+                    }];
+                    selectAll('.corr_cir_single').remove();
+                    console.log(d.uid)
+
+                    select('#scatter')
+                        .append('g')
+                        .selectAll('#res_c')
+                        .attr('id', 'res_c')
+                        .data(t_data)
+                        .enter()
+                        .append('circle')
+                        .attr('cx', dd => dd.x)
+                        .attr('cy', dd => dd.y)
+                        .attr('id', (dd, i) => 'corr_cir_single' + dd.uid)
+                        .attr('class', 'corr_cir_single')
+                        .attr('r', 7)
+                        .attr('stroke', 'black')
+                        .attr('stroke-width', 2)
+                        .attr('fill', dd => dd.fill)
+                })
         },
 
         legendStatus() {
@@ -1038,6 +1078,7 @@ export default {
             timeData = [new Date(timestamp.start), new Date(timestamp.end)]
             let timeScale = scaleUtc(timeData, [margin.left, this.tlWidth - margin.right]);
             // this.timeScaleGlobal = timeScale;
+            selectAll('#representationTime_g').remove();
             select('#representationTime').append('g').attr('id', 'representationTime_g').attr('transform', 'translate(0, 2)')
                 .call(axisBottom(timeScale).ticks((this.tlWidth - margin.left - margin.right) / 80).tickSizeOuter(0))
         }
@@ -1048,9 +1089,9 @@ export default {
         this.elWidth = this.$refs.DataTransformation.offsetWidth;
         this.tlHeight = this.$refs.RepresentationTimeAxis.offsetHeight;
         this.tlWidth = this.$refs.RepresentationTimeAxis.offsetWidth;
-        this.dataSelect = 'sunspots'
+        // this.dataSelect = 'sunspots'
 
-        this.paintTimeScale(this.allTimeScale[this.dataSelect])
+        // this.paintTimeScale(this.allTimeScale[this.dataSelect])
 
         // const importData = import.meta.globEager('../assets/allData/multivariate_data/result_data/*.csv');
         // console.log(importData)
@@ -1080,12 +1121,29 @@ export default {
         // console.log(dataSet);
         // this.heatRectData = this.calcRMSETempHeatMultiVariate(dataSet, smooth_data, this.elWidth, this.elHeight);
         // let dataSet = [rs1, rs2, rs3, rs4, rs5]
-        // let dataSet = [m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27];
+        let dataSet2 = [m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27];
 
         // console.log(this.heatRectData);
+
+        // this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight);
+
+        dataStore.$subscribe((mutations, state) => {
+            if (mutations.events.key == 'dataSelect') {
+
+if (dataStore.dataSelect == 'sunspots') {
+    this.dataSelect = 'sunspots'
+
+this.paintTimeScale(this.allTimeScale[this.dataSelect])
+
         this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight);
 
-        dataStore.$subscribe((mutation, state) => {
+}}else {
+    this.dataSelect = 'pm'
+
+this.paintTimeScale(this.allTimeScale[this.dataSelect])
+
+        this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet2, this.elWidth, this.elHeight);
+}
             // if (dataStore.dataSelect == 'sunspots') {
             //     let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35];
             //     // console.log(dataSet);
@@ -1096,19 +1154,19 @@ export default {
             //     this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight);
             // }
 
-            if (this.selectDot.tag != dataStore.selectDot.tag) {
-                this.selectDot.tag = dataStore.selectDot.tag;
-                this.selectDot.data = dataStore.selectDot.data;
-                let coverRect = [];
-                for (let i in this.heatRectData) {
-                    for (let j in this.heatRectData[i].heat) {
-                        if (this.selectDot.data[this.heatRectData[i].heat[j].uid]) {
-                            coverRect.push(this.heatRectData[i].heat[j]);
-                        }
-                    }
-                }
-                this.coverRect = coverRect;
-            }
+            // if (this.selectDot.tag != dataStore.selectDot.tag) {
+            //     this.selectDot.tag = dataStore.selectDot.tag;
+            //     this.selectDot.data = dataStore.selectDot.data;
+            //     let coverRect = [];
+            //     for (let i in this.heatRectData) {
+            //         for (let j in this.heatRectData[i].heat) {
+            //             if (this.selectDot.data[this.heatRectData[i].heat[j].uid]) {
+            //                 coverRect.push(this.heatRectData[i].heat[j]);
+            //             }
+            //         }
+            //     }
+            //     this.coverRect = coverRect;
+            // }
             // if (dataStore.selectRowClass != '') {
             //     this.selectRepresentationRow
             // }

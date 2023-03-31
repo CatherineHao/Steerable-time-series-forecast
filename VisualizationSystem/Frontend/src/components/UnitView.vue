@@ -408,8 +408,24 @@ export default {
         // this.F_sparkBoxData = F_sparkBoxData;
         // this.dataName = 'PM 2.5'
         // }
+        const dataStore = useDataStore();
+        dataStore.$subscribe((mutations, state) => {
+            console.log(mutations)
+            if (mutations.events.key == 'dataSelect') {
+
+                if (dataStore.dataSelect == 'sunspots') {
+
         this.dataSelect = 'sunspots';
         [this.F_sparkBoxData, this.show_name, this.dataName] = this.mainData(uni_data, this.S_name, 'raw');
+                }else {
+
+        this.dataSelect = 'pm';
+        [this.F_sparkBoxData, this.show_name, this.dataName] = this.mainData(multi_data, this.F_name, 'pm25');
+                }
+            }
+        })
+        // this.dataSelect = 'sunspots';
+        // [this.F_sparkBoxData, this.show_name, this.dataName] = this.mainData(uni_data, this.S_name, 'raw');
         // console.log(this.F_sparkBoxData, this.show_name, this.dataName)
         // })
 

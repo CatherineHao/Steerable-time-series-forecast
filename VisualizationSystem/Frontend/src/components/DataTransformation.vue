@@ -200,7 +200,7 @@ export default {
             },
             brushDyMoveData: [],
             brushTempMove: [],
-            datasetSelect: 'pm',
+            datasetSelect: 'sunspots',
             nameMap: {
                 'sunspots': {
                     'raw': 'RAW',
@@ -233,6 +233,12 @@ export default {
         }
     },
     methods: {
+        refresh() {
+            this.showLineLegend = 0;
+            this.overLinePath = [];
+            this.selectSmoothObj = {};
+        this.showDetail(this.selectAttribute, '#time_line_legend' + this.selectAttribute)
+        },
         clickAttribute(num) {
             // console.log(num)
             this.selectAttribute = num;
@@ -272,6 +278,7 @@ export default {
             }
             let timeScale = scaleUtc(extent(timeData), [margin.left, this.tlWidth - margin.right]);
             this.timeScaleGlobal = timeScale;
+            selectAll('#global_time_axis_g').remove();
             select('#global_time_axis').append('g').attr('id', 'global_time_axis_g')
                 .call(axisBottom(timeScale).ticks((this.elWidth - margin.left - margin.right) / 40).tickSizeOuter(0))
             // if 
@@ -725,12 +732,12 @@ export default {
             let cnt_h = 0
 
             for (let i in allData) {
-                let feature = i;
+                let feature = this.nameMap[this.datasetSelect][i];
                 if (this.datasetSelect != 'sunspots') {
                     let x = i.slice(this.smoothFeature.length + 1);
                     // feature = x[1];
                     // console.log(x);
-                    feature = x;
+                    feature = this.nameMap[this.datasetSelect][x];
                 }
                 result_data.push({
                     d: this.calcFeatureArea(allData[i], this.tlWidth, 30),
@@ -747,9 +754,9 @@ export default {
                 // if (cnt_h == 6) 
                 // break
             }
-            console.log(result_data);
-            console.log(allData);
-            console.log(featureSet)
+            // console.log(result_data);
+            // console.log(allData);
+            // console.log(featureSet)
 
             return [result_data, featureSet, allData, all_feature, all_data];
         }
@@ -764,15 +771,35 @@ export default {
         // this.sdData = 1
 
 
-        [this.overview_line_data, this.featureSet, this.dataSet, this.allFeatureSet, this.allData] = this.calcOverviewTimeLine(multi_var_data);
-        // console.log(this.overview_line_data, this.featureSet, this.dataSet);
-        this.brushTempMove = this.brushMoveData[this.datasetSelect];
-        this.timeMap = this.calcTimeScale(multi_var_data, this.datasetSelect);
+        // [this.overview_line_data, this.featureSet, this.dataSet, this.allFeatureSet, this.allData] = this.calcOverviewTimeLine(uni_var_data);
+        // // console.log(this.overview_line_data, this.featureSet, this.dataSet);
+        // this.brushTempMove = this.brushMoveData[this.datasetSelect];
+        // this.timeMap = this.calcTimeScale(uni_var_data, this.datasetSelect);
+
         // console.log(this.dataSet);
 
         // this.setupBrush(uni_var_data, '#brush_area0', this.tlWidth, 0)
         const dataStore = useDataStore();
         dataStore.$subscribe((mutations, state) => {
+            
+            if (mutations.events.key == 'dataSelect') {
+
+if (dataStore.dataSelect == 'sunspots') {
+    this.datasetSelect = dataStore.dataSelect;
+    [this.overview_line_data, this.featureSet, this.dataSet, this.allFeatureSet, this.allData] = this.calcOverviewTimeLine(uni_var_data);
+        // console.log(this.overview_line_data, this.featureSet, this.dataSet);
+        this.brushTempMove = this.brushMoveData[this.datasetSelect];
+        this.timeMap = this.calcTimeScale(uni_var_data, this.datasetSelect);
+        
+}else {
+
+    this.datasetSelect = dataStore.dataSelect;
+    [this.overview_line_data, this.featureSet, this.dataSet, this.allFeatureSet, this.allData] = this.calcOverviewTimeLine(multi_var_data);
+        // console.log(this.overview_line_data, this.featureSet, this.dataSet);
+        this.brushTempMove = this.brushMoveData[this.datasetSelect];
+        this.timeMap = this.calcTimeScale(multi_var_data, this.datasetSelect);
+}
+}else {
             if (dataStore.selectSmooth.length > 0 && dataStore.rowSelectTag == 1) {
                 // console.log(dataStore.selectSmooth)
                 this.selectSmoothObj = {};
@@ -795,7 +822,7 @@ export default {
                 let st = dataStore.selectResRow.time_index;
                 let pre_data = dataStore.selectResRow.prediction_data;
                 let et = st + pre_data.length - 1;
-                console.log(this.timeMap)
+                // console.log(this.timeMap)
                 this.brushTempMove = [this.timeFormat(this.timeMap[st], this.datasetSelect), this.timeFormat(this.timeMap[et], this.datasetSelect)];
                 let pre_line = []
                 for (let i = st; i <= et; ++i) {
@@ -812,10 +839,11 @@ export default {
                 this.overLinePath = [this.lineGenerateFunc(this.overLine[0]), , this.lineGenerateFunc(pre_line)];
                 // , this.lineGenerateFunc(pre_line)
                 // console.log(pre_line, this.overLine, this.overLinePath  , this.lineGenerateFunc(pre_line));
-                this.nameLine[1] = this.nameMap[this.datasetSelect][dataStore.selectResRow.smooth] + ':';
+                this.nameLine[1] = this.nameMap['sunspots'][dataStore.selectResRow.smooth] + ':';
                 this.nameLine[2] = 'Predict:';
                 this.showLineLegend = 1;
             }
+        }
         })
     },
     updated() {
