@@ -1069,7 +1069,7 @@ export default {
                 })
                 // break
             }
-            console.log(res_data)
+            // console.log(res_data)
             return res_data;
         },
         paintTimeScale: function(timestamp) {
