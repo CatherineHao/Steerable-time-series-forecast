@@ -13,69 +13,70 @@
         <div class="title">Representation View</div>
         <p class="titleTriangle"></p>
         <div style="float: right; margin-top: 3px;">
-            <el-button style="height: 30px; margin-right: 20px;" @click="setupDrag">
-                <svg t="1680200979207" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5498" width="22" height="22"><path d="M0 0h1024v1024H0z" fill="#515151" fill-opacity="0" p-id="5499"></path><path d="M484.124444 561.664a35.043556 35.043556 0 0 1 53.703112 34.702222v309.361778l113.891555-116.963556a33.792 33.792 0 0 1 48.810667-0.284444 36.067556 36.067556 0 0 1 0 50.119111l-165.262222 169.585778a33.223111 33.223111 0 0 1-15.303112 8.760889 32.824889 32.824889 0 0 1-16.896 5.290666h-1.137777a35.043556 35.043556 0 0 1-26.282667-10.524444l-170.552889-175.217778a37.205333 37.205333 0 0 1 0-51.768889 35.043556 35.043556 0 0 1 50.460445 0l112.981333 116.053334v-304.469334a35.043556 35.043556 0 0 1 15.644444-34.702222zM504.263111 1.536c6.257778 0.113778 12.288 1.991111 17.521778 5.461333 5.12 1.592889 9.841778 4.437333 13.653333 8.192l-0.568889 0.284445 165.262223 169.585778a36.181333 36.181333 0 0 1 0 50.062222 33.905778 33.905778 0 0 1-48.924445 0L538.396444 119.409778v308.280889a35.043556 35.043556 0 0 1-34.588444 35.043555 35.043556 35.043556 0 0 1-34.531556-35.498666v-305.493334l-113.834666 117.191111a35.043556 35.043556 0 0 1-50.574222 0 37.489778 37.489778 0 0 1 0-51.768889L475.591111 11.832889a35.043556 35.043556 0 0 1 26.908445-10.353778z" fill="#515151" p-id="5500"></path></svg>
-            </el-button>
-            <el-button style="height: 30px; margin-right: 20px;" @click="legendStatus">
     
-                <img src="../assets/img/colorLegend.png" alt="" width="20" height="20">
-            </el-button>
-            <span>Metric: </span>
-            <el-select v-model="heatTag" class="m-2" placeholder="Select" style="width: 150px; margin-right: 20px;">
+            <span style="font-size: 15px;">Metric: </span>
+            <el-select v-model="heatTag" class="m-2" placeholder="Select" style="width: 150px; margin-right: 10px;">
                 <el-option v-for="(item, i) in heatOptions" :key="item" :label="item.label" :value="item.value" />
             </el-select>
             <span style="margin-right: 0px; margin-top: 0px;">
-                                    <el-button style="height: 30px;" @click="refresh()">
-                                        
-                                        <svg t="1680060651492" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2903" width="30" height="30"><path d="M810.666667 273.706667L750.293333 213.333333 512 451.626667 273.706667 213.333333 213.333333 273.706667 451.626667 512 213.333333 750.293333 273.706667 810.666667 512 572.373333 750.293333 810.666667 810.666667 750.293333 572.373333 512z" p-id="2904" fill="#606266"></path></svg>
-                                    </el-button>
-                                </span>
+                    <el-button style="height: 30px; margin-right: 0px;" @click="legendStatus">
+            
+                        <img src="../assets/img/colorLegend.png" alt="" width="20" height="20">
+                    </el-button>
+                        <el-button style="height: 30px; margin-right: 0px;" @click="setupDrag">
+                        <svg t="1680200979207" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5498" width="20" height="20"><path d="M0 0h1024v1024H0z" fill="#515151" fill-opacity="0" p-id="5499"></path><path d="M484.124444 561.664a35.043556 35.043556 0 0 1 53.703112 34.702222v309.361778l113.891555-116.963556a33.792 33.792 0 0 1 48.810667-0.284444 36.067556 36.067556 0 0 1 0 50.119111l-165.262222 169.585778a33.223111 33.223111 0 0 1-15.303112 8.760889 32.824889 32.824889 0 0 1-16.896 5.290666h-1.137777a35.043556 35.043556 0 0 1-26.282667-10.524444l-170.552889-175.217778a37.205333 37.205333 0 0 1 0-51.768889 35.043556 35.043556 0 0 1 50.460445 0l112.981333 116.053334v-304.469334a35.043556 35.043556 0 0 1 15.644444-34.702222zM504.263111 1.536c6.257778 0.113778 12.288 1.991111 17.521778 5.461333 5.12 1.592889 9.841778 4.437333 13.653333 8.192l-0.568889 0.284445 165.262223 169.585778a36.181333 36.181333 0 0 1 0 50.062222 33.905778 33.905778 0 0 1-48.924445 0L538.396444 119.409778v308.280889a35.043556 35.043556 0 0 1-34.588444 35.043555 35.043556 35.043556 0 0 1-34.531556-35.498666v-305.493334l-113.834666 117.191111a35.043556 35.043556 0 0 1-50.574222 0 37.489778 37.489778 0 0 1 0-51.768889L475.591111 11.832889a35.043556 35.043556 0 0 1 26.908445-10.353778z" fill="#515151" p-id="5500"></path></svg>
+                    </el-button>
+                                            <el-button style="height: 30px;" @click="refresh()">
+                                                
+                                                <svg t="1680060651492" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2903" width="20" height="20"><path d="M810.666667 273.706667L750.293333 213.333333 512 451.626667 273.706667 213.333333 213.333333 273.706667 451.626667 512 213.333333 750.293333 273.706667 810.666667 512 572.373333 750.293333 810.666667 810.666667 750.293333 572.373333 512z" p-id="2904" fill="#606266"></path></svg>
+                                            </el-button>
+                                        </span>
         </div>
     </div>
     <div class="frameworkBody">
         <div ref="DataTransformation" style="height: calc(97%); width: 100%; margin-top: 0px;">
             <svg height="100%" width="100%" transform="translate(0, 0)">
-                                            <g v-for="(item, i) in heatRectData" cursor="pointer" :key="'heat_g' + i" :transform="translateF(0, item.h * i)" :class="'heat_g' + item.class_name">
-        
-                                                <!-- @mouseenter="selectFile(item.class_name)" @mouseout="cancelFile(item.class_name)" @click="clickFile(i, item.class_name)" -->
-                                                <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0" :stroke="item_h.colorMap[heatTag]"
-                                                    :width="item_h.w" :height="item_h.h" :fill="item_h.colorMap[heatTag]" :id="'representation_' + item_h.uid"
-                                                    :class="'representationSkipRect'" :fill-opacity="1">
-                                                </rect>
-                                                <!-- <rect v-for="(item_h, item_i) in item['res']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
-                                                    :width="item_h.w" :height="item_h.h" :fill="'orange'" :id="'tsr' + item_i"
-                                                    :fill-opacity="item_h.fill_opacity">
-                                                </rect> -->
-                                                <rect :id="item.class_name" class="black_select_row" :x="item['heat'][0].x" :y="0" :width="elWidth - 10 - item['heat'][0].x"
-                                                    :height="item['heat'][0].h" :fill="checkSelectStatus(i) == 2 ? 'none' : 'none'" stroke="black" :stroke-width="checkSelectStatus(i) == 1 ? 3 : 0" :fill-opacity="checkSelectStatus(i) == 2 ? 0 : 0"></rect>
-                            
-                                                <text font-size="14" text-anchor="start" dx="0em" dy="1em" cursor="pointer" @mouseenter="selectFile(item.class_name)" @mouseout="cancelFile(item.class_name)" @click="clickFile(i, item.class_name)">{{
-                                                    // filename[i].substring(0, filename[i].length - 8)
-                                                    filename[dataSelect][i].smooth + '/Sk-' + filename[dataSelect][i].skip
-                                                }}</text>
-                                            </g>
-                                            <g id="legend_g" :opacity="legendTag == 1 ? 1 : 0"></g>
-                                            <!-- <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)">
-                                                <rect :id="item.class_name" class="black_select_row" :x="item['heat'][0].x" :y="0" :width="elWidth - 10 - item['heat'][0].x"
-                                                    :height="item['heat'][0].h" :fill="checkSelectStatus(i) == 2 ? 'none' : 'none'" stroke="black" :stroke-width="checkSelectStatus(i) == 1 ? 3 : 0" :fill-opacity="checkSelectStatus(i) == 2 ? 0 : 0"></rect>
-                                            </g> -->
-                                            <g v-for="(item, i) in coverRect" :key="'heat_g' + i"
-                                                :transform="translate(0, item.realH, 0)">
-                                                <rect :id="'rst' + i" class="rst" :x="item.x" :y="0" :width="item.w" :height="item.h" :fill="item.colorMap[heatTag]"
-                                                    stroke="none" stroke-width="0"></rect>
-                                            </g>
-                                            <!-- <g v-for="(item, i) in groupPath" :key="'group_g' + i" :transform="translate(0, 0, 0)">
-                                                <path :d="'M ' + item.x1 + ' ' + item.y1 + ' L ' + item.x2 + ' ' + item.y2" fill="none" stroke="black">
-                                                </path>
-                                        </g> -->
-                            
-                                    </svg>
+                                                    <g v-for="(item, i) in heatRectData" cursor="pointer" :key="'heat_g' + i" :transform="translateF(0, item.h * i)" :class="'heat_g' + item.class_name">
+                
+                                                        <!-- @mouseenter="selectFile(item.class_name)" @mouseout="cancelFile(item.class_name)" @click="clickFile(i, item.class_name)" -->
+                                                        <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0" :stroke="item_h.colorMap[heatTag]"
+                                                            :width="item_h.w" :height="item_h.h" :fill="item_h.colorMap[heatTag]" :id="'representation_' + item_h.uid"
+                                                            :class="'representationSkipRect'" :fill-opacity="1">
+                                                        </rect>
+                                                        <!-- <rect v-for="(item_h, item_i) in item['res']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
+                                                            :width="item_h.w" :height="item_h.h" :fill="'orange'" :id="'tsr' + item_i"
+                                                            :fill-opacity="item_h.fill_opacity">
+                                                        </rect> -->
+                                                        <rect :id="item.class_name" class="black_select_row" :x="item['heat'][0].x" :y="0" :width="elWidth - 10 - item['heat'][0].x"
+                                                            :height="item['heat'][0].h" :fill="checkSelectStatus(i) == 2 ? 'none' : 'none'" stroke="black" stroke-dasharray="4, 4" :stroke-width="checkSelectStatus(i) == 1 ? 3 : 0" :fill-opacity="checkSelectStatus(i) == 2 ? 0 : 0"></rect>
+                                    
+                                                        <text font-size="14" text-anchor="start" dx="0em" dy="1em" cursor="pointer" @mouseenter="selectFile(item.class_name)" @mouseout="cancelFile(item.class_name)" @click="clickFile(i, item.class_name)">{{
+                                                            // filename[i].substring(0, filename[i].length - 8)
+                                                            filename[dataSelect][i].smooth + '/Sk-' + filename[dataSelect][i].skip
+                                                        }}</text>
+                                                    </g>
+                                                    <g id="legend_g" :opacity="legendTag == 1 ? 1 : 0"></g>
+                                                    <!-- <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)">
+                                                        <rect :id="item.class_name" class="black_select_row" :x="item['heat'][0].x" :y="0" :width="elWidth - 10 - item['heat'][0].x"
+                                                            :height="item['heat'][0].h" :fill="checkSelectStatus(i) == 2 ? 'none' : 'none'" stroke="black" :stroke-width="checkSelectStatus(i) == 1 ? 3 : 0" :fill-opacity="checkSelectStatus(i) == 2 ? 0 : 0"></rect>
+                                                    </g> -->
+                                                    <g v-for="(item, i) in coverRect" :key="'heat_g' + i"
+                                                        :transform="translate(0, item.realH, 0)">
+                                                        <rect :id="'rst' + i" class="rst" :x="item.x" :y="0" :width="item.w" :height="item.h" :fill="item.colorMap[heatTag]"
+                                                            stroke="none" stroke-width="0"></rect>
+                                                    </g>
+                                                    <!-- <g v-for="(item, i) in groupPath" :key="'group_g' + i" :transform="translate(0, 0, 0)">
+                                                        <path :d="'M ' + item.x1 + ' ' + item.y1 + ' L ' + item.x2 + ' ' + item.y2" fill="none" stroke="black">
+                                                        </path>
+                                                </g> -->
+                                    
+                                            </svg>
     
         </div>
         <div ref="RepresentationTimeAxis" style="height: 3%; width: 100%;">
             <svg width="100%" height="100%">
-                                <g id="representationTime"></g>
-                            </svg>
+                                        <g id="representationTime"></g>
+                                    </svg>
         </div>
     </div>
 </template>
@@ -207,7 +208,7 @@ export default {
             heatHeight: 0,
             heatTag: 3,
             clickFileTag: 0,
-            heatOptions: [{ label: 'RMSE + Corr.', value: 3 }, { label: 'RMSE', value: 4 }, { label: 'Corr.', value: 5 }],
+            heatOptions: [{ label: 'RMSE + CORR.', value: 3 }, { label: 'RMSE', value: 4 }, { label: 'CORR.', value: 5 }],
             sample: ['10-slice', '7-slice', '3-slice'],
             smooth: ['Raw Sequence', 'N-Average', 'EMA/Holt'],
             sparkboxData: [],
@@ -395,7 +396,7 @@ export default {
                 .attr('id', (d, i) => 'corr_c' + d.uid)
                 .attr('class', 'corr_cir_out')
                 .attr('r', 3.5)
-                .attr('stroke', '#777')
+                .attr('stroke', 'black')
                 .attr('stroke-width', 0.5)
                 .attr('fill', d => d.fill)
                 .on('click', (e, d) => {
@@ -499,7 +500,7 @@ export default {
                     .attr("stroke", "#777")
                     .attr("stroke-width", 1)
                     .attr("cursor", "ew-resize")
-                    .attr("d", 'M -5 ' + (-focusHeight / 2 + 30) + ' L -5 ' + (focusHeight / 2 - 30) + 'L 5 ' + (focusHeight / 2 - 30) + ' L 5 ' + (-focusHeight / 2 + 30) + ' Z'),
+                    .attr("d", 'M 0 ' + (-focusHeight / 2 + 30) + ' L 0 ' + (focusHeight / 2 - 30) + 'L 5 ' + (focusHeight / 2 - 30) + ' L 5 ' + (-focusHeight / 2 + 30) + ' Z'),
                 )
                 .attr("display", s === null ? "none" : null)
                 .attr("transform", s === null ? null : (d, i) => `translate(${s[i]},${radius + margin.top})`)
@@ -1079,7 +1080,7 @@ export default {
             let timeScale = scaleUtc(timeData, [margin.left, this.tlWidth - margin.right]);
             // this.timeScaleGlobal = timeScale;
             selectAll('#representationTime_g').remove();
-            select('#representationTime').append('g').attr('id', 'representationTime_g').attr('transform', 'translate(0, 2)')
+            select('#representationTime').append('g').attr('id', 'representationTime_g').attr('transform', 'translate(0, 1)')
                 .call(axisBottom(timeScale).ticks((this.tlWidth - margin.left - margin.right) / 80).tickSizeOuter(0))
         }
     },
@@ -1092,17 +1093,6 @@ export default {
         // this.dataSelect = 'sunspots'
 
         // this.paintTimeScale(this.allTimeScale[this.dataSelect])
-
-        // const importData = import.meta.globEager('../assets/allData/multivariate_data/result_data/*.csv');
-        // console.log(importData)
-        // let multiDataSet = []
-        // // for (let i in importData) {
-        // //     multiDataSet.push(importData[i]['default'])
-        // // }
-        // console.log(multiDataSet)
-
-        // this.heatRectData = this.calcRMSEHeat(dataSet, smoothDataSet, SN_raw_data, this.elWidth, this.elHeight - 0);
-
 
         const dataStore = useDataStore();
         let _this = this;
@@ -1130,20 +1120,22 @@ export default {
         dataStore.$subscribe((mutations, state) => {
             if (mutations.events.key == 'dataSelect') {
 
-if (dataStore.dataSelect == 'sunspots') {
-    this.dataSelect = 'sunspots'
+                if (dataStore.dataSelect == 'sunspots') {
+                    this.dataSelect = 'sunspots'
 
-this.paintTimeScale(this.allTimeScale[this.dataSelect])
+                    this.paintTimeScale(this.allTimeScale[this.dataSelect])
 
-        this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight);
+                    this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight);
 
-}}else {
-    this.dataSelect = 'pm'
+                } else {
+                    // console.log(111111)
+                    this.dataSelect = 'pm'
 
-this.paintTimeScale(this.allTimeScale[this.dataSelect])
+                    this.paintTimeScale(this.allTimeScale[this.dataSelect])
 
-        this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet2, this.elWidth, this.elHeight);
-}
+                    this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet2, this.elWidth, this.elHeight);
+                }
+            }
             // if (dataStore.dataSelect == 'sunspots') {
             //     let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35];
             //     // console.log(dataSet);
@@ -1200,10 +1192,14 @@ this.paintTimeScale(this.allTimeScale[this.dataSelect])
 </script>
 
 <style>
-*,
+/* *,
 *::before,
 *::after {
     font-weight: normal;
+} */
+
+.el-input__inner {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
 }
 
 #DataTransformation {

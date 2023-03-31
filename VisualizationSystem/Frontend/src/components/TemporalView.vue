@@ -1188,11 +1188,11 @@ export default {
 </script>
 
 <style>
-*,
+/* *,
 *::before,
 *::after {
     font-weight: normal;
-}
+} */
 
 #DataTransformation {
     font-size: 20px;

@@ -6,40 +6,32 @@
 -->
 <template>
     <div id="navBar">
-        <img src="../assets/logo/logo.png" width="40" alt="">
-        <span style="font-weight: 800; padding-left: 10px; margin-bottom: 100px; position: absolute;">TimeTuner: Diagnosing Time Representations for Time-Series Forecasting with Counterfactual Explanations</span> 
+        <img src="../assets/logo/logo.png" width="35" alt="" style="margin-top: 5px;">
+        <span style="font-weight: 800; padding-left: 10px; margin-bottom: 100px; position: absolute;">TimeTuner</span>
+        <span style="position: absolute; right: 10px;">Diagnosing Time Representations for Time-Series Forecasting with Counterfactual Explanations</span> 
     </div>
     <div style="height: calc(96vh - 0px); width: calc(100% - 0px);">
         <div class="framework" id="controlPanel"
-            style="position: absolute; left: calc(5px); top: calc(5px); height: calc(28vw); width: calc(14vw + 15px);">
-            <!-- <ReasoningView /> -->
+            style="position: absolute; left: calc(5px); top: calc(5px); height: calc(27vw); width: calc(15vw + 10px);">
             <ControlPanel :basicData="basicData"/>
         </div>
+
+        <div class="framework" id="DistributionView"
+            style="position: absolute; left: calc(15vw - 5px + 30px);  top: calc(5px); height: calc(27vw); width: calc(27vw - 30px);">
+            <UnitView/>
+        </div>
         <div class="framework" id="DataTransformation"
-            style="position: absolute; right: 5px; top: calc(5px); height: calc((96vh - 10px) * .45 - 5px); width: calc(58vw - 5px);">
+            style="position: absolute; right: 5px; top: calc(5px); height: calc((96vh - 10px) * .45 - 10px); width: calc(58vw - 10px);">
             <DataTransformation :timeData="timeData" :sliceData="sliceData"/>
         </div>
         <div class="framework" id="DataTransformation"
-            style="position: absolute; right: 5px; top: calc((96vh - 10px) * .45 + 5px); height: calc((96vh - 10px) * .55 - 0px); width: calc(58vw - 5px);">
+            style="position: absolute; right: 5px; top: calc((96vh - 10px) * .45 + 5px); height: calc((96vh - 10px) * .55 - 0px); width: calc(58vw - 10px);">
             <TransformationCompare :timeData="timeData" :sliceData="sliceData"/>
         </div>
         <div class="framework" id="ModelExplainer"
-            style="position: absolute; left: calc(5px); top: calc(28vw + 10px); height: calc(96vh - 28vw - 15px); width: calc(42vw - 10px);">
+            style="position: absolute; left: calc(5px); top: calc(27vw + 15px); height: calc(96vh - 27vw - 20px); width: calc(42vw - 10px);">
             <ModelExplainer :sliceData="sliceData"/>
         </div>
-        <!-- <div class="framework" id="CorrelationView"
-            style="position: absolute; left: calc(10px + 12vw);  top: calc(10px); height: calc(20vh - 20px); width: calc(3vw + (50vw - 17.5px) / 2 - 7.5px);">
-            <CorrelationView />
-        </div> -->
-        <div class="framework" id="DistributionView"
-            style="position: absolute; left: calc(14vw - 5px + 30px);  top: calc(5px); height: calc(28vw); width: calc(28vw - 30px);">
-            <!-- <CorrelationView /> -->
-            <UnitView/>
-        </div>
-        <!-- <div class="framework" id="UnitView"
-            style="position: absolute; left: calc(10px + 3vw + (50vw - 17.5px) / 2 + 7.5px);  top: calc(27vh + 5px); height: calc(27vh - 20px); width: calc((50vw - 17.5px) / 2 - 3vw - 7.5px);">
-        <UnitView/>
-        </div> -->
     </div>
 </template>
 <script>
@@ -70,7 +62,9 @@ export default {
 <style>
 .framework {
     /* margin: 5px; */
-    border: 1px solid rgb(105, 119, 122);
+    border: 0px solid rgb(105, 119, 122);
+    background-color: white;
+    border-radius: 5px;
 
     /* border-color: rgb(237, 237, 238); */
     /* border-color: ; */
@@ -96,7 +90,7 @@ export default {
     height: calc(100% - 50px);
     /* width: 100%; */
     /* background-color: #4C87EC; */
-    padding: 0px 10px 0px 10px;
+    padding: 10px 10px 5px 10px;
 }
 
 .framework .frameworkTitle .title {
@@ -111,8 +105,8 @@ export default {
     height: 35px;
     /* widows: auto; */
 
-    font-weight: bold;
-    font-size: 20px;
+    font-weight: 600;
+    font-size: 24px;
     color: white;
     padding-left: 10px;
     padding-right: 3px;
@@ -133,7 +127,8 @@ export default {
 }
 
 #navBar {
-    background-color: rgba(83, 79, 79);
+    /* background-color: rgba(83, 79, 79); */
+    background-color: #4d4d4d;
     /* background-color: rgba(0, 0, 0, 0.8); */
     /* padding-left: 36%; */
     /* text-algin: center; */

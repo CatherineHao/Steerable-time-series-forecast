@@ -10,19 +10,19 @@
         <p class="titleTriangle"></p>
     </div>
     <div class="frameworkBody">
-        <div ref="ControlPanel" style="height: calc(30% - 10px); width: calc(100%); float: left; border: 0px solid blue; font-size: 16px;">
+        <div ref="ControlPanel" style="height: calc(30% - 10px); width: calc(100%); float: left; border: 0px solid blue; font-size: 16px; font-weight: 600;">
             <div style="height: calc(20% - 5px);">
-                <span style="float: left; font-weight: normal; margin-top: 6px;">
+                <span style="float: left; font-weight: 600; margin-top: 0px;">
                                                 DataSet:
                                             </span>
-                <span style="width: 60%; float: right;">
-                                                <el-select v-model="fileValue" class="m-2" placeholder="Select" size="large">
+                <span style="width: calc(55% - 3px); float: right;" class="dataSetClass">
+                                                <el-select v-model="fileValue" class="m-2" placeholder="Select" size="large" style="font-weight: 600;">
                                                     <el-option v-for="item in fileOptions" :key="item.value" :label="item.label" :value="item.value" />
                                                 </el-select>
                                             </span>
             </div>
             <div style="height: calc(20% - 5px); margin-top: 5px;">
-                <span style="float: left; font-weight: normal; margin-top: 0px;">
+                <span style="float: left; font-weight: 600; margin-top: 0px;">
                                                 Model:
                                             </span>
                 <span v-if="fileValue != ''" style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
@@ -33,7 +33,7 @@
                                             </span>
             </div>
             <div style="height: calc(20% - 5px); margin-top: 0px;">
-                <span style="float: left; font-weight: normal; margin-top: 0px;">
+                <span style="float: left; font-weight: 600; margin-top: 0px;">
                                                 Variable Num:
                                             </span>
                 <span v-if="fileValue != ''" style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
@@ -44,7 +44,7 @@
                                             </span>
             </div>
             <div style="height: calc(20% - 5px); margin-top: 0px;">
-                <span style="float: left; font-weight: normal; margin-top: 0px;">
+                <span style="float: left; font-weight: 600; margin-top: 0px;">
                                                 Stationary:
                                             </span>
                 <!-- <span style="width: 60%; float: right; font-weight: normal; margin-top: 6px; text-align: left;">
@@ -60,7 +60,7 @@
                                             </span>
             </div>
             <div style="height: calc(20% - 5px); margin-top: 5px;">
-                <span style="float: left; font-weight: normal; margin-top: 0px;">
+                <span style="float: left; font-weight: 600; margin-top: 0px;">
                                                 Periodicity:
                                                 
                                             </span>
@@ -100,15 +100,15 @@
             </div>
     
         </div>
-        <div ref="resTable" style="height: calc(70% + 25px); width: calc(100%); float: right; overflow:auto; font-size: 18px; margin-top: -15px;">
-            <el-table :data="tableData" style="width: calc(100% - 0px)" height="100%" :header-cell-style="{ 'font-size': '16px', 'background-color': 'rgb(235, 235, 235)', 'height': '40px', 'text-algin': 'left'}" :cell-style="{ 'font-size': '14px', 'height': '15px' }"
+        <div ref="resTable" style="height: calc(70% + 15px); width: calc(100%); float: right; overflow:auto; font-size: 18px; margin-top: -5px;">
+            <el-table :data="tableData" style="width: calc(100% - 0px)" height="100%" :header-cell-style="{ 'font-size': '16px', 'background-color': 'rgb(235, 235, 235)', 'height': '40px', 'text-algin': 'left',  'font-weight': '600'}" :cell-style="{ 'font-size': '14px', 'height': '15px' }"
                 :row-class-name="selectRowStyle" border @row-click="rowClick">
                 <el-table-column prop="smooth" label="Smooth" width="82" />
                 <el-table-column prop="skip" label="Skip" width="62" />
                 <el-table-column label="Train" :width="(elWidth - 142) / 3" sortable :sort-by="'train'">
 <template #default="scope">
     <svg width="100%" height="18">
-                                            <rect :x="0" :y="3" :width="scope.row.train_bar.w" :height="15" :fill="'orange'" :fill-opacity="1"  :stroke="'rgb(200, 200, 200)'"> </rect>
+                                            <rect :x="0" :y="3" :width="scope.row.train_bar.w" :height="15" :fill="'orange'" :fill-opacity="1"  :stroke="'rgba(200, 200, 200, 0)'"> </rect>
                                             <text x="2" y="15" font-size="12">{{ scope.row.train_bar.v }}</text>
                                         </svg>
 </template>
@@ -117,7 +117,7 @@
                 <el-table-column label="Val." :width="(elWidth - 142) / 3" sortable :sort-by="'test'">
 <template #default="scope">
     <svg width="100%" height="18">
-                                            <rect :x="0" :y="3" :width="scope.row.test_bar.w" :height="15" :fill="'orange'" :stroke="'rgb(200, 200, 200)'" :fill-opacity="1" ></rect>
+                                            <rect :x="0" :y="3" :width="scope.row.test_bar.w" :height="15" :fill="'orange'" :stroke="'rgba(200, 200, 200, 0)'" :fill-opacity="1" ></rect>
                                             <text x="2" y="15" font-size="12">{{ scope.row.test_bar.v }}</text>
                                         </svg>
 </template>
@@ -126,7 +126,7 @@
                 <el-table-column label="ACF" :width="(elWidth - 142) / 3" sortable :sort-by="'acf'">
 <template #default="scope">
     <svg width="100%" height="18">
-                                            <rect :x="0" :y="3" :width="scope.row.acf_bar.w" :height="15" :fill="'orange'"  :stroke="'rgb(200, 200, 200)'" :fill-opacity="1"></rect>
+                                            <rect :x="0" :y="3" :width="scope.row.acf_bar.w" :height="15" :fill="'orange'"  :stroke="'rgba(200, 200, 200, 0)'" :fill-opacity="1"></rect>
                                             <text x="2" y="15" font-size="12">{{ scope.row.acf_bar.v }}</text>
                                         </svg>
 </template>
@@ -188,7 +188,7 @@ export default {
             }
         },
         selectRowStyle(data) {
-            // console.log(data.row, this.selectRowClass)
+            // console.log(data.row.class_name == this.selectRowClass, data.row.class_name)
 
             if (data.row.class_name == this.selectRowClass)
                 return 'warning-row';
@@ -201,6 +201,7 @@ export default {
             let tdata = [];
             let class_name = (row['dataset_name'] == 'rawdata' ? 'raw' : row['dataset_name']) + '_' + row['skip']
             this.selectRowClass = class_name;
+            console.log(this.selectRowClass)
             console.log(class_name);
             selectAll('.corr_cir').attr('opacity', (d, i) => {
 
@@ -218,7 +219,7 @@ export default {
             dataStore.selectRowClass = class_name;
             selectAll('.' + 'black_select_row').attr('stroke-width', 0)
             select('#' + class_name).attr('stroke-width', 3)
-            console.log(tdata)
+            // console.log(tdata)
             // let select_dot = {};
             // // console.log(this.heatRectData[num]);
             // for (let i in this.heatRectData[num].heat) {
@@ -242,6 +243,7 @@ export default {
                 .attr('class', 'corr_cir_out')
                 .attr('r', 3)
                 .attr('stroke', 'black')
+                .attr('stroke-width', 0.5)
                 .attr('fill', d => d.fill)
                 .attr('cursor', 'pointer')
                 .on('click', (e, d) => {
@@ -401,6 +403,7 @@ export default {
             // this.tableData = this.basicData[this.fileValue]['slice'];
             const dataStore = useDataStore();
             dataStore.dataSelect = this.fileValue;
+            console.log(dataStore.dataSelect);
             // dataStore.changeTag = 'DataSet';
             if (this.fileValue == 'sunspots') {
                 this.tableData = this.calcTable(uni_res_data);
@@ -426,19 +429,24 @@ export default {
         const dataStore = useDataStore()
         dataStore.$subscribe((mutations, state) => {
             console.log(mutations, state)
+            if (mutations.events.key == 'selectRowClass'){
             this.selectRowClass = dataStore.selectRowClass;
+                console.log(this.selectRowClass);
+        }
         })
     },
 }
 </script>
 
 <style>
-*,
+/* *,
 *::before,
 *::after {
     font-weight: bold;
+} */
+.dataSetClass .el-input__inner {
+    font-weight: 600;
 }
-
 .el-button {
     padding: 0px;
     padding-top: 2px;

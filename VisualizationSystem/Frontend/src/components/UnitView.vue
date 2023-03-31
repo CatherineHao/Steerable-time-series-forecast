@@ -56,23 +56,23 @@
                                     </g> -->
                                 <g>
                                     <g>
-                                        <text v-for="(o, i) in show_name" :key="'F_leg' + i" :x="0" :y="0" text-anchor="end"
-                                            :transform="translate(40, 50 + i * (elHeight - 30) / show_name.length, -60)">{{
+                                        <text v-for="(o, i) in show_name" :key="'F_leg' + i" :x="0" :y="0" text-anchor="end" :font-size="14"
+                                            :transform="translate(37, 35 + i * (elHeight - 30) / show_name.length, -60)">{{
                                                 nameMap[dataSelect][o] }}</text>
                                     </g>
                                     <g>
-                                        <text v-for="(o, i) in show_name" :key="'F_leg' + i" :x="0" :y="0"
-                                            :transform="translate(50 + (elWidth - 50) / show_name.length / 2 + (elWidth - 50) / show_name.length * i, (elHeight - 30) + 20, 0)"
+                                        <text v-for="(o, i) in show_name" :key="'F_leg' + i" :x="0" :y="0" :font-size="14"
+                                            :transform="translate(40 + (elWidth - 40) / show_name.length / 2 + (elWidth - 40) / show_name.length * i, (elHeight - 30) + 25, 0)"
                                             font-weight="100" text-anchor="middle">{{ 
                                             nameMap[dataSelect][o] }}</text>
                                     </g>
                                     <g v-for="(o, i) in F_sparkBoxData" :key="'fsb' + i" :transform="translate(o.tx, o.ty, 0)">
-                                        <g :transform="translate(50, 15, 0)">
+                                        <g :transform="translate(40, 2, 0)">
                                             <rect v-for="(oo, r_i) in o.boxData" :key="'fsbr' + r_i" :x="oo.x" :y="oo.y" :width="oo.w"
                                                 :height="oo.h" :fill="oo.fillColor" :opacity="oo.fill" stroke="white"></rect>
                                         </g>
                                         <rect :x="o.rx" :y="o.ry" :width="o.w" :height="o.h" :class="'unitRect'"
-                                        :id="'unit' + i"  fill="black" stroke="black" fill-opacity="0" @mouseenter="mouseoverFeature(o.boxData, o.nameX, o.nameY, o.nameXr, o.nameYr, i)" @mouseout="mouseoutFeature()"
+                                        :id="'unit' + i"  fill="black" stroke="#304051" fill-opacity="0" stroke-width="0.7" @mouseenter="mouseoverFeature(o.boxData, o.nameX, o.nameY, o.nameXr, o.nameYr, i)" @mouseout="mouseoutFeature()"
                                         @click="clickFeature(o.nameXr, o.nameYr)"></rect>
                                     </g>
                                 </g>
@@ -83,9 +83,9 @@
                                                 :height="oo.mouseH" :fill="oo.fillColor" :opacity="oo.fill" stroke="white"></rect>
                                         
                                         <rect :x="0" :y="0" :width="elWidth / 3 + 20" :height="elWidth / 3 + 20" :fill="'none'" stroke="black"></rect>
-                                        <text font-size="16" :x="(elWidth / 3 + 20) / 2" :y="elWidth / 3 + 20 + 40" text-anchor="middle">{{ selectRect.nameX }}</text>
+                                        <text font-size="14" :x="(elWidth / 3 + 20) / 2" :y="elWidth / 3 + 20 + 40" text-anchor="middle">{{ selectRect.nameX }}</text>
 
-                                        <text font-size="16" :transform="translate(-20, (elWidth / 3 + 20) / 2, -60)" text-anchor="end">{{ selectRect.nameY }}</text>
+                                        <text font-size="14" :transform="translate(-20, (elWidth / 3 + 20) / 2, -60)" text-anchor="end">{{ selectRect.nameY }}</text>
                                     </g>
                                 </g>
                             </svg>
@@ -337,7 +337,7 @@ export default {
         },
         mainData(data, file_name, val_name) {
             let F_sparkBoxData = []
-            let margin = { top: 15, left: 50, right: 5, bottom: 30 }
+            let margin = { top: 2, left: 40, right: 5, bottom: 20 }
             // if (dataStore.dataSelect == 'sunspots') {
             // console.log(rolling13, weight13, SN_raw_data);
             // console.log(file_name, data)

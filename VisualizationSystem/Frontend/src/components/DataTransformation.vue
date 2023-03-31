@@ -37,35 +37,35 @@
     
         <div style="float: right; margin-top: 3px; height: 30px;">
             <span>
-                <svg width="655" height="30" style="margin-right: 50px; margin-top: 3px;">
-                        <g transform="translate(100, 0)">
-                            <g transform="translate(300, 0)">
-                            <text x="0" y="20" font-size="14" text-anchor="end">{{ nameLine[0] }} </text>
-                            <path d="M10,15L70,15" stroke-width="5" :fill="'none'" :stroke="'#c0c0c0'"></path>
-                        </g>
-                        <g v-if="showLineLegend"> 
-                            <g transform="translate(0, 0)">
-                            <text x="10" y="20" font-size="14" text-anchor="end">{{ nameLine[1] }} </text>
-                            <path d="M20,15L80,15" stroke-width="5" :fill="'none'" :stroke="colorLine[0]"></path>
-                        </g>
-                        <g transform="translate(150, 0)">
-                            <text x="10" y="20" font-size="14" text-anchor="end">{{ nameLine[2] }} </text>
-                            <path d="M20,15L80,15" stroke-width="5" :fill="'none'" :stroke="colorLine[1]"></path>
-                        </g>
+                    <svg width="655" height="30" style="margin-right: 40px; margin-top: 3px;">
+                            <g transform="translate(100, 0)">
+                                <g transform="translate(300, 0)">
+                                <text x="0" y="20" font-size="15" text-anchor="end">{{ nameLine[0] }} </text>
+                                <path d="M10,15L70,15" stroke-width="5" :fill="'none'" :stroke="'#c0c0c0'"></path>
                             </g>
-                        </g>
-                        <g transform="translate(500, 0)">
-                                    <text x="10" y="20" font-size="14">Layer: </text>
-                                    <rect v-for="(o, i) in horizon_color" :key="'hor_' + i" :x="i * 25 + 55" :y="5" :width="20" height="20" :fill="o" stroke="black"></rect>
+                            <g v-if="showLineLegend"> 
+                                <g transform="translate(0, 0)">
+                                <text x="10" y="20" font-size="15" text-anchor="end">{{ nameLine[1] }} </text>
+                                <path d="M20,15L80,15" stroke-width="5" :fill="'none'" :stroke="colorLine[0]"></path>
+                            </g>
+                            <g transform="translate(150, 0)">
+                                <text x="10" y="20" font-size="15" text-anchor="end">{{ nameLine[2] }} </text>
+                                <path d="M20,15L80,15" stroke-width="5" :fill="'none'" :stroke="colorLine[1]"></path>
+                            </g>
                                 </g>
-                                </svg>
-    </span>
+                            </g>
+                            <g transform="translate(500, 0)">
+                                        <text x="10" y="20" font-size="15">Layer: </text>
+                                        <rect v-for="(o, i) in horizon_color" :key="'hor_' + i" :x="i * 25 + 55" :y="5" :width="20" height="20" :fill="o" stroke="black"></rect>
+                                    </g>
+                                    </svg>
+        </span>
             <span style="margin-right: 0px; position: absolute; right: 0px;">
-                                <el-button style="height: 30px;" @click="refresh()">
-                                    
-                                    <svg t="1680060651492" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2903" width="30" height="30"><path d="M810.666667 273.706667L750.293333 213.333333 512 451.626667 273.706667 213.333333 213.333333 273.706667 451.626667 512 213.333333 750.293333 273.706667 810.666667 512 572.373333 750.293333 810.666667 810.666667 750.293333 572.373333 512z" p-id="2904" fill="#606266"></path></svg>
-                                </el-button>
-                            </span>
+                                    <el-button style="height: 30px;" @click="refresh()">
+                                        
+                                        <svg t="1680060651492" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2903" width="20" height="20"><path d="M810.666667 273.706667L750.293333 213.333333 512 451.626667 273.706667 213.333333 213.333333 273.706667 451.626667 512 213.333333 750.293333 273.706667 810.666667 512 572.373333 750.293333 810.666667 810.666667 750.293333 572.373333 512z" p-id="2904" fill="#606266"></path></svg>
+                                    </el-button>
+                                </span>
         </div>
     </div>
     <div class="frameworkBody">
@@ -73,42 +73,42 @@
         <div style="height: calc(100%); width: 100%; margin-top: 0px;">
             <div style="height: 96%; width: 100%;" ref="timeline">
                 <svg width="100%" height="100%">
-                                    <g v-for="(item, i) in overview_line_data" :transform="translate(0, item.posHeight, 0)">
-                                                            <clipPath id="clipPathHorizon">
-                                                                <rect :x="0" :y="0" :width="tlWidth" :height="30"></rect>
-                                                            </clipPath>
-                                                            
-                                                            <g v-if="item.rowHeight == 35 ? 0: 1">
-            
-                                                            <clipPath id="clipPathLine">
-                                                                <rect :x="50" :y="0" :width="tlWidth - 50 - 10" :height="item.rowHeight - 30"></rect>
-                                                            </clipPath>
-                                        <g :id="'time_line_legend' + i" :transform="translate(0, 0, 0)"></g>
-                                
-                                <g :id="'time_line' + i" :transform="translate(0, 0, 0)" clip-path="url(#clipPathLine)">
-                                    <path :id="'time_path_raw' + i" :d="timeLinePath" :fill="'none'" :stroke="'#c0c0c0'" stroke-width="3"></path>
-                                    <g v-if="showLineLegend">
-                                        <path v-for="(pl, pi) in overLinePath" :key="'pl' + pi" :d="pl" :fill="'none'" :stroke="colorLine[pi]" stroke-width="3" :id="'plid' + pi"></path>
+                                        <g v-for="(item, i) in overview_line_data" :transform="translate(0, item.posHeight, 0)">
+                                                                <clipPath id="clipPathHorizon">
+                                                                    <rect :x="0" :y="0" :width="tlWidth" :height="30"></rect>
+                                                                </clipPath>
+                                                                
+                                                                <g v-if="item.rowHeight == 35 ? 0: 1">
+                
+                                                                <clipPath id="clipPathLine">
+                                                                    <rect :x="50" :y="0" :width="tlWidth - 50 - 10" :height="item.rowHeight - 30"></rect>
+                                                                </clipPath>
+                                            <g :id="'time_line_legend' + i" :transform="translate(0, 0, 0)"></g>
+                                    
+                                    <g :id="'time_line' + i" :transform="translate(0, 0, 0)" clip-path="url(#clipPathLine)">
+                                        <path :id="'time_path_raw' + i" :d="timeLinePath" :fill="'none'" :stroke="'#c0c0c0'" stroke-width="3"></path>
+                                        <g v-if="showLineLegend">
+                                            <path v-for="(pl, pi) in overLinePath" :key="'pl' + pi" :d="pl" :fill="'none'" :stroke="colorLine[pi]" stroke-width="3" :id="'plid' + pi"></path>
+                                        </g>
                                     </g>
-                                </g>
-                                                            </g>
-                                                            <g clip-path="url(#clipPathHorizon)" :id="'brush_area' + i" :transform="translate(0, item.rowHeight - 30, 0)">
-                                                                <path :d="item.d" :stroke="'none'" :fill="item.fill[0]" :transform="translate(0, -item.height * 3, 0)"></path>
-                                                                <path :d="item.d" :stroke="'none'" :fill="item.fill[1]" :transform="translate(0, -item.height * 2, 0)"></path>
-                                                                <path :d="item.d" :stroke="'none'" :fill="item.fill[2]"  :transform="translate(0, -item.height * 1, 0)"></path>
-                                                                <path :d="item.d" :stroke="'none'" :fill="item.fill[3]"></path>
-                                                            </g>
-                                                            <g :transform="translate(0, item.rowHeight - 30, 0)" style="cursor: pointer;" @click="clickAttribute(i)">
-                                                                <text x="0" y="18" font-size="14" :text-decoration="selectSmoothObj[item.feature] == 1 ?'underline' : ''" text-anchor="start">{{ item.feature }}</text></g>
-                                    </g>
-                                </svg>
+                                                                </g>
+                                                                <g clip-path="url(#clipPathHorizon)" :id="'brush_area' + i" :transform="translate(0, item.rowHeight - 30, 0)">
+                                                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[0]" :transform="translate(0, -item.height * 3, 0)"></path>
+                                                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[1]" :transform="translate(0, -item.height * 2, 0)"></path>
+                                                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[2]"  :transform="translate(0, -item.height * 1, 0)"></path>
+                                                                    <path :d="item.d" :stroke="'none'" :fill="item.fill[3]"></path>
+                                                                </g>
+                                                                <g :transform="translate(0, item.rowHeight - 30, 0)" style="cursor: pointer;" @click="clickAttribute(i)">
+                                                                    <text x="0" y="18" font-size="14" :text-decoration="selectSmoothObj[item.feature] == 1 ?'underline' : ''" text-anchor="start">{{ item.feature }}</text></g>
+                                        </g>
+                                    </svg>
                 <!-- </div> -->
             </div>
     
             <div style="height: 4%;">
                 <svg width="100%" height="100%">
-                                        <g id="global_time_axis"></g>
-                                    </svg>
+                                            <g id="global_time_axis"></g>
+                                        </svg>
             </div>
         </div>
     
@@ -237,7 +237,10 @@ export default {
             this.showLineLegend = 0;
             this.overLinePath = [];
             this.selectSmoothObj = {};
-        this.showDetail(this.selectAttribute, '#time_line_legend' + this.selectAttribute)
+            const dataStore = useDataStore();
+            dataStore.selectSmooth = [];
+                    this.brushTempMove = this.brushMoveData[this.datasetSelect];
+            this.showDetail(this.selectAttribute, '#time_line_legend' + this.selectAttribute)
         },
         clickAttribute(num) {
             // console.log(num)
@@ -280,7 +283,7 @@ export default {
             this.timeScaleGlobal = timeScale;
             selectAll('#global_time_axis_g').remove();
             select('#global_time_axis').append('g').attr('id', 'global_time_axis_g')
-                .call(axisBottom(timeScale).ticks((this.elWidth - margin.left - margin.right) / 40).tickSizeOuter(0))
+                .call(axisBottom(timeScale).ticks((this.elWidth - margin.left - margin.right) / 80).tickSizeOuter(0))
             // if 
             return raw_time_data;
         },
@@ -303,7 +306,7 @@ export default {
             }
             // console.log(this.dataSet, this.featureSet[cnt], cnt);
             this.calcTimeLine(this.dataSet[this.featureSet[cnt]], this.tlHeight - this.featureSet.length * 30 - 50, this.tlWidth, id);
-            this.setupBrush(this.dataSet[this.featureSet[cnt]], '#brush_area' + cnt, this.tlWidth, this.tlHeight - this.featureSet.length * 30 - 30, cnt);
+            this.setupBrush(this.dataSet[this.featureSet[cnt]], '#brush_area' + cnt, this.tlWidth, this.tlHeight - this.featureSet.length * 30 - 20, cnt);
         },
         translate(x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
@@ -572,7 +575,7 @@ export default {
         calcTimeLine(data, height, width, id) {
             // console.log(data)
             // data = data.slice(0, 1000)
-            let margin = ({ top: 10, right: 15, bottom: 20, left: 50 });
+            let margin = ({ top: 25, right: 15, bottom: 10, left: 50 });
             let focusHeight = 100;
 
             let y = scaleLinear()
@@ -621,11 +624,12 @@ export default {
                 // .call(g => g.select(".domain").remove())
                 .call(g => g.selectAll(".title").data([title]).join("text")
                     .attr("class", "title")
-                    .attr("x", 20)
+                    .attr("x", -30)
                     .attr("y", 15)
                     .attr("fill", "currentColor")
                     .attr("text-anchor", "middle")
                     .attr('font-size', '14px')
+                    .attr('font-family', 'Arial')
                     .text(title));
             selectAll('#yAxis_g').remove();
             // console.log(id)
@@ -781,69 +785,69 @@ export default {
         // this.setupBrush(uni_var_data, '#brush_area0', this.tlWidth, 0)
         const dataStore = useDataStore();
         dataStore.$subscribe((mutations, state) => {
-            
+
             if (mutations.events.key == 'dataSelect') {
 
-if (dataStore.dataSelect == 'sunspots') {
-    this.datasetSelect = dataStore.dataSelect;
-    [this.overview_line_data, this.featureSet, this.dataSet, this.allFeatureSet, this.allData] = this.calcOverviewTimeLine(uni_var_data);
-        // console.log(this.overview_line_data, this.featureSet, this.dataSet);
-        this.brushTempMove = this.brushMoveData[this.datasetSelect];
-        this.timeMap = this.calcTimeScale(uni_var_data, this.datasetSelect);
-        
-}else {
+                if (dataStore.dataSelect == 'sunspots') {
+                    this.datasetSelect = dataStore.dataSelect;
+                    [this.overview_line_data, this.featureSet, this.dataSet, this.allFeatureSet, this.allData] = this.calcOverviewTimeLine(uni_var_data);
+                    // console.log(this.overview_line_data, this.featureSet, this.dataSet);
+                    this.brushTempMove = this.brushMoveData[this.datasetSelect];
+                    this.timeMap = this.calcTimeScale(uni_var_data, this.datasetSelect);
 
-    this.datasetSelect = dataStore.dataSelect;
-    [this.overview_line_data, this.featureSet, this.dataSet, this.allFeatureSet, this.allData] = this.calcOverviewTimeLine(multi_var_data);
-        // console.log(this.overview_line_data, this.featureSet, this.dataSet);
-        this.brushTempMove = this.brushMoveData[this.datasetSelect];
-        this.timeMap = this.calcTimeScale(multi_var_data, this.datasetSelect);
-}
-}else {
-            if (dataStore.selectSmooth.length > 0 && dataStore.rowSelectTag == 1) {
-                // console.log(dataStore.selectSmooth)
-                this.selectSmoothObj = {};
-                this.selectSmoothObj[dataStore.selectSmooth[0]] = 1;
-                this.selectSmoothObj[dataStore.selectSmooth[1]] = 1;
-                if (this.datasetSelect == 'sunspots') {
-                    console.log(1111, this.datasetSelect)
-                    this.selectSmooth = dataStore.selectSmooth;
-                    // console.log(this.selectSmooth);
-                    // console.log(this.dataSet)
-                    this.overLine = [this.dataSet[this.selectSmooth[0]], this.dataSet[this.selectSmooth[1]]];
-                    this.overLinePath = [this.lineGenerateFunc(this.overLine[0]), this.lineGenerateFunc(this.overLine[1])];
-                    this.nameLine[1] = this.nameMap[this.datasetSelect][this.selectSmooth[0]] + ':';
-                    this.nameLine[2] = this.nameMap[this.datasetSelect][this.selectSmooth[1]] + ':';
+                } else {
+
+                    this.datasetSelect = dataStore.dataSelect;
+                    [this.overview_line_data, this.featureSet, this.dataSet, this.allFeatureSet, this.allData] = this.calcOverviewTimeLine(multi_var_data);
+                    // console.log(this.overview_line_data, this.featureSet, this.dataSet);
+                    this.brushTempMove = this.brushMoveData[this.datasetSelect];
+                    this.timeMap = this.calcTimeScale(multi_var_data, this.datasetSelect);
+                }
+            } else {
+                if (dataStore.selectSmooth.length > 0 && dataStore.rowSelectTag == 1) {
+                    // console.log(dataStore.selectSmooth)
+                    this.selectSmoothObj = {};
+                    this.selectSmoothObj[dataStore.selectSmooth[0]] = 1;
+                    this.selectSmoothObj[dataStore.selectSmooth[1]] = 1;
+                    if (this.datasetSelect == 'sunspots') {
+                        console.log(1111, this.datasetSelect)
+                        this.selectSmooth = dataStore.selectSmooth;
+                        // console.log(this.selectSmooth);
+                        // console.log(this.dataSet)
+                        this.overLine = [this.dataSet[this.selectSmooth[0]], this.dataSet[this.selectSmooth[1]]];
+                        this.overLinePath = [this.lineGenerateFunc(this.overLine[0]), this.lineGenerateFunc(this.overLine[1])];
+                        this.nameLine[1] = this.nameMap[this.datasetSelect][this.selectSmooth[0]] + ':';
+                        this.nameLine[2] = this.nameMap[this.datasetSelect][this.selectSmooth[1]] + ':';
+                        this.showLineLegend = 1;
+                    }
+                }
+                if (dataStore.rowSelectTag == 2) {
+                    console.log(dataStore.selectResRow);
+                    let st = dataStore.selectResRow.time_index;
+                    let pre_data = dataStore.selectResRow.prediction_data;
+                    let et = st + pre_data.length - 1;
+                    // console.log(this.timeMap)
+                    this.brushTempMove = [this.timeFormat(this.timeMap[st], this.datasetSelect), this.timeFormat(this.timeMap[et], this.datasetSelect)];
+                    let pre_line = []
+                    for (let i = st; i <= et; ++i) {
+                        pre_line.push({
+                            date: this.timeMap[i],
+                            value: pre_data[i - st]
+                        })
+                    }
+                    let columnName = dataStore.selectResRow.smooth;
+                    if (this.datasetSelect == 'pm')
+                        columnName = columnName + '_' + this.openFeature;
+                    this.overLine = [this.allData[columnName], pre_line];
+                    // console.log(columnName, this.dataSet)
+                    this.overLinePath = [this.lineGenerateFunc(this.overLine[0]), , this.lineGenerateFunc(pre_line)];
+                    // , this.lineGenerateFunc(pre_line)
+                    // console.log(pre_line, this.overLine, this.overLinePath  , this.lineGenerateFunc(pre_line));
+                    this.nameLine[1] = this.nameMap['sunspots'][dataStore.selectResRow.smooth] + ':';
+                    this.nameLine[2] = 'Predict:';
                     this.showLineLegend = 1;
                 }
             }
-            if (dataStore.rowSelectTag == 2) {
-                console.log(dataStore.selectResRow);
-                let st = dataStore.selectResRow.time_index;
-                let pre_data = dataStore.selectResRow.prediction_data;
-                let et = st + pre_data.length - 1;
-                // console.log(this.timeMap)
-                this.brushTempMove = [this.timeFormat(this.timeMap[st], this.datasetSelect), this.timeFormat(this.timeMap[et], this.datasetSelect)];
-                let pre_line = []
-                for (let i = st; i <= et; ++i) {
-                    pre_line.push({
-                        date: this.timeMap[i],
-                        value: pre_data[i - st]
-                    })
-                }
-                let columnName = dataStore.selectResRow.smooth;
-                if (this.datasetSelect == 'pm')
-                    columnName = columnName + '_' + this.openFeature;
-                this.overLine = [this.allData[columnName], pre_line];
-                // console.log(columnName, this.dataSet)
-                this.overLinePath = [this.lineGenerateFunc(this.overLine[0]), , this.lineGenerateFunc(pre_line)];
-                // , this.lineGenerateFunc(pre_line)
-                // console.log(pre_line, this.overLine, this.overLinePath  , this.lineGenerateFunc(pre_line));
-                this.nameLine[1] = this.nameMap['sunspots'][dataStore.selectResRow.smooth] + ':';
-                this.nameLine[2] = 'Predict:';
-                this.showLineLegend = 1;
-            }
-        }
         })
     },
     updated() {
@@ -854,11 +858,19 @@ if (dataStore.dataSelect == 'sunspots') {
 </script>
 
 <style>
-*,
+.tick text {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+}
+
+.title {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+}
+
+/* *,
 *::before,
 *::after {
     font-weight: normal;
-}
+} */
 
 #DataTransformation {
     font-size: 20px;

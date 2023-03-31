@@ -36,72 +36,72 @@
         <p class="titleTriangle"></p>
     
         <div style="float: right; margin-top: 3px;">
-            <el-button style="height: 30px; margin-right: 20px;" @click="legendStatus">
-    
-                <img src="../assets/img/colorLegend.png" alt="" width="20" height="20">
-            </el-button>
-            <span style="margin-right: 20px;">
-                                                                                    <span>X-Axis: </span>
+            <span style="margin-right: 10px;">
+                                                                                        <span>X-Axis: </span>
             <el-select v-model="xAxisValue" class="m-2" placeholder="Select" style="width: 100px;">
                 <el-option v-for="(item, i) in xAxisOption" :key="item" :label="item.label" :value="item.value" />
             </el-select>
             </span>
-            <span style="margin-right: 20px;">
-                                                                                    <span>Y-Axis: </span>
+            <span style="margin-right: 10px;">
+                                                                                        <span>Y-Axis: </span>
             <el-select v-model="yAxisValue" class="m-2" placeholder="Select" style="width: 100px;">
                 <el-option v-for="(item, i) in yAxisOption" :key="item" :label="item.label" :value="item.value" />
             </el-select>
             </span>
+            <el-button style="height: 30px; margin-right: 0px;" @click="legendStatus">
+    
+                <img src="../assets/img/colorLegend.png" alt="" width="20" height="20">
+            </el-button>
     
             <el-button style="height: 30px;" @click="refresh()">
     
-                <svg t="1680060651492" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2903" width="30" height="30"><path d="M810.666667 273.706667L750.293333 213.333333 512 451.626667 273.706667 213.333333 213.333333 273.706667 451.626667 512 213.333333 750.293333 273.706667 810.666667 512 572.373333 750.293333 810.666667 810.666667 750.293333 572.373333 512z" p-id="2904" fill="#606266"></path></svg>
+                <svg t="1680060651492" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2903" width="20" height="20"><path d="M810.666667 273.706667L750.293333 213.333333 512 451.626667 273.706667 213.333333 213.333333 273.706667 451.626667 512 213.333333 750.293333 273.706667 810.666667 512 572.373333 750.293333 810.666667 810.666667 750.293333 572.373333 512z" p-id="2904" fill="#606266"></path></svg>
             </el-button>
         </div>
     </div>
     <div class="frameworkBody">
         <div ref="modelExplainer" :style="{
-                                                                                            height: '100%',
-                                                                                            width: elHeight + 'px',
-                                                                                            float: 'right',
-                                                                                            cursor: 'crosshair'
-                                                                                        }">
+                                                                                                height: '100%',
+                                                                                                width: (elHeight + 25) + 'px',
+                                                                                                float: 'right',
+                                                                                                cursor: 'crosshair'
+                                                                                            }">
             <svg id="modelExplainer" height="100%" width="100%">
-                        <g id="scatter"></g>
-                        <g id="legend_g_s" :opacity="legendTag == 0? 0 : 1"></g>
-                        <g id="axis_g">
-                            <g id="x_axis_g" :transform="translate(0, 0, 0)"></g>
-                            <g id="y_axis_g" :transform="translate(0, 0, 0)"></g>
-                        </g>
-                    </svg>
+                            <g id="scatter"></g>
+                            <g id="legend_g_s" :opacity="legendTag == 0? 0 : 1"></g>
+                            <g id="axis_g">
+                                <g id="x_axis_g" :transform="translate(0, 0, 0)"></g>
+                                <g id="y_axis_g" :transform="translate(0, 0, 0)"></g>
+                            </g>
+                        </svg>
         </div>
-        <div ref="modelTable" :style="{height: '100%',width: `calc(35% - 15px)`,
-                                                                                            float: 'left',
-                                                                                            overflow: 'auto',
-                                                                                            'font-size': '18px'
-                                                                                        }">
+        <div ref="modelTable" :style="{height: '100%',width: `calc(36% - 5px)`,
+                                                                                                float: 'left',
+                                                                                                overflow: 'auto',
+                                                                                                'font-size': '18px'
+                                                                                            }">
             <!-- <el-table :data="tableData" style="width: 100%" height="100%" :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }" :cell-style="{ 'text-align': 'center', 'font-size': '16px', 'height': '15px' }" -->
     
-            <el-table :data="tableData" style="width: calc(100% - 0px)" height="100%" :header-cell-style="{ 'font-size': '16px', 'background-color': 'rgb(235, 235, 235)', 'height': '40px', 'text-algin': 'start'}" :cell-style="{ 'font-size': '14px', 'height': '15px' }"
+            <el-table v-if="showTable == 1" :data="tableData" style="width: calc(100% - 0px)" height="100%" :header-cell-style="{ 'font-size': '16px', 'background-color': 'rgb(235, 235, 235)', 'height': '40px', 'text-algin': 'start'}" :cell-style="{ 'font-size': '14px', 'height': '15px' }"
                 :row-class-name="selectRowStyle" @row-click="selectPredict" :row-style="{ 'height': '18px' }" border>
                 <!-- <el-table-column label="Datum" prop="id" width="60" /> -->
                 <el-table-column label="Smooth" prop="smooth_name" width="82" />
                 <el-table-column label="Skip" prop="skip" width="62" />
-                <el-table-column label="RMSE" prop="rmse" sortable>
+                <el-table-column label="RMSE" sortable :sort-by="'rmse_v'">
     
                     <template #default="scope">
-                                                                <svg width="100%" height="18">
-                                                                    <rect :x="0" :y="3" :width="scope.row.d1.w < 0 ? 0 : scope.row.d1.w" :height="15" :fill="'orange'" :fill-opacity="1"  :stroke="'rgb(200, 200, 200)'"> </rect>
-                                                                    <text x="2" y="15" font-size="12">{{ scope.row.d1.v }}</text>
-                                                                </svg>
+                                                                    <svg width="100%" height="18">
+                                                                        <rect :x="0" :y="3" :width="scope.row.d1.w < 0 ? 0 : scope.row.d1.w" :height="15" :fill="'orange'" :fill-opacity="1"  :stroke="'rgba(200, 200, 200, 0)'"> </rect>
+                                                                        <text x="2" y="15" font-size="12">{{ scope.row.d1.v }}</text>
+                                                                    </svg>
 </template>
                 </el-table-column>
                 <el-table-column :label="xAxisValue == 0 ? 'CORR.' : 'SHAP'" :prop="xAxisValue == 0 ? 'norm_corr' : 'shap'" sortable >
 <template #default="scope">
     <svg width="100%" height="18">
-                                                                    <rect :x="scope.row[xAxisValue == 0 ? 'd2' : 'd3']['x']" :y="3" :width="scope.row[xAxisValue == 0 ? 'd2' : 'd3'].w < 0 ? 0 : scope.row[xAxisValue == 0 ? 'd2' : 'd3'].w" :height="15" :fill="scope.row[xAxisValue == 0 ? 'd2' : 'd3']['fill']" :fill-opacity="1"  :stroke="'rgb(200, 200, 200)'"> </rect>
-                                                                    <text x="2" y="15" font-size="12">{{ scope.row[xAxisValue == 0 ? 'd2' : 'd3'].v }}</text>
-                                                                </svg>
+                                                                        <rect :x="scope.row[xAxisValue == 0 ? 'd2' : 'd3']['x']" :y="3" :width="scope.row[xAxisValue == 0 ? 'd2' : 'd3'].w < 0 ? 0 : scope.row[xAxisValue == 0 ? 'd2' : 'd3'].w" :height="15" :fill="scope.row[xAxisValue == 0 ? 'd2' : 'd3']['fill']" :fill-opacity="1"  :stroke="'rgba(200, 200, 200, 0)'"> </rect>
+                                                                        <text x="2" y="15" font-size="12">{{ scope.row[xAxisValue == 0 ? 'd2' : 'd3'].v }}</text>
+                                                                    </svg>
 </template>
                 </el-table-column>
                 </el-table>
@@ -191,6 +191,7 @@ export default {
     props: ['sliceData'],
     data() {
         return {
+            showTable: 0,
             elHeight: 0,
             elWidth: 0,
             skip_length: [13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6],
@@ -234,9 +235,12 @@ export default {
             selectAll('.lasso').remove();
             selectAll('.corr_cir_out').remove();
             selectAll('.corr_cir_single').remove();
+            selectAll('.black_select_row').attr('stroke-width', 0);
             selectAll('.representationSkipRect').attr('opacity', 1).attr('stroke-width', 0);
             this.localRowClass = ''
+
             this.tableData = this.calcTableData(this.dataSet, 1);
+            console.log(this.tableData);
             selectAll('.corr_cir').attr('opacity', (d, i) => {
                 return d.isShow ? 0 : 1;
             }).attr('fill', (d, i) => {
@@ -245,7 +249,7 @@ export default {
                 return d.fill;
             })
             const dataStore = useDataStore();
-            dataStore.selectRowClass = '';
+            dataStore.selectRowClass = 1;
         },
         legendStatus() {
             if (this.legendTag == 0) {
@@ -289,12 +293,21 @@ export default {
             // _this.tableData = _this.calcTableData(_this.dataSet, select_dot);
             // _this.tableData = []
             // console.log(_this.tableData);
-            let tdata = [{
+            // select
+            let tdata = [];
+            if (selectAll('.corr_cir_out')['_groups'][0].length == 0) {
+            tdata = [{
                 x: select('#corr_c' + td.uid).attr('cx'),
                 y: select('#corr_c' + td.uid).attr('cy'),
                 fill: select('#corr_c' + td.uid).attr('fill'),
                 uid: select('#corr_c' + td.uid).attr('uid')
-            }];
+            }];} else {
+                selectAll('.corr_cir_out').attr('class', (d, i) => {
+                        if (d.uid == td.uid) {tdata.push(d)
+                        }
+                        return 'corr_cir_out';
+                    })
+            }
             selectAll('.corr_cir_single').remove();
 
             select('#scatter')
@@ -593,6 +606,7 @@ export default {
                         shap: (Math.abs(parseFloat(data[i][j]['shap']))).toFixed(4),
                         shap_tag: shap_tag,
                         rmse: (parseFloat(data[i][j]['rmse'])).toFixed(2),
+                        rmse_v: parseFloat(data[i][j]['rmse']),
                         uid: data[i][j]['smooth'] + '_' + data[i][j]['skip'] + '_' + j,
                         cid: data[i][j]['smooth'] + '_' + data[i][j]['skip'],
                     });
@@ -723,7 +737,7 @@ export default {
             let heatScale = vsup.scale().quantize(quantization2).range(heatColor);
             // console.log(minNorm, maxNorm);
 
-            let rmseScale = scaleLinear([minRmse, maxRmse], [this.elHeight - 20, 10]);
+            let rmseScale = scaleLinear([minRmse, maxRmse], [this.elHeight - 20, 5]);
             let normScale = scaleLinear([minNorm > 0 ? 0 : minNorm, maxNorm], [30, this.elWidth - 20]);
             let shapScale = scaleLinear([minShap, maxShap], [30, this.elWidth - 20]);
             var legend = vsup.legend.arcmapLegend();
@@ -814,10 +828,10 @@ export default {
 
             selectAll('#dotAxis_g').remove();
             select("#x_axis_g").append('g').attr('id', 'dotAxis_g')
-                .attr('transform', `translate(0, ${this.elHeight - 20})`).call(xAxis).call(g => g.selectAll(".title").data([xAxisData == 1 ? 'SHAP.' : 'Corr.']).join("text")
+                .attr('transform', `translate(0, ${this.elHeight - 20})`).call(xAxis).call(g => g.selectAll(".title").data([xAxisData == 1 ? 'SHAP.' : 'CORR.']).join("text")
                     .attr("class", "title")
                     .attr("x", this.elWidth - 20)
-                    .attr("y", 16)
+                    .attr("y", 19)
                     .attr("fill", "currentColor")
                     .attr("text-anchor", "middle")
                     .attr('font-size', '14px')
@@ -826,8 +840,8 @@ export default {
                 .attr('transform', `translate(${xAxisData == 1 ? shapScale(0) : normScale(0)}, 0)`)
                 .call(yAxis).call(g => g.selectAll(".title").data(['RMSE']).join("text")
                     .attr("class", "title")
-                    .attr("x", 20)
-                    .attr("y", 12)
+                    .attr("x", 22)
+                    .attr("y", 15)
                     .attr("fill", "currentColor")
                     .attr("text-anchor", "middle")
                     .attr('font-size', '14px')
@@ -840,7 +854,7 @@ export default {
     mounted() {
         this.elHeight = this.$refs.modelExplainer.offsetHeight;
         // this.elWidth = this.$refs.modelExplainer.offsetWidth;
-        this.elWidth = this.elHeight;
+        this.elWidth = this.elHeight + 20;
         this.tbHeight = this.$refs.modelTable.offsetHeight;
         this.tbWidth = this.$refs.modelTable.offsetWidth;
         // console.log(dataX);
@@ -895,55 +909,56 @@ export default {
         // }
         let dataSet2 = [m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27];
 
-        // this.dataSet = dataSet;
+        this.dataSet = dataSet;
 
         // this.dot_data = this.calcScatter(dataSet, this.xAxisValue, 0);
         // this.tableData = this.calcTableData(dataSet, 1);
 
-        this.setupLasso();
+        // this.setupLasso();
 
         const dataStore = useDataStore();
         let _this = this;
         dataStore.$subscribe((mutations, state) => {
             if (mutations.events.key == 'dataSelect') {
-
+                this.showTable = 1;
                 if (dataStore.dataSelect == 'sunspots') {
 
                     this.dtSelect = 'sunspots';
                     this.dataSet = dataSet;
 
-this.dot_data = this.calcScatter(dataSet, this.xAxisValue, 0);
-this.tableData = this.calcTableData(dataSet, 1);
+                    this.dot_data = this.calcScatter(dataSet, this.xAxisValue, 0);
+                    this.tableData = this.calcTableData(dataSet, 1);
 
                 } else {
 
-        this.dataSet = dataSet2;
+                    this.dataSet = dataSet2;
                     this.dtSelect = 'pm'
-this.dot_data = this.calcScatter(dataSet2, this.xAxisValue, 0);
-this.tableData = this.calcTableData(dataSet2, 1);
+                    this.dot_data = this.calcScatter(dataSet2, this.xAxisValue, 0);
+                    this.tableData = this.calcTableData(dataSet2, 1);
 
                 }
 
-        this.setupLasso();
+                this.setupLasso();
 
-            }else {
-            if (dataStore.selectRowClass != this.selectRowClass) {
-                this.selectRowClass = dataStore.selectRowClass;
-                if (dataStore.selectRowClass != 1) {
-                    let select_dot = {};
-                    for (let i in _this.dot_data) {
-                        if (_this.dot_data[i].cid == dataStore.selectRowClass) {
-                            select_dot[_this.dot_data[i].uid] = 1;
+            } else {
+                if (dataStore.selectRowClass != this.selectRowClass) {
+                    this.selectRowClass = dataStore.selectRowClass;
+                    if (dataStore.selectRowClass != 1) {
+                        let select_dot = {};
+                        for (let i in _this.dot_data) {
+                            if (_this.dot_data[i].cid == dataStore.selectRowClass) {
+                                select_dot[_this.dot_data[i].uid] = 1;
+                            }
                         }
+
+                        this.tableData = this.calcTableData(this.dataSet, select_dot);
+                        console.log(this.tableData);
+                    } else {
+                        this.tableData = this.calcTableData(this.dataSet, 1);
+
                     }
-
-                    this.tableData = this.calcTableData(this.dataSet, select_dot);
-                } else {
-                    this.tableData = this.calcTableData(this.dataSet, 1);
-
                 }
             }
-        }
         })
         // dataStore
         //     } else if (dataStore.dataSelect == 'pm') {
@@ -986,14 +1001,14 @@ this.tableData = this.calcTableData(dataSet2, 1);
 </script>
 
 <style>
-*,
+/* *,
 *::before,
 *::after {
     font-weight: normal;
-}
+} */
 
 .cell {
-    font-weight: normal;
+    /* font-weight: normal; */
     color: black;
 }
 
