@@ -61,7 +61,13 @@
             </div>
             <div style="height: calc(20% - 5px); margin-top: 5px;">
                 <span style="float: left; font-weight: normal; margin-top: 0px;">
-                                            Periodicity: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            Periodicity:
+                                            
+                                        </span>
+                                        <span style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
+                                            <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
+                                                <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
+                                            </el-select> -->
                                             1, 3, 6, 13
                                         </span>
                 <!-- <span style="width: 60%; float: right; font-weight: normal; margin-top: 6px; text-align: left;">
@@ -95,11 +101,11 @@
     
         </div>
         <div ref="resTable" style="height: calc(70% + 25px); width: calc(100%); float: right; overflow:auto; font-size: 18px; margin-top: -15px;">
-            <el-table :data="tableData" style="width: calc(100% - 0px)" height="100%" :header-cell-style="{ 'font-size': '16px', 'background-color': 'rgb(235, 235, 235)', 'height': '40px', 'text-algin': 'center'}" :cell-style="{ 'font-size': '14px', 'height': '15px' }"
+            <el-table :data="tableData" style="width: calc(100% - 0px)" height="100%" :header-cell-style="{ 'font-size': '16px', 'background-color': 'rgb(235, 235, 235)', 'height': '40px', 'text-algin': 'left'}" :cell-style="{ 'font-size': '14px', 'height': '15px' }"
                 :row-style="{ 'height': '18px' }" border @row-click="rowClick">
                 <el-table-column prop="smooth" label="Smooth" width="82" />
                 <el-table-column prop="skip" label="Skip" width="62" />
-                <el-table-column label="Loss" :width="(elWidth - 142) / 3" sortable :sort-by="'train'">
+                <el-table-column label="Train" :width="(elWidth - 142) / 3" sortable :sort-by="'train'">
 <template #default="scope">
     <svg width="100%" height="18">
                                         <rect :x="0" :y="3" :width="scope.row.train_bar.w" :height="15" :fill="'orange'" :fill-opacity="1"  :stroke="'rgb(200, 200, 200)'"> </rect>
@@ -373,8 +379,8 @@ export default {
 } */
 
 .el-table .cell {
-    padding: 0px;
-    text-align: center;
+    /* padding: 0px; */
+    text-align: left;
 }
 
 /* td {

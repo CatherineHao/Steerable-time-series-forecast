@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-03-27 04:46:06
+ * @LastEditTime: 2023-03-30 19:08:38
 -->
 <template>
     <div class="frameworkTitle">
@@ -123,7 +123,7 @@ export default {
             valueRange: [],
             selectRect: [],
             selectTag: 0,
-            dataSelect: 'sunspots',
+            dataSelect: 'pm',
             nameMap: {
                 'sunspots': {
                     'raw': 'RAW',
@@ -200,7 +200,7 @@ export default {
                 .domain([0, max(data, d => parseFloat(d.value))])
                 .range([focusHeight, margin.top])
             let x = scaleLinear()
-                .domain([0, max(data, d => parseInt(d.id))])
+                .domain([0, max(data, d => (parseInt(d.id)))])
                 .range([margin.left, width - margin.right])
             let sparkBoxData = [];
             let lineData = [];
@@ -264,7 +264,7 @@ export default {
                 .domain([min(data, d => parseFloat(d[F2_name])), max(data, d => parseFloat(d[F2_name]))])
                 .range([height - margin.bottom, margin.top])
             let x = scaleLinear()
-                .domain([min(data, d => parseFloat(d[F1_name])), max(data, d => parseInt(d[F1_name]))])
+                .domain([min(data, d => parseFloat(d[F1_name])), max(data, d => parseFloat(d[F1_name]))])
                 .range([margin.left, width - margin.right])
             let xx = scaleLinear()
                 .domain([0, box_num])
@@ -316,6 +316,9 @@ export default {
                         yDomain: y.domain()
                     })
                 }
+            }
+            if (F1_name == 'wnd_spd' && F2_name == 'wnd_spd') {
+                console.log(sparkBoxData);
             }
             let v = scaleLinear()
                 .domain([minV, maxV])
@@ -405,8 +408,9 @@ export default {
         // this.F_sparkBoxData = F_sparkBoxData;
         // this.dataName = 'PM 2.5'
         // }
+        this.dataSelect = 'sunspots';
         [this.F_sparkBoxData, this.show_name, this.dataName] = this.mainData(uni_data, this.S_name, 'raw');
-        console.log(this.F_sparkBoxData, this.show_name, this.dataName)
+        // console.log(this.F_sparkBoxData, this.show_name, this.dataName)
         // })
 
 

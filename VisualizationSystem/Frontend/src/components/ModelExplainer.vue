@@ -1,8 +1,34 @@
 <!--
+ *                        _oo0oo_
+ *                       o8888888o
+ *                       88" . "88
+ *                       (| -_- |)
+ *                       0\  =  /0
+ *                     ___/`---'\___
+ *                   .' \\|     |// '.
+ *                  / \\|||  :  |||// \
+ *                 / _||||| -:- |||||- \
+ *                |   | \\\  - /// |   |
+ *                | \_|  ''\---/''  |_/ |
+ *                \  .-\__  '-'  ___/-. /
+ *              ___'. .'  /--.--\  `. .'___
+ *           ."" '<  `.___\_<|>_/___.' >' "".
+ *          | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+ *          \  \ `_.   \_ __\ /__ _/   .-` /  /
+ *      =====`-.____`.___ \_____/___.-`___.-'=====
+ *                        `=---='
+ * 
+ * 
+ *      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * 
+ *            佛祖保佑     永不宕机     永无BUG
+ -->
+
+<!--
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-03-27 04:41:59
+ * @LastEditTime: 2023-03-30 18:52:30
 -->
 <template>
     <div class="frameworkTitle" style="padding-right: 10px;">
@@ -10,80 +36,74 @@
         <p class="titleTriangle"></p>
     
         <div style="float: right; margin-top: 3px;">
-            <!-- <span style="margin-right: 20px;">
-                                            <el-button style="height: 30px; width: 30px;" @click="lassoStatus()">
-                                                <svg t="1679578655320" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3866" width="20" height="20"><path d="M70.582857 461.421714c0 196.717714 168.850286 307.291429 379.702857 307.291429 16.274286 0 33.005714-0.859429 49.718857-1.718857 17.554286 7.296 38.582857 11.574857 62.134858 11.574857 64.292571 0 129.426286-17.993143 187.282285-48.859429 1.28 6.436571 1.718857 13.293714 1.718857 20.150857 0 51.419429-29.147429 101.558857-77.147428 132.004572-12.434286 8.996571-21.430857 17.993143-21.430857 33.426286 0 15.853714 12.873143 29.568 33.005714 29.568 9.435429 0 14.994286-2.56 23.149714-7.716572 66.011429-42.861714 106.715429-114.432 106.715429-188.580571 0-19.712-2.56-38.125714-7.716572-55.698286 86.125714-65.572571 145.718857-162.011429 145.718858-267.867429 0-203.995429-181.723429-345.856-398.994286-345.856-237.860571 0-483.876571 155.995429-483.876572 382.281143z m64.713143 0.438857c0-186.861714 214.272-317.988571 419.565714-317.988571 179.565714 0 334.281143 111.414857 334.281143 280.685714 0 81.005714-45.421714 156.013714-111.433143 209.590857-35.986286-47.579429-94.281143-77.568-161.572571-77.568-98.139429 0-172.288 51.419429-172.288 127.268572 0 7.296 0.859429 14.153143 2.578286 20.571428C275.437714 702.281143 135.314286 621.714286 135.314286 461.860571zM509.001143 681.691429c0-35.986286 50.139429-59.995429 112.274286-59.995429 42.861714 0 79.725714 18.432 103.314285 48.420571-50.157714 27.867429-107.154286 44.141714-162.450285 44.141715-30.848 0-53.138286-11.995429-53.138286-32.548572z" p-id="3867" fill="#8a8a8a"></path></svg>
-                                            </el-button>
-                                        </span> -->
+            <el-button style="height: 30px; margin-right: 20px;" @click="legendStatus">
+    
+                <img src="../assets/img/colorLegend.png" alt="" width="20" height="20">
+            </el-button>
             <span style="margin-right: 20px;">
-                                                                            <span>X-Axis: </span>
+                                                                                <span>X-Axis: </span>
             <el-select v-model="xAxisValue" class="m-2" placeholder="Select" style="width: 100px;">
                 <el-option v-for="(item, i) in xAxisOption" :key="item" :label="item.label" :value="item.value" />
             </el-select>
             </span>
             <span style="margin-right: 20px;">
-                                                                            <span>Y-Axis: </span>
+                                                                                <span>Y-Axis: </span>
             <el-select v-model="yAxisValue" class="m-2" placeholder="Select" style="width: 100px;">
                 <el-option v-for="(item, i) in yAxisOption" :key="item" :label="item.label" :value="item.value" />
             </el-select>
             </span>
-
+    
             <el-button style="height: 30px;" @click="refresh()">
-                                
-                                <svg t="1680060651492" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2903" width="30" height="30"><path d="M810.666667 273.706667L750.293333 213.333333 512 451.626667 273.706667 213.333333 213.333333 273.706667 451.626667 512 213.333333 750.293333 273.706667 810.666667 512 572.373333 750.293333 810.666667 810.666667 750.293333 572.373333 512z" p-id="2904" fill="#606266"></path></svg>
-                            </el-button>
+    
+                <svg t="1680060651492" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2903" width="30" height="30"><path d="M810.666667 273.706667L750.293333 213.333333 512 451.626667 273.706667 213.333333 213.333333 273.706667 451.626667 512 213.333333 750.293333 273.706667 810.666667 512 572.373333 750.293333 810.666667 810.666667 750.293333 572.373333 512z" p-id="2904" fill="#606266"></path></svg>
+            </el-button>
         </div>
     </div>
     <div class="frameworkBody">
         <div ref="modelExplainer" :style="{
-                                                                                    height: '100%',
-                                                                                    width: elHeight + 'px',
-                                                                                    float: 'right',
-                                                                                    cursor: 'crosshair'
-                                                                                }">
+                                                                                        height: '100%',
+                                                                                        width: elHeight + 'px',
+                                                                                        float: 'right',
+                                                                                        cursor: 'crosshair'
+                                                                                    }">
             <svg id="modelExplainer" height="100%" width="100%">
-                                                                                    
-                                                                                        <g id="scatter">
-                                                                                            <!-- <circle v-for="(o, i) in dot_data" :key="'cir' + i" class="corr_cir" :id="'corr_cir' + o.id" :cx="o.x" :cy="o.y" :r="1"
-                                                                                                                    fill="orange"></circle> -->
-                                                                                        </g>
-                                                                                        <g id="legend_g_s"></g>
-
-                                                                                        <g id="axis_g">
-                                                                                            <g id="x_axis_g" :transform="translate(0, 0, 0)"></g>
-                                                                                            <g id="y_axis_g" :transform="translate(0, 0, 0)"></g>
-                                                                                        </g>
-                                                                                    </svg>
+                    <g id="scatter"></g>
+                    <g id="legend_g_s" :opacity="legendTag == 0? 0 : 1"></g>
+                    <g id="axis_g">
+                        <g id="x_axis_g" :transform="translate(0, 0, 0)"></g>
+                        <g id="y_axis_g" :transform="translate(0, 0, 0)"></g>
+                    </g>
+                </svg>
         </div>
         <div ref="modelTable" :style="{
-                                                                                    height: '100%',
-                                                                                    width: `calc(100% - ${elHeight}px - 10px)`,
-                                                                                    float: 'left',
-                                                                                    overflow: 'auto',
-                                                                                    'font-size': '18px'
-                                                                                }">
+                                                                                        height: '100%',
+                                                                                        width: `calc(100% - ${elHeight}px - 10px)`,
+                                                                                        float: 'left',
+                                                                                        overflow: 'auto',
+                                                                                        'font-size': '18px'
+                                                                                    }">
             <!-- <el-table :data="tableData" style="width: 100%" height="100%" :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }" :cell-style="{ 'text-align': 'center', 'font-size': '16px', 'height': '15px' }" -->
     
-            <el-table :data="tableData" style="width: calc(100% - 0px)" height="100%" :header-cell-style="{ 'font-size': '16px', 'background-color': 'rgb(235, 235, 235)', 'height': '40px', 'text-algin': 'center'}" :cell-style="{ 'font-size': '14px', 'height': '15px' }"
+            <el-table :data="tableData" style="width: calc(100% - 0px)" height="100%" :header-cell-style="{ 'font-size': '16px', 'background-color': 'rgb(235, 235, 235)', 'height': '40px', 'text-algin': 'start'}" :cell-style="{ 'font-size': '14px', 'height': '15px' }"
                 @row-click="selectPredict" :row-style="{ 'height': '18px' }" border>
-                <el-table-column label="Datum" prop="id" width="60" />
+                <!-- <el-table-column label="Datum" prop="id" width="60" /> -->
                 <el-table-column label="Smooth" prop="smooth_name" width="82" />
                 <el-table-column label="Skip" prop="skip" width="62" />
                 <el-table-column label="RMSE" prop="rmse" sortable>
     
                     <template #default="scope">
-                                                        <svg width="100%" height="18">
-                                                            <rect :x="0" :y="3" :width="scope.row.d1.w" :height="15" :fill="'orange'" :fill-opacity="1"  :stroke="'rgb(200, 200, 200)'"> </rect>
-                                                            <text x="2" y="15" font-size="12">{{ scope.row.d1.v }}</text>
-                                                        </svg>
+                                                            <svg width="100%" height="18">
+                                                                <rect :x="0" :y="3" :width="scope.row.d1.w < 0 ? 0 : scope.row.d1.w" :height="15" :fill="'orange'" :fill-opacity="1"  :stroke="'rgb(200, 200, 200)'"> </rect>
+                                                                <text x="2" y="15" font-size="12">{{ scope.row.d1.v }}</text>
+                                                            </svg>
 </template>
                 </el-table-column>
-                <el-table-column label="Corr." prop="norm_corr" sortable >
+                <el-table-column :label="xAxisValue == 0 ? 'CORR.' : 'SHAP'" :prop="xAxisValue == 0 ? 'norm_corr' : 'shap'" sortable >
 <template #default="scope">
     <svg width="100%" height="18">
-                                                            <rect :x="0" :y="3" :width="scope.row.d2.w" :height="15" :fill="'orange'" :fill-opacity="1"  :stroke="'rgb(200, 200, 200)'"> </rect>
-                                                            <text x="2" y="15" font-size="12">{{ scope.row.d2.v }}</text>
-                                                        </svg>
+                                                                <rect :x="0" :y="3" :width="scope.row[xAxisValue == 0 ? 'd2' : 'd3'].w < 0 ? 0 : scope.row[xAxisValue == 0 ? 'd2' : 'd3'].w" :height="15" :fill="'orange'" :fill-opacity="1"  :stroke="'rgb(200, 200, 200)'"> </rect>
+                                                                <text x="2" y="15" font-size="12">{{ scope.row[xAxisValue == 0 ? 'd2' : 'd3'].v }}</text>
+                                                            </svg>
 </template>
                 </el-table-column>
                 </el-table>
@@ -137,35 +157,36 @@ import d25 from '../assets/allData/univariate_data/single27/weighted13_skip3_0.8
 import d26 from '../assets/allData/univariate_data/single27/weighted13_skip6_0.8.csv';
 import d27 from '../assets/allData/univariate_data/single27/weighted13_skip13_0.8.csv';
 
+
 // multivariate
-import m0 from '../assets/allData/multivariate_data/result_data/raw_skip2.csv';
-import m1 from '../assets/allData/multivariate_data/result_data/raw_skip3.csv';
-import m2 from '../assets/allData/multivariate_data/result_data/weighted6_skip1.csv';
-import m3 from '../assets/allData/multivariate_data/result_data/weighted6_skip3.csv';
-import m4 from '../assets/allData/multivariate_data/result_data/raw_skip1.csv';
-import m5 from '../assets/allData/multivariate_data/result_data/rolling6_skip6.csv';
-import m6 from '../assets/allData/multivariate_data/result_data/weighted6_skip2.csv';
-import m7 from '../assets/allData/multivariate_data/result_data/weighted6_skip6.csv';
-import m8 from '../assets/allData/multivariate_data/result_data/rolling6_skip2.csv';
-import m9 from '../assets/allData/multivariate_data/result_data/rolling6_skip3.csv';
-import m10 from '../assets/allData/multivariate_data/result_data/rolling6_skip1.csv';
-import m11 from '../assets/allData/multivariate_data/result_data/raw_skip6.csv';
-import m12 from '../assets/allData/multivariate_data/result_data/rolling12_skip1.csv';
-import m13 from '../assets/allData/multivariate_data/result_data/rolling12_skip2.csv';
-import m14 from '../assets/allData/multivariate_data/result_data/rolling12_skip3.csv';
-import m15 from '../assets/allData/multivariate_data/result_data/rolling12_skip6.csv';
-import m16 from '../assets/allData/multivariate_data/result_data/rolling3_skip2.csv';
-import m17 from '../assets/allData/multivariate_data/result_data/weighted3_skip6.csv';
-import m18 from '../assets/allData/multivariate_data/result_data/weighted12_skip3.csv';
-import m19 from '../assets/allData/multivariate_data/result_data/weighted12_skip2.csv';
-import m20 from '../assets/allData/multivariate_data/result_data/rolling3_skip3.csv';
-import m21 from '../assets/allData/multivariate_data/result_data/rolling3_skip1.csv';
-import m22 from '../assets/allData/multivariate_data/result_data/weighted12_skip1.csv';
-import m23 from '../assets/allData/multivariate_data/result_data/weighted3_skip1.csv';
-import m24 from '../assets/allData/multivariate_data/result_data/weighted3_skip3.csv';
-import m25 from '../assets/allData/multivariate_data/result_data/weighted12_skip6.csv';
-import m26 from '../assets/allData/multivariate_data/result_data/weighted3_skip2.csv';
-import m27 from '../assets/allData/multivariate_data/result_data/rolling3_skip6.csv';
+import m0 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip1.csv';
+import m1 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip6.csv';
+import m2 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip12.csv';
+import m3 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip24.csv';
+import m4 from '../assets/allData/multivariate_data/new_res_data/rolling6_skip1.csv';
+import m5 from '../assets/allData/multivariate_data/new_res_data/rolling6_skip6.csv';
+import m6 from '../assets/allData/multivariate_data/new_res_data/rolling6_skip12.csv';
+import m7 from '../assets/allData/multivariate_data/new_res_data/rolling6_skip24.csv';
+import m8 from '../assets/allData/multivariate_data/new_res_data/rolling12_skip1.csv';
+import m9 from '../assets/allData/multivariate_data/new_res_data/rolling12_skip6.csv';
+import m10 from '../assets/allData/multivariate_data/new_res_data/rolling12_skip12.csv';
+import m11 from '../assets/allData/multivariate_data/new_res_data/rolling12_skip24.csv';
+import m12 from '../assets/allData/multivariate_data/new_res_data/rolling24_skip1.csv';
+import m13 from '../assets/allData/multivariate_data/new_res_data/rolling24_skip6.csv';
+import m14 from '../assets/allData/multivariate_data/new_res_data/rolling24_skip12.csv';
+import m15 from '../assets/allData/multivariate_data/new_res_data/rolling24_skip24.csv';
+import m16 from '../assets/allData/multivariate_data/new_res_data/weighted6_skip1.csv';
+import m17 from '../assets/allData/multivariate_data/new_res_data/weighted6_skip6.csv';
+import m18 from '../assets/allData/multivariate_data/new_res_data/weighted6_skip12.csv';
+import m19 from '../assets/allData/multivariate_data/new_res_data/weighted6_skip24.csv';
+import m20 from '../assets/allData/multivariate_data/new_res_data/weighted12_skip1.csv';
+import m21 from '../assets/allData/multivariate_data/new_res_data/weighted12_skip6.csv';
+import m22 from '../assets/allData/multivariate_data/new_res_data/weighted12_skip12.csv';
+import m23 from '../assets/allData/multivariate_data/new_res_data/weighted12_skip24.csv';
+import m24 from '../assets/allData/multivariate_data/new_res_data/weighted24_skip1.csv';
+import m25 from '../assets/allData/multivariate_data/new_res_data/weighted24_skip6.csv';
+import m26 from '../assets/allData/multivariate_data/new_res_data/weighted24_skip12.csv';
+import m27 from '../assets/allData/multivariate_data/new_res_data/weighted24_skip24.csv';
 
 export default {
     name: 'modelExplainerView',
@@ -180,10 +201,10 @@ export default {
             xAxisValue: 0,
             yAxisValue: 0,
             xAxisOption: [{
-                label: 'Corr.',
+                label: 'CORR.',
                 value: 0
             }, {
-                label: 'SHAP.',
+                label: 'SHAP',
                 value: 1
             }],
             yAxisOption: [{
@@ -204,10 +225,18 @@ export default {
                 data: []
             },
             dtSelect: 'sunspots',
-            selectRowClass: ''
+            selectRowClass: '',
+            legendTag: 0
         }
     },
     methods: {
+        legendStatus() {
+            if (this.legendTag == 0) {
+                this.legendTag = 1;
+            } else if (this.legendTag == 1) {
+                this.legendTag = 0;
+            }
+        },
         selectPredict(row) {
             console.log(row);
             let td = row;
@@ -230,6 +259,7 @@ export default {
             };
             dataStore.rowSelectTag = 2;
         },
+
         setupLasso() {
             let _this = this;
             let lasso_g = select("#scatter")
@@ -284,6 +314,7 @@ export default {
                 origin_node.attr("display", "none");
                 // draw_path.attr("d", null);
                 // close_path.attr("d", null);
+                // console.log(selectAll('.corr_cir_out')['_groups'][0].length)
                 let tx = event.x;
                 let ty = event.y;
                 if (select_path == "") {
@@ -303,45 +334,75 @@ export default {
                 let select_dot = new Object();
                 let select_info = new Array();
                 let selectSkip = new Array();
-                for (let i in _this.dot_data) {
-                    let dot_p = [_this.dot_data[i].x, _this.dot_data[i].y];
-                    if (polygonContains(polygon, dot_p)) {
-                        select_dot[_this.dot_data[i].uid] = 1;
-                        select_info.push(1);
-                        // console.log('#tsr' + i)
-                        // select('#tsr' + i).attr("opacity", d => {
-                        //     console.log(d);
-                        //     selectSkip.push(d);
-                        //     return 0;
-                        // })
-                        // console.log
-                        // cie_x += parseFloat(_this.poem_dot[i].raw_value.x);
-                        // cie_y += parseFloat(_this.poem_dot[i].raw_value.y);
-                        // cie_cnt += 1;
-                    } else {
-                        select_info.push(0);
+                // console.log()
+                if (selectAll('.corr_cir_out')['_groups'][0].length == 0) {
+                    for (let i in _this.dot_data) {
+                        let dot_p = [_this.dot_data[i].x, _this.dot_data[i].y];
+                        if (polygonContains(polygon, dot_p)) {
+                            select_dot[_this.dot_data[i].uid] = 1;
+                            select_info.push(1);
+                            // console.log('#tsr' + i)
+                            // select('#tsr' + i).attr("opacity", d => {
+                            //     console.log(d);
+                            //     selectSkip.push(d);
+                            //     return 0;
+                            // })
+                            // console.log
+                            // cie_x += parseFloat(_this.poem_dot[i].raw_value.x);
+                            // cie_y += parseFloat(_this.poem_dot[i].raw_value.y);
+                            // cie_cnt += 1;
+                        } else {
+                            select_info.push(0);
+                        }
                     }
+                    // console.log(selectSkip);
+
+                    // console.log(select_dot);
+                    // const dataStore = useDataStore();
+                    // dataStore.selectDot.data = select_dot;
+                    // dataStore.selectDot.tag = !dataStore.selectDot.tag;
+                    // selectAll('.rst').attr('fill', '#bbb').attr('fill-opacity', 0.5)
+                    selectAll('.representationSkipRect').attr('opacity', 0.15)
+
+                    for (let i in select_dot) {
+                        // console.log(i);
+                        select("#representation_" + i).attr('opacity', 1);
+                    }
+
+                    _this.tableData = _this.calcTableData(_this.dataSet, select_dot);
+                    // _this.tableData = []
+                    // console.log(_this.tableData);
+                    selectAll('.corr_cir').attr('opacity', (d, i) => {
+                        if (select_dot[d.uid] == 1) return 1;
+                        else return d.isShow == 0 ? 0 : 0.5;
+                    }).attr('fill', (d, i) => {
+                        if (select_dot[d.uid] == 1) return d.fill;
+                        else return '#d9d9d9';
+                    })
+                } else {
+                    let select_dot = new Object();
+                    selectAll('.corr_cir_out').attr('fill', (d, i) => {
+                        if (polygonContains(polygon, [d.x, d.y])) {
+                            select_dot[d.uid] = 1;
+                            return d.fill;
+                        }
+                        return '#d9d9d9';
+                    }).attr('opacity', (d, i) => {
+                        if (polygonContains(polygon, [d.x, d.y])) {
+                            return 1;
+                        }
+                        return 0.1;
+                    })
+                    selectAll('.representationSkipRect').attr('opacity', 0.15)
+                    for (let i in select_dot) {
+                        console.log(i);
+                        select("#representation_" + i).attr('opacity', 1);
+                    }
+                    _this.tableData = _this.calcTableData(_this.dataSet, select_dot);
+                    // const dataStore = useDataStore();
+                    // dataStore.selectDot.data = select_dot;
+                    // dataStore.selectDot.tag = !dataStore.selectDot.tag;
                 }
-                // console.log(selectSkip);
-
-                // console.log(select_dot);
-                const dataStore = useDataStore();
-                dataStore.selectDot.data = select_dot;
-                dataStore.selectDot.tag = !dataStore.selectDot.tag;
-                // selectAll('.rst').attr('fill', '#bbb').attr('fill-opacity', 0.5)
-                selectAll('.representationSkipRect').attr('opacity', 0.15)
-
-
-                _this.tableData = _this.calcTableData(_this.dataSet, select_dot);
-                // _this.tableData = []
-                console.log(_this.tableData);
-                selectAll('.corr_cir').attr('opacity', (d, i) => {
-                    if (select_dot[d.uid] == 1) return 1;
-                    else return d.isShow == 0 ? 0 : 0.5;
-                }).attr('fill', (d, i) => {
-                    if (select_dot[d.uid] == 1) return d.fill;
-                    else return '#d9d9d9';
-                })
 
                 select_path = "";
                 // end_path = "";
@@ -389,6 +450,9 @@ export default {
             let min_rmse = 99999;
             let max_corr = -999999;
             let min_corr = 999999;
+            let max_shap = -999999;
+            let min_shap = 999999;
+
             for (let i in data) {
                 let startPos = 0;
                 let tp = [];
@@ -397,6 +461,7 @@ export default {
                 //     continue;
                 for (let j in data[i]) {
                     // console.log(data[i][j])
+                    if (parseFloat(data[i][j]['shap']) > 1 || parseFloat(data[i][j]['shap']) < -1) continue;
                     if (select_dot == 1 && j > 300) break;
                     // if (parseFloat(data[i][j]['norm_corr']) == 0)
                     //     continue;
@@ -451,6 +516,8 @@ export default {
                             smooth_name = smooth_name + cnt[1];
                         }
                     }
+                    let shap_tag= (parseFloat(data[i][j]['shap']) < 0) ? ' (-)' : '';
+                    console.log(shap_tag);
                     sdata.push({
                         id: id_cnt,
                         predict_data: pre_data,
@@ -459,6 +526,8 @@ export default {
                         smooth_name: smooth_name,
                         time: j * data[i][j]['skip'] + startPos,
                         norm_corr: (parseFloat(data[i][j]['result_corr'])).toFixed(4),
+                        shap: (Math.abs(parseFloat(data[i][j]['shap']))).toFixed(4),
+                        shap_tag: shap_tag,
                         rmse: (parseFloat(data[i][j]['rmse'])).toFixed(2),
                         uid: data[i][j]['smooth'] + '_' + data[i][j]['skip'] + '_' + j,
                         cid: data[i][j]['smooth'] + '_' + data[i][j]['skip'],
@@ -467,6 +536,8 @@ export default {
                     min_rmse = Math.min(min_rmse, parseFloat(data[i][j]['rmse']));
                     max_corr = Math.max(max_corr, parseFloat(data[i][j]['result_corr']));
                     min_corr = Math.min(min_corr, parseFloat(data[i][j]['result_corr']));
+                    max_shap = Math.max(max_shap, parseFloat(data[i][j]['shap']));
+                    min_shap = Math.min(min_shap, parseFloat(data[i][j]['shap']));
 
                     // tp.push({
                     //     id: i,
@@ -488,6 +559,7 @@ export default {
             // console.log(this.tbWidth, [min_corr, max_corr], [min_rmse, max_rmse])
             let scale1 = scaleLinear([min_rmse, max_rmse], [0, (barS / 2) * 0.15])
             let scale2 = scaleLinear([min_corr, max_corr], [0, (barS / 2) * 0.15])
+            let scale3 = scaleLinear([0, 1], [0, (barS / 2) * 0.15])
             for (let i in sdata) {
                 sdata[i]['d1'] = {
                     x: 0,
@@ -499,6 +571,12 @@ export default {
                     x: 0,
                     w: scale2(sdata[i]['norm_corr']),
                     v: v2
+                }
+                let v3 = (sdata[i]['shap']).toString().slice(1) + sdata[i]['shap_tag'];
+                sdata[i]['d3'] = {
+                    x: 0,
+                    w: scale3(Math.abs(sdata[i]['shap'])) ,
+                    v: v3
                 }
             }
             // sdata.sort((a, b) => {
@@ -537,6 +615,8 @@ export default {
                         if (data[i][j]['shap'] > 1 || data[i][j]['shap'] < -1)
                             continue;
                     }
+                    if (data[i][j]['result_corr'] < 0)
+                        continue;
                     let className = data[i][j]['smooth'] + '_' + data[i][j]['skip'];
                     sdata.push({
                         id: i,
@@ -569,7 +649,7 @@ export default {
                 // lineData.push(tp);
             }
             console.log(maxShap, minShap);
-            let quantization2 = vsup.quantization().branching(2).layers(4).valueDomain([minRmse, maxRmse]).uncertaintyDomain([xAxisData == 1 ? 1 : (maxNorm), xAxisData == 1 ? -1 : minNorm]);
+            let quantization2 = vsup.quantization().branching(2).layers(4).valueDomain([minRmse, maxRmse]).uncertaintyDomain([(maxNorm), minNorm]);
             let heatColor = interpolateYlOrRd;
             let heatScale = vsup.scale().quantize(quantization2).range(heatColor);
             // console.log(minNorm, maxNorm);
@@ -592,18 +672,18 @@ export default {
             selectAll('#vsup_legend_g_s').remove();
             legend
                 .scale(heatScale)
-                .size(120)
-                .x(legendPos[this.dtSelect].x)
-                .y(legendPos[this.dtSelect].y)
+                .size(140)
+                .x(70)
+                .y(40)
                 .vtitle("RMSE")
-                .utitle(xAxisData == 1 ? 'SHAP.' : "Corr.");
+                .utitle("CORR.");
             select('#legend_g_s').append('g').attr('id', 'vsup_legend_g_s')
                 .call(legend)
 
             let timeScale = scaleLinear([840, maxTime], [30, this.elWidth - 20]);
             let xAxis = axisBottom(xAxisData == 1 ? shapScale : normScale).ticks(10);
             let yAxis = axisLeft(rmseScale).ticks(10);
-            
+
             for (let i in sdata) {
                 sdata[i].x = xAxisData == 1 ? shapScale(sdata[i].shap) : normScale(sdata[i].norm_corr);
                 sdata[i].y = rmseScale(sdata[i].rmse);
@@ -630,6 +710,7 @@ export default {
                 // .attr('stroke', '#bbb')
                 .attr('fill', d => d.fill)
                 .attr('opacity', d => d.isShow)
+                .attr('cursor', 'pointer')
                 .on('mouseover', (e, d) => {
                     select('#corr_c' + d.id_cnt).attr('r', d.isShow == 1 ? 5 : 1);
                 })
@@ -664,24 +745,24 @@ export default {
 
             selectAll('#dotAxis_g').remove();
             select("#x_axis_g").append('g').attr('id', 'dotAxis_g')
-            .attr('transform', `translate(0, ${this.elHeight - 20})`).call(xAxis).call(g => g.selectAll(".title").data([xAxisData == 1 ? 'SHAP.' : 'Corr.']).join("text")
-                .attr("class", "title")
-                .attr("x", this.elWidth - 20)
-                .attr("y", 16)
-                .attr("fill", "currentColor")
-                .attr("text-anchor", "middle")
-                .attr('font-size', '14px')
-                .text(d => d));
+                .attr('transform', `translate(0, ${this.elHeight - 20})`).call(xAxis).call(g => g.selectAll(".title").data([xAxisData == 1 ? 'SHAP.' : 'Corr.']).join("text")
+                    .attr("class", "title")
+                    .attr("x", this.elWidth - 20)
+                    .attr("y", 16)
+                    .attr("fill", "currentColor")
+                    .attr("text-anchor", "middle")
+                    .attr('font-size', '14px')
+                    .text(d => d));
             select("#y_axis_g").append('g').attr('id', 'dotAxis_g')
-            .attr('transform', `translate(${xAxisData == 1 ? shapScale(0) : 30}, 0)`)
-            .call(yAxis).call(g => g.selectAll(".title").data(['RMSE']).join("text")
-                .attr("class", "title")
-                .attr("x", 20)
-                .attr("y", 12)
-                .attr("fill", "currentColor")
-                .attr("text-anchor", "middle")
-                .attr('font-size', '14px')
-                .text(d => d));
+                .attr('transform', `translate(${xAxisData == 1 ? shapScale(0) : 30}, 0)`)
+                .call(yAxis).call(g => g.selectAll(".title").data(['RMSE']).join("text")
+                    .attr("class", "title")
+                    .attr("x", 20)
+                    .attr("y", 12)
+                    .attr("fill", "currentColor")
+                    .attr("text-anchor", "middle")
+                    .attr('font-size', '14px')
+                    .text(d => d));
 
             return sdata;
         }
@@ -776,7 +857,7 @@ export default {
         //     } else if (dataStore.dataSelect == 'pm') {
         //         // const importData =
         //         //     import.meta.globEager('../assets/allmata/multivariate_mata/result_mata/*.csv');
-        
+
 
         // // for (let i in importData) {
         // //     dataSet.push(importData[i]['default']);
@@ -847,7 +928,7 @@ export default {
 
 .el-table .cell {
     padding: 0px;
-    text-align: center;
+    text-align: left;
 }
 
 /*chrome--------------------------------------------start*/

@@ -1,6 +1,6 @@
 <!--
  * @Author: Qing Shi
- * @LastEditTime: 2023-03-27 04:21:07
+ * @LastEditTime: 2023-03-30 18:42:35
 -->
 <!--
  * @Description: 
@@ -13,59 +13,69 @@
         <div class="title">Representation View</div>
         <p class="titleTriangle"></p>
         <div style="float: right; margin-top: 3px;">
+            <el-button style="height: 30px; margin-right: 20px;" @click="setupDrag">
+                <svg t="1680200979207" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5498" width="22" height="22"><path d="M0 0h1024v1024H0z" fill="#515151" fill-opacity="0" p-id="5499"></path><path d="M484.124444 561.664a35.043556 35.043556 0 0 1 53.703112 34.702222v309.361778l113.891555-116.963556a33.792 33.792 0 0 1 48.810667-0.284444 36.067556 36.067556 0 0 1 0 50.119111l-165.262222 169.585778a33.223111 33.223111 0 0 1-15.303112 8.760889 32.824889 32.824889 0 0 1-16.896 5.290666h-1.137777a35.043556 35.043556 0 0 1-26.282667-10.524444l-170.552889-175.217778a37.205333 37.205333 0 0 1 0-51.768889 35.043556 35.043556 0 0 1 50.460445 0l112.981333 116.053334v-304.469334a35.043556 35.043556 0 0 1 15.644444-34.702222zM504.263111 1.536c6.257778 0.113778 12.288 1.991111 17.521778 5.461333 5.12 1.592889 9.841778 4.437333 13.653333 8.192l-0.568889 0.284445 165.262223 169.585778a36.181333 36.181333 0 0 1 0 50.062222 33.905778 33.905778 0 0 1-48.924445 0L538.396444 119.409778v308.280889a35.043556 35.043556 0 0 1-34.588444 35.043555 35.043556 35.043556 0 0 1-34.531556-35.498666v-305.493334l-113.834666 117.191111a35.043556 35.043556 0 0 1-50.574222 0 37.489778 37.489778 0 0 1 0-51.768889L475.591111 11.832889a35.043556 35.043556 0 0 1 26.908445-10.353778z" fill="#515151" p-id="5500"></path></svg>
+            </el-button>
+            <el-button style="height: 30px; margin-right: 20px;" @click="legendStatus">
+    
+                <img src="../assets/img/colorLegend.png" alt="" width="20" height="20">
+            </el-button>
             <span>Metric: </span>
             <el-select v-model="heatTag" class="m-2" placeholder="Select" style="width: 150px; margin-right: 20px;">
                 <el-option v-for="(item, i) in heatOptions" :key="item" :label="item.label" :value="item.value" />
             </el-select>
             <span style="margin-right: 0px; margin-top: 0px;">
-                            <el-button style="height: 30px;" @click="refresh()">
-                                
-                                <svg t="1680060651492" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2903" width="30" height="30"><path d="M810.666667 273.706667L750.293333 213.333333 512 451.626667 273.706667 213.333333 213.333333 273.706667 451.626667 512 213.333333 750.293333 273.706667 810.666667 512 572.373333 750.293333 810.666667 810.666667 750.293333 572.373333 512z" p-id="2904" fill="#606266"></path></svg>
-                            </el-button>
-                        </span>
+                                    <el-button style="height: 30px;" @click="refresh()">
+                                        
+                                        <svg t="1680060651492" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2903" width="30" height="30"><path d="M810.666667 273.706667L750.293333 213.333333 512 451.626667 273.706667 213.333333 213.333333 273.706667 451.626667 512 213.333333 750.293333 273.706667 810.666667 512 572.373333 750.293333 810.666667 810.666667 750.293333 572.373333 512z" p-id="2904" fill="#606266"></path></svg>
+                                    </el-button>
+                                </span>
         </div>
     </div>
     <div class="frameworkBody">
         <div ref="DataTransformation" style="height: calc(97%); width: 100%; margin-top: 0px;">
             <svg height="100%" width="100%" transform="translate(0, 0)">
-                                    <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)"
-                                        @mouseenter="selectFile(item.class_name)" @mouseout="cancelFile(item.class_name)" @click="clickFile(i, item.class_name)">
-                                        <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
-                                            :width="item_h.w" :height="item_h.h" :fill="item_h.colorMap[heatTag]" :id="item.uid"
-                                            :class="'representationSkipRect'" :fill-opacity="1">
-                                        </rect>
-                                        <rect v-for="(item_h, item_i) in item['res']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
-                                            :width="item_h.w" :height="item_h.h" :fill="'orange'" :id="'tsr' + item_i"
-                                            :fill-opacity="item_h.fill_opacity">
-                                        </rect>
-                    
-                                        <text font-size="14" text-anchor="start" dx="0em" dy="1em">{{
-                                            // filename[i].substring(0, filename[i].length - 8)
-                                            filename[dataSelect][i].smooth + '/Skip-' + filename[dataSelect][i].skip
-                                        }}</text>
-                                    </g>
-                                    <g id="legend_g"></g>
-                                    <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)">
-                                        <rect :id="item.class_name" class="black_select_row" :x="item['heat'][0].x" :y="0" :width="elWidth - 10 - item['heat'][0].x"
-                                            :height="item['heat'][0].h" :fill="checkSelectStatus(i) == 2 ? 'none' : 'none'" stroke="black" :stroke-width="checkSelectStatus(i) == 1 ? 3 : 0" :fill-opacity="checkSelectStatus(i) == 2 ? 0 : 0"></rect>
-                                    </g>
-                                    <g v-for="(item, i) in coverRect" :key="'heat_g' + i"
-                                        :transform="translate(0, item.realH, 0)">
-                                        <rect :id="'rst' + i" class="rst" :x="item.x" :y="0" :width="item.w" :height="item.h" :fill="item.colorMap[heatTag]"
-                                            stroke="none" stroke-width="0"></rect>
-                                    </g>
-                                    <!-- <g v-for="(item, i) in groupPath" :key="'group_g' + i" :transform="translate(0, 0, 0)">
-                                        <path :d="'M ' + item.x1 + ' ' + item.y1 + ' L ' + item.x2 + ' ' + item.y2" fill="none" stroke="black">
-                                        </path>
-                                </g> -->
-                    
-                            </svg>
+                                            <g v-for="(item, i) in heatRectData" cursor="pointer" :key="'heat_g' + i" :transform="translateF(0, item.h * i)" :class="'heat_g' + item.class_name">
+        
+                                                <!-- @mouseenter="selectFile(item.class_name)" @mouseout="cancelFile(item.class_name)" @click="clickFile(i, item.class_name)" -->
+                                                <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0" :stroke="item_h.colorMap[heatTag]"
+                                                    :width="item_h.w" :height="item_h.h" :fill="item_h.colorMap[heatTag]" :id="'representation_' + item_h.uid"
+                                                    :class="'representationSkipRect'" :fill-opacity="1">
+                                                </rect>
+                                                <!-- <rect v-for="(item_h, item_i) in item['res']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
+                                                    :width="item_h.w" :height="item_h.h" :fill="'orange'" :id="'tsr' + item_i"
+                                                    :fill-opacity="item_h.fill_opacity">
+                                                </rect> -->
+                                                <rect :id="item.class_name" class="black_select_row" :x="item['heat'][0].x" :y="0" :width="elWidth - 10 - item['heat'][0].x"
+                                                    :height="item['heat'][0].h" :fill="checkSelectStatus(i) == 2 ? 'none' : 'none'" stroke="black" :stroke-width="checkSelectStatus(i) == 1 ? 3 : 0" :fill-opacity="checkSelectStatus(i) == 2 ? 0 : 0"></rect>
+                            
+                                                <text font-size="14" text-anchor="start" dx="0em" dy="1em" cursor="pointer" @mouseenter="selectFile(item.class_name)" @mouseout="cancelFile(item.class_name)" @click="clickFile(i, item.class_name)">{{
+                                                    // filename[i].substring(0, filename[i].length - 8)
+                                                    filename[dataSelect][i].smooth + '/Sk-' + filename[dataSelect][i].skip
+                                                }}</text>
+                                            </g>
+                                            <g id="legend_g" :opacity="legendTag == 1 ? 1 : 0"></g>
+                                            <!-- <g v-for="(item, i) in heatRectData" :key="'heat_g' + i" :transform="translate(0, item.h * i, 0)">
+                                                <rect :id="item.class_name" class="black_select_row" :x="item['heat'][0].x" :y="0" :width="elWidth - 10 - item['heat'][0].x"
+                                                    :height="item['heat'][0].h" :fill="checkSelectStatus(i) == 2 ? 'none' : 'none'" stroke="black" :stroke-width="checkSelectStatus(i) == 1 ? 3 : 0" :fill-opacity="checkSelectStatus(i) == 2 ? 0 : 0"></rect>
+                                            </g> -->
+                                            <g v-for="(item, i) in coverRect" :key="'heat_g' + i"
+                                                :transform="translate(0, item.realH, 0)">
+                                                <rect :id="'rst' + i" class="rst" :x="item.x" :y="0" :width="item.w" :height="item.h" :fill="item.colorMap[heatTag]"
+                                                    stroke="none" stroke-width="0"></rect>
+                                            </g>
+                                            <!-- <g v-for="(item, i) in groupPath" :key="'group_g' + i" :transform="translate(0, 0, 0)">
+                                                <path :d="'M ' + item.x1 + ' ' + item.y1 + ' L ' + item.x2 + ' ' + item.y2" fill="none" stroke="black">
+                                                </path>
+                                        </g> -->
+                            
+                                    </svg>
     
         </div>
         <div ref="RepresentationTimeAxis" style="height: 3%; width: 100%;">
             <svg width="100%" height="100%">
-                        <g id="representationTime"></g>
-                    </svg>
+                                <g id="representationTime"></g>
+                            </svg>
         </div>
     </div>
 </template>
@@ -182,6 +192,7 @@ import m24 from '../assets/allData/multivariate_data/new_res_data/weighted24_ski
 import m25 from '../assets/allData/multivariate_data/new_res_data/weighted24_skip6.csv';
 import m26 from '../assets/allData/multivariate_data/new_res_data/weighted24_skip12.csv';
 import m27 from '../assets/allData/multivariate_data/new_res_data/weighted24_skip24.csv';
+import { drag } from 'd3-drag';
 
 
 export default {
@@ -196,7 +207,7 @@ export default {
             heatHeight: 0,
             heatTag: 3,
             clickFileTag: 0,
-            heatOptions: [{label: 'RMSE + Corr.', value: 3}, {label: 'RMSE', value: 4}, {label: 'Corr.', value: 5}],
+            heatOptions: [{ label: 'RMSE + Corr.', value: 3 }, { label: 'RMSE', value: 4 }, { label: 'Corr.', value: 5 }],
             sample: ['10-slice', '7-slice', '3-slice'],
             smooth: ['Raw Sequence', 'N-Average', 'EMA/Holt'],
             sparkboxData: [],
@@ -204,66 +215,70 @@ export default {
             lineData: [],
             smoothLineData: [],
             skiplength: [13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6],
+            heat_set: [],
             columnData: ['Smooth', 'Skip', 'Train-Loss', 'Test-Loss', 'ACF', 'Window Performance'],
-            filename: {'sunspots': [{ smooth: 'RAW', skip: '1' },
-                { smooth: 'RAW', skip: '3' },
-                { smooth: 'RAW', skip: '6' },
-                { smooth: 'RAW', skip: '13' },
-                { smooth: 'MA-3', skip: '1' },
-                { smooth: 'MA-3', skip: '3' },
-                { smooth: 'MA-3', skip: '6' },
-                { smooth: 'MA-3', skip: '13' },
-                { smooth: 'MA-6', skip: '1' },
-                { smooth: 'MA-6', skip: '3' },
-                { smooth: 'MA-6', skip: '6' },
-                { smooth: 'MA-6', skip: '13' },
-                { smooth: 'MA-13', skip: '1' },
-                { smooth: 'MA-13', skip: '3' },
-                { smooth: 'MA-13', skip: '6' },
-                { smooth: 'MA-13', skip: '13' },
-                { smooth: 'WMA-3', skip: '1' },
-                { smooth: 'WMA-3', skip: '3' },
-                { smooth: 'WMA-3', skip: '6' },
-                { smooth: 'WMA-3', skip: '13' },
-                { smooth: 'WMA-6', skip: '1' },
-                { smooth: 'WMA-6', skip: '3' },
-                { smooth: 'WMA-6', skip: '6' },
-                { smooth: 'WMA-6', skip: '13' },
-                { smooth: 'WMA-13', skip: '1' },
-                { smooth: 'WMA-13', skip: '3' },
-                { smooth: 'WMA-13', skip: '6' },
-                { smooth: 'WMA-13', skip: '13' }
-            ], 'pm': [{ smooth: 'RAW', skip: '1' },
-                { smooth: 'RAW', skip: '6' },
-                { smooth: 'RAW', skip: '12' },
-                { smooth: 'RAW', skip: '24' },
-                { smooth: 'MA-6', skip: '1' },
-                { smooth: 'MA-6', skip: '6' },
-                { smooth: 'MA-6', skip: '12' },
-                { smooth: 'MA-6', skip: '24' },
-                { smooth: 'MA-12', skip: '1' },
-                { smooth: 'MA-12', skip: '6' },
-                { smooth: 'MA-12', skip: '12' },
-                { smooth: 'MA-12', skip: '24' },
-                { smooth: 'MA-24', skip: '1' },
-                { smooth: 'MA-24', skip: '6' },
-                { smooth: 'MA-24', skip: '12' },
-                { smooth: 'MA-24', skip: '24' },
-                { smooth: 'WMA-6', skip: '1' },
-                { smooth: 'WMA-6', skip: '6' },
-                { smooth: 'WMA-6', skip: '12' },
-                { smooth: 'WMA-6', skip: '24' },
-                { smooth: 'WMA-12', skip: '1' },
-                { smooth: 'WMA-12', skip: '6' },
-                { smooth: 'WMA-12', skip: '12' },
-                { smooth: 'WMA-12', skip: '24' },
-                { smooth: 'WMA-24', skip: '1' },
-                { smooth: 'WMA-24', skip: '6' },
-                { smooth: 'WMA-24', skip: '12' },
-                { smooth: 'WMA-24', skip: '24' }
-            ]},
+            filename: {
+                'sunspots': [{ smooth: 'RAW', skip: '1' },
+                    { smooth: 'RAW', skip: '3' },
+                    { smooth: 'RAW', skip: '6' },
+                    { smooth: 'RAW', skip: '13' },
+                    { smooth: 'MA-3', skip: '1' },
+                    { smooth: 'MA-3', skip: '3' },
+                    { smooth: 'MA-3', skip: '6' },
+                    { smooth: 'MA-3', skip: '13' },
+                    { smooth: 'MA-6', skip: '1' },
+                    { smooth: 'MA-6', skip: '3' },
+                    { smooth: 'MA-6', skip: '6' },
+                    { smooth: 'MA-6', skip: '13' },
+                    { smooth: 'MA-13', skip: '1' },
+                    { smooth: 'MA-13', skip: '3' },
+                    { smooth: 'MA-13', skip: '6' },
+                    { smooth: 'MA-13', skip: '13' },
+                    { smooth: 'WMA-3', skip: '1' },
+                    { smooth: 'WMA-3', skip: '3' },
+                    { smooth: 'WMA-3', skip: '6' },
+                    { smooth: 'WMA-3', skip: '13' },
+                    { smooth: 'WMA-6', skip: '1' },
+                    { smooth: 'WMA-6', skip: '3' },
+                    { smooth: 'WMA-6', skip: '6' },
+                    { smooth: 'WMA-6', skip: '13' },
+                    { smooth: 'WMA-13', skip: '1' },
+                    { smooth: 'WMA-13', skip: '3' },
+                    { smooth: 'WMA-13', skip: '6' },
+                    { smooth: 'WMA-13', skip: '13' }
+                ],
+                'pm': [{ smooth: 'RAW', skip: '1' },
+                    { smooth: 'RAW', skip: '6' },
+                    { smooth: 'RAW', skip: '12' },
+                    { smooth: 'RAW', skip: '24' },
+                    { smooth: 'MA-6', skip: '1' },
+                    { smooth: 'MA-6', skip: '6' },
+                    { smooth: 'MA-6', skip: '12' },
+                    { smooth: 'MA-6', skip: '24' },
+                    { smooth: 'MA-12', skip: '1' },
+                    { smooth: 'MA-12', skip: '6' },
+                    { smooth: 'MA-12', skip: '12' },
+                    { smooth: 'MA-12', skip: '24' },
+                    { smooth: 'MA-24', skip: '1' },
+                    { smooth: 'MA-24', skip: '6' },
+                    { smooth: 'MA-24', skip: '12' },
+                    { smooth: 'MA-24', skip: '24' },
+                    { smooth: 'WMA-6', skip: '1' },
+                    { smooth: 'WMA-6', skip: '6' },
+                    { smooth: 'WMA-6', skip: '12' },
+                    { smooth: 'WMA-6', skip: '24' },
+                    { smooth: 'WMA-12', skip: '1' },
+                    { smooth: 'WMA-12', skip: '6' },
+                    { smooth: 'WMA-12', skip: '12' },
+                    { smooth: 'WMA-12', skip: '24' },
+                    { smooth: 'WMA-24', skip: '1' },
+                    { smooth: 'WMA-24', skip: '6' },
+                    { smooth: 'WMA-24', skip: '12' },
+                    { smooth: 'WMA-24', skip: '24' }
+                ]
+            },
             coverRect: [],
-            dataSelect: 'sunspots',
+            dataSelect: 'pm',
             allTimeScale: {
                 'sunspots': {
                     start: '1878-01-01',
@@ -288,7 +303,8 @@ export default {
                 tag: 0,
                 data: []
             },
-            cid_index: {}
+            cid_index: {},
+            legendTag: 0
         }
     },
     methods: {
@@ -321,7 +337,7 @@ export default {
         },
         checkSelectStatus: function(num) {
             if (this.selectRepresentationRow[this.dataSelect].tag == 0)
-            return 0;
+                return 0;
             if (this.selectRepresentationRow[this.dataSelect].status[num]) {
                 return 1;
             } else {
@@ -349,7 +365,7 @@ export default {
                     tdata.push(d);
                     // return 0.5;
                 }
-                return d.isShow ? 0 : 0.5;
+                return d.isShow ? 0 : 0.3;
             }).attr('fill', (d, i) => {
                 // if (d.class_name == this.filename[num].substring(0, this.filename[num].length - 8)) return 'orange';
                 // else 
@@ -376,11 +392,20 @@ export default {
                 .append('circle')
                 .attr('cx', d => d.x)
                 .attr('cy', d => d.y)
-                .attr('id', (d, i) => 'corr_c' + d.id_cnt)
+                .attr('id', (d, i) => 'corr_c' + d.uid)
                 .attr('class', 'corr_cir_out')
-                .attr('r', 3)
-                .attr('stroke', 'black')
+                .attr('r', 3.5)
+                .attr('stroke', '#777')
+                .attr('stroke-width', 0.5)
                 .attr('fill', d => d.fill)
+        },
+
+        legendStatus() {
+            if (this.legendTag == 0) {
+                this.legendTag = 1;
+            } else if (this.legendTag == 1) {
+                this.legendTag = 0;
+            }
         },
         cancelFile(class_name) {
             if (this.clickFileTag) return;
@@ -395,6 +420,9 @@ export default {
         },
         translate(x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
+        },
+        translateF(x, y) {
+            return `translate(${x}, ${y})`;
         },
         setupBrush: function(data) {
             let width = this.tlWidth;
@@ -560,6 +588,49 @@ export default {
             select('#brush_g').call(timeBrush)
                 .call(timeBrush.move, [x(988), x(1760)]);
 
+        },
+        setupDrag() {
+            let _this = this;
+            for (let i in this.cid_index) {
+                let drag_func = drag().on('start', dragS).on('drag', dragged).on('end', dragE);
+
+                function dragS() {
+
+                    console.log('222')
+                }
+
+                function dragE(event) {
+                    let nt = Math.floor(event.y / _this.cid_index[i].h);
+                    select('.heat_g' + i).attr('transform', _this.translateF(0, (nt) * _this.cid_index[i].h))
+                }
+
+                function dragged(event, d) {
+                    // console.log(event, d)
+                    select('.heat_g' + i).attr('transform', _this.translateF(0, event.y))
+                    let nt = Math.floor(event.y / _this.cid_index[i].h);
+                    if (nt != _this.cid_index[i].cnt) {
+                        for (let j in _this.cid_index) {
+                            // if(j == i) continue;
+                            if (_this.cid_index[i].cnt < nt && _this.cid_index[j].cnt == nt) {
+
+                                select('.heat_g' + j).attr('transform', _this.translateF(0, (_this.cid_index[j].cnt - 1) * _this.cid_index[j].h))
+                                _this.cid_index[j].cnt = _this.cid_index[j].cnt - 1;
+                                _this.cid_index[i].cnt = nt;
+                                break;
+                            }
+                            if (_this.cid_index[i].cnt > nt && _this.cid_index[j].cnt == nt) {
+
+                                select('.heat_g' + j).attr('transform', _this.translateF(0, (_this.cid_index[j].cnt + 1) * _this.cid_index[j].h))
+                                _this.cid_index[j].cnt = _this.cid_index[j].cnt + 1;
+                                _this.cid_index[i].cnt = nt;
+                                break;
+                            }
+
+                        }
+                    }
+                }
+                select('.heat_g' + i).call(drag_func);
+            }
         },
         calcRMSEHeat(data, smooth_dataSet, raw_data, width, height) {
             let margin = ({ top: 20, right: 20, bottom: 30, left: 50 });
@@ -807,6 +878,19 @@ export default {
             let heatColor = interpolateYlOrRd
             let heatScale2 = vsup.scale().quantize(quantization2).range(heatColor);
 
+
+            var legend = vsup.legend.arcmapLegend();
+
+            legend
+                .scale(heatScale2)
+                .size(160)
+                .x(600)
+                .y(40)
+                .vtitle("RMSE")
+                .utitle("CORR.");
+            select('#legend_g').append('g')
+                .call(legend)
+
             let res_data = [];
 
             for (let i in HeatSumData) {
@@ -830,10 +914,13 @@ export default {
                     h: height / allStrip,
                     heat: HeatSumData[i]
                 })
-                this.cid_index[HeatSumData[i][0].cid] = res_data.length - 1;
+                this.cid_index[HeatSumData[i][0].cid] = {
+                    cnt: res_data.length - 1,
+                    h: height / allStrip
+                };
             }
             // console.log(res_data);
-
+            console.log(this.cid_index)
             return res_data;
         },
         calcRMSETempHeatMultiVariate(data, smooth_data, width, height) {
@@ -1009,22 +1096,22 @@ export default {
             //     this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight);
             // }
 
-                if (this.selectDot.tag != dataStore.selectDot.tag) {
-                    this.selectDot.tag = dataStore.selectDot.tag;
-                    this.selectDot.data = dataStore.selectDot.data;
-                    let coverRect = [];
-                    for (let i in this.heatRectData) {
-                        for (let j in this.heatRectData[i].heat) {
-                            if (this.selectDot.data[this.heatRectData[i].heat[j].uid]) {
-                                coverRect.push(this.heatRectData[i].heat[j]);
-                            }
+            if (this.selectDot.tag != dataStore.selectDot.tag) {
+                this.selectDot.tag = dataStore.selectDot.tag;
+                this.selectDot.data = dataStore.selectDot.data;
+                let coverRect = [];
+                for (let i in this.heatRectData) {
+                    for (let j in this.heatRectData[i].heat) {
+                        if (this.selectDot.data[this.heatRectData[i].heat[j].uid]) {
+                            coverRect.push(this.heatRectData[i].heat[j]);
                         }
                     }
-                    this.coverRect = coverRect;
                 }
-                // if (dataStore.selectRowClass != '') {
-                //     this.selectRepresentationRow
-                // }
+                this.coverRect = coverRect;
+            }
+            // if (dataStore.selectRowClass != '') {
+            //     this.selectRepresentationRow
+            // }
             //     selectAll('#tsr_1').attr('opacity', 0);
             //     let coverRect = [];
             //     for (let i in _this.heatRectData) {
