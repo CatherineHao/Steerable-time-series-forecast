@@ -226,7 +226,8 @@ export default {
             dtSelect: 'sunspots',
             selectRowClass: '',
             localRowClass: '',
-            legendTag: 0
+            legendTag: 0,
+            select_all_id: {}
         }
     },
     methods: {
@@ -417,6 +418,7 @@ export default {
                         let dot_p = [_this.dot_data[i].x, _this.dot_data[i].y];
                         if (polygonContains(polygon, dot_p)) {
                             select_dot[_this.dot_data[i].uid] = 1;
+                            _this.select_all_id[_this.dot_data[i].uid] = 1;
                             select_info.push(1);
                             // console.log('#tsr' + i)
                             // select('#tsr' + i).attr("opacity", d => {
@@ -441,19 +443,19 @@ export default {
                     // selectAll('.rst').attr('fill', '#bbb').attr('fill-opacity', 0.5)
                     selectAll('.representationSkipRect').attr('opacity', 0.15)
 
-                    for (let i in select_dot) {
+                    for (let i in _this.select_all_id) {
                         // console.log(i);
                         select("#representation_" + i).attr('opacity', 1);
                     }
 
-                    _this.tableData = _this.calcTableData(_this.dataSet, select_dot);
+                    _this.tableData = _this.calcTableData(_this.dataSet, _this.select_all_id);
                     // _this.tableData = []
                     // console.log(_this.tableData);
                     selectAll('.corr_cir').attr('opacity', (d, i) => {
-                        if (select_dot[d.uid] == 1) return 1;
+                        if (_this.select_all_id[d.uid] == 1) return 1;
                         else return d.isShow == 0 ? 0 : 0.5;
                     }).attr('fill', (d, i) => {
-                        if (select_dot[d.uid] == 1) return d.fill;
+                        if (_this.select_all_id[d.uid] == 1) return d.fill;
                         else return '#d9d9d9';
                     })
                 } else {
