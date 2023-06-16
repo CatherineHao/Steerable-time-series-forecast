@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-06-16 13:03:37
+ * @LastEditTime: 2023-06-16 17:14:17
 -->
 <template>
     <div class="frameworkTitle">
@@ -24,9 +24,14 @@
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
                                                     DataSet:
                                                 </span>
-                <span style="width: calc(55% - 3px); float: right;" class="dataSetClass">
-                                                    <el-select v-model="fileValue" class="m-2" placeholder="Select" size="large" style="font-weight: 600;">
-                                                        <el-option v-for="item in fileOptions" :key="item.value" :label="item.label" :value="item.value" />
+                <span style="width: calc(65% - 3px); float: right;" class="dataSetClass">
+                                                    <el-select v-model="fileValue" class="m-2" placeholder="Please select" size="large" style="font-weight: 600; text-align: center; width: 100%;">
+                                                        <el-option v-for="item in fileOptions" :key="item.value" :label="item.label" :value="item.value" style="text-align: center;">
+                                                        <span v-if="item.value == 'up'" style="padding-right: 10px;">
+                                                            <svg t="1686906698926" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4874" width="15" height="15"><path d="M670.293333 183.04l-128-128a42.666667 42.666667 0 0 0-14.08-8.96 42.666667 42.666667 0 0 0-32.426666 0 42.666667 42.666667 0 0 0-14.08 8.96l-128 128a42.666667 42.666667 0 0 0 60.586666 60.586667L469.333333 188.16V725.333333a42.666667 42.666667 0 0 0 85.333334 0V188.16l55.04 55.466667a42.666667 42.666667 0 0 0 60.586666 0 42.666667 42.666667 0 0 0 0-60.586667z" p-id="4875" fill="#515151"></path><path d="M896 981.333333H128a128 128 0 0 1-128-128v-256a42.666667 42.666667 0 0 1 85.333333 0v256a42.666667 42.666667 0 0 0 42.666667 42.666667h768a42.666667 42.666667 0 0 0 42.666667-42.666667v-256a42.666667 42.666667 0 0 1 85.333333 0v256a128 128 0 0 1-128 128z" p-id="4876" fill="#515151"></path></svg>
+                                                        </span>
+                                                            <span>{{ item.label }}</span>
+                                                        </el-option>
                                                     </el-select>
                                                 </span>
             </div>
@@ -101,37 +106,46 @@
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
                                                 Model:
                                             </span>
-                <span v-if="fileValue != ''" style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
-                                                <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
-                                                    <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
-                                                </el-select> -->
-                                                Long Short Term Memory
-                                            </span>
+                <span style="width: calc(65% - 3px); float: right;" class="dataSetClass">
+                                                    <el-select v-model="modelValue" class="m-2" placeholder="Please select" size="large" style="width: 100%;font-weight: 600; text-align: center;">
+                                                        <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" style="text-align: center;" />
+                                                    </el-select>
+                                                </span>
             </div>
-            <div style="height: calc(14.2% - 3px);">
+            <div style="height: calc(14.2% - 3px); margin-top: 3px;">
 
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
-                                                Skip:
+                                                Smooth:
                                                 
                                             </span>
-                <span style="width: calc(55% - 3px); float: right;" class="dataSetClass">
-                                                <el-select v-model="fileValue" class="m-2" placeholder="Select" size="large" style="font-weight: 600;">
+                <span style="width: calc(65% - 3px); float: right;" class="dataSetClass">
+                                                <!-- <el-select v-model="fileValue" class="m-2" placeholder="Select" size="large" style="font-weight: 600;">
                                                     <el-option v-for="item in fileOptions" :key="item.value" :label="item.label" :value="item.value" />
+                                                </el-select> -->
+                                                <el-select v-model="smoothValue" class="m-2" placeholder="Please select" size="large" style="font-weight: 600; width: 100%" multiple collapse-tags collapse-tags-tooltip :max-collapse-tags="2">
+                                                    
+                                                    <el-option-group v-for="group in smoothOptions" :key="group.label" :label="group.label">
+                                                    <el-option style="text-align: center;"
+                                                        v-for="item in group.options"
+                                                        :key="item.value"
+                                                        :label="item.label"
+                                                        :value="item.value"
+                                                    />
+                                                    </el-option-group>
                                                 </el-select>
                                             </span>
             </div>
             <div style="height: calc(14.2% - 3px); margin-top: 5px;">
 
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
-                                                Smooth:
+                                                Skip:
                                                 
                                             </span>
-                <span style="width: calc(55% - 3px); float: right;" class="dataSetClass">
-                                                <!-- <el-select v-model="fileValue" class="m-2" placeholder="Select" size="large" style="font-weight: 600;">
-                                                    <el-option v-for="item in fileOptions" :key="item.value" :label="item.label" :value="item.value" />
-                                                </el-select> -->
-                                                <el-select-v2 v-model="smoothValue" :options="smoothOptions" placeholder="Please select" style="width: 100%" multiple collapse-tags collapse-tags-tooltip :max-collapse-tags="4"
-    />
+                <span style="width: calc(65% - 3px); float: right;" class="dataSetClass">
+                                                <el-select v-model="skipValue" class="m-2" placeholder="Please select" size="large" style="font-weight: 600; width: 100%" multiple collapse-tags collapse-tags-tooltip :max-collapse-tags="3">
+                                                    <el-option v-for="item in skipOptions" :key="item.value" :label="item.label" :value="item.value" style="text-align: center;" />
+                                                </el-select>
+                                                <!-- <el-select-v2 v-model="skipValue" :options="skipOptions" placeholder="Please select" style="width: 100%" multiple collapse-tags collapse-tags-tooltip :max-collapse-tags="0"/> -->
                                             </span>
             </div>
         </div>
@@ -186,6 +200,23 @@ export default {
             elHeight: 0,
             elWidth: 0,
             smoothValue: [],
+            skipValue: [],
+            skipOptions: [{
+                value: 1,
+                label: 1
+            }, {
+                value: 3,
+                label: 3
+            }, {
+                value: 6,
+                label: 6
+            }, {
+                value: 9,
+                label: 9
+            }, {
+                value: 13,
+                label: 13
+            }],
             smoothOptions: [{
                 value: 'RAM',
                 label: 'RAM',
@@ -231,12 +262,16 @@ export default {
                 {
                     value: 'pm',
                     label: 'PM 2.5',
+                },
+                {
+                    value: 'up',
+                    label: 'Upload a new File',
                 }
             ],
             modelValue: null,
             modelOptions: [{
-                value: 'LSTM',
-                label: 'LSTM',
+                value: 'Long Short Term Memory',
+                label: 'Long Short Term Memory',
             }],
             periodicity_sel: {
                 sunspots: '1, 3, 6, 13',
@@ -517,6 +552,7 @@ export default {
 
 .dataSetClass .el-input__inner {
     font-weight: 600;
+    text-align: center;
 }
 
 .el-button {
