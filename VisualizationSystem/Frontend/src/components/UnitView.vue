@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-03-30 19:08:38
+ * @LastEditTime: 2023-06-16 13:20:14
 -->
 <template>
     <div class="frameworkTitle">
@@ -100,7 +100,7 @@ import { scaleLinear, scaleOrdinal } from "d3-scale";
 import { select, selectAll } from "d3-selection";
 import { line } from "d3-shape";
 import uni_data from "../assets/allData/univariate_data/all_smooth_value.csv";
-import multi_data from "../assets/used_multi.csv";
+import multi_data from "../assets/allData/multivariate_data/used_multi.csv";
 import { interpolateYlGnBu } from "d3-scale-chromatic";
 import { useDataStore } from "../stores/counter";
 export default {

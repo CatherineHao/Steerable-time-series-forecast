@@ -1,6 +1,6 @@
 <!--
  * @Author: Qing Shi
- * @LastEditTime: 2023-03-30 18:42:35
+ * @LastEditTime: 2023-06-16 13:21:44
 -->
 <!--
  * @Description: 
@@ -82,14 +82,14 @@
 </template>
 
 <script>
-import res_data from '../assets/model_skip_results.json';
+// import res_data from '../assets/model_skip_results.json';
 
 import { arc, curveBumpY, line } from 'd3-shape';
 import { scaleUtc, scaleLinear, scaleOrdinal } from 'd3-scale';
 import { axisLeft, axisBottom } from 'd3-axis';
 import { interpolateRdBu, interpolateYlOrRd, schemeYlOrRd } from 'd3-scale-chromatic';
 import { useDataStore } from "../stores/counter";
-import SN_raw_data from "../assets/SN_m_tot_V2.0.csv";
+// import SN_raw_data from "../assets/SN_m_tot_V2.0.csv";
 import { select, selectAll } from 'd3-selection';
 import { extent, max, min, sum } from 'd3-array';
 import { brushX } from 'd3-brush';
@@ -510,7 +510,7 @@ export default {
             }
 
             function brushEnd({ selection }) {
-                _this.calcSparkBox(SN_raw_data, _this.tlHeight, _this.tlWidth);
+                // _this.calcSparkBox(SN_raw_data, _this.tlHeight, _this.tlWidth);
                 let timeStep = [parseInt(_this.rxScale(selection[0])), parseInt(_this.rxScale(selection[1]))];
                 // let maxY = max(data, (d, i) => {
                 //     if (i >= timeStep[0] && i <= timeStep[1]) {

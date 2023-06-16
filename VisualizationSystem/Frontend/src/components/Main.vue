@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2022-11-20 23:25:35
- * @LastEditTime: 2023-03-16 10:12:44
+ * @LastEditTime: 2023-06-16 13:23:24
 -->
 <template>
     <div id="navBar">
@@ -36,7 +36,7 @@
 </template>
 <script>
 import { dataService } from '@/service'
-import CorrelationView from './CorrelationView.vue';
+// import CorrelationView from './CorrelationView.vue';
 import ModelExplainer from './ModelExplainer.vue';
 import DataTransformation from './DataTransformation.vue';
 import ControlPanel from './ControlPanel.vue';
@@ -56,7 +56,7 @@ export default {
     },
     mounted() {
     },
-    components: { CorrelationView, ModelExplainer, DataTransformation, ControlPanel, UnitView, TransformationCompare }
+    components: { ModelExplainer, DataTransformation, ControlPanel, UnitView, TransformationCompare }
 }
 </script>
 <style>
