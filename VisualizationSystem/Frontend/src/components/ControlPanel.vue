@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-06-16 17:14:17
+ * @LastEditTime: 2023-06-17 10:59:51
 -->
 <template>
     <div class="frameworkTitle">
@@ -11,7 +11,7 @@
     
         <div style="float: right; margin-top: 3px; padding-right: 10px;">
     
-            <el-button style="height: 30px;" @click="refresh()">
+            <el-button style="height: 30px;" @click="run()">
     
                 <!-- <svg t="1680060651492" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2903" width="20" height="20"><path d="M810.666667 273.706667L750.293333 213.333333 512 451.626667 273.706667 213.333333 213.333333 273.706667 451.626667 512 213.333333 750.293333 273.706667 810.666667 512 572.373333 750.293333 810.666667 810.666667 750.293333 572.373333 512z" p-id="2904" fill="#606266"></path></svg> -->
                 <svg t="1686890641424" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1477" width="20" height="20"><path d="M264.3 141.6l275.4 179.3 284 184.8c1 0.6 3.6 2.4 3.6 6.7 0 4.3-2.6 6.1-3.6 6.7L539.8 704 264.3 883.3c-0.2-1-0.3-2.1-0.3-3.5V145.1c0-1.3 0.2-2.5 0.3-3.5M262 66.2c-36.5 0-70 32.9-70 78.9v734.6c0 46 33.5 78.9 70 78.9 11.6 0 23.6-3.3 34.8-10.7L579 764.2l284-184.8c48.5-31.6 48.5-102.5 0-134.1L579 260.5 296.9 76.9c-11.3-7.3-23.2-10.7-34.9-10.7z" fill="#606266" p-id="1478"></path></svg>
@@ -285,6 +285,19 @@ export default {
         // sortACF(a, b) {
         //     return 
         // },
+        run() {
+
+            const dataStore = useDataStore();
+            dataStore.dataSelect = this.fileValue;
+            console.log(dataStore.dataSelect);
+            // dataStore.changeTag = 'DataSet';
+            console.log(this.smoothValue, this.skipValue);
+            if (this.fileValue == 'sunspots') {
+                this.tableData = this.calcTable(uni_res_data);
+            } else if (this.fileValue == 'pm') {
+                this.tableData = this.calcTable(multi_res_data);
+            }
+        },  
         cellClassName({ row, column, rowIndex, columnIndex }) {
             // console.log(columnIndex);
             if (columnIndex == 0) {
@@ -505,16 +518,16 @@ export default {
     },
     watch: {
         fileValue() {
-            // this.tableData = this.basicData[this.fileValue]['slice'];
-            const dataStore = useDataStore();
-            dataStore.dataSelect = this.fileValue;
-            console.log(dataStore.dataSelect);
-            // dataStore.changeTag = 'DataSet';
-            if (this.fileValue == 'sunspots') {
-                this.tableData = this.calcTable(uni_res_data);
-            } else if (this.fileValue == 'pm') {
-                this.tableData = this.calcTable(multi_res_data);
-            }
+            // // this.tableData = this.basicData[this.fileValue]['slice'];
+            // const dataStore = useDataStore();
+            // dataStore.dataSelect = this.fileValue;
+            // console.log(dataStore.dataSelect);
+            // // dataStore.changeTag = 'DataSet';
+            // if (this.fileValue == 'sunspots') {
+            //     this.tableData = this.calcTable(uni_res_data);
+            // } else if (this.fileValue == 'pm') {
+            //     this.tableData = this.calcTable(multi_res_data);
+            // }
         },
         modelValue() {
             const dataStore = useDataStore();
