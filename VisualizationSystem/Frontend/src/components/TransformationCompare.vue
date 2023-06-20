@@ -1,4 +1,30 @@
 <!--
+ *                        _oo0oo_
+ *                       o8888888o
+ *                       88" . "88
+ *                       (| -_- |)
+ *                       0\  =  /0
+ *                     ___/`---'\___
+ *                   .' \\|     |// '.
+ *                  / \\|||  :  |||// \
+ *                 / _||||| -:- |||||- \
+ *                |   | \\\  - /// |   |
+ *                | \_|  ''\---/''  |_/ |
+ *                \  .-\__  '-'  ___/-. /
+ *              ___'. .'  /--.--\  `. .'___
+ *           ."" '<  `.___\_<|>_/___.' >' "".
+ *          | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+ *          \  \ `_.   \_ __\ /__ _/   .-` /  /
+ *      =====`-.____`.___ \_____/___.-`___.-'=====
+ *                        `=---='
+ * 
+ * 
+ *      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * 
+ *            佛祖保佑     永不宕机     永无BUG
+ -->
+
+<!--
  * @Author: Qing Shi
  * @LastEditTime: 2023-06-16 13:21:44
 -->
@@ -34,8 +60,8 @@
         </div>
     </div>
     <div class="frameworkBody">
-        <div ref="DataTransformation" style="height: calc(97%); width: 100%; margin-top: 0px;">
-            <svg height="100%" width="100%" transform="translate(0, 0)">
+        <div ref="DataTransformation" style="height: calc(97%); width: 100%; margin-top: 0px; overflow-y: auto; overflow-x: hidden;">
+            <svg :height="(stripNum * (elHeight - 5) / 28 - 5)" width="100%" transform="translate(0, 0)">
                                                     <g v-for="(item, i) in heatRectData" cursor="pointer" :key="'heat_g' + i" :transform="translateF(0, item.h * i)" :class="'heat_g' + item.class_name">
                 
                                                         <!-- @mouseenter="selectFile(item.class_name)" @mouseout="cancelFile(item.class_name)" @click="clickFile(i, item.class_name)" -->
@@ -95,44 +121,6 @@ import { extent, max, min, sum } from 'd3-array';
 import { brushX } from 'd3-brush';
 import * as vsup from 'vsup';
 
-
-// univariate
-// import d0 from '../assets/allData/univariate_data/result_data/rawdata_skip13_0.8.csv';
-// import d1 from '../assets/allData/univariate_data/result_data/rawdata_skip6_0.8.csv';
-// import d2 from '../assets/allData/univariate_data/result_data/rawdata_skip3_0.8.csv';
-// import d3 from '../assets/allData/univariate_data/result_data/rawdata_skip1_0.8.csv';
-// import d4 from '../assets/allData/univariate_data/result_data/rolling3_skip13_0.8.csv';
-// import d5 from '../assets/allData/univariate_data/result_data/rolling3_skip6_0.8.csv';
-// import d6 from '../assets/allData/univariate_data/result_data/rolling3_skip3_0.8.csv';
-// import d7 from '../assets/allData/univariate_data/result_data/rolling3_skip1_0.8.csv';
-// import d8 from '../assets/allData/univariate_data/result_data/weighted3_skip13_0.8.csv';
-// import d9 from '../assets/allData/univariate_data/result_data/weighted3_skip6_0.8.csv';
-// import d10 from '../assets/allData/univariate_data/result_data/weighted3_skip3_0.8.csv';
-// import d11 from '../assets/allData/univariate_data/result_data/weighted3_skip1_0.8.csv';
-// import d12 from '../assets/allData/univariate_data/result_data/rolling6_skip13_0.8.csv';
-// import d13 from '../assets/allData/univariate_data/result_data/rolling6_skip6_0.8.csv';
-// import d14 from '../assets/allData/univariate_data/result_data/rolling6_skip3_0.8.csv';
-// import d15 from '../assets/allData/univariate_data/result_data/rolling6_skip1_0.8.csv';
-// import d16 from '../assets/allData/univariate_data/result_data/weighted6_skip13_0.8.csv';
-// import d17 from '../assets/allData/univariate_data/result_data/weighted6_skip6_0.8.csv';
-// import d18 from '../assets/allData/univariate_data/result_data/weighted6_skip3_0.8.csv';
-// import d19 from '../assets/allData/univariate_data/result_data/weighted6_skip1_0.8.csv';
-// import d20 from '../assets/allData/univariate_data/result_data/rolling9_skip13_0.8.csv';
-// import d21 from '../assets/allData/univariate_data/result_data/rolling9_skip6_0.8.csv';
-// import d22 from '../assets/allData/univariate_data/result_data/rolling9_skip3_0.8.csv';
-// import d23 from '../assets/allData/univariate_data/result_data/rolling9_skip1_0.8.csv';
-// import d24 from '../assets/allData/univariate_data/result_data/weighted9_skip13_0.8.csv';
-// import d25 from '../assets/allData/univariate_data/result_data/weighted9_skip6_0.8.csv';
-// import d26 from '../assets/allData/univariate_data/result_data/weighted9_skip3_0.8.csv';
-// import d27 from '../assets/allData/univariate_data/result_data/weighted9_skip1_0.8.csv';
-// import d28 from '../assets/allData/univariate_data/result_data/rolling13_skip13_0.8.csv';
-// import d29 from '../assets/allData/univariate_data/result_data/rolling13_skip6_0.8.csv';
-// import d30 from '../assets/allData/univariate_data/result_data/rolling13_skip3_0.8.csv';
-// import d31 from '../assets/allData/univariate_data/result_data/rolling13_skip1_0.8.csv';
-// import d32 from '../assets/allData/univariate_data/result_data/weighted13_skip13_0.8.csv';
-// import d33 from '../assets/allData/univariate_data/result_data/weighted13_skip6_0.8.csv';
-// import d34 from '../assets/allData/univariate_data/result_data/weighted13_skip3_0.8.csv';
-// import d35 from '../assets/allData/univariate_data/result_data/weighted13_skip1_0.8.csv';
 
 import d0 from '../assets/allData/univariate_data/single27/rawdata_skip1_0.8.csv';
 import d1 from '../assets/allData/univariate_data/single27/rawdata_skip3_0.8.csv';
@@ -218,6 +206,7 @@ export default {
             skiplength: [13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6],
             heat_set: [],
             columnData: ['Smooth', 'Skip', 'Train-Loss', 'Test-Loss', 'ACF', 'Window Performance'],
+            stripNum: 0,
             filename: {
                 'sunspots': [{ smooth: 'RAW', skip: '1' },
                     { smooth: 'RAW', skip: '3' },
@@ -856,6 +845,9 @@ export default {
         calcRMSEHeatMultiVariable(data, width, height) {
             let margin = ({ top: 20, right: 10, bottom: 30, left: 50 });
             // let sdata = [];
+            let line_height = height / 28;
+
+
             let allStrip = data.length;
             let maxRmse = -999999;
             let minRmse = 999999;
@@ -877,13 +869,6 @@ export default {
                 let startPos = 0;
                 let tp = [];
                 for (let j in data[i]) {
-                    // if (j > data[i].length / 2.3) break;
-                    // sdata.push({
-                    //     id: i,
-                    //     skip: this.skiplength[i],
-                    //     time: j * this.skiplength[i] + startPos,
-                    //     rmse: parseFloat(data[i][j]['rmse'])
-                    // });
                     tp.push({
                         id: i,
                         skip: parseInt(data[i][j]['skip']),
@@ -940,10 +925,10 @@ export default {
                     HeatSumData[i][j].w = timeScale(HeatSumData[i][j].skip) - timeScale(0);
                     HeatSumData[i][j].v = rmseScale(HeatSumData[i][j].rmse);
                     HeatSumData[i][j].id_cnt = HeatSumData[i][j].id_cnt;
-                    HeatSumData[i][j].h = height / allStrip - 3;
-                    HeatSumData[i][j].allH = height / allStrip;
-                    HeatSumData[i][j].realH = height / allStrip * i;
-                    HeatSumData[i][j].y = parseInt(HeatSumData[i][j].id) * height / allStrip;
+                    HeatSumData[i][j].h = line_height - 3;
+                    HeatSumData[i][j].allH = line_height;
+                    HeatSumData[i][j].realH = line_height * i;
+                    HeatSumData[i][j].y = parseInt(HeatSumData[i][j].id) * line_height;
                     HeatSumData[i][j].rmseColor = heatColor(HeatSumData[i][j].v);
                     HeatSumData[i][j].corrColor = heatColor(corrScale(HeatSumData[i][j].corr));
                     HeatSumData[i][j].vsupColor2 = heatScale2((HeatSumData[i][j].rmse), HeatSumData[i][j].corr);
@@ -952,12 +937,12 @@ export default {
                 // HeatSumData[i].sort((a, b) => a.v - b.v)
                 res_data.push({
                     class_name: HeatSumData[i][0].cid,
-                    h: height / allStrip,
+                    h: line_height,
                     heat: HeatSumData[i]
                 })
                 this.cid_index[HeatSumData[i][0].cid] = {
                     cnt: res_data.length - 1,
-                    h: height / allStrip
+                    h: line_height
                 };
             }
             // console.log(res_data);
@@ -968,6 +953,7 @@ export default {
             let margin = ({ top: 20, right: 20, bottom: 30, left: 50 });
             // let sdata = [];
             let allStrip = data.length;
+            let line_height = height / 10;
             let maxRmse = -999999;
             let minRmse = 999999;
             let maxTime = -999999;
@@ -1051,8 +1037,8 @@ export default {
                     HeatSumData[i][j].w = timeScale(HeatSumData[i][j].skip) - timeScale(0);
                     HeatSumData[i][j].v = rmseScale(HeatSumData[i][j].rmse);
                     HeatSumData[i][j].id_cnt = HeatSumData[i][j].id_cnt;
-                    HeatSumData[i][j].h = height / allStrip - 3
-                    HeatSumData[i][j].y = parseInt(HeatSumData[i][j].id) * height / allStrip;
+                    HeatSumData[i][j].h = height / 28 - 3
+                    HeatSumData[i][j].y = parseInt(HeatSumData[i][j].id) * line_height;
                     HeatSumData[i][j].rmseColor = heatColor(HeatSumData[i][j].v);
                     // HeatSumData[i][j].errorColor = heatColor(errorScale(HeatSumData[i][j].errorData));
                     // HeatSumData[i][j].rawColor = heatColor(rawScale(HeatSumData[i][j].rawData));
@@ -1065,7 +1051,7 @@ export default {
                     // break
                 }
                 res_data.push({
-                    h: height / allStrip,
+                    h: line_height,
                     heat: HeatSumData[i]
                 })
                 // break
@@ -1098,6 +1084,7 @@ export default {
         let _this = this;
         // let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35];
         let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27];
+        this.stripNum = dataSet.length;
         // // console.log(dataSet);
         // this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight);
         // let dataSet = [m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27, m28];
@@ -1116,6 +1103,14 @@ export default {
         // console.log(this.heatRectData);
 
         // this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight);
+
+
+                    this.dataSelect = 'sunspots'
+
+                    this.paintTimeScale(this.allTimeScale[this.dataSelect])
+
+                    this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight - 5);
+
 
         dataStore.$subscribe((mutations, state) => {
             if (mutations.events.key == 'dataSelect') {

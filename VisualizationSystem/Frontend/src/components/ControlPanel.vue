@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-06-17 10:59:51
+ * @LastEditTime: 2023-06-19 11:40:32
 -->
 <template>
     <div class="frameworkTitle">
@@ -19,8 +19,8 @@
         </div>
     </div>
     <div class="frameworkBody">
-        <div ref="ControlPanel" style="height: calc(40% - 10px); width: calc(100%); float: left; border: 0px solid blue; font-size: 16px; font-weight: 600; z-index: 5;">
-            <div style="height: calc(14.2% - 3px);">
+        <div ref="ControlPanel" style="height: calc(50% - 10px); width: calc(100%); float: left; border: 0px solid blue; font-size: 16px; font-weight: 600; z-index: 5;">
+            <div style="height: calc(11% -  3px);">
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
                                                     DataSet:
                                                 </span>
@@ -35,7 +35,7 @@
                                                     </el-select>
                                                 </span>
             </div>
-            <div style="height: calc(14.2% - 3px); margin-top: 0px;">
+            <div style="height: calc(11% -  3px); margin-top: 0px;">
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
                                                     Variable Num:
                                                 </span>
@@ -46,7 +46,7 @@
                                                     1
                                                 </span>
             </div>
-            <div style="height: calc(14.2% - 3px); margin-top: 0px;">
+            <div style="height: calc(11% -  3px); margin-top: 0px;">
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
                                                     Stationary:
                                                 </span>
@@ -62,7 +62,7 @@
                                                     Yes (p-value &lt;&lt; 0.01)
                                                 </span>
             </div>
-            <div style="height: calc(14.2% - 3px); margin-top: 0px;">
+            <div style="height: calc(11% -  3px); margin-top: 0px;">
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
                                                     Periodicity:
                                                     
@@ -102,7 +102,7 @@
                                 </span>-->
             </div>
             <hr>
-            <div style="height: calc(14.2% - 3px); margin-top: 5px;">
+            <div style="height: calc(11% -  3px); margin-top: 5px;">
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
                                                 Model:
                                             </span>
@@ -112,10 +112,10 @@
                                                     </el-select>
                                                 </span>
             </div>
-            <div style="height: calc(14.2% - 3px); margin-top: 3px;">
+            <div style="height: calc(11% -  3px); margin-top: 3px;">
 
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
-                                                Smooth:
+                                                Smoothing:
                                                 
                                             </span>
                 <span style="width: calc(65% - 3px); float: right;" class="dataSetClass">
@@ -135,10 +135,10 @@
                                                 </el-select>
                                             </span>
             </div>
-            <div style="height: calc(14.2% - 3px); margin-top: 5px;">
+            <div style="height: calc(11% -  3px); margin-top: 5px;">
 
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
-                                                Skip:
+                                                Skipping:
                                                 
                                             </span>
                 <span style="width: calc(65% - 3px); float: right;" class="dataSetClass">
@@ -148,8 +148,34 @@
                                                 <!-- <el-select-v2 v-model="skipValue" :options="skipOptions" placeholder="Please select" style="width: 100%" multiple collapse-tags collapse-tags-tooltip :max-collapse-tags="0"/> -->
                                             </span>
             </div>
+                <div style="height: calc(11% -  3px); margin-top: 5px;">
+
+                    <span style="float: left; font-weight: 600; margin-top: 0px;">
+                                                    Padding:
+                                                
+                                                </span>
+                    <span style="width: calc(65% - 3px); float: right;" class="dataSetClass">
+                                                    <el-select v-model="padValue" class="m-2" placeholder="Please select" size="large" style="font-weight: 600; width: 100%"     collapse-tags collapse-tags-tooltip :max-collapse-tags="3">
+                                                        <el-option v-for="item in padOptions" :key="item.value" :label="item.label" :value="item.value" style="text-align: center;" :disabled="item.dis" />
+                                                    </el-select>
+                                                    <!-- <el-select-v2 v-model="skipValue" :options="skipOptions" placeholder="Please select" style="width: 100%" multiple collapse-tags collapse-tags-tooltip :max-collapse-tags="0"/> -->
+                                                </span>
+                </div>
+                <div style="height: calc(11% -  3px); margin-top: 5px;">
+
+                    <span style="float: left; font-weight: 600; margin-top: 0px;">
+                                                    Reshaping:
+                                                
+                                                </span>
+                    <span style="width: calc(65% - 3px); float: right;" class="dataSetClass">
+                                                    <el-select v-model="reshapeValue" class="m-2" placeholder="Please select" size="large" style="font-weight: 600; width: 100%"  collapse-tags collapse-tags-tooltip :max-collapse-tags="3">
+                                                        <el-option v-for="item in reshapeOptions" :key="item.value" :label="item.label" :value="item.value" style="text-align: center;" />
+                                                    </el-select>
+                                                    <!-- <el-select-v2 v-model="skipValue" :options="skipOptions" placeholder="Please select" style="width: 100%" multiple collapse-tags collapse-tags-tooltip :max-collapse-tags="0"/> -->
+                                                </span>
+                </div>
         </div>
-        <div ref="resTable" style="height: calc(60% + 15px); width: calc(100%); float: right; overflow:auto; font-size: 18px; margin-top: -5px;">
+        <div ref="resTable" style="height: calc(50% + 10px); width: calc(100%); float: right; overflow:auto; font-size: 18px; margin-top: 5px;">
             <el-table :data="tableData" style="width: calc(100% - 0px)" height="100%" :header-cell-style="{ 'font-size': '16px', 'background-color': 'rgb(235, 235, 235)', 'height': '40px', 'text-algin': 'left',  'font-weight': '600'}" :cell-style="{ 'font-size': '14px', 'height': '15px' }"
                 :row-class-name="selectRowStyle" border @row-click="rowClick">
                 <el-table-column prop="smooth" label="Smooth" width="82" />
@@ -201,6 +227,43 @@ export default {
             elWidth: 0,
             smoothValue: [],
             skipValue: [],
+            padValue: '',
+            reshapeValue: '',
+            normalizeValue: '',
+            padOptions: [{
+                value: 0,
+                label: '0',
+                dis: true
+            }, {
+                value: 1,
+                label: 'mean',
+                dis: true
+            }, {
+                value: 2,
+                label: 'middle',
+                dis: true
+            }, {
+                value: 3,
+                label: 'minimum',
+                dis: true
+            }, {
+                value: 4,
+                label: 'none',
+                dis: false
+            }],
+            reshapeOptions: [{
+                value: 0,
+                label: '[min, max]',
+            }, {
+                value: 1,
+                label: '[-1, 1]'
+                }, {
+                value: 2,
+                label: '[0, 1]'
+            }, {
+                value: 3,
+                label: '[0, max]'
+            }],
             skipOptions: [{
                 value: 1,
                 label: 1
@@ -216,6 +279,10 @@ export default {
             }, {
                 value: 13,
                 label: 13
+            }],
+            normalizeOptions: [{
+                value: 0,
+                label: '[0, 1]'
             }],
             smoothOptions: [{
                 value: 'RAM',
@@ -566,6 +633,7 @@ export default {
 .dataSetClass .el-input__inner {
     font-weight: 600;
     text-align: center;
+    border: 0px;
 }
 
 .el-button {
