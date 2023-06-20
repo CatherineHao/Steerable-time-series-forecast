@@ -163,28 +163,28 @@
         for (let i in data) {
             drawLine(data[i], 'rmse', 'alter_1', (elHeight - 10) / 8 - 10, elWidth * 0.6, { x: elWidth * 0.1, y: i * ((elHeight - 10) / 8 - 4) + 5}, 'red');
             drawLine(data[i], 'result_corr', 'alter_1', (elHeight - 10) / 8 - 10, elWidth * 0.6, { x: elWidth * 0.1, y: i * ((elHeight - 10) / 8 - 4) + 5}, 'blue');
-            drawBorder('alter_1', (elHeight - 10) / 8 - 10, elWidth * 0.6, { x: elWidth * 0.1, y: i * (elHeight - 10) / 8 + 5})
+            drawBorder('alter_1', (elHeight - 10) / 8 - 10, elWidth * 0.6, { x: elWidth * 0.1, y: i * ((elHeight - 10) / 8 - 4) + 5})
         }
 
         // alternative design 3
         for (let i in data) {
             drawLine(data[i], 'rmse', 'alter_2', ((elHeight - 10) / 8 - 10) / 2, elWidth * 0.6, { x: elWidth * 0.1, y: i * ((elHeight - 10) / 8 - 4) + 5}, 'red');
             drawLine(data[i], 'result_corr', 'alter_2', ((elHeight - 10) / 8 - 10) / 2, elWidth * 0.6, { x: elWidth * 0.1, y: i * ((elHeight - 10) / 8 - 4) + (elHeight - 10) / 16 + 0}, 'blue');
-            drawBorder('alter_2', (elHeight - 10) / 8 - 10, elWidth * 0.6, { x: elWidth * 0.1, y: i * (elHeight - 10) / 8 + 5})
+            drawBorder('alter_2', (elHeight - 10) / 8 - 10, elWidth * 0.6, { x: elWidth * 0.1, y: i * ((elHeight - 10) / 8 - 4) + 5})
         }
 
         // alternative design 4
         for (let i in data) {
             drawHeat(data[i], 'rmse', 'alter_3', ((elHeight - 10) / 8 - 10) / 2, elWidth * 0.6, { x: elWidth * 0.1, y: i * ((elHeight - 10) / 8 - 4) + 5}, 'red');
             drawHeat(data[i], 'result_corr', 'alter_3', ((elHeight - 10) / 8 - 10) / 2, elWidth * 0.6, { x: elWidth * 0.1, y: i * ((elHeight - 10) / 8 - 4) + (elHeight - 10) / 16 + 0}, 'blue');
-            drawBorder('alter_3', (elHeight - 10) / 8 - 10, elWidth * 0.6, { x: elWidth * 0.1, y: i * (elHeight - 10) / 8 + 5})
+            drawBorder('alter_3', (elHeight - 10) / 8 - 10, elWidth * 0.6, { x: elWidth * 0.1, y: i * ((elHeight - 10) / 8 - 4) + 5})
         }
 
         // alternative design 5
         for (let i in data) {
             drawHeat(data[i], 'rmse', 'alter_4', ((elHeight - 10) / 8 - 10) / 2, elWidth * 0.6, { x: elWidth * 0.1, y: i * ((elHeight - 10) / 8 - 4) + 5}, 'red');
-            drawHeat(data[i], 'result_corr', 'alter_4', ((elHeight - 10) / 8 - 10) / 2, elWidth * 0.6, { x: elWidth * 0.1, y: i * ((elHeight - 10) / 8 - 4) + (elHeight - 10) / 16 + 3}, 1);
-            drawBorder('alter_4', (elHeight - 10) / 8 - 10, elWidth * 0.6, { x: elWidth * 0.1, y: i * (elHeight - 10) / 8 + 5})
+            drawHeat(data[i], 'result_corr', 'alter_4', ((elHeight - 10) / 8 - 10) / 2, elWidth * 0.6, { x: elWidth * 0.1, y: i * ((elHeight - 10) / 8 - 4) + (elHeight - 10) / 16 + 0}, 1);
+            drawBorder('alter_4', (elHeight - 10) / 8 - 10, elWidth * 0.6, { x: elWidth * 0.1, y: i * ((elHeight - 10) / 8 - 4) + 5})
         }
 
     </script>
