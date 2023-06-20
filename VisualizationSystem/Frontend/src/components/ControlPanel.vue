@@ -199,12 +199,12 @@
                 </el-table-column>
 
                 <el-table-column label="ACF" :width="(elWidth - 142) / 3" sortable :sort-by="'acf'">
-<template #default="scope">
-    <svg width="100%" height="18">
-                                                <rect :x="0" :y="3" :width="scope.row.acf_bar.w" :height="15" :fill="'orange'"  :stroke="'rgba(200, 200, 200, 0)'" :fill-opacity="1"></rect>
-                                                <text x="2" y="15" font-size="12">{{ scope.row.acf_bar.v }}</text>
-                                            </svg>
-</template>
+                    <template #default="scope">
+                        <svg width="100%" height="18">
+                            <rect :x="0" :y="3" :width="scope.row.acf_bar.w" :height="15" :fill="'orange'"  :stroke="'rgba(200, 200, 200, 0)'" :fill-opacity="1"></rect>
+                            <text x="2" y="15" font-size="12">{{ scope.row.acf_bar.v }}</text>
+                        </svg>
+                    </template>
                 </el-table-column>
                 <!-- <el-table-column prop="address" label="Address" :formatter="formatter" /> -->
             </el-table>
@@ -225,6 +225,8 @@ export default {
         return {
             elHeight: 0,
             elWidth: 0,
+            smoothSelect: {},
+            skipSelect: {},
             smoothValue: [],
             skipValue: [],
             padValue: '',
@@ -285,11 +287,11 @@ export default {
                 label: '[0, 1]'
             }],
             smoothOptions: [{
-                value: 'RAM',
-                label: 'RAM',
+                value: 'RAW',
+                label: 'RAW',
                 options: [{
-                    value: 'RAM',
-                    label: 'RAM'
+                    value: 'RAW',
+                    label: 'RAW'
                 }]
             }, {
                 value: 'MA',
@@ -353,12 +355,25 @@ export default {
         //     return 
         // },
         run() {
+            let skip = {};
+            let smooth = {};
+            for (let i in this.smoothValue) {
+                smooth[this.smoothValue[i]] = 1;
+            }
+            for (let i in this.skipValue) {
+                skip[this.skipValue[i]] = 1;
+            }
+            // console.log(skip, smooth);
 
             const dataStore = useDataStore();
+            dataStore.smooth = smooth;
+            dataStore.skip = skip;
             dataStore.dataSelect = this.fileValue;
-            console.log(dataStore.dataSelect);
+            this.smoothSelect = smooth;
+            this.skipSelect = skip;
+            console.log(dataStore);
             // dataStore.changeTag = 'DataSet';
-            console.log(this.smoothValue, this.skipValue);
+            // console.log(this.smoothValue, this.skipValue);
             if (this.fileValue == 'sunspots') {
                 this.tableData = this.calcTable(uni_res_data);
             } else if (this.fileValue == 'pm') {
@@ -542,6 +557,11 @@ export default {
                         }
                     }
                     // console.log(`{smooth: '${smooth_name}', skip: '${d.skip}'}`);
+                    // console.log(this.smoothSelect[smooth_name], this.skipSelect[d.skip]);
+                    // console.log(smooth_name, d.skip);
+                    if (this.smoothSelect[smooth_name] != 1 || this.skipSelect[parseInt(d.skip)] != 1){
+                        
+                        continue; }
                     tmp['smooth'] = smooth_name;
                     tmp['skip'] = d.skip;
                     // console.log(d.skip);
@@ -595,6 +615,7 @@ export default {
             // } else if (this.fileValue == 'pm') {
             //     this.tableData = this.calcTable(multi_res_data);
             // }
+            this.padValue = 4;
         },
         modelValue() {
             const dataStore = useDataStore();

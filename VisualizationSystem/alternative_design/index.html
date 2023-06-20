@@ -140,13 +140,7 @@
             let yRange = d3.extent(data, d => parseFloat(d[col_name]));
             let xScale = d3.scaleLinear(xRange, [0, width]);
             let yScale = d3.scaleLinear(yRange, [0, height]);
-            // console.log(yRange, xRange, width, height)
             let lineGenerator = d3.line().x((d, i) => xScale(i)).y(d => yScale(parseFloat(d[col_name])));
-            // console.log(id);
-            // console.log(data);
-            for (let i in data) {
-                // console.log(data[i], i, data[i][col_name], xScale(parseInt(i)), yScale(parseFloat(data[i][col_name])));
-            }
             d3.select('#' + id)
             .append('g')
             .attr('transform', `translate(${pos.x}, ${pos.y})`)
@@ -155,6 +149,8 @@
             .attr('stroke', color)
             .attr('fill', 'none');
         }
+
+        
         // alternative design 1
         for (let i in data) {
             drawHeat(data[i], 'rmse', 'alter_0', (elHeight - 10) / 8 - 3, elWidth * 0.6, { x: elWidth * 0.1, y: i * (elHeight - 10) / 8 + 5}, 'black');
@@ -190,17 +186,6 @@
             drawBorder('alter_4', (elHeight - 10) / 8 - 3, elWidth * 0.6, { x: elWidth * 0.1, y: i * (elHeight - 10) / 8 + 5})
         }
 
-        // console.log(dd0, dd1, dd3);
-        // .defer(d3.csv, 'data/rawdata_skip3_0.8.csv')
-        // .defer(d3.csv, 'data/rawdata_skip6_0.8.csv')
-        // .defer(d3.csv, 'data/rawdata_skip13_0.8.csv')
-        // .defer(d3.csv, 'data/rolling3_skip1_0.8.csv')
-        // .defer(d3.csv, 'data/rolling3_skip3_0.8.csv')
-        // .defer(d3.csv, 'data/rolling3_skip6_0.8.csv')
-        // .defer(d3.csv, 'data/rolling3_skip13_0.8.csv')
-        // .await((err, d0, d1, d2, d3, d4, d5, d6, d7) => {
-        //     console.log(d0);
-        // })
     </script>
 </body>
 

@@ -9,16 +9,18 @@
         <div class="title">Variable Inspector View</div>
         <p class="titleTriangle"></p>
         <span v-if="dataName != ''" style="position: absolute; top: 5px; right: 20px; font-size: 18px; font-size: 15px;">
-                            {{ dataName }} <span v-if="dataName == 'PM 2.5'">(mg/m<sup>3</sup>)</span> : &nbsp; <span style="position: absolute; top: 20px; left: 100px;">{{ valueRange[0] }}</span> <img src="../assets/img/blues2.png" alt="" width="150"
-            height="16"><span style="position: absolute; top: 20px; left: 245px;">{{ valueRange[1] }}</span>
+            {{ dataName }} <span v-if="dataName == 'PM 2.5'">(mg/m<sup>3</sup>)</span> : &nbsp; <span
+                style="position: absolute; top: 20px; left: 100px;">{{ valueRange[0] }}</span> <img
+                src="../assets/img/blues2.png" alt="" width="150" height="16"><span
+                style="position: absolute; top: 20px; left: 245px;">{{ valueRange[1] }}</span>
         </span>
     </div>
     <div class="frameworkBody">
         <div ref="DistributionView" style="height: 100%; width: 100%;">
             <!-- <img src="../assets/img/a.png" alt="" style="height: 100%;"> -->
-    
+
             <svg id="distributionSVG" height="100%" width="100%">
-                                <!-- <g>
+                <!-- <g>
                                     <g v-for="(item, i) in sparkBoxData" :key="'box' + i">
                                         <rect x="10" y="10" fill="red"></rect>
                                         <rect :x="item.rect1.x" :y="item.rect1.y" :width="item.rect1.w" :height="item.rect1.h"
@@ -34,8 +36,8 @@
                                     <path :d="linePath" stroke="steelblue" fill="none"></path>
                                 </g>
                             </g> -->
-                
-                            <!-- <g>
+
+                <!-- <g>
                                 <g>
                                         <text v-for="(o, i) in SS_name" :key="'F_leg' + i" :x="0" :y="0" text-anchor="end"
                                             :transform="translate(40, 50 + i * (elHeight - 30) / S_name.length, -65)">{{
@@ -54,41 +56,47 @@
                                         <rect :x="o.rx" :y="o.ry" :width="o.w" :height="o.h" fill="none" stroke="black"></rect>
                                     </g>
                                     </g> -->
-                                <g>
-                                    <g>
-                                        <text v-for="(o, i) in show_name" :key="'F_leg' + i" :x="0" :y="0" text-anchor="end" :font-size="14"
-                                            :transform="translate(37, 35 + i * (elHeight - 30) / show_name.length, -60)">{{
-                                                nameMap[dataSelect][o] }}</text>
-                                    </g>
-                                    <g>
-                                        <text v-for="(o, i) in show_name" :key="'F_leg' + i" :x="0" :y="0" :font-size="14"
-                                            :transform="translate(40 + (elWidth - 40) / show_name.length / 2 + (elWidth - 40) / show_name.length * i, (elHeight - 30) + 25, 0)"
-                                            font-weight="100" text-anchor="middle">{{ 
-                                            nameMap[dataSelect][o] }}</text>
-                                    </g>
-                                    <g v-for="(o, i) in F_sparkBoxData" :key="'fsb' + i" :transform="translate(o.tx, o.ty, 0)">
-                                        <g :transform="translate(40, 2, 0)">
-                                            <rect v-for="(oo, r_i) in o.boxData" :key="'fsbr' + r_i" :x="oo.x" :y="oo.y" :width="oo.w"
-                                                :height="oo.h" :fill="oo.fillColor" :opacity="oo.fill" stroke="white"></rect>
-                                        </g>
-                                        <rect :x="o.rx" :y="o.ry" :width="o.w" :height="o.h" :class="'unitRect'"
-                                        :id="'unit' + i"  fill="black" stroke="#304051" fill-opacity="0" stroke-width="0.7" @mouseenter="mouseoverFeature(o.boxData, o.nameX, o.nameY, o.nameXr, o.nameYr, i)" @mouseout="mouseoutFeature()"
-                                        @click="clickFeature(o.nameXr, o.nameYr)"></rect>
-                                    </g>
-                                </g>
-                                <g>
-                                    <g :transform="translate(elWidth * 2 / 3 - 25, 15 , 0)" id="mouseRect" :opacity="selectTag == 1 ? 1 : 0">
-    
-                                        <rect v-for="(oo, r_i) in selectRect.data" :key="'fsbr' + r_i" :x="oo.mouseX" :y="oo.mouseY" :width="oo.mouseW"
-                                                :height="oo.mouseH" :fill="oo.fillColor" :opacity="oo.fill" stroke="white"></rect>
-                                        
-                                        <rect :x="0" :y="0" :width="elWidth / 3 + 20" :height="elWidth / 3 + 20" :fill="'none'" stroke="black"></rect>
-                                        <text font-size="14" :x="(elWidth / 3 + 20) / 2" :y="elWidth / 3 + 20 + 40" text-anchor="middle">{{ selectRect.nameX }}</text>
+                <g>
+                    <g>
+                        <text v-for="(o, i) in show_name" :key="'F_leg' + i" :x="0" :y="0" text-anchor="end" :font-size="14"
+                            :transform="translate(37, 35 + i * (elHeight - 30) / show_name.length, -60)">{{
+                                nameMap[dataSelect][o] }}</text>
+                    </g>
+                    <g>
+                        <text v-for="(o, i) in show_name" :key="'F_leg' + i" :x="0" :y="0" :font-size="14"
+                            :transform="translate(40 + (elWidth - 40) / show_name.length / 2 + (elWidth - 40) / show_name.length * i, (elHeight - 30) + 25, 0)"
+                            font-weight="100" text-anchor="middle">{{
+                                nameMap[dataSelect][o] }}</text>
+                    </g>
+                    <g v-for="(o, i) in F_sparkBoxData" :key="'fsb' + i" :transform="translate(o.tx, o.ty, 0)">
+                        <g :transform="translate(40, 2, 0)">
+                            <rect v-for="(oo, r_i) in o.boxData" :key="'fsbr' + r_i" :x="oo.x" :y="oo.y" :width="oo.w"
+                                :height="oo.h" :fill="oo.fillColor" :opacity="oo.fill" stroke="white"></rect>
+                        </g>
+                        <rect :x="o.rx" :y="o.ry" :width="o.w" :height="o.h" :class="'unitRect'" :id="'unit' + i"
+                            fill="black" stroke="#304051" fill-opacity="0" stroke-width="0.7"
+                            @mouseenter="mouseoverFeature(o.boxData, o.nameX, o.nameY, o.nameXr, o.nameYr, i)"
+                            @mouseout="mouseoutFeature()" @click="clickFeature(o.nameXr, o.nameYr)"></rect>
+                    </g>
+                </g>
+                <g>
+                    <g :transform="translate(elWidth * 2 / 3 - 25, 15, 0)" id="mouseRect"
+                        :opacity="selectTag == 1 ? 1 : 0">
 
-                                        <text font-size="14" :transform="translate(-20, (elWidth / 3 + 20) / 2, -60)" text-anchor="end">{{ selectRect.nameY }}</text>
-                                    </g>
-                                </g>
-                            </svg>
+                        <rect v-for="(oo, r_i) in selectRect.data" :key="'fsbr' + r_i" :x="oo.mouseX" :y="oo.mouseY"
+                            :width="oo.mouseW" :height="oo.mouseH" :fill="oo.fillColor" :opacity="oo.fill" stroke="white">
+                        </rect>
+
+                        <rect :x="0" :y="0" :width="elWidth / 3 + 20" :height="elWidth / 3 + 20" :fill="'none'"
+                            stroke="black"></rect>
+                        <text font-size="14" :x="(elWidth / 3 + 20) / 2" :y="elWidth / 3 + 20 + 40"
+                            text-anchor="middle">{{ selectRect.nameX }}</text>
+
+                        <text font-size="14" :transform="translate(-20, (elWidth / 3 + 20) / 2, -60)"
+                            text-anchor="end">{{ selectRect.nameY }}</text>
+                    </g>
+                </g>
+            </svg>
         </div>
     </div>
 </template>
@@ -106,7 +114,7 @@ import { useDataStore } from "../stores/counter";
 export default {
     name: 'UnitView',
     props: [],
-    data() {
+    data () {
         return {
             elHeight: 0,
             elWidth: 0,
@@ -148,11 +156,11 @@ export default {
         }
     },
     methods: {
-        
-        translate(x, y, deg) {
+
+        translate (x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
         },
-        mouseoverFeature(data, nameX, nameY, nameXr, nameYr, num) {
+        mouseoverFeature (data, nameX, nameY, nameXr, nameYr, num) {
             // console.log(data);
             selectAll('.unitRect').attr('stroke-width', 1);
             select('#unit' + num).attr('stroke-width', 3);
@@ -170,24 +178,25 @@ export default {
                 data[i].mouseW = xScale(data[i].w);
                 data[i].mouseH = yScale(data[i].h);
             }
-            this.selectRect = {data: data,
-                                nameX: nameX,
-                                nameY: nameY,
-                                nameXr: nameXr,
-                                nameYr: nameYr
-                };
+            this.selectRect = {
+                data: data,
+                nameX: nameX,
+                nameY: nameY,
+                nameXr: nameXr,
+                nameYr: nameYr
+            };
         },
-        mouseoutFeature: function() {
+        mouseoutFeature: function () {
             this.selectTag = 0;
 
             selectAll('.unitRect').attr('stroke-width', 1);
         },
-        clickFeature: function(nameXr, nameYr) {
+        clickFeature: function (nameXr, nameYr) {
             const dataStore = useDataStore();
             dataStore.rowSelectTag = 1;
             dataStore.selectSmooth = [nameXr, nameYr];
         },
-        calcSparkBox(data, height, width) {
+        calcSparkBox (data, height, width) {
             let margin = ({ top: 10, right: 30, bottom: 20, left: 30 });
             // let height = 440;
             // let width = 1000;
@@ -256,7 +265,7 @@ export default {
             return [sparkBoxData, lineGenerate(lineData)];
         },
 
-        calcDisSparkBox(data, height, width, box_num, F1_name, F2_name, Val_name) {
+        calcDisSparkBox (data, height, width, box_num, F1_name, F2_name, Val_name) {
             // console.log(Val_name, F1_name, F2_name)
             let margin = ({ top: 0, right: 0, bottom: 0, left: 0 });
 
@@ -335,7 +344,7 @@ export default {
             }
             return sparkBoxData;
         },
-        mainData(data, file_name, val_name) {
+        mainData (data, file_name, val_name) {
             let F_sparkBoxData = []
             let margin = { top: 2, left: 40, right: 5, bottom: 20 }
             // if (dataStore.dataSelect == 'sunspots') {
@@ -377,8 +386,8 @@ export default {
             return [F_sparkBoxData, show_name, dateName];
         }
     },
-    created() {},
-    mounted() {
+    created () { },
+    mounted () {
         this.elHeight = this.$refs.DistributionView.offsetHeight;
         this.elWidth = this.$refs.DistributionView.offsetWidth;
         // [this.sparkBoxData, this.linePath] = this.calcSparkBox(SN_raw_data, this.elHeight, this.elWidth);
@@ -387,7 +396,7 @@ export default {
 
         // dataStore.$subscribe((mutations, state) => {
         // console.log(222);
-            // let F_sparkBoxData = []
+        // let F_sparkBoxData = []
         // } else if (dataStore.dataSelect == 'pm') {
         // for (let i = 0; i < this.F_name.length; ++i) {
         //     for (let j = 0; j < i + 1; ++j) {
@@ -415,12 +424,12 @@ export default {
 
                 if (dataStore.dataSelect == 'sunspots') {
 
-        this.dataSelect = 'sunspots';
-        [this.F_sparkBoxData, this.show_name, this.dataName] = this.mainData(uni_data, this.S_name, 'raw');
-                }else {
+                    this.dataSelect = 'sunspots';
+                    [this.F_sparkBoxData, this.show_name, this.dataName] = this.mainData(uni_data, this.S_name, 'raw');
+                } else {
 
-        this.dataSelect = 'pm';
-        [this.F_sparkBoxData, this.show_name, this.dataName] = this.mainData(multi_data, this.F_name, 'pm25');
+                    this.dataSelect = 'pm';
+                    [this.F_sparkBoxData, this.show_name, this.dataName] = this.mainData(multi_data, this.F_name, 'pm25');
                 }
             }
         })
@@ -440,10 +449,8 @@ export default {
 }
 </script>
 
-<style scoped>
-/* *,
+<style scoped>/* *,
 *::before,
 *::after {
     font-weight: bold;
-} */
-</style>
+} */</style>

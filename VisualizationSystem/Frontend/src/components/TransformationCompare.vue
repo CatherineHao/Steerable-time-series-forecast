@@ -77,7 +77,6 @@
                                                             :height="item['heat'][0].h" :fill="checkSelectStatus(i) == 2 ? 'none' : 'none'" stroke="black" stroke-dasharray="4, 4" :stroke-width="checkSelectStatus(i) == 1 ? 3 : 0" :fill-opacity="checkSelectStatus(i) == 2 ? 0 : 0"></rect>
                                     
                                                         <text font-size="14" text-anchor="start" dx="0em" dy="1em" cursor="pointer" @mouseenter="selectFile(item.class_name)" @mouseout="cancelFile(item.class_name)" @click="clickFile(i, item.class_name)">{{
-                                                            // filename[i].substring(0, filename[i].length - 8)
                                                             filename[dataSelect][i].smooth + '/Sk-' + filename[dataSelect][i].skip
                                                         }}</text>
                                                     </g>
@@ -203,10 +202,13 @@ export default {
             heatRectData: [],
             lineData: [],
             smoothLineData: [],
+            smoothSelect: {},
+            skipSelect: {},
             skiplength: [13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6],
             heat_set: [],
             columnData: ['Smooth', 'Skip', 'Train-Loss', 'Test-Loss', 'ACF', 'Window Performance'],
             stripNum: 0,
+            selectFileName: [],
             filename: {
                 'sunspots': [{ smooth: 'RAW', skip: '1' },
                     { smooth: 'RAW', skip: '3' },
@@ -1082,22 +1084,9 @@ export default {
 
         const dataStore = useDataStore();
         let _this = this;
-        // let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35];
         let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27];
         this.stripNum = dataSet.length;
-        // // console.log(dataSet);
-        // this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight);
-        // let dataSet = [m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27, m28];
-        // let multi_smooth_data = [ms0, ms1, ms2, ms3, ms4, ms5, ms6];
-        // let smooth_map = [0, 0, 6, 6, 0, 3, 6, 6, 3, 3, 3, 0, 1, 1, 1, 1, 2, 5, 4, 4, 2, 2, 4, 5, 5, 4, 5, 2];
-        // let smooth_data = [];
-        // for (let i of smooth_map) {
-        //     smooth_data.push(multi_smooth_data[i]);
-        // }
-
-        // console.log(dataSet);
-        // this.heatRectData = this.calcRMSETempHeatMultiVariate(dataSet, smooth_data, this.elWidth, this.elHeight);
-        // let dataSet = [rs1, rs2, rs3, rs4, rs5]
+        
         let dataSet2 = [m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27];
 
         // console.log(this.heatRectData);
@@ -1105,11 +1094,11 @@ export default {
         // this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight);
 
 
-                    this.dataSelect = 'sunspots'
+                    // this.dataSelect = 'sunspots'
 
-                    this.paintTimeScale(this.allTimeScale[this.dataSelect])
+                    // this.paintTimeScale(this.allTimeScale[this.dataSelect])
 
-                    this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight - 5);
+                    // this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight - 5);
 
 
         dataStore.$subscribe((mutations, state) => {
@@ -1117,10 +1106,20 @@ export default {
 
                 if (dataStore.dataSelect == 'sunspots') {
                     this.dataSelect = 'sunspots'
+                    this.smoothSelect = dataStore.smooth;
+                    this.skipSelect = dataStore.skip;
+                    let selectDataSet = [];
+                    this.selectFileName = [];
+                    for (let i in dataSet) {
+                        if (this.smoothSelect[this.filename[this.dataSelect][i].smooth] == 1 && this.skipSelect[this.filename[this.dataSelect][i].skip] == 1) {
+                            selectDataSet.push(dataSet[i]);
+                            this.selectFileName.push(this.filename[this.dataSelect][i]);
+                        }
+                    }
 
                     this.paintTimeScale(this.allTimeScale[this.dataSelect])
 
-                    this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight);
+                    this.heatRectData = this.calcRMSEHeatMultiVariable(selectDataSet, this.elWidth, this.elHeight);
 
                 } else {
                     // console.log(111111)

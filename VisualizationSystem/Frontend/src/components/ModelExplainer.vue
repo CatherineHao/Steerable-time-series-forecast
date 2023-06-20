@@ -195,6 +195,8 @@ export default {
             elHeight: 0,
             elWidth: 0,
             skip_length: [13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6],
+            smoothSelect: {},
+            skipSelect: {},
             dot_data: [],
             tableData: [],
             xAxisValue: 0,
@@ -597,6 +599,8 @@ export default {
                     }
                     let shap_tag = (parseFloat(data[i][j]['shap']) < 0) ? ' (-)' : '';
                     // console.log(shap_tag);
+                    if (this.smoothSelect[smooth_name] != 1 || this.skipSelect[parseInt(data[i][j]['skip'])] != 1)
+                        continue;
                     sdata.push({
                         id: id_cnt,
                         predict_data: pre_data,
@@ -703,9 +707,33 @@ export default {
                     if (data[i][j]['result_corr'] < 0 && this.dtSelect == 'sunspots')
                         continue;
                     let className = data[i][j]['smooth'] + '_' + data[i][j]['skip'];
+
+                    let smooth_name = '';
+                    if (data[i][j]['smooth'][1] == 'a') {
+                        smooth_name = 'RAW';
+                    } else {
+                        if (data[i][j]['smooth'][1] == 'o') {
+                            smooth_name = 'MA-';
+                        } else if (data[i][j]['smooth'][1] == 'e') {
+                            smooth_name = 'WMA-';
+                        }
+                        // console.log(typeof(data[i].dataset_name));
+                        let stcnt = data[i][j]['smooth'];
+                        let cnt = stcnt.substring(stcnt.length - 2);
+                        if (!isNaN(Number(cnt))) {
+                            smooth_name = smooth_name + cnt;
+                        } else {
+                            smooth_name = smooth_name + cnt[1];
+                        }
+                    }
+                    let shap_tag = (parseFloat(data[i][j]['shap']) < 0) ? ' (-)' : '';
+                    if (this.smoothSelect[smooth_name] != 1 || this.skipSelect[parseInt(data[i][j]['skip'])] != 1)
+                        continue;
                     sdata.push({
                         id: i,
                         time: j * this.skip_length[i] + startPos,
+                        smooth: smooth_name,
+                        skip: data[i][j]['skip'],
                         norm_corr: parseFloat(data[i][j]['result_corr']),
                         rmse: parseFloat(data[i][j]['rmse']),
                         shap: parseFloat(data[i][j]['shap']),
@@ -927,6 +955,8 @@ export default {
 
                     this.dtSelect = 'sunspots';
                     this.dataSet = dataSet;
+                    this.smoothSelect = dataStore.smooth;
+                    this.skipSelect = dataStore.skip;
 
                     this.dot_data = this.calcScatter(dataSet, this.xAxisValue, 0);
                     this.tableData = this.calcTableData(dataSet, 1);
