@@ -60,8 +60,8 @@
         </div>
     </div>
     <div class="frameworkBody">
-        <div ref="DataTransformation" style="height: calc(97%); width: 100%; margin-top: 0px; overflow-y: auto; overflow-x: hidden;">
-            <svg :height="(stripNum * (elHeight - 5) / 28 - 5)" width="100%" transform="translate(0, 0)">
+        <div ref="DataTransformation" style="height: calc(97% + 0px); width: 100%; margin-top: 0px; overflow-y: auto; overflow-x: hidden;">
+            <svg :height="(stripNum * (elHeight - 5) / 28)" width="100%" transform="translate(0, 0)">
                                                     <g v-for="(item, i) in heatRectData" cursor="pointer" :key="'heat_g' + i" :transform="translateF(0, item.h * i)" :class="'heat_g' + item.class_name">
                 
                                                         <!-- @mouseenter="selectFile(item.class_name)" @mouseout="cancelFile(item.class_name)" @click="clickFile(i, item.class_name)" -->
@@ -98,7 +98,7 @@
                                             </svg>
     
         </div>
-        <div ref="RepresentationTimeAxis" style="height: 3%; width: 100%;">
+        <div ref="RepresentationTimeAxis" style="height: 3%; width: 100%; transform: translate(0px, 0px);">
             <svg width="100%" height="100%">
                                         <g id="representationTime"></g>
                                     </svg>
@@ -1095,7 +1095,7 @@ export default {
     },
     created() {},
     mounted() {
-        this.elHeight = this.$refs.DataTransformation.offsetHeight;
+        this.elHeight = this.$refs.DataTransformation.offsetHeight - 5;
         this.elWidth = this.$refs.DataTransformation.offsetWidth;
         this.tlHeight = this.$refs.RepresentationTimeAxis.offsetHeight;
         this.tlWidth = this.$refs.RepresentationTimeAxis.offsetWidth;
@@ -1145,10 +1145,20 @@ export default {
                 } else {
                     // console.log(111111)
                     this.dataSelect = 'pm'
+                    this.smoothSelect = dataStore.smooth;
+                    this.skipSelect = dataStore.skip;
+                    let selectDataSet = [];
+                    this.selectFileName = [];
+                    for (let i in dataSet2) {
+                        if (this.smoothSelect[this.filename[this.dataSelect][i].smooth] == 1 && this.skipSelect[this.filename[this.dataSelect][i].skip] == 1) {
+                            selectDataSet.push(dataSet2[i]);
+                            this.selectFileName.push(this.filename[this.dataSelect][i]);
+                        }
+                    }
 
                     this.paintTimeScale(this.allTimeScale[this.dataSelect])
 
-                    this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet2, this.elWidth, this.elHeight);
+                    this.heatRectData = this.calcRMSEHeatMultiVariable(selectDataSet, this.elWidth, this.elHeight);
                 }
             }
             // if (dataStore.dataSelect == 'sunspots') {

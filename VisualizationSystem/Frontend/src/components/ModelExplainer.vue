@@ -75,20 +75,13 @@
                             </g>
                         </svg>
         </div>
-        <div ref="modelTable" :style="{height: '100%',width: `calc(36% - 5px)`,
-                                                                                                float: 'left',
-                                                                                                overflow: 'auto',
-                                                                                                'font-size': '18px'
-                                                                                            }">
-            <!-- <el-table :data="tableData" style="width: 100%" height="100%" :header-cell-style="{ 'text-align': 'center', 'font-size': '16px', 'background-color': 'rgba(250, 250, 250, 1)' }" :cell-style="{ 'text-align': 'center', 'font-size': '16px', 'height': '15px' }" -->
-    
+        <div ref="modelTable" :style="{height: '100%',width: `calc(36% - 5px)`, float: 'left',overflow: 'auto','font-size': '18px'}">
             <el-table v-if="showTable == 1" :data="tableData" style="width: calc(100% - 0px)" height="100%" :header-cell-style="{ 'font-size': '16px', 'background-color': 'rgb(235, 235, 235)', 'height': '40px', 'text-algin': 'start'}" :cell-style="{ 'font-size': '14px', 'height': '15px' }"
                 :row-class-name="selectRowStyle" @row-click="selectPredict" :row-style="{ 'height': '18px' }" border>
                 <!-- <el-table-column label="Datum" prop="id" width="60" /> -->
                 <el-table-column label="Smooth" prop="smooth_name" width="82" />
                 <el-table-column label="Skip" prop="skip" width="62" />
                 <el-table-column label="RMSE" sortable :sort-by="'rmse_v'">
-    
                     <template #default="scope">
                                                                     <svg width="100%" height="18">
                                                                         <rect :x="0" :y="3" :width="scope.row.d1.w < 0 ? 0 : scope.row.d1.w" :height="15" :fill="'orange'" :fill-opacity="1"  :stroke="'rgba(200, 200, 200, 0)'"> </rect>
@@ -99,8 +92,8 @@
                 <el-table-column :label="xAxisValue == 0 ? 'CORR.' : 'SHAP'" :prop="xAxisValue == 0 ? 'norm_corr' : 'shap'" sortable >
 <template #default="scope">
     <svg width="100%" height="18">
-                                                                        <rect :x="scope.row[xAxisValue == 0 ? 'd2' : 'd3']['x']" :y="3" :width="scope.row[xAxisValue == 0 ? 'd2' : 'd3'].w < 0 ? 0 : scope.row[xAxisValue == 0 ? 'd2' : 'd3'].w" :height="15" :fill="scope.row[xAxisValue == 0 ? 'd2' : 'd3']['fill']" :fill-opacity="1"  :stroke="'rgba(200, 200, 200, 0)'"> </rect>
-                                                                        <text x="2" y="15" font-size="12">{{ scope.row[xAxisValue == 0 ? 'd2' : 'd3'].v }}</text>
+<rect :x="scope.row[xAxisValue == 0 ? 'd2' : 'd3']['x']" :y="3" :width="scope.row[xAxisValue == 0 ? 'd2' : 'd3'].w < 0 ? 0 : scope.row[xAxisValue == 0 ? 'd2' : 'd3'].w" :height="15" :fill="scope.row[xAxisValue == 0 ? 'd2' : 'd3']['fill']" :fill-opacity="1"  :stroke="'rgba(200, 200, 200, 0)'"> </rect>
+<text x="2" y="15" font-size="12">{{ scope.row[xAxisValue == 0 ? 'd2' : 'd3'].v }}</text>
                                                                     </svg>
 </template>
                 </el-table-column>
@@ -533,7 +526,7 @@ export default {
             let min_corr = 999999;
             let max_shap = -999999;
             let min_shap = 999999;
-
+            let all_corr_tag = 0;
             for (let i in data) {
                 let startPos = 0;
                 let tp = [];
@@ -598,6 +591,11 @@ export default {
                         }
                     }
                     let shap_tag = (parseFloat(data[i][j]['shap']) < 0) ? ' (-)' : '';
+                    let corr_tag = (parseFloat(data[i][j]['result_corr']) < 0) ? ' (-)' : '';
+                    // console.log(corr_tag)
+                    if (corr_tag != '') {
+                        all_corr_tag = 1;
+                    }
                     // console.log(shap_tag);
                     if (this.smoothSelect[smooth_name] != 1 || this.skipSelect[parseInt(data[i][j]['skip'])] != 1)
                         continue;
@@ -608,9 +606,10 @@ export default {
                         skip: data[i][j]['skip'],
                         smooth_name: smooth_name,
                         time: j * data[i][j]['skip'] + startPos,
-                        norm_corr: (parseFloat(data[i][j]['result_corr'])).toFixed(4),
+                        norm_corr: (Math.abs(parseFloat(data[i][j]['result_corr']))).toFixed(4),
                         shap: (Math.abs(parseFloat(data[i][j]['shap']))).toFixed(4),
                         shap_tag: shap_tag,
+                        corr_tag: corr_tag,
                         rmse: (parseFloat(data[i][j]['rmse'])).toFixed(2),
                         rmse_v: parseFloat(data[i][j]['rmse']),
                         uid: data[i][j]['smooth'] + '_' + data[i][j]['skip'] + '_' + j,
@@ -644,6 +643,7 @@ export default {
             // console.log(this.tbWidth, [min_corr, max_corr], [min_rmse, max_rmse])
             let scale1 = scaleLinear([min_rmse, max_rmse], [0, (barS / 2 - 5)])
             let scale2 = scaleLinear([min_corr, max_corr], [0, (barS / 2 - 5)])
+            let scale2_2 = scaleLinear([0, Math.max(Math.abs(min_corr), Math.abs(max_corr))], [0, (barS / 2 - 5) / 2])
             let scale3 = scaleLinear([0, 1], [0, (barS / 2 - 5) / 2])
             for (let i in sdata) {
                 sdata[i]['d1'] = {
@@ -654,10 +654,10 @@ export default {
                 }
                 let v2 = (sdata[i]['norm_corr']).toString().slice(1)
                 sdata[i]['d2'] = {
-                    x: 0,
-                    w: scale2(sdata[i]['norm_corr']),
-                    v: v2,
-                    fill: 'orange'
+                    x: all_corr_tag == 1 ? (sdata[i]['corr_tag'] == ' (-)' ? (barS / 2 - 5) / 2 - scale2_2(Math.abs(sdata[i]['norm_corr'])) : (barS / 2 - 5) / 2) : 0,
+                    w: all_corr_tag == 1 ? scale2_2(sdata[i]['norm_corr']) : scale2(sdata[i]['norm_corr']),
+                    v: (sdata[i]['corr_tag'] == " (-)" ? '-' : '') + v2,
+                    fill: sdata[i]['corr_tag'] == ' (-)' ? '#3e539b' : 'orange'
                 }
                 let v3 = (sdata[i]['shap']).toString().slice(1);
                 // console.log(sdata[i]['shap_tag'] == ' (-)' ? 100 - scale3(Math.abs(sdata[i]['shap'])) : 100);
@@ -964,6 +964,8 @@ export default {
                 } else {
 
                     this.dataSet = dataSet2;
+                    this.smoothSelect = dataStore.smooth;
+                    this.skipSelect = dataStore.skip;
                     this.dtSelect = 'pm'
                     this.dot_data = this.calcScatter(dataSet2, this.xAxisValue, 0);
                     this.tableData = this.calcTableData(dataSet2, 1);
