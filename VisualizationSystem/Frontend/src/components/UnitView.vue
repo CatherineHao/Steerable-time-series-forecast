@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-06-16 13:20:14
+ * @LastEditTime: 2023-06-21 09:38:19
 -->
 <template>
     <div class="frameworkTitle">
@@ -124,7 +124,7 @@ export default {
             F_name: ['pm25', 'temp', 'rh', 'psfc', 'wnd_dir', 'wnd_spd'],
             S_name: ['raw', 'rolling3', 'rolling6', 'rolling13', 'weighted3', 'weighted6', 'weighted13'],
 
-            SS_name: ['RAW', 'WMA-13', 'MA-13', 'WMA-3', 'MA-3', 'WMA-6', 'MA-6'],
+            SS_name: ['RAW', 'MA-3', 'MA-6', 'MA-13', 'WMA-3', 'WMA-6', 'WMA-13'],
             show_name: [],
             tfData: [],
             dataName: '',
@@ -132,6 +132,7 @@ export default {
             selectRect: [],
             selectTag: 0,
             dataSelect: 'pm',
+            smoothSelect: {},
             nameMap: {
                 'sunspots': {
                     'raw': 'RAW',
@@ -425,7 +426,14 @@ export default {
                 if (dataStore.dataSelect == 'sunspots') {
 
                     this.dataSelect = 'sunspots';
-                    [this.F_sparkBoxData, this.show_name, this.dataName] = this.mainData(uni_data, this.S_name, 'raw');
+                    this.smoothSelect = dataStore.smooth;
+                    // console.log(this.smoothSelect)
+                    let s_name_select = [];
+                    for (let i in this.S_name) {
+                        if (this.smoothSelect[this.SS_name[i]] == 1)
+                        s_name_select.push(this.S_name[i]);
+                    }
+                    [this.F_sparkBoxData, this.show_name, this.dataName] = this.mainData(uni_data, s_name_select, 'raw');
                 } else {
 
                     this.dataSelect = 'pm';

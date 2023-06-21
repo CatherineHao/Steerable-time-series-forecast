@@ -207,7 +207,7 @@ export default {
             skiplength: [13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6, 13, 1, 3, 6],
             heat_set: [],
             columnData: ['Smooth', 'Skip', 'Train-Loss', 'Test-Loss', 'ACF', 'Window Performance'],
-            stripNum: 0,
+            stripNum: 1,
             selectFileName: [],
             filename: {
                 'sunspots': [{ smooth: 'RAW', skip: '1' },
@@ -634,6 +634,27 @@ export default {
                 function dragE(event) {
                     let nt = Math.floor(event.y / _this.cid_index[i].h);
                     select('.heat_g' + i).attr('transform', _this.translateF(0, (nt) * _this.cid_index[i].h))
+                    // let nt = Math.floor(event.y / _this.cid_index[i].h);
+                    if (nt != _this.cid_index[i].cnt) {
+                        for (let j in _this.cid_index) {
+                            // if(j == i) continue;
+                            if (_this.cid_index[i].cnt < nt && _this.cid_index[j].cnt == nt) {
+
+                                select('.heat_g' + j).attr('transform', _this.translateF(0, (_this.cid_index[j].cnt - 1) * _this.cid_index[j].h))
+                                _this.cid_index[j].cnt = _this.cid_index[j].cnt - 1;
+                                _this.cid_index[i].cnt = nt;
+                                // break;
+                            }
+                            if (_this.cid_index[i].cnt > nt && _this.cid_index[j].cnt == nt) {
+
+                                select('.heat_g' + j).attr('transform', _this.translateF(0, (_this.cid_index[j].cnt + 1) * _this.cid_index[j].h))
+                                _this.cid_index[j].cnt = _this.cid_index[j].cnt + 1;
+                                _this.cid_index[i].cnt = nt;
+                                // break;
+                            }
+
+                        }
+                    }
                 }
 
                 function dragged(event, d) {
@@ -648,14 +669,14 @@ export default {
                                 select('.heat_g' + j).attr('transform', _this.translateF(0, (_this.cid_index[j].cnt - 1) * _this.cid_index[j].h))
                                 _this.cid_index[j].cnt = _this.cid_index[j].cnt - 1;
                                 _this.cid_index[i].cnt = nt;
-                                break;
+                                // break;
                             }
                             if (_this.cid_index[i].cnt > nt && _this.cid_index[j].cnt == nt) {
 
                                 select('.heat_g' + j).attr('transform', _this.translateF(0, (_this.cid_index[j].cnt + 1) * _this.cid_index[j].h))
                                 _this.cid_index[j].cnt = _this.cid_index[j].cnt + 1;
                                 _this.cid_index[i].cnt = nt;
-                                break;
+                                // break;
                             }
 
                         }
@@ -1094,11 +1115,11 @@ export default {
         // this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight);
 
 
-                    // this.dataSelect = 'sunspots'
+                    this.dataSelect = 'sunspots'
 
-                    // this.paintTimeScale(this.allTimeScale[this.dataSelect])
+                    this.paintTimeScale(this.allTimeScale[this.dataSelect])
 
-                    // this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight - 5);
+                    this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight - 5);
 
 
         dataStore.$subscribe((mutations, state) => {

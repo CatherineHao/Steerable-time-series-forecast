@@ -201,6 +201,9 @@ export default {
             brushDyMoveData: [],
             brushTempMove: [],
             datasetSelect: 'sunspots',
+            S_name: ['raw', 'rolling3', 'rolling6', 'rolling13', 'weighted3', 'weighted6', 'weighted13'],
+            SS_name: ['RAW', 'MA-3', 'MA-6', 'MA-13', 'WMA-3', 'WMA-6', 'WMA-13'],
+            smoothSelect: {},
             nameMap: {
                 'sunspots': {
                     'raw': 'RAW',
@@ -666,13 +669,19 @@ export default {
             let area_data = areaGenerate(data);
             return area_data;
         },
-        calcOverviewTimeLine(data) {
+        calcOverviewTimeLine(data, filter_name) {
             // console.log(data);
             let featureSet = [];
             let all_feature = [];
             let all_data = {};
             let allData = {};
+            // console.log(filter_name);
             for (let i in data[0]) {
+                if (typeof(filter_name) == "object") {
+                    // console.log(this.nameMap[i], i)
+                    if (filter_name[this.nameMap[this.datasetSelect][i]] != 1)
+                        continue;
+                }
                 if (i == 'date' || i == 'id' || i == 'timestamp' || i == 'rolling9' || i == 'weighted9')
                     continue;
                 let x = i.split('_');
@@ -790,7 +799,9 @@ export default {
 
                 if (dataStore.dataSelect == 'sunspots') {
                     this.datasetSelect = dataStore.dataSelect;
-                    [this.overview_line_data, this.featureSet, this.dataSet, this.allFeatureSet, this.allData] = this.calcOverviewTimeLine(uni_var_data);
+                    this.smoothSelect = dataStore.smooth;
+                    
+                    [this.overview_line_data, this.featureSet, this.dataSet, this.allFeatureSet, this.allData] = this.calcOverviewTimeLine(uni_var_data, this.smoothSelect);
                     // console.log(this.overview_line_data, this.featureSet, this.dataSet);
                     this.brushTempMove = this.brushMoveData[this.datasetSelect];
                     this.timeMap = this.calcTimeScale(uni_var_data, this.datasetSelect);
@@ -798,7 +809,7 @@ export default {
                 } else {
 
                     this.datasetSelect = dataStore.dataSelect;
-                    [this.overview_line_data, this.featureSet, this.dataSet, this.allFeatureSet, this.allData] = this.calcOverviewTimeLine(multi_var_data);
+                    [this.overview_line_data, this.featureSet, this.dataSet, this.allFeatureSet, this.allData] = this.calcOverviewTimeLine(multi_var_data, 1);
                     // console.log(this.overview_line_data, this.featureSet, this.dataSet);
                     this.brushTempMove = this.brushMoveData[this.datasetSelect];
                     this.timeMap = this.calcTimeScale(multi_var_data, this.datasetSelect);
