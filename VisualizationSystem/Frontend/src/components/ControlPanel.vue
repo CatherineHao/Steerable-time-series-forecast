@@ -55,7 +55,8 @@
             </div>
             <div style="height: calc(12.5% -  3px); margin-top: 0px;">
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
-                        Variable Num:
+                        <svg height="30" width="30" style="position: absolute;top: -2px;"><path d="M10 14 L20 14" fill="none" stroke="black"></path><path d="M10 0 L 10 30" fill="none" stroke="black"></path></svg>&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;Variable Num:
                     </span>
                 <span v-if="fileValue != ''" style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
                         <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
@@ -67,7 +68,8 @@
             </div>
             <div style="height: calc(12.5% -  3px); margin-top: 0px;">
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
-                        Stationary:
+                        <svg height="30" width="30" style="position: absolute;top: -3px;"><path d="M10 15 L20 15" fill="none" stroke="black"></path><path d="M10 0 L 10 30" fill="none" stroke="black"></path></svg>&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;Stationary:
                     </span>
                 <!-- <span style="width: 60%; float: right; font-weight: normal; margin-top: 6px; text-align: left;">
                                                         {{ fileValue == null ? '' : (basicData[fileValue].stationary['bool'] + ' (' +
@@ -83,7 +85,8 @@
             </div>
             <div style="height: calc(12.5% -  3px); margin-top: 0px;">
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
-                        Periodicity:
+                        <svg height="30" width="30" style="position: absolute; top: -4px;"><path d="M10 0 L 10 16" fill="none" stroke="black"></path><path d="M10 16 L20 16" fill="none" stroke="black"></path></svg>&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;Periodicity:
     
                     </span>
                 <span v-if="fileValue != ''" style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
@@ -121,7 +124,7 @@
                                 </span>-->
             </div>
             <hr>
-            <div style="height: calc(12.5% -  3px); margin-top: 5px;">
+            <div style="height: calc(12.5% -  3px); margin-top: 5px; margin-bottom: 5px;">
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
                     Model:
                 </span>
@@ -133,11 +136,12 @@
                     </el-select>
                 </span>
             </div>
+            <hr>
 
             <div style="height: calc(12.5% -  3px); margin-top: 3px;">
 
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
-                    Method:
+                    Transformation:
 
                 </span>
                 <span style="width: calc(65% - 3px); float: right;" class="dataSetClass">
@@ -156,7 +160,8 @@
             <div v-show="smoothTag == 1" style="height: calc(12.5% -  3px); margin-top: 3px;">
 
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
-                    Smoothing:
+                    <svg height="30" width="30" style="position: absolute; top: -4px;"><path d="M10 0 L 10 16" fill="none" stroke="black"></path><path d="M10 16 L 10 30" v-if="skipTag == 1" fill="none" stroke="black"></path><path d="M10 16 L20 16" fill="none" stroke="black"></path></svg>&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;Smoothing:
 
                 </span>
                 <span style="width: calc(65% - 3px); float: right;" class="dataSetClass">
@@ -174,10 +179,11 @@
                     </el-select>
                 </span>
             </div>
-            <div v-show="skipTag == 1" style="height: calc(12.5% -  3px); margin-top: 5px;">
+            <div v-show="skipTag == 1" style="height: calc(12.5% -  3px); margin-top: 3px;">
 
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
-                    Skipping:
+                    <svg height="30" width="30" style="position: absolute; top: -8px;"><path d="M10 0 L 10 20" fill="none" stroke="black"></path><path d="M10 20 L20 20" fill="none" stroke="black"></path></svg>&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;Skipping:
 
                 </span>
                 <span style="width: calc(65% - 3px); float: right;" class="dataSetClass">

@@ -1115,11 +1115,11 @@ export default {
         // this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight);
 
 
-                    this.dataSelect = 'sunspots'
+                    // this.dataSelect = 'sunspots'
 
-                    this.paintTimeScale(this.allTimeScale[this.dataSelect])
+                    // this.paintTimeScale(this.allTimeScale[this.dataSelect])
 
-                    this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight - 5);
+                    // this.heatRectData = this.calcRMSEHeatMultiVariable(dataSet, this.elWidth, this.elHeight - 5);
 
 
         dataStore.$subscribe((mutations, state) => {
