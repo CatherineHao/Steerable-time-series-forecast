@@ -1153,6 +1153,7 @@ export default {
                         if (this.smoothSelect[this.filename[this.dataSelect][i].smooth] == 1 && this.skipSelect[this.filename[this.dataSelect][i].skip] == 1) {
                             selectDataSet.push(dataSet2[i]);
                             this.selectFileName.push(this.filename[this.dataSelect][i]);
+                            console.log(this.filename[this.dataSelect][i].smooth, this.filename[this.dataSelect][i].skip)
                         }
                     }
 

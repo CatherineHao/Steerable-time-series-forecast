@@ -183,7 +183,7 @@
 
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
                     <svg height="30" width="30" style="position: absolute; top: -8px;"><path d="M10 0 L 10 20" fill="none" stroke="black"></path><path d="M10 20 L20 20" fill="none" stroke="black"></path></svg>&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;Skipping:
+                    &nbsp;&nbsp;&nbsp;Sampling:
 
                 </span>
                 <span style="width: calc(65% - 3px); float: right;" class="dataSetClass">
@@ -283,7 +283,7 @@ export default {
             tableTag: 0,
             fileList: [],
             fullscreenLoading: false,
-            methodOptions: ["Smoothing", "Skipping", "Padding", "Reshaping"],
+            methodOptions: ["Smoothing", "Sampling", "Padding", "Reshaping"],
             methodSelect: [],
             smoothSelect: {},
             skipSelect: {},
@@ -748,7 +748,7 @@ export default {
                     smt = 1;
                     this.smoothTag = 1;
                 }
-                if (this.methodSelect[i] == "Skipping") {
+                if (this.methodSelect[i] == "Sampling") {
                     skt = 1;
                     this.skipTag = 1;
                 }
