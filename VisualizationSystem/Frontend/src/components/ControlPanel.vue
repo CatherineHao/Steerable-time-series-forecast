@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-06-19 11:40:32
+ * @LastEditTime: 2023-06-27 22:09:30
 -->
 <template>
     <div class="frameworkTitle">
@@ -37,7 +37,7 @@
                 <span>{{ item.label }}</span>
                 </el-option>
                 </el-select> -->
-                <el-upload style="transform: translate(44%, -5px); height: 30px;" v-model:file-list="fileList" class="upload-demo" :on-success="handleChange" action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15">
+                <el-upload style="transform: translate(44%, -5px); height: 30px;" v-model:file-list="fileList" class="upload-demo" :on-success="handleChange" action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15" accept=".csv">
                     <el-button style="height: 30px;">
     
                         <svg t="1687343622106" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2390" width="20" height="20">
@@ -449,7 +449,7 @@ export default {
         //     return 
         // },
         handleChange(res, upload) {
-            // console.log(upload);
+            console.log(res, upload);
             if (upload.name[0] == "S")
                 this.fileValue = 'sunspots';
             else
@@ -785,6 +785,14 @@ export default {
 } */
 
 /* .skipClass ÷ß */
+.el-loading-spinner {
+  font-size: 80px;
+  font-weight: normal;
+}
+.el-loading-mask .el-loading-spinner .el-loading-text {
+  font-size: 25px;
+}
+
 
 .el-upload-list {
     margin-top: 0px;
